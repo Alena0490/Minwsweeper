@@ -3,10 +3,11 @@ import './OneGame.css'
 import Field from './Field'
 
 interface OneGameProps {
-  board: CellData[][];
+    board: CellData[][];
+    onFlag: (id: string) => void;
 }
 
-const OneGame = ({ board }: OneGameProps) => {
+const OneGame = ({ board, onFlag }: OneGameProps) => {
 
   return (
     <div className="game-field">
@@ -15,7 +16,10 @@ const OneGame = ({ board }: OneGameProps) => {
             <button className='face-button'>🙂</button>
             <output className='counter'><span>0:00</span></output>
         </div>
-        <Field board={board} />
+        <Field 
+            board={board}
+            onFlag={onFlag}
+        />
     </div>
   );
 };

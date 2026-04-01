@@ -1,7 +1,7 @@
 
 import { useState } from 'react'
 import OneGame from './OneGame'
-import type { CellData } from "../data/game";
+import type { CellData, GameState } from "../data/game";
 import { beginnerConfig } from '../data/game';
 import GameIcon from '../img/minesweeperIcon.webp'
 import './Game.css'
@@ -14,17 +14,25 @@ const createEmptyBoard = (rows: number, cols: number): CellData[][] => {
       col,
       isMine: false,
       isOpen: false,
-      isFlagged: false,
+      // isFlagged: false,
+      mark: 'none',
       adjacentMines: 0,
     }))
   );
 };
 
 const Game = () => {
+    const [gameState, setGameState] = useState<GameState>('playing');
     const [level, setLevel] = useState(beginnerConfig);
     const [board, setBoard] = useState(() =>
     createEmptyBoard(level.rows, level.cols)
     );
+
+    const handleFlag = (id: string) => {
+        setBoard(prev => prev.map(row =>
+            row.map(cell => cell.id === id ? { ...cell, mark: cell.mark === 'none' ? 'flag' : cell.mark === 'flag' ? 'question' : 'none' } : cell)
+        ));
+    };
 
   return (
     <div className='game-container'>
@@ -43,7 +51,9 @@ const Game = () => {
         </ul>
       </menu>
       <OneGame
-       board={board}/>
+        board={board}
+        onFlag={handleFlag}
+       />
     </div>
   )
 }

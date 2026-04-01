@@ -6,8 +6,9 @@ export interface CellData {
   col: number;
   isMine: boolean;
   isOpen: boolean;
-  isFlagged: boolean;
+  // isFlagged: boolean;
   adjacentMines: number;
+  mark: 'none' | 'flag' | 'question';
 }
 
 export interface BoardConfig {

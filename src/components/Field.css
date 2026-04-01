@@ -18,3 +18,18 @@
     background-repeat: no-repeat;
     background-position: center;
 }
+
+.cell.isQuestion::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: url('../img/question.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font: bold 14px Tahoma, sans-serif;
+    color: var(--text-inverted);
+}

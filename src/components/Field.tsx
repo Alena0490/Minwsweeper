@@ -1,20 +1,14 @@
-import { useState } from "react";
 import type { CellData } from "../data/game";
 import FlagIcon from '../img/flag.png'
+import QuestionIcon from '../img/question.png'
 import './Field.css'
 
 interface FieldProps {
-  board: CellData[][];
+    board: CellData[][];
+    onFlag: (id: string) => void;
 }
 
-const Field = ({ board: initialBoard }: FieldProps) => {
-    const [board, setBoard] = useState(initialBoard);
-
-    const handleFlag = (id: string) => {
-        setBoard(prev => prev.map(row =>
-            row.map(cell => cell.id === id ? { ...cell, isFlagged: !cell.isFlagged } : cell)
-        ));
-    };
+const Field = ({ board, onFlag }: FieldProps) => {
 
   return (
     <div
@@ -25,15 +19,16 @@ const Field = ({ board: initialBoard }: FieldProps) => {
         row.map((cell) => (
             <button
                 key={cell.id}
-                className={`cell cell--closed ${cell.isFlagged ? "cell--flagged" : ""}`}
+                className={`cell cell--closed ${cell.mark === 'flag' ? "cell--flagged" : ""} ${cell.mark === 'question' ? "cell--question" : ""}`}
                 type="button"
                 aria-label={`Cell ${cell.row + 1}, ${cell.col + 1}, closed`}
                 onContextMenu={(e) => {
                     e.preventDefault();
-                    handleFlag(cell.id);
+                    onFlag(cell.id);
                 }}
             >
-            {cell.isFlagged && <img src={FlagIcon} alt="flag" />}
+            {cell.mark === 'flag' && <img src={FlagIcon } alt="flag" />}
+            {cell.mark === 'question' && <img src={QuestionIcon} alt="question" />}
           </button>
         ))
       )}
