@@ -6,9 +6,10 @@ import './Field.css'
 interface FieldProps {
     board: CellData[][];
     onFlag: (id: string) => void;
+    onOpen: (id: string) => void;
 }
 
-const Field = ({ board, onFlag }: FieldProps) => {
+const Field = ({ board, onFlag, onOpen }: FieldProps) => {
 
   return (
     <div
@@ -19,9 +20,10 @@ const Field = ({ board, onFlag }: FieldProps) => {
         row.map((cell) => (
             <button
                 key={cell.id}
-                className={`cell cell--closed ${cell.mark === 'flag' ? "cell--flagged" : ""} ${cell.mark === 'question' ? "cell--question" : ""}`}
+                className={`cell cell--closed ${cell.mark === 'flag' ? "cell--flagged" : ""} ${cell.mark === 'question' ? "cell--question" : ""} ${cell.isOpen ? "cell--open" : ""}`}
                 type="button"
                 aria-label={`Cell ${cell.row + 1}, ${cell.col + 1}, closed`}
+                onClick={() => onOpen(cell.id)}
                 onContextMenu={(e) => {
                     e.preventDefault();
                     onFlag(cell.id);

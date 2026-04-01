@@ -5,9 +5,10 @@ import Field from './Field'
 interface OneGameProps {
     board: CellData[][];
     onFlag: (id: string) => void;
+    onOpen: (id: string) => void;
 }
 
-const OneGame = ({ board, onFlag }: OneGameProps) => {
+const OneGame = ({ board, onFlag, onOpen }: OneGameProps) => {
 
   return (
     <div className="game-field">
@@ -19,6 +20,7 @@ const OneGame = ({ board, onFlag }: OneGameProps) => {
         <Field 
             board={board}
             onFlag={onFlag}
+            onOpen={onOpen}
         />
     </div>
   );

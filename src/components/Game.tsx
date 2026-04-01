@@ -34,6 +34,12 @@ const Game = () => {
         ));
     };
 
+    const handleOpen = (id: string) => {
+        setBoard(prev => prev.map(row =>
+            row.map(cell => cell.id === id ? { ...cell, isOpen: true } : cell)
+        ));
+    };
+
   return (
     <div className='game-container'>
       <div className='title-bar'>
@@ -53,6 +59,7 @@ const Game = () => {
       <OneGame
         board={board}
         onFlag={handleFlag}
+        onOpen={handleOpen}
        />
     </div>
   )

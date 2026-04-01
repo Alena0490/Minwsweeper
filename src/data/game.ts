@@ -6,7 +6,6 @@ export interface CellData {
   col: number;
   isMine: boolean;
   isOpen: boolean;
-  // isFlagged: boolean;
   adjacentMines: number;
   mark: 'none' | 'flag' | 'question';
 }
