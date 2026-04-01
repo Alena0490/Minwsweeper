@@ -1,0 +1,182 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+@font-face {
+    font-family: 'Digital Numbers';
+    src: url('./fonts/digital-7.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Tahoma';
+    src: url('./fonts/tahoma.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+:root {
+  --title-bar: #0A246A;
+  --title-bar-mid: #3A6EA5;
+  --title-bar-light: #A6CAF0;
+  --background: #ECE9D8;
+  --border-light: #FFF;
+  --border-middle: #ACA899;
+  --border-dark: #808080;
+  --text: #000000;
+  --text-inverted: #FFF;
+  --selected-bg: #1466C9;
+  --insensitive: #a1a192;
+  --tooltip-bg: #FFFFE2;
+
+  --window-radius: 3px;
+  --taskbar-light: #3B6EC4;
+  --taskbar-dark: #1F3A8F;
+  --start-green: #3C8C3C;
+  --start-green-dark: #2A6E2A;
+  --taskbar-btn: #2F71CD;
+  --taskbar-btn-dark: #1A56A8;
+  --start-background: linear-gradient(to bottom, var(--start-green), var(--start-green-dark));
+  --start-radius: 0 8px 8px 0;
+
+    --xp-title-start: #0058EE;
+  --xp-title-mid: #3A93FF;
+  --xp-title-end: #0A246A;
+  --xp-title-text: #FFFFFF;
+
+  /* Window body */
+  --xp-surface: #ECE9D8;
+  --xp-surface-2: #D4D0C8;
+  --xp-line-light: #FFFFFF;
+  --xp-line-mid: #D0D0BF;
+  --xp-line-dark: #808080;
+  --xp-line-deep: #404040;
+
+  /* Interaction */
+  --xp-menu-hover: #316AC5;
+  --xp-menu-hover-text: #FFFFFF;
+  --xp-disabled: #ACA899;
+  --xp-tooltip: #FFFFE1;
+
+    /* Game area */
+    --ms-panel: #C0C0C0;
+    --ms-display-bg: #000000;
+    --ms-display-text: #FF0000;
+
+    /* Cell numbers */
+    --ms-1: #0000FF;
+    --ms-2: #008000;
+    --ms-3: #FF0000;
+    --ms-4: #000080;
+    --ms-5: #800000;
+    --ms-6: #008080;
+    --ms-7: #000000;
+    --ms-8: #808080;
+
+
+  /* Taskbar */
+  --xp-taskbar-top: #3C81F3;
+  --xp-taskbar-bottom: #245EDB;
+  --xp-start-top: #4EB74E;
+  --xp-start-bottom: #2D7D2D;
+
+  --cell-size: 18px;
+}
+
+body {
+  font-family: 'Tahoma', sans-serif;
+  background-image: url('./img/xp-background.webp');
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.raised {
+  border-top: 1px solid var(--xp-line-light);
+  border-left: 1px solid var(--xp-line-light);
+  border-right: 1px solid var(--xp-line-dark);
+  border-bottom: 1px solid var(--xp-line-dark);
+}
+
+.sunken {
+  border-top: 1px solid var(--xp-line-dark);
+  border-left: 1px solid var(--xp-line-dark);
+  border-right: 1px solid var(--xp-line-light);
+  border-bottom: 1px solid var(--xp-line-light);
+}
+
+.bevel-raised {
+  box-shadow:
+    inset 1px 1px 0 var(--xp-line-light),
+    inset -1px -1px 0 var(--xp-line-dark),
+    inset 2px 2px 0 #F7F4E9,
+    inset -2px -2px 0 #716F64;
+}
+
+.bevel-sunken {
+  box-shadow:
+    inset 1px 1px 0 #716F64,
+    inset -1px -1px 0 #F7F4E9,
+    inset 2px 2px 0 var(--xp-line-dark),
+    inset -2px -2px 0 var(--xp-line-light);
+}
+
+.app {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/*** TASKBAR ***/
+/* Kontejner pro tlačítka na liště */
+.task-bar {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  padding: 0 10px;
+  gap: 5px;
+}
+
+/* tlačítko aplikace */
+.taskbar-item {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  height: 22px; /* XP standard */
+  max-width: 150px;
+  padding: 0 8px;
+  border-radius: 2px;
+  cursor: default;
+  font-size: 11px;
+  color: var(--text-inverted);
+  
+  /* modrý gradient pro tlačítka */
+  background: linear-gradient(to bottom, #3c81f3 0%, #245edb 12%, #245edb 100%);
+  box-shadow: 
+    inset 1px 1px 1px rgba(255,255,255,0.3),
+    1px 1px 1px rgba(0,0,0,0.3);
+}
+
+/* aktivní/stisknuté okno */
+.taskbar-item.active {
+  background: linear-gradient(to bottom, #1e3a8a 0%, #245edb 100%);
+  box-shadow: inset 2px 2px 3px rgba(0,0,0,0.5); /* sunken vzhled */
+}
+
+.taskbar-item img {
+  width: 14px;
+  height: 14px;
+}
+
+.taskbar-item span {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-family: 'Tahoma', sans-serif;
+}
