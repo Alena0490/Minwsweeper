@@ -1,30 +1,38 @@
 footer {
   width: 100%;
   height: 30px;
-  padding: 0 4px 0 0;
+  /* padding: 0 4px 0 0; */
   position: fixed;
   bottom: 0;
   display: flex;
   align-items: center;
   justify-content: space-between;
   background: linear-gradient(to bottom, var(--xp-taskbar-top), var(--xp-taskbar-bottom));
-  box-shadow: inset 0 1px 0 rgba(255,255,255,0.45);
+  box-shadow: inset 0 3px 2px rgba(255,255,255,0.45);
 }
 
-.start {
-  min-width: 110px;
-  height: 28px;
-  padding: 0 10px 0 6px;
+.left-menu {
   display: flex;
   align-items: center;
   gap: 6px;
-  color: #fff;
-  font: bold italic 14px Tahoma, sans-serif;
-  background: linear-gradient(to bottom, var(--xp-start-top), var(--xp-start-bottom));
-  border-radius: 0 10px 10px 0;
-  box-shadow:
-    inset 1px 1px 0 rgba(255,255,255,0.5),
-    inset -1px -1px 0 rgba(0,0,0,0.25);
+}
+
+.start {
+    position: relative;
+    bottom: 0;
+    min-width: 110px;
+    height: 30px;
+    padding: 0 10px 0 6px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: #fff;
+    font: bold italic 14px Tahoma, sans-serif;
+    background: linear-gradient(to bottom, var(--xp-start-top), var(--xp-start-bottom));
+    border-radius: 0 10px 10px 0;
+    box-shadow:
+        inset 0 3px 2px rgba(255,255,255,0.5),
+        inset -1px -1px 0 rgba(0,0,0,0.25);
 }
 
 footer img {
@@ -32,8 +40,69 @@ footer img {
     height: auto;
 }
 
+
+/* tlačítko aplikace */
+.taskbar-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    height: 28px; /* XP standard */
+    max-width: 150px;
+    padding: 0 8px;
+    border-radius: 2px;
+    cursor: default;
+    font-size: 11px;
+    color: var(--text-inverted);
+    
+    /* modrý gradient pro tlačítka */
+    background: linear-gradient(to bottom, #3c81f3 0%, #245edb 12%, #245edb 100%);
+    box-shadow: 
+        inset 1px 1px 1px rgba(255,255,255,0.3),
+        1px 1px 1px rgba(0,0,0,0.3);
+    z-index: 1;
+}
+
+.menu-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  height: 28px;
+  padding: 0 8px;
+  cursor: default;
+  font-size: 11px;
+  color: var(--text-inverted);
+}
+
+/* aktivní/stisknuté okno */
+.taskbar-item.active {
+  background: linear-gradient(to bottom, #1e3a8a 0%, #245edb 100%);
+  box-shadow: inset 2px 2px 3px rgba(0,0,0,0.5); /* sunken vzhled */
+}
+
+
+.menu-item img, 
+.taskbar-item img {
+    width: 18px;
+    height: auto;
+    image-rendering: pixelated;
+}
+
+.taskbar-item span {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-family: 'Tahoma', sans-serif;
+}
+.right-panel.taskbar-item {
+    margin-right: 0;
+    height: 100%;
+    padding: 0 6px;
+}
+
 .time {
-    font: bold 14px Tahoma, sans-serif;
+    font-family: Tahoma, sans-serif;
+    font-size: 14px;
+    font-weight: 500;
     color: var(--text-inverted);
     text-shadow: 1px 1px 0 rgba(0,0,0,0.35);
 }

@@ -8,3 +8,13 @@
     border-right: 1px solid var(--border-light);
     border-bottom: 1px solid var(--border-light);
 }
+
+.cell.isFlagged::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: url('../img/flag.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}

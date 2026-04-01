@@ -84,6 +84,9 @@
   --xp-start-bottom: #2D7D2D;
 
   --cell-size: 18px;
+  --app-icon-size: 48px;
+  --app-gap: 10px;
+  --app-icon-margin: 4px;
 }
 
 body {
@@ -91,10 +94,8 @@ body {
   background-image: url('./img/xp-background.webp');
   background-size: cover;
   background-position: center;
-  display: flex;
-  justify-content: center;
-  align-items: center;
   height: 100vh;
+  overflow: hidden;
 }
 
 .raised {
@@ -128,10 +129,75 @@ body {
 }
 
 .app {
+  position: relative;
+  width: 100%;
+  height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
 }
+
+.app-wrapper {
+  position: absolute;
+  left: 24px;
+  top: 28px;
+  width: fit-content;
+  height: fit-content;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+}
+
+.app-wrapper {
+  position: absolute;
+  left: 24px;
+  top: 28px;
+  width: fit-content;
+  height: fit-content;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+}
+
+.desktop-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 88px;
+  font-size: 11px;
+  line-height: 1.2;
+  color: var(--text-inverted);
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.9);
+  text-decoration: none;
+  cursor: default;
+  user-select: none;
+}
+
+.desktop-item:link,
+.desktop-item:visited,
+.desktop-item:hover,
+.desktop-item:active {
+  color: var(--text-inverted);
+  text-decoration: none;
+}
+
+.desktop-item-label {
+  max-width: 100%;
+  padding: 1px 3px;
+  text-align: center;
+  word-break: break-word;
+}
+
+.app-icon {
+  position: relative;
+  width: var(--app-icon-size);
+  height: auto;
+  margin-bottom: var(--app-icon-margin);
+  display: block;
+}
+
 
 /*** TASKBAR ***/
 /* Kontejner pro tlačítka na liště */
@@ -141,42 +207,4 @@ body {
   align-items: center;
   padding: 0 10px;
   gap: 5px;
-}
-
-/* tlačítko aplikace */
-.taskbar-item {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  height: 22px; /* XP standard */
-  max-width: 150px;
-  padding: 0 8px;
-  border-radius: 2px;
-  cursor: default;
-  font-size: 11px;
-  color: var(--text-inverted);
-  
-  /* modrý gradient pro tlačítka */
-  background: linear-gradient(to bottom, #3c81f3 0%, #245edb 12%, #245edb 100%);
-  box-shadow: 
-    inset 1px 1px 1px rgba(255,255,255,0.3),
-    1px 1px 1px rgba(0,0,0,0.3);
-}
-
-/* aktivní/stisknuté okno */
-.taskbar-item.active {
-  background: linear-gradient(to bottom, #1e3a8a 0%, #245edb 100%);
-  box-shadow: inset 2px 2px 3px rgba(0,0,0,0.5); /* sunken vzhled */
-}
-
-.taskbar-item img {
-  width: 14px;
-  height: 14px;
-}
-
-.taskbar-item span {
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  font-family: 'Tahoma', sans-serif;
 }

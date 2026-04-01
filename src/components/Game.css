@@ -2,6 +2,7 @@
     display: flex;
     flex-direction: column;
     width: max-content;
+    margin: auto;
     padding: 3px;
     border-radius: var(--window-radius);
     background:
@@ -16,6 +17,7 @@
     box-shadow:
         0 0 0 1px #0b2a6f,
         inset 0 1px 0 rgba(255, 255, 255, 0.28);
+    z-index: 1;
 }
 
 .game-menu {
