@@ -7,12 +7,18 @@
     display: flex;
     flex-direction: column;
     overflow: hidden;
-    background: linear-gradient(
-        180deg,
-        var(--xp-taskbar-top) 0%,
-        var(--xp-title-mid) 18%,
-        var(--xp-taskbar-bottom) 100%
-    );
+    background:
+        radial-gradient(
+            circle,
+            var(--xp-title-mid) 45%,
+            var(--xp-taskbar-bottom) 100%
+        ),
+        linear-gradient(
+            180deg,
+            var(--xp-taskbar-top) 0%,
+            var(--xp-title-mid) 18%,
+            var(--xp-taskbar-bottom) 100%
+        );
     border: 1px solid var(--xp-title-end);
     border-radius: 8px 8px 0 0;
     box-shadow:
@@ -29,12 +35,7 @@
     min-height: 74px;
     padding: 10px 12px 8px;
     width: 100%;
-    background:
-        linear-gradient(
-            180deg,
-            var(--xp-highlight-soft) 0%,
-            transparent 30%
-        );
+    box-shadow: inset 0 3px 2px rgba(255,255,255,0.45);
 }
 
 .user span {
@@ -59,13 +60,48 @@
 }
 
 .menu {
-  flex: 1;
-  display: grid;
-  grid-template-columns: 58% 42%;
-  min-height: 0;
-  margin-inline: 3px;
-  background: var(--xp-surface);
-  border-top: 1px solid rgba(255,255,255,0.3);
+    position: relative;
+    flex: 1;
+    display: grid;
+    grid-template-columns: 58% 42%;
+    min-height: 0;
+    margin-inline: 3px;
+    background:
+        radial-gradient(
+        circle at 14% 0%,
+        var(--xp-highlight-soft) 0%,
+        transparent 58%
+        );
+    border-top: 1px solid rgba(255,255,255,0.3);
+}
+
+.menu::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+
+  background:
+    radial-gradient(
+      ellipse 140% 90% at 50% 42%,
+      var(--xp-menu-glow-center) 0%,
+      var(--xp-menu-glow-mid) 30%,
+      transparent 56%
+    ),
+    radial-gradient(
+      ellipse 160% 110% at 50% 42%,
+      transparent 0%,
+      transparent 60%,
+      var(--xp-menu-vignette) 80%,
+      var(--xp-menu-vignette-deep) 100%
+    );
+}
+
+.menu-left,
+.menu-right {
+    position: relative;
+    z-index: 1;
 }
 
 .menu-left {
@@ -73,11 +109,7 @@
     flex-direction: column;
     gap: 6px;
     padding: 6px;
-    background: linear-gradient(
-        180deg,
-        var(--xp-line-light) 0%,
-        var(--xp-surface) 100%
-    );
+    background: var(--xp-surface);
 }
 
 .menu-left hr {
@@ -136,8 +168,7 @@
         var(--xp-menu-right-bottom) 100%
     );
     border-left: 1px solid var(--xp-line-dark);
-    box-shadow:
-        inset 1px 0 0 var(--xp-line-light);
+    box-shadow: inset 1px 0 0 var(--xp-line-light);
 }
 
 .power {
