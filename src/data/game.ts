@@ -10,6 +10,8 @@ export interface CellData {
   mark: 'none' | 'flag' | 'question';
 }
 
+export type CellMark = 'none' | 'flag' | 'question';
+
 export interface BoardConfig {
   rows: number;
   cols: number;

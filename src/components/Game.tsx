@@ -1,7 +1,7 @@
 
 import { useState } from 'react'
 import OneGame from './OneGame'
-import type { CellData, GameState } from "../data/game";
+import type { CellData, CellMark, GameState } from "../data/game";
 import { beginnerConfig } from '../data/game';
 import GameIcon from '../img/minesweeperIcon.webp'
 import './Game.css'
@@ -16,6 +16,7 @@ const createEmptyBoard = (rows: number, cols: number): CellData[][] => {
       isOpen: false,
       // isFlagged: false,
       mark: 'none',
+      cellMark: 'none',
       adjacentMines: 0,
     }))
   );
@@ -27,16 +28,31 @@ const Game = () => {
     const [board, setBoard] = useState(() =>
     createEmptyBoard(level.rows, level.cols)
     );
+    const [time, setTime] = useState(0);
+    const [mines, setMines] = useState(level.mines);  
+
+    const nextMark = (mark: CellMark): CellMark => {
+        if (mark === 'none') return 'flag';
+        if (mark === 'flag') return 'question';
+        return 'none';
+    };
 
     const handleFlag = (id: string) => {
         setBoard(prev => prev.map(row =>
-            row.map(cell => cell.id === id ? { ...cell, mark: cell.mark === 'none' ? 'flag' : cell.mark === 'flag' ? 'question' : 'none' } : cell)
+            row.map(cell => {
+                if (cell.id !== id || cell.isOpen) return cell;
+                if (cell.id !== id) return cell;
+                const newMark = nextMark(cell.mark);
+                if (newMark === 'flag') setMines(prev => prev - 1);
+                if (cell.mark === 'flag') setMines(prev => prev + 1);
+                return { ...cell, mark: newMark };
+            })
         ));
     };
 
     const handleOpen = (id: string) => {
         setBoard(prev => prev.map(row =>
-            row.map(cell => cell.id === id ? { ...cell, isOpen: true } : cell)
+            row.map(cell => cell.id === id && cell.mark === 'none' ? { ...cell, isOpen: true } : cell)
         ));
     };
 
@@ -50,7 +66,9 @@ const Game = () => {
           <button className='btn-close'>✕</button>
         </div>
       </div>
-      <menu className='game-menu'>
+      <menu 
+        className='game-menu'
+      >
         <ul>
           <li>Game</li>
           <li>Help</li>
@@ -58,6 +76,8 @@ const Game = () => {
       </menu>
       <OneGame
         board={board}
+        time={time}
+        mines={mines}
         onFlag={handleFlag}
         onOpen={handleOpen}
        />
