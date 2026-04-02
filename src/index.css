@@ -42,7 +42,7 @@
   --start-background: linear-gradient(to bottom, var(--start-green), var(--start-green-dark));
   --start-radius: 0 8px 8px 0;
 
-    --xp-title-start: #0058EE;
+  --xp-title-start: #0058EE;
   --xp-title-mid: #3A93FF;
   --xp-title-end: #0A246A;
   --xp-title-text: #FFFFFF;
@@ -87,6 +87,23 @@
   --app-icon-size: 48px;
   --app-gap: 10px;
   --app-icon-margin: 4px;
+
+    /* === START MENU SPECIFIC === */
+
+  /* pravý sloupec */
+  --xp-menu-right-top: #D7E7FB;
+  --xp-menu-right-bottom: #B9D3F3;
+
+  /* highlight (lesk nahoře v gradientu) */
+  --xp-highlight-top: #FFFFFF;
+  --xp-highlight-soft: rgba(255,255,255,0.4);
+
+  /* power panel */
+  --xp-power-top: #2F71CD;
+  --xp-power-bottom: #1A56A8;
+
+  /* separator */
+  --xp-separator: #C8C2B8;
 }
 
 body {
@@ -135,18 +152,6 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-}
-
-.app-wrapper {
-  position: absolute;
-  left: 24px;
-  top: 28px;
-  width: fit-content;
-  height: fit-content;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 18px;
 }
 
 .app-wrapper {

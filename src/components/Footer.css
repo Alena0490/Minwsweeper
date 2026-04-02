@@ -106,3 +106,9 @@ footer img {
     color: var(--text-inverted);
     text-shadow: 1px 1px 0 rgba(0,0,0,0.35);
 }
+
+.start-menu {
+    position: absolute;
+    bottom: 100%;
+    z-index: 10;
+}

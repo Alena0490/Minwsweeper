@@ -1,10 +1,10 @@
 
 import { useState, useEffect } from 'react'
-import OneGame from './OneGame'
 import type { CellData, CellMark, GameState } from "../data/game";
 import { beginnerConfig } from '../data/game';
 import GameIcon from '../img/minesweeperIcon.webp'
 import './Game.css'
+import OneGame from './OneGame';
 
 const createEmptyBoard = (rows: number, cols: number): CellData[][] => {
   return Array.from({ length: rows }, (_, row) =>
@@ -35,10 +35,18 @@ const Game = () => {
             if (gameState === 'playing') {
                 setTime(prev => prev + 1);
             }
+
+            if (gameState === 'won' || gameState === 'lost') {
+                clearInterval(timer);
+            } 
+
+            if (time === 999) {
+                clearInterval(timer);
+            }
         }, 1000);
 
         return () => clearInterval(timer);
-    }, [gameState]);  
+    }, [gameState, time]);  
 
     const nextMark = (mark: CellMark): CellMark => {
         if (mark === 'none') return 'flag';

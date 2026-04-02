@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import MenuModal from './MenuModal';
 import './Footer.css'
 import windowsLogo from '../img/logo.png'
 import InternetShortcut from '../img/Internet Shortcut.png'
@@ -23,6 +24,7 @@ const Footer = ({ handleFullscreen }: FooterProps) => {
         <footer>
         <div className="left-menu">
             <div className="start" onClick={handleFullscreen}>
+                <MenuModal className="start-menu" />
                 <img src={windowsLogo} alt='Windows XP Logo' />
                 <span>Start</span>
             </div>

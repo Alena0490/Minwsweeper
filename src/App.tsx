@@ -3,11 +3,13 @@ import Footer from "./components/Footer"
 import MyComputer from './img/My Computer.png'
 import IntertExplorer from './img/Internet Explorer 6.png'
 import Bin from './img/Recycle Bin (empty).png'
+import './App.css'
 
 interface FullscreenHTMLElement extends HTMLElement {
   webkitRequestFullscreen?: () => Promise<void>;
   msRequestFullscreen?: () => Promise<void>;
 }
+
 
 const App = () => {
   const handleFullscreen = () => {
