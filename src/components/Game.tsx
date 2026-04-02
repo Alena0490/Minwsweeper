@@ -40,7 +40,7 @@ const Game = () => {
                 clearInterval(timer);
             } 
 
-            if (time === 999) {
+            if (time >= 999) {
                 clearInterval(timer);
             }
         }, 1000);

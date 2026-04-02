@@ -1,8 +1,8 @@
 import Game from "./components/Game"
 import Footer from "./components/Footer"
-import MyComputer from './img/My Computer.png'
-import IntertExplorer from './img/Internet Explorer 6.png'
-import Bin from './img/Recycle Bin (empty).png'
+import MyComputer from './img/MyComputer.webp'
+import IntertExplorer from './img/InternetExplorer6.webp'
+import Bin from './img/RecycleBinEmpty.webp'
 import './App.css'
 
 interface FullscreenHTMLElement extends HTMLElement {

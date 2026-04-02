@@ -2,11 +2,11 @@ import { useState, useEffect } from 'react';
 import MenuModal from './MenuModal';
 import './Footer.css'
 import windowsLogo from '../img/logo.png'
-import InternetShortcut from '../img/Internet Shortcut.png'
-import volume from '../img/Volume Alt.png'
+import InternetShortcut from '../img/InternetShortcut.webp'
+import volume from '../img/Volume.webp'
 import gameIcon from '../img/minesweeperIcon.webp'
 // import alert from '../img/Alert.png'
-import securityError from '../img/Security Error.png'
+import securityError from '../img/SecurityError.webp'
 
 interface FooterProps {
     handleFullscreen : () => void;
