@@ -14,9 +14,7 @@ const createEmptyBoard = (rows: number, cols: number): CellData[][] => {
       col,
       isMine: false,
       isOpen: false,
-      // isFlagged: false,
       mark: 'none',
-      cellMark: 'none',
       adjacentMines: 0,
     }))
   );
@@ -52,7 +50,6 @@ const Game = () => {
         setBoard(prev => prev.map(row =>
             row.map(cell => {
                 if (cell.id !== id || cell.isOpen) return cell;
-                if (cell.id !== id) return cell;
                 const newMark = nextMark(cell.mark);
                 if (newMark === 'flag') setMines(prev => prev - 1);
                 if (cell.mark === 'flag') setMines(prev => prev + 1);

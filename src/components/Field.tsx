@@ -23,7 +23,13 @@ const Field = ({ board, gameState, onFlag, onOpen, isPressed, setIsPressed }: Fi
         row.map((cell) => (
             <button
                 key={cell.id}
-                className={`cell cell--closed ${cell.mark === 'flag' ? "cell--flagged" : ""} ${cell.mark === 'question' ? "cell--question" : ""} ${cell.isOpen ? "cell--open" : ""}`}
+                className={[
+                    'cell',
+                    'cell--closed',
+                    cell.mark === 'flag' && 'cell--flagged',
+                    cell.mark === 'question' && 'cell--question',
+                    cell.isOpen && 'cell--open',
+                ].filter(Boolean).join(' ')}
                 type="button"
                 aria-label={`Cell ${cell.row + 1}, ${cell.col + 1}, closed`}
                 onClick={() => onOpen(cell.id)}
@@ -34,7 +40,7 @@ const Field = ({ board, gameState, onFlag, onOpen, isPressed, setIsPressed }: Fi
                 onMouseDown={() => setIsPressed(true)}
                 onMouseUp={() => setIsPressed(false)}
             >
-            {cell.mark === 'flag' && <img src={FlagIcon } alt="flag" />}
+            {cell.mark === 'flag' && <img src={FlagIcon} alt="flag" />}
             {cell.mark === 'question' && <img src={QuestionIcon} alt="question" />}
           </button>
         ))

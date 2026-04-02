@@ -42,12 +42,16 @@
 
 .counter span {
     position: relative;
-    /* top: -1px; */
     display: inline-block;
-    width: 3ch;
     text-align: right;
     transform: scaleX(1.1);
     letter-spacing: -1px;
+}
+
+.digit {
+    display: inline-block;
+    width: 10px;
+    text-align: right;
 }
 
 .face-button {
