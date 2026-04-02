@@ -35,7 +35,18 @@ const OneGame = ({ board, time, mines, gameState, handleReset, setGameState, isP
                 className='face-button'
                 onClick={handleReset}
             >{getFace()}</button>
-            <output className='counter'><span>{String(time).padStart(3, '0')}</span></output>
+            <output className='counter'>
+                <span>
+                    {String(time).padStart(3, '0').split('').map((digit, i) => (
+                        <span 
+                            key={i} 
+                            style={{ display: 'inline-block', width: '10px', textAlign: 'right' }}
+                        >
+                            {digit}
+                        </span>
+                    ))}
+                </span>
+            </output>
         </div>
         <Field 
             board={board}

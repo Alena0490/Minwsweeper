@@ -1,5 +1,5 @@
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import OneGame from './OneGame'
 import type { CellData, CellMark, GameState } from "../data/game";
 import { beginnerConfig } from '../data/game';
@@ -31,6 +31,16 @@ const Game = () => {
     const [time, setTime] = useState(0);
     const [mines, setMines] = useState(level.mines);  
     const [isPressed, setIsPressed] = useState(false);
+
+    useEffect(() => {
+        const timer = setInterval(() => {
+            if (gameState === 'playing') {
+                setTime(prev => prev + 1);
+            }
+        }, 1000);
+
+        return () => clearInterval(timer);
+    }, [gameState]);  
 
     const nextMark = (mark: CellMark): CellMark => {
         if (mark === 'none') return 'flag';
