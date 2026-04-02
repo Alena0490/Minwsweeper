@@ -30,6 +30,7 @@ const Game = () => {
     );
     const [time, setTime] = useState(0);
     const [mines, setMines] = useState(level.mines);  
+    const [isPressed, setIsPressed] = useState(false);
 
     const nextMark = (mark: CellMark): CellMark => {
         if (mark === 'none') return 'flag';
@@ -56,6 +57,13 @@ const Game = () => {
         ));
     };
 
+  const handleReset = () => {
+    setBoard(createEmptyBoard(level.rows, level.cols));
+    setGameState('playing');
+    setTime(0);
+    setMines(level.mines);
+  };
+
   return (
     <div className='game-container'>
       <div className='title-bar'>
@@ -78,8 +86,13 @@ const Game = () => {
         board={board}
         time={time}
         mines={mines}
+        handleReset={handleReset}
         onFlag={handleFlag}
         onOpen={handleOpen}
+        gameState={gameState}
+        setGameState={setGameState}
+        isPressed={isPressed}
+        setIsPressed={setIsPressed}
        />
     </div>
   )

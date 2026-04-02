@@ -5,11 +5,14 @@ import './Field.css'
 
 interface FieldProps {
     board: CellData[][];
+    gameState: 'playing' | 'won' | 'lost';
     onFlag: (id: string) => void;
     onOpen: (id: string) => void;
+    isPressed: boolean;
+    setIsPressed: (pressed: boolean) => void;
 }
 
-const Field = ({ board, onFlag, onOpen }: FieldProps) => {
+const Field = ({ board, gameState, onFlag, onOpen, isPressed, setIsPressed }: FieldProps) => {
 
   return (
     <div
@@ -28,6 +31,8 @@ const Field = ({ board, onFlag, onOpen }: FieldProps) => {
                     e.preventDefault();
                     onFlag(cell.id);
                 }}
+                onMouseDown={() => setIsPressed(true)}
+                onMouseUp={() => setIsPressed(false)}
             >
             {cell.mark === 'flag' && <img src={FlagIcon } alt="flag" />}
             {cell.mark === 'question' && <img src={QuestionIcon} alt="question" />}
