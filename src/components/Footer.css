@@ -62,6 +62,17 @@ footer img {
     z-index: 1;
 }
 
+.taskbar-item--active {
+    background: linear-gradient(
+        180deg,
+        var(--xp-title-end) 0%,
+        var(--xp-taskbar-bottom) 100%
+    );
+    box-shadow:
+        inset 1px 1px 2px rgba(0,0,0,0.35),
+        inset -1px -1px 0 rgba(255,255,255,0.15);
+}
+
 .menu-item {
   display: flex;
   align-items: center;
@@ -72,13 +83,6 @@ footer img {
   font-size: 11px;
   color: var(--text-inverted);
 }
-
-/* aktivní/stisknuté okno */
-.taskbar-item.active {
-  background: linear-gradient(to bottom, #1e3a8a 0%, #245edb 100%);
-  box-shadow: inset 2px 2px 3px rgba(0,0,0,0.5); /* sunken vzhled */
-}
-
 
 .menu-item img, 
 .taskbar-item img {
@@ -110,5 +114,28 @@ footer img {
 .start-menu {
     position: absolute;
     bottom: 100%;
+    left: 0;
     z-index: 10;
+
+    transform: translateY(8px);
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+
+    transition:
+        transform 0.14s ease-out,
+        opacity 0.12s linear,
+        visibility 0s linear 0.14s;
+}
+
+.start-menu.open {
+    transform: translateY(0);
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+
+    transition:
+        transform 0.14s ease-out,
+        opacity 0.12s linear,
+        visibility 0s linear 0s;
 }

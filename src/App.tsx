@@ -1,3 +1,4 @@
+import { useState } from "react"
 import Game from "./components/Game"
 import Footer from "./components/Footer"
 import MyComputer from './img/MyComputer.webp'
@@ -12,6 +13,9 @@ interface FullscreenHTMLElement extends HTMLElement {
 
 
 const App = () => {
+  const [isMinimized, setIsMinimized] = useState(false)
+  const [isFullscreen, setIsFullscreen] = useState(false)
+
   const handleFullscreen = () => {
     const elem = document.documentElement as FullscreenHTMLElement;
 
@@ -40,9 +44,16 @@ const App = () => {
           <span className="desktop-item-label">Recycle Bin</span>
         </a>
       </div>
-      <Game />
+      <Game
+        isMinimized={isMinimized} 
+        setIsMinimized={setIsMinimized}
+        isFullscreen={isFullscreen}
+        setIsFullscreen={setIsFullscreen}
+      />
       <Footer 
-        handleFullscreen ={handleFullscreen } 
+        handleFullscreen ={handleFullscreen }
+        isMinimized={isMinimized} 
+        setIsMinimized={setIsMinimized}
       />
     </div>
   );

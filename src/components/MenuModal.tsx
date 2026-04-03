@@ -1,6 +1,6 @@
 import UserCat from '../img/user-cat.webp'
 import Internet from '../img/InternetExplorer6.webp'
-import Email from '../img/Email.webp'
+import OutlookExpress from '../img/OutlookExpress.webp'
 import Calculator from '../img/Calculator.webp'
 import MinesweeperIcon from '../img/minesweeperIcon.webp'   
 import MyDocuments from '../img/MyDocuments.webp'
@@ -19,25 +19,42 @@ import TurnOff from '../img/Power.webp'
 import './MenuModal.css'
 
 interface ModalProps {
-  className?: 'start-menu';
+  className?: string;
 }
 
 const MenuModal = (props: ModalProps) => {
   return (
-    <div className={props.className}>
+    <div 
+        className={props.className}
+        onClick={(e) => e.stopPropagation()}
+    >
       <div className='user'>
         <img src={UserCat} alt="Cat" />
         <span>Alena</span>
       </div>
         <div className='menu'>
             <div className="menu-left">
-                <div className="menu-item">
-                    <img src={Internet} alt="Internet Icon" />
-                    Internet
-                    </div>
-                <div className="menu-item">
-                    <img src={Email} alt="Email Icon" />
-                    Email
+                <div className="menu-item menu-item-detailed">
+                    <a 
+                        href="https://alena-pumprova.cz/" 
+                        className='menu-item-link'
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
+                        <img src={Internet} alt="Internet Icon" />
+                        <span>
+                            Internet
+                            <small>Internet Explorer</small>
+                        </span>
+                    </a>
+                </div>
+
+                <div className="menu-item menu-item-detailed">
+                    <img src={OutlookExpress} alt="Email Icon" />
+                    <span>
+                        E-mail
+                        <small>Outlook Express</small>
+                    </span>
                 </div>
                 <hr />
                 <div className="menu-item">
@@ -56,7 +73,7 @@ const MenuModal = (props: ModalProps) => {
                 </div>
                 <div className="menu-item top-menu-item">
                     <img src={MyRecentDocuments} alt="My Recent Documents Icon" />
-                    <span>My Recent<br /> Documents</span>
+                    <span>My Recent Documents</span>
                 </div>
                 <div className="menu-item top-menu-item">
                     <img src={MyPictures} alt="My Pictures Icon" />
@@ -77,7 +94,7 @@ const MenuModal = (props: ModalProps) => {
                 </div>      
                 <div className="menu-item">
                     <img src={ProgramAccess} alt="Printers and Faxes Icon" />
-                    <span>Set Program Access<br/> and Defaults</span>
+                    <span>Set Program Access<br />and Defaults</span>
                 </div>
                 <div className="menu-item">
                     <img src={PrintersAndFaxes} alt="Printers and Faxes Icon" />

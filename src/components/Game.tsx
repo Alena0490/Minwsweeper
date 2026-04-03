@@ -20,7 +20,14 @@ const createEmptyBoard = (rows: number, cols: number): CellData[][] => {
   );
 };
 
-const Game = () => {
+interface GameProps {
+   isFullscreen: boolean;
+    setIsFullscreen: (value: boolean | ((prev: boolean) => boolean)) => void;
+    isMinimized: boolean;
+    setIsMinimized: (value: boolean | ((prev: boolean) => boolean)) => void;
+}
+
+const Game = ({isFullscreen, setIsFullscreen, isMinimized, setIsMinimized}:GameProps) => {
     const [gameState, setGameState] = useState<GameState>('playing');
     const [level, setLevel] = useState(beginnerConfig);
     const [board, setBoard] = useState(() =>
@@ -31,22 +38,14 @@ const Game = () => {
     const [isPressed, setIsPressed] = useState(false);
 
     useEffect(() => {
-        const timer = setInterval(() => {
-            if (gameState === 'playing') {
-                setTime(prev => prev + 1);
-            }
+      if (gameState !== 'playing' || time >= 999) return;
+      
+      const timer = setInterval(() => {
+          setTime(prev => prev + 1);
+      }, 1000);
 
-            if (gameState === 'won' || gameState === 'lost') {
-                clearInterval(timer);
-            } 
-
-            if (time >= 999) {
-                clearInterval(timer);
-            }
-        }, 1000);
-
-        return () => clearInterval(timer);
-    }, [gameState, time]);  
+      return () => clearInterval(timer);
+  }, [gameState, time]);
 
     const nextMark = (mark: CellMark): CellMark => {
         if (mark === 'none') return 'flag';
@@ -80,13 +79,43 @@ const Game = () => {
   };
 
   return (
-    <div className='game-container'>
+    <div 
+      className={[
+        'game-container',
+        isMinimized && 'game--minimized',
+        isFullscreen && 'game--fullscreen',
+      ].filter(Boolean).join(' ')}
+    >
       <div className='title-bar'>
         <span className='title-bar-text'><img className='game-icon' src={GameIcon} alt="Minesweeper Icon" />Minesweeper</span>
         <div className='title-bar-buttons'>
-          <button className='btn-minimize'>_</button>
-          <button className='btn-maximize'>□</button>
-          <button className='btn-close'>✕</button>
+          <button
+            className='btn-minimize'
+            onClick={() => setIsMinimized(true)}
+            type="button"
+          >
+            _
+          </button>
+          <button
+            className='btn-maximize'
+            onClick={() => {
+              setIsMinimized(false);
+              setIsFullscreen(prev => !prev);
+            }}
+            type="button"
+            aria-label={isFullscreen ? 'Restore' : 'Maximize'}
+          >
+            {isFullscreen ? '❐' : '□'}
+          </button>
+
+          <button
+            className='btn-close'
+            onClick={() => setIsMinimized(true)}
+            type="button"
+            aria-label="Close"
+          >
+            ✕
+          </button>
         </div>
       </div>
       <menu 

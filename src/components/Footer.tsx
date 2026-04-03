@@ -1,19 +1,21 @@
 import { useState, useEffect } from 'react';
 import MenuModal from './MenuModal';
 import './Footer.css'
-import windowsLogo from '../img/logo.png'
+import windowsLogo from '../img/logo.webp'
 import InternetShortcut from '../img/InternetShortcut.webp'
 import volume from '../img/Volume.webp'
 import gameIcon from '../img/minesweeperIcon.webp'
-// import alert from '../img/Alert.png'
 import securityError from '../img/SecurityError.webp'
 
 interface FooterProps {
     handleFullscreen : () => void;
+    isMinimized: boolean;
+    setIsMinimized: (value: boolean | ((prev: boolean) => boolean)) => void;
 }
 
-const Footer = ({ handleFullscreen }: FooterProps) => {
+const Footer = ({ handleFullscreen, isMinimized, setIsMinimized }: FooterProps) => {
     const [time, setTime] = useState(new Date());
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
 
     useEffect(() => {
         const timer = setInterval(() => setTime(new Date()), 1000);
@@ -23,15 +25,21 @@ const Footer = ({ handleFullscreen }: FooterProps) => {
     return (
         <footer>
         <div className="left-menu">
-            <div className="start" onClick={handleFullscreen}>
-                <MenuModal className="start-menu" />
+            <div className="start" 
+                onClick={() => setIsMenuOpen(prev => !prev)}
+                onDoubleClick={handleFullscreen}
+            >
+                <MenuModal className={`start-menu ${isMenuOpen ? 'open' : ''}`} />
                 <img src={windowsLogo} alt='Windows XP Logo' />
                 <span>Start</span>
             </div>
             <div className="menu-item">
                 <img src={InternetShortcut} alt="Internet Shortcut Icon" />
             </div>
-            <div className="game-bar taskbar-item">
+            <div 
+                className={`game-bar taskbar-item ${!isMinimized ? 'taskbar-item--active' : ''}`}
+                onClick={() => setIsMinimized(prev => !prev)}
+            >
                 <img src={gameIcon} alt="Game Icon" />
                 <span>Minesweeper</span>
             </div>

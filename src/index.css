@@ -27,6 +27,7 @@
   --border-middle: #ACA899;
   --border-dark: #808080;
   --text: #000000;
+  --text-muted: var(--insensitive);
   --text-inverted: #FFF;
   --selected-bg: #1466C9;
   --insensitive: #a1a192;
@@ -97,6 +98,7 @@
   /* highlight (lesk nahoře v gradientu) */
   --xp-highlight-top: #FFFFFF;
   --xp-highlight-soft: rgba(255,255,255,0.4);
+  --xp-shadow-soft: rgba(0, 0, 0, 0.5);
   --xp-surface-soft: rgb(236 233 216 / 0.92);
   --xp-menu-right-top-soft: rgb(215 231 251 / 0.9);
   --xp-menu-right-bottom-soft: rgb(185 211 243 / 0.9);
