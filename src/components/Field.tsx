@@ -42,6 +42,11 @@ const Field = ({ board, gameState, onFlag, onOpen, isPressed, setIsPressed }: Fi
             >
             {cell.mark === 'flag' && <img src={FlagIcon} alt="flag" />}
             {cell.mark === 'question' && <img src={QuestionIcon} alt="question" />}
+            {cell.isOpen && cell.adjacentMines > 0 && (
+                <span className={`cell-number n${cell.adjacentMines}`}>
+                    {cell.adjacentMines}
+                </span>
+            )}
           </button>
         ))
       )}

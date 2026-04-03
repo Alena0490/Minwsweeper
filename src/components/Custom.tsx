@@ -8,16 +8,15 @@ const Custom = () => {
             <button>✕</button>
         </header>
         <div className='main-text'>
-            <p>Fastes Mine Sweepes</p>
             <ul>
-                <li>Height: <input type="number" /></li>
-                <li>Width: <input type="number" /></li>
-                <li>Mines: <input type="number" /></li>
+                <li><label htmlFor="height">Height:</label> <input type="number" /></li>
+                <li><label htmlFor="height">Width:</label> <input type="number" /></li>
+                <li><label htmlFor="height">Mines:</label> <input type="number" /></li>
             </ul>
             
             <div className="set-buttons">
-                <button>Cancel</button>
-                <button>OK</button>
+                <button type="button">Cancel</button>
+                <button type="button">OK</button>
             </div>
         </div>
     </div>

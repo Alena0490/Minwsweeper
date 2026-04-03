@@ -1,4 +1,4 @@
-import './GameMenu.css'
+import './GameMiniModal.css'
 
 const BestTimes = () => {
   return (
@@ -8,7 +8,7 @@ const BestTimes = () => {
             <button className='red'>✕</button>
         </header>
         <div className='main-text'>
-            <p>Fastes Mine Sweepes</p>
+            <p>Fastest Mine Sweepers</p>
             <ul className='times'>
                 <li>Easy: <span>999.999</span></li>
                 <li>Intermediate: <span>999.999</span></li>
@@ -16,8 +16,8 @@ const BestTimes = () => {
             </ul>
             
             <div className="set-buttons">
-                <button><span className='underlie'>R</span>eset</button>
-                <button>OK</button>
+                <button type="button"><span className='underlie'>R</span>eset</button>
+                <button type="button">OK</button>
             </div>
         </div>
     </div>

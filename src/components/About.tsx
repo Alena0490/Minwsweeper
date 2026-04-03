@@ -15,7 +15,7 @@ const About = () => {
                 target='_blank'
                 rel='noopener noreferrer'
                 >About me</a>
-            <button>OK</button>
+            <button type="button">OK</button>
         </div>   
     </div>
   )

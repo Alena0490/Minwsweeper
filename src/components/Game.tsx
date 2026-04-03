@@ -1,7 +1,9 @@
 
 import { useState, useEffect } from 'react'
 import type { CellData, CellMark, GameState } from "../data/game";
+import { generateMines } from '../utils/GenerateMines';
 import { beginnerConfig } from '../data/game';
+import { floodFill } from '../utils/floodFill';
 import GameIcon from '../img/minesweeperIcon.webp'
 import './Game.css'
 import GameMenu from './GameMenu';
@@ -37,6 +39,7 @@ const Game = ({isFullscreen, setIsFullscreen, isMinimized, setIsMinimized}:GameP
     const [time, setTime] = useState(0);
     const [mines, setMines] = useState(level.mines);  
     const [isPressed, setIsPressed] = useState(false);
+    const [minesPlaced, setMinesPlaced] = useState(false);
 
     useEffect(() => {
       if (gameState !== 'playing' || time >= 999) return;
@@ -54,29 +57,45 @@ const Game = ({isFullscreen, setIsFullscreen, isMinimized, setIsMinimized}:GameP
         return 'none';
     };
 
+    // Game.tsx
     const handleFlag = (id: string) => {
+        const cell = board.flat().find(c => c.id === id);
+        if (!cell || cell.isOpen) return;
+
+        const newMark = nextMark(cell.mark);
+
+        if (newMark === 'flag') setMines(prev => prev - 1);
+        if (cell.mark === 'flag') setMines(prev => prev + 1);
+
         setBoard(prev => prev.map(row =>
-            row.map(cell => {
-                if (cell.id !== id || cell.isOpen) return cell;
-                const newMark = nextMark(cell.mark);
-                if (newMark === 'flag') setMines(prev => prev - 1);
-                if (cell.mark === 'flag') setMines(prev => prev + 1);
-                return { ...cell, mark: newMark };
-            })
+            row.map(c => c.id === id ? { ...c, mark: newMark } : c)
         ));
     };
 
     const handleOpen = (id: string) => {
-        setBoard(prev => prev.map(row =>
-            row.map(cell => cell.id === id && cell.mark === 'none' ? { ...cell, isOpen: true } : cell)
-        ));
-    };
+      setBoard(prev => {
+          let currentBoard = prev;
+
+          if (!minesPlaced) {
+              const cell = prev.flat().find(c => c.id === id);
+              if (!cell) return prev;
+              currentBoard = generateMines(prev, level.mines, cell.row, cell.col);
+              setMinesPlaced(true);
+          }
+
+          const cell = currentBoard.flat().find(c => c.id === id);
+          if (!cell || cell.mark !== 'none') return currentBoard;
+
+          return floodFill(currentBoard, cell.row, cell.col);
+      });
+  };
 
   const handleReset = () => {
     setBoard(createEmptyBoard(level.rows, level.cols));
     setGameState('playing');
     setTime(0);
     setMines(level.mines);
+    setMinesPlaced(false); 
   };
 
   return (

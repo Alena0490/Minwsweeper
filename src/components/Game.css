@@ -92,6 +92,10 @@
     text-shadow: 1px 1px 0 rgba(0,0,0,0.35);
 }
 
+.title-bar-buttons button:hover {
+  filter: brightness(1.05);
+}
+
 .title-bar-buttons {
   display: flex;
   gap: 2px;
