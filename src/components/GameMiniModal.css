@@ -1,0 +1,33 @@
+.mini-modal {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-radius: 6px;
+}
+
+.mini-modal header {
+    display: flex;
+    justify-content: space-between;
+    background-color: var(--xp-menu-right-top);
+    filter: drop-shadow(6px 6px 0 var(--xp-menu-vignette));
+}
+
+.main-text {
+    background-color: var(--xp-surface);;
+}
+
+.set-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.set-buttons button {
+    border-radius: 6px;
+    border: 1px solid var(--border-dark);
+    background-color: var(--xp-tooltip);
+}
+
+.times {
+    color: var(--text);
+}

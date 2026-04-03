@@ -2,7 +2,7 @@ import './GameMiniModal.css'
 
 const About = () => {
   return (
-    <div id='about'>
+    <div id='about' className='mini-modal'>
         <header>
             <h3>About</h3>
             <button>✕</button>

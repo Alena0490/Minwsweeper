@@ -2,14 +2,14 @@ import './GameMenu.css'
 
 const BestTimes = () => {
   return (
-    <div id='times'>
+    <div id='times' className='mini-modal'>
         <header>
             <h3>Fastest</h3>
             <button className='red'>✕</button>
         </header>
         <div className='main-text'>
             <p>Fastes Mine Sweepes</p>
-            <ul>
+            <ul className='times'>
                 <li>Easy: <span>999.999</span></li>
                 <li>Intermediate: <span>999.999</span></li>
                 <li>Expert: <span>999.999</span></li>

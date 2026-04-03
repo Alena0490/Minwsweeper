@@ -112,9 +112,29 @@
     inset -1px -1px 0 rgba(0,0,0,0.25);
 }
 
+.title-bar-buttons button:active {
+  background: linear-gradient(to bottom, #2B74E3, #9CC2FF);
+
+  box-shadow:
+    inset 1px 1px 0 rgba(0,0,0,0.4),
+    inset -1px -1px 0 rgba(255,255,255,0.6);
+
+  transform: translate(1px, 1px);
+}
+
 .title-bar-buttons .btn-close {
   background: linear-gradient(to bottom, #FFB1A6, #D94B31);
   /* border-color: #7F1D0E; */
+}
+
+.title-bar-buttons .btn-close:active {
+  background: linear-gradient(to bottom, #D94B31, #FFB1A6);
+
+  box-shadow:
+    inset 1px 1px 0 rgba(0,0,0,0.4),
+    inset -1px -1px 0 rgba(255,255,255,0.6);
+
+  transform: translate(1px, 1px);
 }
 
 .game-icon {
