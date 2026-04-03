@@ -37,19 +37,20 @@ const Game = ({isFullscreen, setIsFullscreen, isMinimized, setIsMinimized}:GameP
     createEmptyBoard(level.rows, level.cols)
     );
     const [time, setTime] = useState(0);
+    const [hasStarted, setHasStarted] = useState(false);
     const [mines, setMines] = useState(level.mines);  
     const [isPressed, setIsPressed] = useState(false);
     const [minesPlaced, setMinesPlaced] = useState(false);
 
     useEffect(() => {
-      if (gameState !== 'playing' || time >= 999) return;
-      
-      const timer = setInterval(() => {
+      if (!hasStarted || gameState !== 'playing' || time >= 999) return;
+        
+        const timer = setInterval(() => {
           setTime(prev => prev + 1);
-      }, 1000);
+        }, 1000);
 
-      return () => clearInterval(timer);
-  }, [gameState, time]);
+        return () => clearInterval(timer);
+    }, [hasStarted, gameState, time]);
 
     const nextMark = (mark: CellMark): CellMark => {
         if (mark === 'none') return 'flag';
@@ -81,6 +82,7 @@ const Game = ({isFullscreen, setIsFullscreen, isMinimized, setIsMinimized}:GameP
               if (!cell) return prev;
               currentBoard = generateMines(prev, level.mines, cell.row, cell.col);
               setMinesPlaced(true);
+              setHasStarted(true); 
           }
 
           const cell = currentBoard.flat().find(c => c.id === id);
@@ -96,6 +98,7 @@ const Game = ({isFullscreen, setIsFullscreen, isMinimized, setIsMinimized}:GameP
     setTime(0);
     setMines(level.mines);
     setMinesPlaced(false); 
+    setHasStarted(false); 
   };
 
   return (

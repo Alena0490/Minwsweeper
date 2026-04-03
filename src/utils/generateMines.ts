@@ -25,8 +25,6 @@ export const generateMines = (
   safeRow: number,
   safeCol: number
 ): CellData[][] => {
-  const rows = board.length;
-  const cols = board[0].length;
 
   // No mines
   const safeIds = new Set<string>();
