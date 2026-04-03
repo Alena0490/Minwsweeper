@@ -117,36 +117,6 @@
   /* border-color: #7F1D0E; */
 }
 
-.game-menu {
-  width: 100%;
-  height: 19px;
-  display: flex;
-  align-items: center;
-  background: var(--xp-surface);
-  color: #000;
-  border-bottom: 1px solid #ACA899;
-  font: 11px Tahoma, sans-serif;
-}
-
-.game-menu ul {
-  display: flex;
-  align-items: center;
-  gap: 0;
-  list-style: none;
-}
-
-.game-menu li {
-  padding: 0 8px;
-  height: 18px;
-  display: flex;
-  align-items: center;
-}
-
-.game-menu li:hover {
-  background: var(--xp-menu-hover);
-  color: var(--xp-menu-hover-text);
-}
-
 .game-icon {
   width: 16px;
   height: auto;

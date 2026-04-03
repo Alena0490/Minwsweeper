@@ -4,6 +4,7 @@ import type { CellData, CellMark, GameState } from "../data/game";
 import { beginnerConfig } from '../data/game';
 import GameIcon from '../img/minesweeperIcon.webp'
 import './Game.css'
+import GameMenu from './GameMenu';
 import OneGame from './OneGame';
 
 const createEmptyBoard = (rows: number, cols: number): CellData[][] => {
@@ -118,14 +119,7 @@ const Game = ({isFullscreen, setIsFullscreen, isMinimized, setIsMinimized}:GameP
           </button>
         </div>
       </div>
-      <menu 
-        className='game-menu'
-      >
-        <ul>
-          <li>Game</li>
-          <li>Help</li>
-        </ul>
-      </menu>
+      <GameMenu/>
       <OneGame
         board={board}
         time={time}

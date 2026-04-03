@@ -1,0 +1,124 @@
+.game-menu {
+  width: 100%;
+  height: 19px;
+  display: flex;
+  align-items: center;
+  background: var(--xp-surface);
+  color: #000;
+  border-bottom: 1px solid #ACA899;
+  font: 11px Tahoma, sans-serif;
+}
+
+.game-menu > ul {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  list-style: none;
+  margin: 0;
+  padding: 0 2px;
+}
+
+.game-menu > ul > li {
+  position: relative;
+  display: flex;
+  align-items: center;
+  height: 18px;
+  padding: 0 8px;
+  cursor: default;
+}
+
+.game-menu > ul > li:hover,
+.game-menu > ul > li:has(.submenu.open) {
+  background: var(--xp-menu-hover);
+  color: var(--xp-menu-hover-text);
+}
+
+.game-menu .submenu {
+  display: none;
+  position: absolute;
+  top: 19px;
+  left: 0;
+  z-index: 20;
+
+  margin: 0;
+  padding: 2px 0;
+  list-style: none;
+
+  background: var(--xp-surface);
+  color: #000;
+
+  border-top: 1px solid #ffffff;
+  border-left: 1px solid #ffffff;
+  border-right: 1px solid #404040;
+  border-bottom: 1px solid #404040;
+  box-shadow: 1px 1px 0 #808080;
+
+  width: max-content;
+}
+
+.game-menu .submenu.open {
+  display: block;
+}
+
+.game-menu .submenu.open {
+  display: block;
+}
+
+.game-menu .submenu li {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-width: 100%;
+  height: 22px;
+  padding: 0 24px 0 28px;
+  white-space: nowrap;
+  color: #000;
+  background: transparent;
+}
+
+.game-menu .submenu li:hover {
+  background: var(--xp-menu-hover);
+  color: var(--xp-menu-hover-text);
+}
+
+.game-menu .submenu li span {
+  margin-left: 24px;
+  color: inherit;
+}
+
+.game-menu .submenu li::before {
+  content: "";
+  position: absolute;
+  left: 10px;
+  width: 10px;
+  text-align: center;
+}
+
+.game-menu .submenu li.separator {
+  height: 2px;
+  margin: 3px 1px;
+  padding: 0;
+  background: transparent;
+  pointer-events: none;
+}
+
+.game-menu .submenu li.separator::before {
+  content: "";
+  position: static;
+}
+
+.game-menu .submenu li.separator {
+  border-top: 1px solid #ACA899;
+  border-bottom: 1px solid #FFFFFF;
+}
+
+.game-menu .submenu li.checked::before {
+  content: "✓";
+  left: 9px;
+  top: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+}
