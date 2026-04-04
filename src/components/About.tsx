@@ -8,8 +8,10 @@ const About = ({ onClose }: { onClose: () => void }) => {
             <button onClick={onClose}>✕</button>
         </header>
         <div className='main-text'>
-            <p></p>
-            <p>Copyright Alena Pumprová 2026</p>
+            <div className='info'>
+                <p>Version 1.0</p>
+                <p>Copyright Alena Pumprová 2026</p>
+            </div>
             <a 
                 href="https://alena-pumprova.cz/"
                 target='_blank'

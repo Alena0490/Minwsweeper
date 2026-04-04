@@ -2,7 +2,7 @@
 import { useState, useEffect } from 'react'
 import type { CellData, CellMark, GameState } from "../data/game";
 import { generateMines } from '../utils/GenerateMines';
-import { beginnerConfig } from '../data/game';
+import { beginnerConfig,intermediateConfig } from '../data/game';
 import { floodFill } from '../utils/floodFill';
 import GameIcon from '../img/minesweeperIcon.webp'
 import './Game.css'
@@ -105,8 +105,20 @@ const Game = ({isFullscreen, setIsFullscreen, isMinimized, setIsMinimized}:GameP
           const newBoard = floodFill(currentBoard, cell.row, cell.col);
 
           // Game Won
-          const allOpen = newBoard.flat().every(c => c.isMine || c.isOpen);
-          if (allOpen) setGameState('won');
+          const allOpen = newBoard.flat().every(cell => cell.isMine || cell.isOpen);
+            if (allOpen) {
+              setGameState('won');
+              
+              const saved = JSON.parse(localStorage.getItem('minesweeper-times') || '{}');
+              const key = level === beginnerConfig ? 'easy' 
+                : level === intermediateConfig ? 'intermediate' 
+                : 'expert';
+              
+              if (time < (saved[key] ?? 999)) {
+                const updated = { ...saved, [key]: time };
+                localStorage.setItem('minesweeper-times', JSON.stringify(updated));
+              }
+            }
 
           return newBoard;
       });

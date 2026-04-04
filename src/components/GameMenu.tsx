@@ -42,7 +42,10 @@ const GameMenu = () => {
             </li>
         </ul>
         {openModal === 'about' && <About onClose={() => setOpenModal(null)} />}
-        {openModal === 'times' && <BestTimes onClose={() => setOpenModal(null)} />}
+        {openModal === 'times' && 
+            <BestTimes 
+                onClose={() => setOpenModal(null)} 
+            />}
         {openModal === 'custom' && <Custom onClose={() => setOpenModal(null)} />}
     </menu>
   )
