@@ -1,11 +1,11 @@
 import './GameMiniModal.css'
 
-const Custom = () => {
+const Custom = ({ onClose }: { onClose: () => void }) => {
   return (
     <div id='custom' className='mini-modal'>
        <header>
             <h3>Custom</h3>
-            <button>✕</button>
+            <button onClick={onClose}>✕</button>
         </header>
         <div className='main-text'>
             <ul>
@@ -15,8 +15,8 @@ const Custom = () => {
             </ul>
             
             <div className="set-buttons">
-                <button type="button">Cancel</button>
-                <button type="button">OK</button>
+                <button type="button" onClick={onClose}>Cancel</button>
+                <button type="button" onClick={onClose}>OK</button>
             </div>
         </div>
     </div>

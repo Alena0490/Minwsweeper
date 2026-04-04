@@ -1,8 +1,12 @@
 import { useState } from 'react'
+import About from './About'
+import BestTimes from './BestTimes'
+import Custom from './Custom'
 import './GameMenu.css'
 
 const GameMenu = () => {
     const [openMenu, setOpenMenu] = useState<'game' | 'help' | null>(null)
+     const [openModal, setOpenModal] = useState<'about' | 'times' | 'custom' | null>(null)
   return (
     <menu 
         className='game-menu'
@@ -18,9 +22,9 @@ const GameMenu = () => {
                     <li>Beginner</li>
                     <li>Intermediate</li>
                     <li>Expert</li>
-                    <li>Custom</li>
+                    <li onClick={() => { setOpenModal('custom'); setOpenMenu(null) }}>Custom</li>
                     <li className="separator" aria-hidden="true"></li>
-                    <li>Best Times</li>
+                    <li onClick={() => { setOpenModal('times'); setOpenMenu(null) }}>Best Times</li>
                     <li className="separator" aria-hidden="true"></li>
                     <li>Exit</li>
                 </ul>
@@ -33,10 +37,13 @@ const GameMenu = () => {
                     <li>Search for Help On...</li>
                     <li>Using Help</li>
                     <li className="separator" aria-hidden="true"></li>
-                    <li>About Minesweeper...</li>
+                     <li onClick={() => { setOpenModal('about'); setOpenMenu(null) }}>About Minesweeper...</li>
                 </ul>
             </li>
         </ul>
+        {openModal === 'about' && <About onClose={() => setOpenModal(null)} />}
+        {openModal === 'times' && <BestTimes onClose={() => setOpenModal(null)} />}
+        {openModal === 'custom' && <Custom onClose={() => setOpenModal(null)} />}
     </menu>
   )
 }

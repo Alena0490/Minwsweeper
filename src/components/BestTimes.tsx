@@ -1,11 +1,11 @@
 import './GameMiniModal.css'
 
-const BestTimes = () => {
+const BestTimes =  ({ onClose }: { onClose: () => void })  => {
   return (
     <div id='times' className='mini-modal'>
         <header>
             <h3>Fastest</h3>
-            <button className='red'>✕</button>
+            <button className='red' onClick={onClose}>✕</button>
         </header>
         <div className='main-text'>
             <p>Fastest Mine Sweepers</p>
@@ -17,7 +17,7 @@ const BestTimes = () => {
             
             <div className="set-buttons">
                 <button type="button"><span className='underlie'>R</span>eset</button>
-                <button type="button">OK</button>
+                <button type="button" onClick={onClose}>OK</button>
             </div>
         </div>
     </div>

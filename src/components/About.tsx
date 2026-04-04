@@ -1,11 +1,11 @@
 import './GameMiniModal.css'
 
-const About = () => {
+const About = ({ onClose }: { onClose: () => void }) => {
   return (
     <div id='about' className='mini-modal'>
         <header>
             <h3>About</h3>
-            <button>✕</button>
+            <button onClick={onClose}>✕</button>
         </header>
         <div className='main-text'>
             <p></p>
@@ -15,7 +15,7 @@ const About = () => {
                 target='_blank'
                 rel='noopener noreferrer'
                 >About me</a>
-            <button type="button">OK</button>
+            <button type="button" onClick={onClose}>OK</button>
         </div>   
     </div>
   )
