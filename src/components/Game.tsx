@@ -41,6 +41,7 @@ const Game = ({isFullscreen, setIsFullscreen, isMinimized, setIsMinimized}:GameP
     const [mines, setMines] = useState(level.mines);  
     const [isPressed, setIsPressed] = useState(false);
     const [minesPlaced, setMinesPlaced] = useState(false);
+    const [deathId, setDeathId] = useState<string | null>(null);
 
     useEffect(() => {
       if (!hasStarted || gameState !== 'playing' || time >= 999) return;
@@ -92,6 +93,7 @@ const Game = ({isFullscreen, setIsFullscreen, isMinimized, setIsMinimized}:GameP
           // Game lost
           if (cell.isMine) {
             setGameState('lost');
+            setDeathId(cell.id); 
             return currentBoard.map(row =>
               row.map(c => ({
                 ...c,
@@ -117,6 +119,7 @@ const Game = ({isFullscreen, setIsFullscreen, isMinimized, setIsMinimized}:GameP
     setMines(level.mines);
     setMinesPlaced(false); 
     setHasStarted(false); 
+    setDeathId(null)
   };
 
   return (
@@ -171,6 +174,7 @@ const Game = ({isFullscreen, setIsFullscreen, isMinimized, setIsMinimized}:GameP
         setGameState={setGameState}
         isPressed={isPressed}
         setIsPressed={setIsPressed}
+        deathId={deathId}
        />
     </div>
   )

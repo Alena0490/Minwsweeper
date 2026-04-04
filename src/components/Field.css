@@ -49,3 +49,7 @@
 .n6 { color: var(--ms-6); }
 .n7 { color: var(--ms-7); }
 .n8 { color: var(--ms-8); }
+
+.cell--death {
+    background-color: var(--ms-display-text);
+}

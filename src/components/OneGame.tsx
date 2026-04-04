@@ -17,9 +17,10 @@ interface OneGameProps {
     setIsPressed: (pressed: boolean) => void;
     onFlag: (id: string) => void;
     onOpen: (id: string) => void;
+    deathId: string | null;
 }
 
-const OneGame = ({ board, time, mines, gameState, handleReset, setGameState, isPressed, setIsPressed, onFlag, onOpen }: OneGameProps) => {
+const OneGame = ({ board, time, mines, gameState, handleReset, setGameState, isPressed, setIsPressed, onFlag, onOpen, deathId }: OneGameProps) => {
     const getFace = () => {
         if (isPressed) return <img src={OhFace} alt="Oh" />;
         if (gameState === 'won') return <img src={WinFace} alt="Win" />;
@@ -67,6 +68,7 @@ const OneGame = ({ board, time, mines, gameState, handleReset, setGameState, isP
             setIsPressed={setIsPressed}
             gameState={gameState}
             setGameState={setGameState}
+            deathId={deathId}
         />
     </div>
   );
