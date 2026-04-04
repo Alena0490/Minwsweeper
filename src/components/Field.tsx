@@ -1,6 +1,8 @@
 import type { CellData } from "../data/game";
 import FlagIcon from '../img/flag.png'
 import QuestionIcon from '../img/question.png'
+import Mine from '../img/mine2.png'
+import Missflagged from '../img/misflagged.png'
 import './Field.css'
 
 interface FieldProps {
@@ -42,6 +44,10 @@ const Field = ({ board, gameState, onFlag, onOpen, isPressed, setIsPressed }: Fi
             >
             {cell.mark === 'flag' && <img src={FlagIcon} alt="flag" />}
             {cell.mark === 'question' && <img src={QuestionIcon} alt="question" />}
+            {cell.isOpen && cell.isMine && <img src={Mine} alt="mine" />}
+            {!cell.isOpen && cell.mark === 'flag' && gameState === 'lost' && !cell.isMine && (
+                <img src={Missflagged} alt="missflag" />
+            )}
             {cell.isOpen && cell.adjacentMines > 0 && (
                 <span className={`cell-number n${cell.adjacentMines}`}>
                     {cell.adjacentMines}

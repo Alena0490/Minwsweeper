@@ -74,28 +74,41 @@ const Game = ({isFullscreen, setIsFullscreen, isMinimized, setIsMinimized}:GameP
     };
 
     const handleOpen = (id: string) => {
+      if (gameState !== 'playing') return;
       setBoard(prev => {
-        let currentBoard = prev;
+          let currentBoard = prev;
 
-        if (!minesPlaced) {
-          const firstCell = prev.flat().find(c => c.id === id);
-          if (!firstCell) return prev;
-          currentBoard = generateMines(prev, level.mines, firstCell.row, firstCell.col);
-          setMinesPlaced(true);
-          setHasStarted(true);
-        }
+          if (!minesPlaced) {
+              const firstCell = prev.flat().find(c => c.id === id);
+              if (!firstCell) return prev;
+              currentBoard = generateMines(prev, level.mines, firstCell.row, firstCell.col);
+              setMinesPlaced(true);
+              setHasStarted(true);
+          }
 
-        const cell = currentBoard.flat().find(c => c.id === id);
-        if (!cell || cell.mark !== 'none') return currentBoard;
+          const cell = currentBoard.flat().find(c => c.id === id);
+          if (!cell || cell.mark !== 'none') return currentBoard;
 
-        const newBoard = floodFill(currentBoard, cell.row, cell.col);
+          // Game lost
+          if (cell.isMine) {
+            setGameState('lost');
+            return currentBoard.map(row =>
+              row.map(c => ({
+                ...c,
+                isOpen: c.isMine ? true : c.isOpen,
+              }))
+            );
+          }
 
-        const allOpen = newBoard.flat().every(cell => cell.isMine || cell.isOpen);
-        if (allOpen) setGameState('won');
+          const newBoard = floodFill(currentBoard, cell.row, cell.col);
 
-        return newBoard;
+          // Game Won
+          const allOpen = newBoard.flat().every(c => c.isMine || c.isOpen);
+          if (allOpen) setGameState('won');
+
+          return newBoard;
       });
-    };
+  };
 
   const handleReset = () => {
     setBoard(createEmptyBoard(level.rows, level.cols));
