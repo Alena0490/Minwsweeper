@@ -22,7 +22,7 @@
   position: relative;
   display: flex;
   align-items: center;
-  height: 18px;
+  height: 16px;
   padding: 0 8px;
   cursor: default;
 }
@@ -67,7 +67,7 @@
   position: relative;
   display: flex;
   align-items: center;
-  height: 22px;
+  height: 20px;
   padding-left: 22px;   
   padding-right: 16px; 
   white-space: nowrap;
@@ -76,6 +76,26 @@
 .game-menu .submenu li:hover {
   background: var(--xp-menu-hover);
   color: var(--xp-menu-hover-text);
+}
+
+.game-menu .submenu li.checked::before {
+  content: "✓";
+  position: absolute;
+  left: 8px;
+  top: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+  line-height: 1;
+}
+
+.game-menu .submenu li.separator {
+  padding-left: 0;
+}
+
+.game-menu .submenu li.separator::before {
+  content: none;
 }
 
 .game-menu .submenu li span {
@@ -99,11 +119,12 @@
   padding: 0;
   background: transparent;
   pointer-events: none;
+  border-top: 1px solid #ACA899;
+  border-bottom: 1px solid #FFFFFF;
 }
 
 .game-menu .submenu li.separator::before {
-  content: "";
-  position: static;
+  content: none;
 }
 
 .game-menu .submenu li.separator {
@@ -111,12 +132,3 @@
   border-bottom: 1px solid #FFFFFF;
 }
 
-.game-menu .submenu li.checked::before {
-  content: "✓";
-  left: 9px;
-  top: 0;
-  bottom: 0;
-  display: flex;
-  align-items: center;
-  font-size: 14px;
-}

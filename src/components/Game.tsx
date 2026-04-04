@@ -2,7 +2,7 @@
 import { useState, useEffect } from 'react'
 import type { CellData, CellMark, GameState } from "../data/game";
 import { generateMines } from '../utils/GenerateMines';
-import { beginnerConfig,intermediateConfig } from '../data/game';
+import { beginnerConfig,intermediateConfig, expertConfig } from '../data/game';
 import { floodFill } from '../utils/floodFill';
 import GameIcon from '../img/minesweeperIcon.webp'
 import './Game.css'
@@ -42,6 +42,7 @@ const Game = ({isFullscreen, setIsFullscreen, isMinimized, setIsMinimized}:GameP
     const [isPressed, setIsPressed] = useState(false);
     const [minesPlaced, setMinesPlaced] = useState(false);
     const [deathId, setDeathId] = useState<string | null>(null);
+    const [marksEnabled, setMarksEnabled] = useState(true);
 
     useEffect(() => {
       if (!hasStarted || gameState !== 'playing' || time >= 999) return;
@@ -55,7 +56,7 @@ const Game = ({isFullscreen, setIsFullscreen, isMinimized, setIsMinimized}:GameP
 
     const nextMark = (mark: CellMark): CellMark => {
         if (mark === 'none') return 'flag';
-        if (mark === 'flag') return 'question';
+        if (mark === 'flag') return marksEnabled ? 'question' : 'none';
         return 'none';
     };
 
@@ -174,7 +175,12 @@ const Game = ({isFullscreen, setIsFullscreen, isMinimized, setIsMinimized}:GameP
           </button>
         </div>
       </div>
-      <GameMenu/>
+      <GameMenu
+        onReset={handleReset}
+        onMarksChange={setMarksEnabled}
+        level={level}
+        setLevel={setLevel}
+      />
       <OneGame
         board={board}
         time={time}
