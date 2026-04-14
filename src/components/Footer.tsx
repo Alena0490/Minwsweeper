@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import MenuModal from './MenuModal';
 import './Footer.css'
 import windowsLogo from '../img/logo.webp'
@@ -17,6 +17,19 @@ const Footer = ({ handleFullscreen, isMinimized, setIsMinimized }: FooterProps) 
     const [time, setTime] = useState(new Date());
     const [isMenuOpen, setIsMenuOpen] = useState(false);
 
+    // Closing the start menu on outside click
+    const menuRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        const handleClickOutside = (e: MouseEvent) => {
+            if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
+                setIsMenuOpen(false);
+            }
+        };
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => document.removeEventListener('mousedown', handleClickOutside);
+    }, []);
+
     useEffect(() => {
         const timer = setInterval(() => setTime(new Date()), 1000);
         return () => clearInterval(timer); // cleanup on unmount
@@ -25,7 +38,9 @@ const Footer = ({ handleFullscreen, isMinimized, setIsMinimized }: FooterProps) 
     return (
         <footer>
         <div className="left-menu">
-            <div className="start" 
+            <div 
+                className="start"
+                ref={menuRef} 
                 onClick={() => setIsMenuOpen(prev => !prev)}
                 onDoubleClick={handleFullscreen}
             >
