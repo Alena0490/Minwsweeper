@@ -1,10 +1,10 @@
-import type { CellData } from "../data/game";
+import type { CellData } from "../../data/game";
 import './OneGame.css'
 import Field from './Field'
-import GameFace from '../img/smile.png'
-import WinFace from '../img/win.png'
-import LoseFace from '../img/dead.png'
-import OhFace from '../img/ohh.png'
+import GameFace from '../../img/smile.png'
+import WinFace from '../../img/win.png'
+import LoseFace from '../../img/dead.png'
+import OhFace from '../../img/ohh.png'
 
 interface OneGameProps {
     board: CellData[][];

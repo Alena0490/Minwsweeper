@@ -1,5 +1,5 @@
 import { useState } from "react"
-import Game from "./components/Game"
+import Game from "./components/minesweeper/Game"
 import Footer from "./components/Footer"
 import MyComputer from './img/MyComputer.webp'
 import IntertExplorer from './img/InternetExplorer6.webp'

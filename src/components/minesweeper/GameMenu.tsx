@@ -1,6 +1,6 @@
 import { useState } from 'react'
-import type { BoardConfig } from '../data/game'
-import { beginnerConfig, intermediateConfig, expertConfig } from '../data/game'
+import type { BoardConfig } from '../../data/game'
+import { beginnerConfig, intermediateConfig, expertConfig } from '../../data/game'
 import About from './About'
 import BestTimes from './BestTimes'
 import Custom from './Custom'

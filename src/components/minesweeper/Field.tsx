@@ -1,9 +1,9 @@
-import type { CellData } from "../data/game";
-import FlagIcon from '../img/flag.png'
-import QuestionIcon from '../img/questionGame.png'
-import Mine from '../img/mine2.png'
-import Missflagged from '../img/misflagged.png'
-import MineDeath from '../img/mine-death.png'
+import type { CellData } from "../../data/game";
+import FlagIcon from '../../img/flag.png'
+import QuestionIcon from '../../img/questionGame.png'
+import Mine from '../../img/mine2.png'
+import Missflagged from '../../img/misflagged.png'
+import MineDeath from '../../img/mine-death.png'
 import './Field.css'
 
 interface FieldProps {
