@@ -11,9 +11,10 @@ interface FooterProps {
     handleFullscreen : () => void;
     isMinimized: boolean;
     setIsMinimized: (value: boolean | ((prev: boolean) => boolean)) => void;
+    onIEOpen: () => void;
 }
 
-const Footer = ({ handleFullscreen, isMinimized, setIsMinimized }: FooterProps) => {
+const Footer = ({ handleFullscreen, isMinimized, setIsMinimized, onIEOpen }: FooterProps) => {
     const [time, setTime] = useState(new Date());
     const [isMenuOpen, setIsMenuOpen] = useState(false);
 
@@ -44,7 +45,10 @@ const Footer = ({ handleFullscreen, isMinimized, setIsMinimized }: FooterProps) 
                 onClick={() => setIsMenuOpen(prev => !prev)}
                 onDoubleClick={handleFullscreen}
             >
-                <MenuModal className={`start-menu ${isMenuOpen ? 'open' : ''}`} />
+                <MenuModal 
+                    className={`start-menu ${isMenuOpen ? 'open' : ''}`} 
+                    onIEOpen={onIEOpen}
+                />
                 <img src={windowsLogo} alt='Windows XP Logo' />
                 <span>Start</span>
             </div>

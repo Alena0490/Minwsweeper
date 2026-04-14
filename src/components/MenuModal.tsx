@@ -20,12 +20,13 @@ import './MenuModal.css'
 
 interface ModalProps {
   className?: string;
+  onIEOpen: () => void;
 }
 
-const MenuModal = (props: ModalProps) => {
+const MenuModal = ({ className, onIEOpen }: ModalProps) => {
   return (
     <div 
-        className={props.className}
+        className={className}
         onClick={(e) => e.stopPropagation()}
     >
       <div className='user'>
@@ -34,19 +35,15 @@ const MenuModal = (props: ModalProps) => {
       </div>
         <div className='menu'>
             <div className="menu-left">
-                <div className="menu-item menu-item-detailed">
-                    <a 
-                        href="https://alena-pumprova.cz/" 
-                        className='menu-item-link'
-                        target="_blank"
-                        rel="noopener noreferrer"
-                    >
+                <div 
+                    className="menu-item menu-item-detailed"
+                    onClick={onIEOpen}
+                >
                         <img src={Internet} alt="Internet Icon" />
                         <span>
                             Internet
                             <small>Internet Explorer</small>
                         </span>
-                    </a>
                 </div>
 
                 <div className="menu-item menu-item-detailed">
