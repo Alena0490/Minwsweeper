@@ -4,11 +4,17 @@ import winSound from '../sounds/win.mp3'
 import loseSound from '../sounds/lose.mp3'
 
 const useSound = () => {
-    const [tick] = useState(new Audio(tickSound));
+    const [enabled, setEnabled] = useState(true);
+    const [tick] = useState(() => {
+        const audio = new Audio(tickSound);
+        audio.preload = 'auto';
+        return audio;
+    });
     const [win] = useState(new Audio(winSound));
     const [lose] = useState(new Audio(loseSound));
 
     const playSound = (sound: HTMLAudioElement) => {
+        if (!enabled) return;
         sound.currentTime = 0;
         sound.play();
     }
@@ -16,7 +22,9 @@ const useSound = () => {
     return { 
         playTick: () => playSound(tick), 
         playWin: () => playSound(win), 
-        playLose: () => playSound(lose) 
+        playLose: () => playSound(lose),
+        enabled,
+        toggleSound: () => setEnabled(prev => !prev),
     };
 }
 

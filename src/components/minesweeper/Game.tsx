@@ -2,8 +2,9 @@
 import { useState, useEffect } from 'react'
 import type { CellData, CellMark, GameState } from "../../data/game";
 import { generateMines } from '../../utils/generateMines';
-import { beginnerConfig,intermediateConfig, expertConfig } from '../../data/game';
+import { beginnerConfig, intermediateConfig, expertConfig } from '../../data/game';
 import { floodFill } from '../../utils/floodFill';
+import useSound from '../../hooks/useSound';
 import GameIcon from '../../img/minesweeperIcon.webp'
 import './Game.css'
 import GameMenu from './GameMenu';
@@ -54,13 +55,17 @@ const Game = ({isFullscreen, setIsFullscreen, isMinimized, setIsMinimized}:GameP
         return () => clearInterval(timer);
     }, [hasStarted, gameState, time]);
 
+
+    // Game sounds
+    const { playTick, playWin, playLose } = useSound();
+
+    //Flagging mines
     const nextMark = (mark: CellMark): CellMark => {
         if (mark === 'none') return 'flag';
         if (mark === 'flag') return marksEnabled ? 'question' : 'none';
         return 'none';
     };
 
-    // Game.tsx
     const handleFlag = (id: string) => {
         const cell = board.flat().find(c => c.id === id);
         if (!cell || cell.isOpen) return;
@@ -90,11 +95,13 @@ const Game = ({isFullscreen, setIsFullscreen, isMinimized, setIsMinimized}:GameP
 
           const cell = currentBoard.flat().find(c => c.id === id);
           if (!cell || cell.mark !== 'none') return currentBoard;
+          playTick();
 
           // Game lost
           if (cell.isMine) {
             setGameState('lost');
             setDeathId(cell.id); 
+            playLose();
             return currentBoard.map(row =>
               row.map(c => ({
                 ...c,
@@ -109,7 +116,9 @@ const Game = ({isFullscreen, setIsFullscreen, isMinimized, setIsMinimized}:GameP
           const allOpen = newBoard.flat().every(cell => cell.isMine || cell.isOpen);
             if (allOpen) {
               setGameState('won');
-              
+              playWin();
+
+              // Save best time              
               const saved = JSON.parse(localStorage.getItem('minesweeper-times') || '{}');
               const key = level === beginnerConfig ? 'easy' 
                 : level === intermediateConfig ? 'intermediate' 
@@ -180,6 +189,7 @@ const Game = ({isFullscreen, setIsFullscreen, isMinimized, setIsMinimized}:GameP
         onMarksChange={setMarksEnabled}
         level={level}
         setLevel={setLevel}
+        setIsMinimized={setIsMinimized}
       />
       <OneGame
         board={board}

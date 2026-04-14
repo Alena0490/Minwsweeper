@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect, useRef  } from 'react'
 import type { BoardConfig } from '../../data/game'
 import { beginnerConfig, intermediateConfig, expertConfig } from '../../data/game'
 import About from './About'
@@ -11,12 +11,26 @@ interface GameMenuProps {
     onMarksChange: (value: boolean) => void
     level: BoardConfig
     setLevel: (level: BoardConfig) => void
+    setIsMinimized: (value: boolean | ((prev: boolean) => boolean)) => void;
 }
 
-const GameMenu = ({ onReset, onMarksChange, level, setLevel }: GameMenuProps) => {
+const GameMenu = ({ onReset, onMarksChange, level, setLevel, setIsMinimized }: GameMenuProps) => {
     const [openMenu, setOpenMenu] = useState<'game' | 'help' | null>(null)
      const [openModal, setOpenModal] = useState<'about' | 'times' | 'custom' | null>(null)
      const [marks, setMarks] = useState(true)
+
+    const menuRef = useRef<HTMLElement>(null);
+
+    // Close menus on outside click
+    useEffect(() => {
+        const handleClickOutside = (e: MouseEvent) => {
+            if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
+                setOpenMenu(null);
+            }
+        };
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => document.removeEventListener('mousedown', handleClickOutside);
+    }, []);
 
     const toggleMarks = () => {
         setMarks(prev => {
@@ -28,6 +42,7 @@ const GameMenu = ({ onReset, onMarksChange, level, setLevel }: GameMenuProps) =>
   return (
     <menu 
         className='game-menu'
+        ref={menuRef}
       >
         <ul>
             <li 
@@ -76,7 +91,7 @@ const GameMenu = ({ onReset, onMarksChange, level, setLevel }: GameMenuProps) =>
                     <li className="separator" aria-hidden="true"></li>
                     <li onClick={() => { setOpenModal('times'); setOpenMenu(null) }}>Best Times</li>
                     <li className="separator" aria-hidden="true"></li>
-                    <li>Exit</li>
+                    <li onClick={() => { setIsMinimized(true); setOpenMenu(null); }}>Exit</li>
                 </ul>
             </li>
             
@@ -87,7 +102,7 @@ const GameMenu = ({ onReset, onMarksChange, level, setLevel }: GameMenuProps) =>
                     <li>Search for Help On...</li>
                     <li>Using Help</li>
                     <li className="separator" aria-hidden="true"></li>
-                     <li onClick={() => { setOpenModal('about'); setOpenMenu(null) }}>About Minesweeper...</li>
+                    <li onClick={() => { setOpenModal('about'); setOpenMenu(null) }}>About Minesweeper...</li>
                 </ul>
             </li>
         </ul>
