@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import Logo from '../img/logo2.webp'
 import InternetIcon from '../img/InternetShortcut.webp'
 import URL from '../img/URL.webp'
 import Back from '../img/Back.webp'
@@ -60,13 +61,16 @@ const IEWindow = ({ onClose }: { onClose: () => void }) => {
             <div className="ie-toolbars">
                 <div className='ie-menu'>
                     <ul>
-                        <li>File</li>
-                        <li>Edit</li>
-                        <li>View</li>
-                        <li>Favourites</li>
-                        <li>Tools</li>
-                        <li>Help</li>
+                        <li><span className="mnemonic">F</span>ile</li>
+                        <li><span className="mnemonic">E</span>dit</li>
+                        <li><span className="mnemonic">V</span>iew</li>
+                        <li>F<span className="mnemonic">a</span>vourites</li>
+                        <li><span className="mnemonic">T</span>ools</li>
+                        <li><span className="mnemonic">H</span>elp</li>
                     </ul>
+                    <div className='windows-corner-panel'>
+                        <img className='windows-corner-icon' src={Logo} alt="Internet Explorer Logo" />
+                    </div>
                 </div>
                 <div className='ie-toolbar'>
                     <div className="ie-toolbar-top">
@@ -115,7 +119,7 @@ const IEWindow = ({ onClose }: { onClose: () => void }) => {
                     </div>
                     <div className="ie-toolbar-bottom">
                         <div className="left">
-                            <span>Address</span>
+                            <span>A<span className="mnemonic">d</span>dress</span>
                             <div className="input-wrapper">
                                 <img className='toolbar-img-small absolute' src={URL} alt="URL Icon" />
                                 <input 
@@ -137,12 +141,16 @@ const IEWindow = ({ onClose }: { onClose: () => void }) => {
                     </div>
                 </div>
             </div>
-            <iframe 
-                src="https://alena-pumprova.cz/"
-                width="100%"
-                height="100%"
-                title="Internet Explorer"
-            />
+            <div className="page-window-outer">
+                 <div className="page-window-wrap">
+                    <iframe
+                        className="page-window"
+                        src="https://alena-pumprova.cz/"
+                        title="Internet Explorer"
+                        scrolling="no"
+                    />
+                </div>    
+            </div>       
             <div className='ie-statusbar'>
                 <img src={URL} alt="URL Icon" />
                 <span className='status-text'>

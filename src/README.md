@@ -10,7 +10,7 @@ Digital Numbers is a fixed width (web)font in a cool liquid-crystal display (LCD
 * https://s-a.github.io/digital-numbers-font/  
 * https://s-a.github.io/digital-numbers-font/demo/demo.html  
 
-## Build 
+## Build
 
  1. Install [FontForge](http://fontforge.org) and be shure `fontforge` command is available in your path environment.
  - `cd build;`
@@ -25,5 +25,6 @@ Copyright (c) 2015, Stephan Ahlf (https://github.com/s-a/digital-numbers-font st
 This Font Software is licensed under the SIL Open Font License, Version 1.1.
 
 ## Credits
+
  - Font files created with [FontForge](http://fontforge.org)
  - Thanks to [davelab6](https://github.com/davelab6 "Dave Crossland") for help
