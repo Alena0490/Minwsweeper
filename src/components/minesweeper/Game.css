@@ -1,4 +1,5 @@
 .game-container {
+  position: absolute;
     display: flex;
     flex-direction: column;
     width: max-content;

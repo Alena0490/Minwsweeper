@@ -4,6 +4,7 @@ import type { CellData, CellMark, GameState } from "../../data/game";
 import { generateMines } from '../../utils/generateMines';
 import { beginnerConfig, intermediateConfig, expertConfig } from '../../data/game';
 import { floodFill } from '../../utils/floodFill';
+import useDraggable from '../../hooks/useDraggable'
 import useSound from '../../hooks/useSound';
 import GameIcon from '../../img/minesweeperIcon.webp'
 import './Game.css'
@@ -44,6 +45,8 @@ const Game = ({isFullscreen, setIsFullscreen, isMinimized, setIsMinimized}:GameP
     const [minesPlaced, setMinesPlaced] = useState(false);
     const [deathId, setDeathId] = useState<string | null>(null);
     const [marksEnabled, setMarksEnabled] = useState(true);
+
+    const { position, handleMouseDown } = useDraggable(400, 150);
 
     useEffect(() => {
       if (!hasStarted || gameState !== 'playing' || time >= 999) return;
@@ -147,12 +150,16 @@ const Game = ({isFullscreen, setIsFullscreen, isMinimized, setIsMinimized}:GameP
   return (
     <div 
       className={[
-        'game-container',
-        isMinimized && 'game--minimized',
-        isFullscreen && 'game--fullscreen',
+          'game-container',
+          isMinimized && 'game--minimized',
+          isFullscreen && 'game--fullscreen',
       ].filter(Boolean).join(' ')}
+      style={{ left: position.x, top: position.y }}
     >
-      <div className='title-bar'>
+      <div 
+        className='title-bar'
+        onMouseDown={handleMouseDown}
+      >
         <span className='title-bar-text'><img className='game-icon' src={GameIcon} alt="Minesweeper Icon" />Minesweeper</span>
         <div className='title-bar-buttons'>
           <button

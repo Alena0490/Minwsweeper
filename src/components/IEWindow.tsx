@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import useDraggable from '../hooks/useDraggable'
 import Logo from '../img/logo2.webp'
 import InternetIcon from '../img/InternetShortcut.webp'
 import URL from '../img/URL.webp'
@@ -17,13 +18,22 @@ import Discuss from '../img/IEDiscuss.webp'
 import Go from '../img/Go.webp'
 import './IEWindow.css'
 
-const IEWindow = ({ onClose }: { onClose: () => void }) => {
-    const [isMinimized, setIsMinimized] = useState(false)
-    const [isFullscreen, setIsFullscreen] = useState(false)
+interface IEWindowProps {
+    onClose: () => void;
+}
+
+const IEWindow = ({ onClose }: IEWindowProps) => {
+    const [isMinimized, setIsMinimized] = useState(false);
+    const [isFullscreen, setIsFullscreen] = useState(false);
+
+    const { position, handleMouseDown } = useDraggable(200, 100);
 
     return (
-        <div className={`ie-window ${isMinimized ? 'minimized' : ''} ${isFullscreen ? 'fullscreen' : ''}`}>
-            <div className='title-bar'>
+        <div 
+            className={`ie-window ${isMinimized ? 'ie-window--minimized' : ''} ${isFullscreen ? 'ie-window--fullscreen' : ''}`}
+            style={{ left: position.x, top: position.y }}
+        >
+            <div className='title-bar' onMouseDown={handleMouseDown}>
                 <div className="title">
                     <img  className="browser-icon" src={URL} alt="Internet Link Icon" />
                     <span className='title-bar-text'>Alena Pumprová – Microsoft Internet Explorer</span>
