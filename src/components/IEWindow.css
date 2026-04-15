@@ -24,6 +24,7 @@
         opacity 0.18s ease,
         transform 0.18s ease,
         visibility 0s linear 0s;
+            transform-origin: bottom left;
     z-index: 10;
 }
 

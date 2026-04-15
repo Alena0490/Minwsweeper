@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import useDraggable from '../hooks/useDraggable'
 import Logo from '../img/logo2.webp'
 import InternetIcon from '../img/InternetShortcut.webp'
@@ -20,18 +19,20 @@ import './IEWindow.css'
 
 interface IEWindowProps {
     onClose: () => void;
+    isMinimized: boolean;
+    setIsMinimized: (value: boolean | ((prev: boolean) => boolean)) => void;
+    isFullscreen: boolean;
+    toggleFullscreen: () => void;
 }
 
-const IEWindow = ({ onClose }: IEWindowProps) => {
-    const [isMinimized, setIsMinimized] = useState(false);
-    const [isFullscreen, setIsFullscreen] = useState(false);
+const IEWindow = ({ onClose, isMinimized, setIsMinimized, isFullscreen, toggleFullscreen }: IEWindowProps) => {
 
     const { position, handleMouseDown } = useDraggable(200, 100);
 
     return (
         <div 
             className={`ie-window ${isMinimized ? 'ie-window--minimized' : ''} ${isFullscreen ? 'ie-window--fullscreen' : ''}`}
-            style={{ left: position.x, top: position.y }}
+            style={isFullscreen ? {} : { left: position.x, top: position.y }}
         >
             <div className='title-bar' onMouseDown={handleMouseDown}>
                 <div className="title">
@@ -48,10 +49,7 @@ const IEWindow = ({ onClose }: IEWindowProps) => {
                     </button>
                     <button
                         className='btn-maximize'
-                        onClick={() => {
-                        setIsMinimized(false);
-                        setIsFullscreen(prev => !prev);
-                        }}
+                        onClick={toggleFullscreen}
                         type="button"
                         aria-label={isFullscreen ? 'Restore' : 'Maximize'}
                     >
@@ -60,7 +58,7 @@ const IEWindow = ({ onClose }: IEWindowProps) => {
 
                     <button
                         className='btn-close'
-                        onClick={() => setIsMinimized(true)}
+                        onClick={onClose}
                         type="button"
                         aria-label="Close"
                     >

@@ -154,7 +154,7 @@ const Game = ({isFullscreen, setIsFullscreen, isMinimized, setIsMinimized}:GameP
           isMinimized && 'game--minimized',
           isFullscreen && 'game--fullscreen',
       ].filter(Boolean).join(' ')}
-      style={{ left: position.x, top: position.y }}
+      style={isFullscreen ? {} : { left: position.x, top: position.y }}
     >
       <div 
         className='title-bar'
