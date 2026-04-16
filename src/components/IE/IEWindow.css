@@ -1,3 +1,7 @@
+* {
+    font-size: 14px;
+}
+
 .ie-window {
     position: absolute;
     width: 750px;
@@ -69,7 +73,6 @@
 }
 
 .title-bar-text {
-    font: 700 11px Tahoma, sans-serif;
     color: #fff;
     white-space: nowrap;
     overflow: hidden;
@@ -101,12 +104,12 @@
     padding: 0;
     display: grid;
     place-items: center;
-    font: 700 11px Tahoma, sans-serif;
     line-height: 1;
     border-top: 1px solid var(--xp-line-light);
     border-left: 1px solid var(--xp-line-light);
     border-right: 1px solid var(--xp-line-dark);
     border-bottom: 1px solid var(--xp-line-dark);
+    cursor: default;
 }
 
 .title-bar-buttons button:active {
@@ -179,10 +182,9 @@
     gap: 0;
     list-style: none;
 }
-
+/* 
 .ie-menu li {
     padding: 1px 7px 2px;
-    font: 11px Tahoma, sans-serif;
     color: var(--text);
     cursor: default;
 }
@@ -190,7 +192,7 @@
 .ie-menu li:hover {
     border: 1px solid var(--xp-menu-hover);
     padding: 0 6px 1px;
-}
+} */
 
 .mnemonic {
     text-decoration: underline;
@@ -225,13 +227,12 @@ button.disabled {
     display: flex;
     align-items: center;
     gap: 4px;
-    padding: 2px 6px;
+    padding: 2px 3px;
     min-height: 22px;
-    font: 11px Tahoma, sans-serif;
     line-height: 1.1;
     border: 1px solid transparent;
     background: none;
-    cursor: pointer;
+    cursor: default;
 }
 
 .toolbar-btn:hover {
@@ -298,7 +299,6 @@ button.disabled {
 
 .left span {
     color: var(--xp-disabled);
-    font: 11px Tahoma, sans-serif;
 }
 
 .input-wrapper {
@@ -319,7 +319,6 @@ button.disabled {
     width: 100%;
     height: 22px;
     padding: 2px 8px 2px 28px;
-    font: 11px Tahoma, sans-serif;
     color: #000;
     background: #fff;
     border-radius: 0;
@@ -331,6 +330,7 @@ button.disabled {
     outline: none;
 }
 
+/*** PAGE WINDOW */
 .page-window-outer {
     position: relative;
     z-index: 10; 
@@ -355,6 +355,7 @@ button.disabled {
     overflow-y: auto;
     overflow-x: hidden;
     border: none;
+    background-color: var(--xp-surface);
     box-shadow:
         1px 0 0 var(--xp-line-dark),
         0 1px 0 var(--xp-line-dark),
@@ -368,7 +369,6 @@ button.disabled {
         0 4px 3px color-mix(in srgb, var(--xp-line-deep) 70%, var(--xp-surface) 30%),
         2px 4px 3px color-mix(in srgb, var(--xp-line-deep) 55%, var(--xp-surface) 45%);
 }
-
 
 .page-window-outer::before {
     content: '▲';
@@ -404,6 +404,7 @@ button.disabled {
 
 .page-window-wrap::-webkit-scrollbar {
     width: 16px;
+    z-index: 10;
 }
 
 .page-window-wrap::-webkit-scrollbar-track {
@@ -443,6 +444,174 @@ button.disabled {
     z-index: 300;
 }
 
+/*** ERROR PAGE */
+/* Hide arrows */
+.page-window-outer:has(.ie-error)::before,
+.page-window-outer:has(.ie-error)::after {
+    display: none;
+}
+
+.ie-error {
+    width: 100%;
+    min-height: 100%;
+    box-sizing: border-box;
+    padding: 1.5rem 1.75rem 1.25rem 2.35rem;
+    background: var(--xp-line-light);
+    color: var(--text);
+    border-top-color: var(--xp-line-mid);
+}
+
+.ie-error-header {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    margin-block: 0 0.55rem;
+}
+
+.error-icon {
+    width: 2.25rem;
+    height: 2.25rem;
+    flex: 0 0 auto;
+    transform: scaleX(-1);
+    filter: contrast(1.2);
+}
+
+.ie-error-header h2 {
+    margin: -4px 0 0;
+    padding-top: 0.1rem;
+    font-weight: 400;
+    font-size: 1rem;
+    line-height: 1.15;
+    color: var(--xp-menu-hover);
+}
+
+.ie-error hr {
+    margin: -0.55rem 0 0.9rem calc(2.15rem + 0.7rem);
+    border: 0;
+    border-top: 1px solid var(--xp-line-mid);
+}
+
+.ie-error button,
+.ie-error summary,
+.ie-error > p,
+.ie-error-header h2 {
+    letter-spacing: 0;
+}
+
+.ie-error > p,
+.ie-error ol {
+    margin: 0 0 0.55rem 2.95rem;
+    color: var(--xp-disabled);
+    font-weight: 400;
+}
+
+.ie-error ol li {
+    margin-top: 0.9rem;
+}
+
+.ie-error button {
+    margin: 0 0 0.95rem 2.95rem;
+    padding: 1px 8px 2px;
+    min-height: 1.45rem;
+
+    color: var(--text);
+    background: linear-gradient(var(--xp-surface-2), var(--xp-line-mid));
+
+    border-top: 1px solid var(--xp-line-mid); 
+    border-left: 1px solid var(--xp-line-mid);
+    border-bottom: 1px solid var(--xp-line-deep);
+
+    box-shadow:
+        inset 1px 1px 0 var(--xp-line-mid),
+        inset -1px -1px 0 var(--xp-line-dark);
+
+    text-decoration: none;
+    outline: none;
+    cursor: default;
+}
+
+.ie-error button:active {
+    box-shadow:
+        inset 1px 1px 0 var(--xp-line-dark),
+        inset -1px -1px 0 var(--xp-line-mid);
+}
+
+.ie-error details {
+    margin-left: 2.95rem;
+    max-width: 36rem;
+}
+
+.ie-error summary {
+    position: relative;
+    list-style: none;
+    display: inline-flex;
+    align-items: center;
+    min-height: 0;
+    padding-left: 1.1rem;
+    color: color-mix(in srgb, var(--xp-menu-hover) 75%, var(--text) 25%);
+    cursor: default;
+}
+
+.ie-error summary::-webkit-details-marker {
+    display: none;
+}
+
+.ie-error summary::before {
+    content: "";
+    position: absolute;
+    left: -0.04rem;
+    top: 0.09rem;
+    width: 0.72rem;
+    height: 0.72rem;
+    border-radius: 50%;
+    box-sizing: border-box;
+    border: 1px solid var(--xp-line-mid);
+    background:
+        linear-gradient(
+            to bottom,
+            var(--xp-line-light),
+            var(--xp-highlight-top)
+        );
+    box-shadow:
+        inset 0 1px 0 var(--xp-highlight-soft),
+        inset 0 -1px 0 var(--xp-line-mid);
+}
+
+.ie-error-arrow {
+    position: absolute;
+    left: 0.08rem;
+    top: 0.35rem;
+    width: 0;
+    height: 0;
+    border-left: 0.28rem solid transparent;
+    border-right: 0.22rem solid transparent;
+    border-top: 0.28rem solid var(--text);
+    border-bottom: 0;
+    pointer-events: none;
+}
+
+.ie-error details[open] .ie-error-arrow {
+    top: 0.35rem;
+    border-top: 0;
+    border-bottom: 0.22rem solid var(--text);
+}
+
+.ie-error details p,
+.ie-error details {
+    margin-top: 0.9rem;
+    color: var(--text-muted);
+    font-size: 11px;
+}
+
+.ie-error details ul {
+    padding-left: 1.6rem;
+}
+
+.ie-error details strong {
+    color: var(--xp-disabled);
+}
+
+/**** BOTTOM STATUS BAR */
 .ie-statusbar {
     display: flex;
     align-items: center;

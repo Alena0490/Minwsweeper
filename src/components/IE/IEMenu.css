@@ -1,0 +1,124 @@
+/* ROOT */
+.ie-menubar {
+    position: relative;
+    display: flex;
+}
+
+/* TOP LEVEL LIST */
+.ie-menu-list {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+/* TOP ITEM */
+.ie-menu-item {
+    position: relative;
+    border: 1px solid transparent;
+}
+
+.ie-menu-item:hover,
+.ie-menu-item.is-open {
+    border-top: 1px solid var(--xp-line-light);
+    border-left: 1px solid var(--xp-line-light);
+    border-right: 1px solid var(--xp-line-dark);
+    border-bottom: 1px solid var(--xp-line-dark);
+}
+
+/* BUTTON (File, Edit...) */
+.ie-menu-trigger {
+    padding: 2px 8px;
+    background: transparent;
+    border: none;
+    cursor: default;
+    color: var(--text);
+}
+
+.ie-menu-trigger:hover,
+.ie-menu-item.is-open .ie-menu-trigger {
+    border: none;
+}
+
+/* SUBMENU */
+.ie-submenu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    z-index: 1000;
+
+    display: flex;
+    flex-direction: column;
+    min-width: 11.5rem;
+
+    margin: 0;
+    padding: 2px 0;
+    list-style: none;
+
+    background: var(--xp-surface);
+
+    border-top: 1px solid var(--xp-line-light);
+    border-left: 1px solid var(--xp-line-light);
+    border-right: 1px solid var(--xp-line-dark);
+    border-bottom: 1px solid var(--xp-line-dark);
+
+    box-shadow: 1px 1px 0 var(--xp-line-dark);
+}
+
+.ie-submenu > li:not(.separator) {
+    display: block;
+    position: relative;
+
+    min-height: 1.125rem;
+    padding: 1px 1.5rem 1px 1.75rem;
+    border: 1px solid transparent;
+
+    white-space: nowrap;
+    text-align: left;
+    cursor: default;
+}
+
+/* SUBMENU ITEM */
+.ie-submenu-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    width: 100%;
+    padding: 2px 10px;
+    min-height: 1.35rem;
+
+    white-space: nowrap;
+    color: var(--text);
+}
+
+/* HOVER */
+.ie-submenu-item:hover {
+    background: var(--xp-menu-hover);
+    color: var(--xp-menu-hover-text);
+}
+
+/* DISABLED */
+.ie-submenu-item.disabled {
+    color: var(--xp-disabled);
+}
+
+/* SEPARATOR */
+.separator {
+    height: 1px;
+    margin: 4px 2px;
+    background: var(--xp-line-mid);
+}
+
+/* SHORTCUT (Ctrl+O) */
+.ie-submenu-shortcut {
+    margin-left: 1.5rem;
+}
+
+/* ARROW ▶ */
+.ie-submenu-arrow {
+    display: inline-block;
+    margin-left: 1rem;
+    color: var(--text-soft);
+    transform: scaleY(1.7);
+}

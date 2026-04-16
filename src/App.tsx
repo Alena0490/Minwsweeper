@@ -1,7 +1,7 @@
 import { useState } from "react"
 import useWindowState from './hooks/useWindowState';
 import Game from "./components/minesweeper/Game"
-import IEWindow from "./components/IEWindow"
+import IEWindow from "./components/IE/IEWindow"
 import Footer from "./components/Footer"
 import MyComputer from './img/MyComputer.webp'
 import IntertExplorer from './img/InternetExplorer6.webp'
