@@ -14,6 +14,7 @@ interface FieldProps {
     isPressed: boolean;
     setIsPressed: (pressed: boolean) => void;
     deathId: string | null;
+    setGameState: (state: 'playing' | 'won' | 'lost') => void;
 }
 
 const Field = ({ board, gameState, onFlag, onOpen, isPressed, setIsPressed, deathId }: FieldProps) => {

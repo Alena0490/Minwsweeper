@@ -1,8 +1,13 @@
 import './GameMiniModal.css'
 
-const About = ({ onClose }: { onClose: () => void }) => {
+interface AboutProps {
+    onClose: () => void;
+    style?: React.CSSProperties;
+}
+
+const About = ({ onClose, style }: AboutProps) => {
   return (
-    <div id='about' className='mini-modal'>
+    <div id='about' className='mini-modal' style={style}>
         <header>
             <h3>About</h3>
             <button onClick={onClose}>✕</button>

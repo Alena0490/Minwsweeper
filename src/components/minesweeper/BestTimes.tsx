@@ -1,8 +1,13 @@
 import { useState } from 'react';
 import './GameMiniModal.css'
 
+interface BestTimesProps {
+    onClose: () => void;
+    style?: React.CSSProperties;
+}
 
-const BestTimes =  ({ onClose }: { onClose: () => void })  => {
+
+const BestTimes =  ({ onClose, style}:BestTimesProps)  => {
     const defaultTimes = { easy: 999, intermediate: 999, expert: 999 };
 
     const loadTimes = () => {
@@ -18,7 +23,7 @@ const BestTimes =  ({ onClose }: { onClose: () => void })  => {
     };
 
   return (
-    <div id='times' className='mini-modal'>
+    <div id='times' className='mini-modal' style={style}>
         <header>
             <h3>Fastest</h3>
             <button className='red' onClick={onClose}>✕</button>

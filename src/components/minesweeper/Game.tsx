@@ -203,6 +203,7 @@ const Game = ({isFullscreen, setIsFullscreen, isMinimized, setIsMinimized}:GameP
         level={level}
         setLevel={setLevel}
         setIsMinimized={setIsMinimized}
+        windowPosition={position}
       />
       <OneGame
         board={board}

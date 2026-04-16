@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef  } from 'react'
+import { createPortal } from 'react-dom'
 import type { BoardConfig } from '../../data/game'
 import { beginnerConfig, intermediateConfig, expertConfig } from '../../data/game'
 import About from './About'
@@ -12,9 +13,10 @@ interface GameMenuProps {
     level: BoardConfig
     setLevel: (level: BoardConfig) => void
     setIsMinimized: (value: boolean | ((prev: boolean) => boolean)) => void;
+    windowPosition: { x: number, y: number };
 }
 
-const GameMenu = ({ onReset, onMarksChange, level, setLevel, setIsMinimized }: GameMenuProps) => {
+const GameMenu = ({ onReset, onMarksChange, level, setLevel, setIsMinimized,windowPosition }: GameMenuProps) => {
     const [openMenu, setOpenMenu] = useState<'game' | 'help' | null>(null)
      const [openModal, setOpenModal] = useState<'about' | 'times' | 'custom' | null>(null)
      const [marks, setMarks] = useState(true)
@@ -106,12 +108,39 @@ const GameMenu = ({ onReset, onMarksChange, level, setLevel, setIsMinimized }: G
                 </ul>
             </li>
         </ul>
-        {openModal === 'about' && <About onClose={() => setOpenModal(null)} />}
-        {openModal === 'times' && 
+        {openModal === 'about' && createPortal(
+            <About 
+                onClose={() => setOpenModal(null)} 
+                style={{ 
+                    position: 'fixed',
+                    top: windowPosition.y + 145,
+                    left: windowPosition.x + 90,
+                }}
+            />,
+            document.body
+        )}
+        {openModal === 'times' && createPortal(
             <BestTimes 
                 onClose={() => setOpenModal(null)} 
-            />}
-        {openModal === 'custom' && <Custom onClose={() => setOpenModal(null)} />}
+                style={{ 
+                    position: 'fixed',
+                    top: windowPosition.y + 145,
+                    left: windowPosition.x + 90,
+                }}
+            />,
+            document.body
+            )}
+       {openModal === 'custom' && createPortal(
+        <Custom 
+            onClose={() => setOpenModal(null)} 
+            style={{ 
+                position: 'fixed',
+                top: windowPosition.y + 150,
+                left: windowPosition.x + 90,
+            }}
+        />,
+        document.body
+        )}
     </menu>
   )
 }
