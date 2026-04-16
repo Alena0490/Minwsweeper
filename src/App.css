@@ -29,7 +29,6 @@
     transform-origin: bottom left;
 }
 
-
 .app-window--minimized {
     opacity: 0;
     visibility: hidden;
@@ -55,6 +54,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+    min-width: 0;
     padding: 0 3px 0 6px;
     color: var(--xp-title-text);
     background: transparent;

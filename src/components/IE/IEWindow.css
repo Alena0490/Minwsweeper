@@ -4,10 +4,6 @@
     z-index: 10;
 }
 
-.ie-window * {
-    font-size: 14px;
-}
-
 .title-bar {
     gap: 8px;
     min-height: 30px;

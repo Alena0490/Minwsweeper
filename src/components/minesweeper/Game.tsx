@@ -164,7 +164,9 @@ const Game = ({isFullscreen, setIsFullscreen, isMinimized, setIsMinimized}:GameP
         className='title-bar'
         onMouseDown={handleMouseDown}
       >
-        <span className='title-bar-text'><img className='game-icon' src={GameIcon} alt="Minesweeper Icon" />Minesweeper</span>
+        <span className='title-bar-text'><img className='game-icon' src={GameIcon} alt="Minesweeper Icon" />
+          {level === beginnerConfig ? 'Mineswe...' : 'Minesweeper'}
+        </span>
         <div className='title-bar-buttons'>
           <button
             className='btn-minimize'

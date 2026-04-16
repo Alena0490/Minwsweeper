@@ -22,14 +22,11 @@
 
 .title-bar {
   height: 26px;
-}
-
-.title-bar-text {
-    font: bold 11px Tahoma, sans-serif;
+  font-size: 14px;
 }
 
 .game-icon {
-  width: 16px;
+  width: 18px;
   height: auto;
   margin-right: 4px;
 }

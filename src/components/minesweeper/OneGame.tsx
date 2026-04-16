@@ -30,46 +30,48 @@ const OneGame = ({ board, time, mines, gameState, handleReset, setGameState, isP
     
   return (
     <div className="game-field">
-        <div className="status-panel">
-            <output className='counter'>
-                <span>
-                    {String(mines).padStart(3, '0').split('').map((digit, i) => (
-                        <span 
-                            className="digit"
-                            key={i}   
-                        >
-                            {digit}
-                        </span>
-                    ))}
-                </span>
-            </output>
-            <button 
-                className='face-button'
-                onClick={handleReset}
-            >{getFace()}</button>
-            <output className='counter'>
-                <span>
-                    {String(time).padStart(3, '0').split('').map((digit, i) => (
-                        <span
-                            className="digit" 
-                            key={i} 
-                        >
-                            {digit}
-                        </span>
-                    ))}
-                </span>
-            </output>
+        <div className="status-panel-outer">
+            <div className="status-panel">
+                <output className='counter'>
+                    <span>
+                        {String(mines).padStart(3, '0').split('').map((digit, i) => (
+                            <span 
+                                className="digit"
+                                key={i}   
+                            >
+                                {digit}
+                            </span>
+                        ))}
+                    </span>
+                </output>
+                <button 
+                    className='face-button'
+                    onClick={handleReset}
+                >{getFace()}</button>
+                <output className='counter'>
+                    <span>
+                        {String(time).padStart(3, '0').split('').map((digit, i) => (
+                            <span
+                                className="digit" 
+                                key={i} 
+                            >
+                                {digit}
+                            </span>
+                        ))}
+                    </span>
+                </output>
+            </div>
         </div>
-        <Field 
-            board={board}
-            onFlag={onFlag}
-            onOpen={onOpen}
-            isPressed={isPressed}
-            setIsPressed={setIsPressed}
-            gameState={gameState}
-            setGameState={setGameState}
-            deathId={deathId}
-        />
+            <Field 
+                board={board}
+                onFlag={onFlag}
+                onOpen={onOpen}
+                isPressed={isPressed}
+                setIsPressed={setIsPressed}
+                gameState={gameState}
+                setGameState={setGameState}
+                deathId={deathId}
+            />
     </div>
   );
 };
