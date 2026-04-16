@@ -19,6 +19,7 @@ import Edit from '../../img/IEEdit.webp'
 import Discuss from '../../img/IEDiscuss.webp'
 import Go from '../../img/Go.webp'
 import NetworkError from '../../img/netError.webp'
+import '../../App.css'
 import './IEWindow.css'
 
 interface IEWindowProps {
@@ -75,7 +76,14 @@ const IEWindow = ({ onClose, isMinimized, setIsMinimized, isFullscreen, toggleFu
 
     return (
         <div 
-            className={`ie-window ${isMinimized ? 'ie-window--minimized' : ''} ${isFullscreen ? 'ie-window--fullscreen' : ''}`}
+            className={[
+                'ie-window',
+                'app-window',
+                isMinimized && 'ie-window--minimized',
+                isMinimized && 'app-window--minimized',
+                isFullscreen && 'ie-window--fullscreen',
+                isFullscreen && 'app-window--fullscreen',
+            ].filter(Boolean).join(' ')}
             style={isFullscreen ? {} : { left: position.x, top: position.y }}
         >
             <div className='title-bar' onMouseDown={handleMouseDown}>

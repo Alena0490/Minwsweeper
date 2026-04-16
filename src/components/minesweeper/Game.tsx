@@ -7,6 +7,7 @@ import { floodFill } from '../../utils/floodFill';
 import useDraggable from '../../hooks/useDraggable'
 import useSound from '../../hooks/useSound';
 import GameIcon from '../../img/minesweeperIcon.webp'
+import '../../App.css'
 import './Game.css'
 import GameMenu from './GameMenu';
 import OneGame from './OneGame';
@@ -150,10 +151,13 @@ const Game = ({isFullscreen, setIsFullscreen, isMinimized, setIsMinimized}:GameP
   return (
     <div 
       className={[
-          'game-container',
-          isMinimized && 'game--minimized',
-          isFullscreen && 'game--fullscreen',
-      ].filter(Boolean).join(' ')}
+        'game-container',
+        'app-window',
+        isMinimized && 'game--minimized',
+        isMinimized && 'app-window--minimized',
+        isFullscreen && 'game--fullscreen',
+        isFullscreen && 'app-window--fullscreen',
+    ].filter(Boolean).join(' ')}
       style={isFullscreen ? {} : { left: position.x, top: position.y }}
     >
       <div 

@@ -2,3 +2,126 @@
     position: relative;
     z-index: 1;
 }
+
+.app-window {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+    padding: 3px;
+    border-radius: var(--window-radius);
+    background:
+        linear-gradient(
+            to right,
+            var(--xp-title-end) 0%,
+            var(--xp-title-start) 18%,
+            var(--xp-title-mid) 72%,
+            #7DB9FF 100%
+        );
+    overflow: hidden;
+    box-shadow:
+        0 0 0 1px #0b2a6f,
+        inset 0 1px 0 rgba(255, 255, 255, 0.28);
+    transition:
+        opacity 0.18s ease,
+        transform 0.18s ease,
+        visibility 0s linear 0s;
+    transform-origin: bottom left;
+}
+
+
+.app-window--minimized {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transform: translateY(18px) scale(0.96);
+    transition:
+        opacity 0.18s ease,
+        transform 0.18s ease,
+        visibility 0s linear 0.18s;
+}
+
+.app-window--fullscreen {
+    position: fixed;
+    inset: 0 0 30px 0;
+    width: 100vw;
+    height: auto;
+    margin: 0;
+    border-radius: 0;
+    z-index: 10;
+}
+
+.title-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 3px 0 6px;
+    color: var(--xp-title-text);
+    background: transparent;
+    cursor: move;
+}
+
+.title-bar-text {
+    color: #fff;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-shadow: 0 1px 0 rgba(0, 0, 0, 0.35);
+    line-height: 1;
+}
+
+.title-bar-text {
+    display: inline-flex;
+    align-items: center;
+    line-height: 1;
+    text-shadow: 1px 1px 0 rgba(0,0,0,0.35);
+}
+
+.title-bar-buttons button:hover {
+  filter: brightness(1.05);
+}
+
+.title-bar-buttons {
+  display: flex;
+  gap: 2px;
+}
+
+.title-bar-buttons button {
+  width: 21px;
+  height: 21px;
+  padding: 0;
+  border: 1px solid var(--background);
+  border-radius: 3px;
+  color: white;
+  font: bold 11px Tahoma, sans-serif;
+  line-height: 1;
+  background: linear-gradient(to bottom, #9CC2FF, #2B74E3);
+  box-shadow:
+    /* inset 1px 1px 0 rgba(255,255,255,0.7), */
+    inset -1px -1px 0 rgba(0,0,0,0.25);
+}
+
+.title-bar-buttons button:active {
+  background: linear-gradient(to bottom, #2B74E3, #9CC2FF);
+
+  box-shadow:
+    inset 1px 1px 0 rgba(0,0,0,0.4),
+    inset -1px -1px 0 rgba(255,255,255,0.6);
+
+  transform: translate(1px, 1px);
+}
+
+.title-bar-buttons .btn-close {
+  background: linear-gradient(to bottom, #FFB1A6, #D94B31);
+  /* border-color: #7F1D0E; */
+}
+
+.title-bar-buttons .btn-close:active {
+  background: linear-gradient(to bottom, #D94B31, #FFB1A6);
+
+  box-shadow:
+    inset 1px 1px 0 rgba(0,0,0,0.4),
+    inset -1px -1px 0 rgba(255,255,255,0.6);
+
+  transform: translate(1px, 1px);
+}
