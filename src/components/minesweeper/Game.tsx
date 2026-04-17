@@ -48,7 +48,7 @@ const Game = ({isFullscreen, setIsFullscreen, isMinimized, setIsMinimized}:GameP
     const [marksEnabled, setMarksEnabled] = useState(true);
 
     const { position, handleMouseDown } = useDraggable(400, 150);
-
+    
     useEffect(() => {
       if (!hasStarted || gameState !== 'playing' || time >= 999) return;
         
@@ -61,7 +61,7 @@ const Game = ({isFullscreen, setIsFullscreen, isMinimized, setIsMinimized}:GameP
 
 
     // Game sounds
-    const { playTick, playWin, playLose } = useSound();
+    const { playTick, playWin, playLose, enabled, toggleSound } = useSound();
 
     //Flagging mines
     const nextMark = (mark: CellMark): CellMark => {
@@ -204,6 +204,8 @@ const Game = ({isFullscreen, setIsFullscreen, isMinimized, setIsMinimized}:GameP
         setLevel={setLevel}
         setIsMinimized={setIsMinimized}
         windowPosition={position}
+        soundEnabled={enabled}
+        onSoundToggle={toggleSound}
       />
       <OneGame
         board={board}
