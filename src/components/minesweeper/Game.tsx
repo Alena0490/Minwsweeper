@@ -1,5 +1,5 @@
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import type { CellData, CellMark, GameState } from "../../data/game";
 import { generateMines } from '../../utils/generateMines';
 import type { BoardConfig } from '../../data/game';
@@ -51,7 +51,9 @@ const Game = ({isFullscreen, setIsFullscreen, isMinimized, setIsMinimized}:GameP
 
     const { position, handleMouseDown } = useDraggable(400, 150);
 
-      const handleReset = (newLevel?: BoardConfig) => {
+    const timeRef = useRef(0);
+
+    const handleReset = (newLevel?: BoardConfig) => {
     const activeLevel = newLevel ?? level;
       setBoard(createEmptyBoard(activeLevel.rows, activeLevel.cols));
       setGameState('playing');
@@ -61,12 +63,16 @@ const Game = ({isFullscreen, setIsFullscreen, isMinimized, setIsMinimized}:GameP
       setHasStarted(false); 
       setDeathId(null);
   };
+ 
     useEffect(() => {
-      if (!hasStarted || gameState !== 'playing' || time >= 999) return;
-        
+        if (!hasStarted || gameState !== 'playing' || time >= 999) return;
+          
         const timer = setInterval(() => {
-          setTime(prev => prev + 1);
-        }, 1000);
+            setTime(prev => {
+                timeRef.current = prev + 1;
+                return prev + 1;
+            });
+        }); // ← zde se zavírá setInterval
 
         return () => clearInterval(timer);
     }, [hasStarted, gameState, time]);
@@ -139,8 +145,8 @@ const Game = ({isFullscreen, setIsFullscreen, isMinimized, setIsMinimized}:GameP
                 : level === intermediateConfig ? 'intermediate' 
                 : 'expert';
               
-              if (time < (saved[key] ?? 999)) {
-                const updated = { ...saved, [key]: time };
+              if (timeRef.current < (saved[key] ?? 999)) {
+                const updated = { ...saved, [key]: timeRef.current };
                 localStorage.setItem('minesweeper-times', JSON.stringify(updated));
               }
             }
