@@ -65,17 +65,18 @@ const Game = ({isFullscreen, setIsFullscreen, isMinimized, setIsMinimized}:GameP
   };
  
     useEffect(() => {
-        if (!hasStarted || gameState !== 'playing' || time >= 999) return;
-          
-        const timer = setInterval(() => {
-            setTime(prev => {
-                timeRef.current = prev + 1;
-                return prev + 1;
-            });
-        }); // ← zde se zavírá setInterval
+      if (!hasStarted || gameState !== 'playing' || time >= 999) return;
+        
+      const timer = setInterval(() => {
+          setTime(prev => {
+              const next = Math.min(999, prev + 1);
+              timeRef.current = next;
+              return next;
+          });
+      }, 1000); 
 
-        return () => clearInterval(timer);
-    }, [hasStarted, gameState, time]);
+      return () => clearInterval(timer);
+  }, [hasStarted, gameState, time]);
 
     // Game sounds
     const { playTick, playWin, playLose, enabled, toggleSound } = useSound();

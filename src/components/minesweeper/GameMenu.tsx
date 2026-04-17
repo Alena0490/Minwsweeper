@@ -142,6 +142,8 @@ const GameMenu = ({ onReset, onMarksChange, level, setLevel, setIsMinimized, win
        {openModal === 'custom' && createPortal(
         <Custom 
             onClose={() => setOpenModal(null)} 
+            onReset={onReset}
+            setLevel={setLevel} 
             style={{ 
                 position: 'fixed',
                 top: windowPosition.y + 150,
