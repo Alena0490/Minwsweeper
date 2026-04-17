@@ -8,17 +8,18 @@ import Custom from './Custom'
 import './GameMenu.css'
 
 interface GameMenuProps {
-    onReset: () => void
+    onReset: (newLevel?: BoardConfig) => void
     onMarksChange: (value: boolean) => void
     level: BoardConfig
     setLevel: (level: BoardConfig) => void
+
     setIsMinimized: (value: boolean | ((prev: boolean) => boolean)) => void;
     windowPosition: { x: number, y: number };
     soundEnabled: boolean;
     onSoundToggle: () => void;
 }
 
-const GameMenu = ({ onReset, onMarksChange, level, setLevel, setIsMinimized,windowPosition, soundEnabled, onSoundToggle }: GameMenuProps) => {
+const GameMenu = ({ onReset, onMarksChange, level, setLevel, setIsMinimized, windowPosition, soundEnabled, onSoundToggle }: GameMenuProps) => {
     const [openMenu, setOpenMenu] = useState<'game' | 'help' | null>(null)
      const [openModal, setOpenModal] = useState<'about' | 'times' | 'custom' | null>(null)
      const [marks, setMarks] = useState(true)
@@ -54,12 +55,13 @@ const GameMenu = ({ onReset, onMarksChange, level, setLevel, setIsMinimized,wind
             >
                 Game
                 <ul className={`submenu game ${openMenu === 'game' ? 'open' : ''}`}>
-                    <li onClick={onReset}>New <span>F2</span></li>
+                    <li onClick={() => onReset()}>New <span>F2</span></li>
                     <li className="separator" aria-hidden="true"></li>
                     <li
                         className={level === beginnerConfig ? 'checked' : ''}
                         onClick={() => {
                             setLevel(beginnerConfig)
+                            onReset(beginnerConfig)
                             setOpenMenu(null)
                         }}
                     >
@@ -69,6 +71,7 @@ const GameMenu = ({ onReset, onMarksChange, level, setLevel, setIsMinimized,wind
                         className={level === intermediateConfig ? 'checked' : ''}
                         onClick={() => {
                             setLevel(intermediateConfig)
+                            onReset(intermediateConfig)
                             setOpenMenu(null)
                         }}
                     >
@@ -78,6 +81,7 @@ const GameMenu = ({ onReset, onMarksChange, level, setLevel, setIsMinimized,wind
                         className={level === expertConfig ? 'checked' : ''}
                         onClick={() => {
                             setLevel(expertConfig)
+                            onReset(expertConfig)
                             setOpenMenu(null)
                         }}
                     >

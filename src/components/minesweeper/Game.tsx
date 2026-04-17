@@ -2,7 +2,8 @@
 import { useState, useEffect } from 'react'
 import type { CellData, CellMark, GameState } from "../../data/game";
 import { generateMines } from '../../utils/generateMines';
-import { beginnerConfig, intermediateConfig, expertConfig } from '../../data/game'; 
+import type { BoardConfig } from '../../data/game';
+import { beginnerConfig, intermediateConfig } from '../../data/game'; 
 import { floodFill } from '../../utils/floodFill';
 import useDraggable from '../../hooks/useDraggable'
 import useSound from '../../hooks/useSound';
@@ -46,9 +47,20 @@ const Game = ({isFullscreen, setIsFullscreen, isMinimized, setIsMinimized}:GameP
     const [minesPlaced, setMinesPlaced] = useState(false);
     const [deathId, setDeathId] = useState<string | null>(null);
     const [marksEnabled, setMarksEnabled] = useState(true);
+    
 
     const { position, handleMouseDown } = useDraggable(400, 150);
-    
+
+      const handleReset = (newLevel?: BoardConfig) => {
+    const activeLevel = newLevel ?? level;
+      setBoard(createEmptyBoard(activeLevel.rows, activeLevel.cols));
+      setGameState('playing');
+      setTime(0);
+      setMines(activeLevel.mines);
+      setMinesPlaced(false); 
+      setHasStarted(false); 
+      setDeathId(null);
+  };
     useEffect(() => {
       if (!hasStarted || gameState !== 'playing' || time >= 999) return;
         
@@ -58,7 +70,6 @@ const Game = ({isFullscreen, setIsFullscreen, isMinimized, setIsMinimized}:GameP
 
         return () => clearInterval(timer);
     }, [hasStarted, gameState, time]);
-
 
     // Game sounds
     const { playTick, playWin, playLose, enabled, toggleSound } = useSound();
@@ -136,16 +147,6 @@ const Game = ({isFullscreen, setIsFullscreen, isMinimized, setIsMinimized}:GameP
 
           return newBoard;
       });
-  };
-
-  const handleReset = () => {
-    setBoard(createEmptyBoard(level.rows, level.cols));
-    setGameState('playing');
-    setTime(0);
-    setMines(level.mines);
-    setMinesPlaced(false); 
-    setHasStarted(false); 
-    setDeathId(null)
   };
 
   return (

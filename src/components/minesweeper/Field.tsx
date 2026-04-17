@@ -17,8 +17,9 @@ interface FieldProps {
 }
 
 const Field = ({ board, gameState, onFlag, onOpen, setIsPressed, deathId }: FieldProps) => { 
-
-  return (
+    if (!board || board.length === 0 || !board[0]) return null;
+    
+    return (
     <div
       className="field"
       style={{ gridTemplateColumns: `repeat(${board[0].length}, var(--cell-size))` }}

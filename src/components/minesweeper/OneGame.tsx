@@ -34,29 +34,16 @@ const OneGame = ({ board, time, mines, gameState, handleReset, setGameState, isP
             <div className="status-panel">
                 <output className='counter'>
                     <span>
-                        {String(mines).padStart(3, '0').split('').map((digit, i) => (
-                            <span 
-                                className="digit"
-                                key={i}   
-                            >
-                                {digit}
-                            </span>
+                        {String(mines < 0 ? mines : Math.abs(mines)).padStart(3, '0').split('').map((digit, i) => (
+                            <span className="digit" key={i}>{digit}</span>
                         ))}
                     </span>
                 </output>
-                <button 
-                    className='face-button'
-                    onClick={handleReset}
-                >{getFace()}</button>
+                <button className='face-button' onClick={() => handleReset()}>{getFace()}</button>
                 <output className='counter'>
                     <span>
                         {String(time).padStart(3, '0').split('').map((digit, i) => (
-                            <span
-                                className="digit" 
-                                key={i} 
-                            >
-                                {digit}
-                            </span>
+                            <span className="digit" key={i}>{digit}</span>
                         ))}
                     </span>
                 </output>
