@@ -41,19 +41,17 @@ const IEMenu = () => {
                                     ) : (
                                         <li
                                             key={i}
-                                            className={`ie-submenu-item ${item.disabled ? 'disabled' : ''}`}
+                                            className={`ie-submenu-item ${item.disabled ? 'disabled' : ''} ${item.icon ? 'has-icon' : ''}`}
                                         >
+                                            {item.icon && <img src={item.icon} alt="" className="menu-item-icon" />}
                                             <span className="ie-submenu-label">{item.label}</span>
-
                                             {item.shortcut && (
-                                                <span className="ie-submenu-shortcut">
-                                                    {item.shortcut}
-                                                </span>
+                                                <span className="ie-submenu-shortcut">{item.shortcut}</span>
                                             )}
-
                                             {item.arrow && (
                                                 <span className="ie-submenu-arrow">▸</span>
                                             )}
+                                            {item.checked && <span className="ie-submenu-check">✓</span>}
                                         </li>
                                     )
                                 )}

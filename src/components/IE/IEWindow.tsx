@@ -135,6 +135,7 @@ const IEWindow = ({ onClose, isMinimized, setIsMinimized, isFullscreen, toggleFu
                             <img className='toolbar-img' src={Back} alt="Back" />
                             Back
                         </button>
+                        <button className={`toolbar-dropdown-arrow toolbar-btn ${historyIndex === 0 ? 'disabled' : ''}`} onClick={() => {}}>▾</button>
                         <button 
                             className={`toolbar-btn ${historyIndex === history.length - 1 ? 'disabled' : ''}`}
                             onClick={goForward} 
@@ -143,6 +144,7 @@ const IEWindow = ({ onClose, isMinimized, setIsMinimized, isFullscreen, toggleFu
                             <img className='toolbar-img' src={Forward} alt="Forward" />
                             Forward
                         </button>
+                        <button className={`toolbar-dropdown-arrow toolbar-btn ${historyIndex === history.length - 1 ? 'disabled' : ''}`} onClick={() => {}}>▾</button>
                         <button className='toolbar-btn' aria-label='refresh'>
                             <img className='toolbar-img' src={Refresh} alt="Refresh" />
                         </button>
@@ -202,7 +204,7 @@ const IEWindow = ({ onClose, isMinimized, setIsMinimized, isFullscreen, toggleFu
                                 Go
                             </button>
                             <button className='toolbar-btn' aria-label='view links'>
-                                Links
+                                Links »
                             </button>
                         </div>
                     </div>
