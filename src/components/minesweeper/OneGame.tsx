@@ -66,7 +66,6 @@ const OneGame = ({ board, time, mines, gameState, handleReset, setGameState, isP
                 board={board}
                 onFlag={onFlag}
                 onOpen={onOpen}
-                isPressed={isPressed}
                 setIsPressed={setIsPressed}
                 gameState={gameState}
                 setGameState={setGameState}

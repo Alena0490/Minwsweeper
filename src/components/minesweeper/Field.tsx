@@ -11,13 +11,12 @@ interface FieldProps {
     gameState: 'playing' | 'won' | 'lost';
     onFlag: (id: string) => void;
     onOpen: (id: string) => void;
-    isPressed: boolean;
     setIsPressed: (pressed: boolean) => void;
     deathId: string | null;
     setGameState: (state: 'playing' | 'won' | 'lost') => void;
 }
 
-const Field = ({ board, gameState, onFlag, onOpen, isPressed, setIsPressed, deathId }: FieldProps) => {
+const Field = ({ board, gameState, onFlag, onOpen, setIsPressed, deathId }: FieldProps) => { 
 
   return (
     <div
@@ -43,8 +42,9 @@ const Field = ({ board, gameState, onFlag, onOpen, isPressed, setIsPressed, deat
                     e.preventDefault();
                     onFlag(cell.id);
                 }}
-                onMouseDown={() => setIsPressed(true)}
+                onMouseDown={(e) => e.button === 0 && setIsPressed(true)}
                 onMouseUp={() => setIsPressed(false)}
+                onMouseLeave={() => setIsPressed(false)}
             >
             {cell.isOpen && cell.isMine && (
                 cell.id === deathId

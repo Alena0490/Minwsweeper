@@ -2,7 +2,7 @@
 import { useState, useEffect } from 'react'
 import type { CellData, CellMark, GameState } from "../../data/game";
 import { generateMines } from '../../utils/generateMines';
-import { beginnerConfig, intermediateConfig, expertConfig } from '../../data/game';
+import { beginnerConfig, intermediateConfig, expertConfig } from '../../data/game'; 
 import { floodFill } from '../../utils/floodFill';
 import useDraggable from '../../hooks/useDraggable'
 import useSound from '../../hooks/useSound';
