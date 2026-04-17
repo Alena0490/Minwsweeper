@@ -151,7 +151,7 @@ const IEWindow = ({ onClose, isMinimized, setIsMinimized, isFullscreen, toggleFu
                         <button className='toolbar-btn' aria-label='stop'>
                             <img className='toolbar-img' src={Stop} alt="Stop" />
                         </button>
-                        <button className='toolbar-btn border-right' onClick={() => navigateTo(HOME_URL)} aria-label='go home'>
+                        <button className='toolbar-btn border-right' onClick={() => navigateTo("https://alena-pumprova.cz/")} aria-label='go home'>
                             <img className='toolbar-img' src={Home} alt="Home" />
                             Home
                         </button>

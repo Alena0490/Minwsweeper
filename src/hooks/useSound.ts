@@ -2,6 +2,8 @@ import { useState } from "react";
 import tickSound from '../sounds/tick.mp3'
 import winSound from '../sounds/win.mp3'
 import loseSound from '../sounds/lose.mp3'
+import startApp from '../sounds/Windows XP Start.wav'
+import minimize from '../sounds/Windows XP Minimize.wav'
 
 const useSound = () => {
     const [enabled, setEnabled] = useState(true);
@@ -16,6 +18,8 @@ const useSound = () => {
         playTick: () => playSound(tickSound), 
         playWin: () => playSound(winSound), 
         playLose: () => playSound(loseSound),
+        playStart: () => playSound(startApp),
+        playMinimize: () => playSound(minimize),
         enabled,
         toggleSound: () => setEnabled(prev => !prev),
     };
