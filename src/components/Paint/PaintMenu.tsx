@@ -2,13 +2,13 @@ import { useState, useEffect, useRef } from 'react'
 import './PaintMenu.css'
 
 interface PaintMenuProps {
-  tool: string;
   setTool: React.Dispatch<React.SetStateAction<string>>;
   onZoomIn: () => void;
   onZoomOut: () => void;
+  isZoomed: boolean;
 }
 
-const PaintMenu = ({ tool, setTool, onZoomIn, onZoomOut }: PaintMenuProps) => {
+const PaintMenu = ({ setTool, onZoomIn, onZoomOut, isZoomed }: PaintMenuProps) => {
   const [openMenu, setOpenMenu] = useState<'file' | 'edit' | 'view' | 'image' | 'colors' | 'help' | null>(null)
   const menuRef = useRef<HTMLElement>(null)
 
@@ -44,7 +44,8 @@ const PaintMenu = ({ tool, setTool, onZoomIn, onZoomOut }: PaintMenuProps) => {
           View
           <ul className={`submenu ${openMenu === 'view' ? 'open' : ''}`}>
             <li
-              onClick={onZoomIn}
+              className={isZoomed ? 'checked' : ''}
+              onClick={() => { if (isZoomed) { onZoomOut(); } else { onZoomIn(); } setOpenMenu(null); }}
             >Zoom In</li>
             <li
              onClick={onZoomOut}

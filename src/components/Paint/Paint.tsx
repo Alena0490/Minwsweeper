@@ -78,8 +78,8 @@ const Paint = ({ isFullscreen, setIsFullscreen, isMinimized, setIsMinimized, onC
         </div>
       </div>
       <PaintMenu
-        tool={tool}
         setTool={setTool}
+        isZoomed={zoom > 1}
         onZoomIn={zoomIn}
         onZoomOut={zoomOut}
       />
