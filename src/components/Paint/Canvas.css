@@ -1,0 +1,34 @@
+.draw-area {
+    position: relative;
+    flex: 1;
+    overflow: auto;
+    min-height: 0;
+    background: var(--xp-surface-soft);
+    border-top: 1px solid var(--xp-shadow-light);
+}
+
+.draw-area #draw-canvas {
+    width: 100%;
+    height: 100%;
+    display: block;
+    background: var(--xp-line-light);
+    border: 1px solid var(--xp-line-dark);
+    box-shadow: inset 3px 3px 1px var(--xp-shadow-soft);
+    display: block;
+    transform: translate(var(--pan-x, 0), var(--pan-y, 0)) scale(var(--zoom, 1));
+    transform-origin: top left;
+    cursor: crosshair;
+}
+
+.draw-area[data-tool="eraser"] #draw-canvas {
+    cursor: cell;
+}
+
+.draw-area[data-tool="move"] #draw-canvas,
+#draw-canvas[data-tool="move"] {
+    cursor: grab;
+}
+
+#draw-canvas[data-tool="eyedropper"] {
+    cursor: crosshair;
+}

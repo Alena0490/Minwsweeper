@@ -1,0 +1,88 @@
+
+.app-wrap {
+  display: flex;
+  flex-direction: column;
+}
+
+.top-part {
+  display: flex;
+  flex-direction: row;
+  overflow: hidden;
+  background: var(--xp-surface);
+  min-height: 0;
+  flex: 1;
+  box-shadow:  5px 0 3px var(--xp-line-dark);
+}
+
+.colors {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 4px 6px;
+  background: var(--xp-surface);
+  border-top: 1px solid var(--xp-line-light);
+  gap: 4px;
+}
+
+.colors__swatches {
+  position: relative;
+  width: 36px;
+  height: 28px;
+  flex-shrink: 0;
+}
+
+.colors__bg {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 20px;
+  height: 20px;
+  background: var(--xp-line-light);
+  border: 1px solid var(--text);
+  box-shadow: 2px 2px 1px var(--xp-shadow-soft);
+}
+
+.colors__fg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 20px;
+  height: 20px;
+  border: 1px solid var(--text);
+  box-shadow: 1px 1px 1px var(--xp-shadow-soft);
+  z-index: 1;
+}
+
+.colors__sep {
+  width: 1px;
+  height: 26px;
+  background: var(--xp-line-mid);
+  flex-shrink: 0;
+}
+
+.colors__grid {
+  display: grid;
+  grid-template-columns: repeat(20, 16px);
+  grid-template-rows: repeat(2, 14px);
+  gap: 1px;
+}
+
+.colors__chip {
+  width: 14px;
+  height: 14px;
+  border: 1px solid var(--xp-line-dark);
+  box-shadow: inset 1px 1px 1px var(--xp-shadow-soft);
+  cursor: pointer;
+  padding: 0;
+}
+
+.colors__chip:hover {
+  border-color: var(--text);
+  transform: scale(1.2);
+  position: relative;
+  z-index: 2;
+}
+
+.colors__chip--active {
+  border: 2px solid var(--text);
+}

@@ -1,6 +1,34 @@
+.app-window.paint--fullscreen {
+  width: 100vw;
+}
+
+.paint-window:not(.paint--fullscreen) {
+  width: 700px;
+  height: 450px;
+}
+
 .paint-icon {
   width: 20px;
   height: auto;
   margin-right: 4px;
   filter: contrast(1.2);
+}
+
+.helper {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 2px 4px;
+    background: var(--xp-surface);
+    border-top: 1px solid var(--xp-line-mid);
+    justify-content: flex-start;
+    color: var(--text);
+    font-size: 11px;;
+}
+
+.paint-canvas-area {
+  display: flex;
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
 }
