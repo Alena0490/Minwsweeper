@@ -269,31 +269,35 @@ const Canvas = ({
   };
 
   return (
-    <section
-      className="draw-area"
-      style={{
-        '--zoom': zoom,
-        '--pan-x': `${pan.x}px`,
-        '--pan-y': `${pan.y}px`,
-      } as React.CSSProperties}
-    >
-      <canvas
-        id="draw-canvas"
-        ref={canvasRef}
-        width={800}
-        height={600}
-        data-tool={tool}
-        onMouseDown={handleMouseDown}
-        onMouseMove={draw}
-        onMouseUp={handleMouseUp}
-        onMouseLeave={handleMouseUp}
-        onTouchStart={handleMouseDown}
-        onTouchMove={draw}
-        onTouchEnd={handleMouseUp}
-        onTouchCancel={handleMouseUp}
-      />
-    </section>
+    <div className={`draw-area-outer${zoom > 1 ? ' is-zoomed' : ''}`}>
+      <div className="draw-area-arrows-h" />
+      <div className="draw-area-shadow" />
+      <section
+        className={`draw-area${zoom > 1 ? ' is-zoomed' : ''}`}
+        style={{
+          '--zoom': zoom,
+          '--pan-x': `${pan.x}px`,
+          '--pan-y': `${pan.y}px`,
+        } as React.CSSProperties}
+      >
+        <canvas
+          id="draw-canvas"
+          ref={canvasRef}
+          width={800}
+          height={600}
+          data-tool={tool}
+          onMouseDown={handleMouseDown}
+          onMouseMove={draw}
+          onMouseUp={handleMouseUp}
+          onMouseLeave={handleMouseUp}
+          onTouchStart={handleMouseDown}
+          onTouchMove={draw}
+          onTouchEnd={handleMouseUp}
+          onTouchCancel={handleMouseUp}
+        />
+      </section>
+    </div>
   );
-};
+}
 
 export default Canvas;

@@ -1,10 +1,37 @@
+.draw-area-outer {
+    position: relative;
+    flex: 1;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    background-color: var(--xp-surface);
+    box-shadow:
+        1px 0 0 var(--xp-line-dark),
+        0 1px 0 var(--xp-line-dark),
+        2px 0 0 color-mix(in srgb, var(--xp-line-deep) 85%, var(--xp-surface) 15%),
+        0 2px 0 color-mix(in srgb, var(--xp-line-deep) 85%, var(--xp-surface) 15%),
+        3px 0 0 color-mix(in srgb, var(--xp-line-dark) 88%, var(--xp-surface-2) 12%),
+        0 3px 0 color-mix(in srgb, var(--xp-line-dark) 88%, var(--xp-surface-2) 12%),
+        0 4px 3px color-mix(in srgb, var(--xp-line-deep) 70%, var(--xp-surface) 30%),
+        2px 4px 3px color-mix(in srgb, var(--xp-line-deep) 55%, var(--xp-surface) 45%);
+}
+
 .draw-area {
     position: relative;
     flex: 1;
     overflow: auto;
     min-height: 0;
-    background: var(--xp-surface-soft);
+    background: var(--xp-surface);
     border-top: 1px solid var(--xp-shadow-light);
+}
+
+.draw-area-shadow {
+    position: absolute;
+    inset: 0;
+        border: 1px solid var(--xp-line-dark);
+    box-shadow: inset 3px 3px 1px var(--xp-shadow-soft);
+    pointer-events: none;
+    z-index: 10;
 }
 
 .draw-area #draw-canvas {
@@ -12,8 +39,6 @@
     height: 100%;
     display: block;
     background: var(--xp-line-light);
-    border: 1px solid var(--xp-line-dark);
-    box-shadow: inset 3px 3px 1px var(--xp-shadow-soft);
     display: block;
     transform: translate(var(--pan-x, 0), var(--pan-y, 0)) scale(var(--zoom, 1));
     transform-origin: top left;
@@ -31,4 +56,136 @@
 
 #draw-canvas[data-tool="eyedropper"] {
     cursor: crosshair;
+}
+
+
+/*** SCROLLBARS */
+.draw-area::-webkit-scrollbar {
+    width: 16px;
+    z-index: 10;
+}
+
+.draw-area::-webkit-scrollbar-track {
+    background: var(--xp-surface);
+    border-left: 1px solid var(--xp-line-dark);
+    box-shadow:
+        inset 1px 1px 0 var(--xp-line-dark),
+        inset -1px -1px 0 var(--xp-line-light);
+}
+
+.draw-area::-webkit-scrollbar-thumb {
+    margin-block: 1px;
+    background: var(--xp-menu-right-bottom);
+    box-shadow:
+        inset 1px 0 0 var(--xp-line-dark);
+}
+
+.draw-area::-webkit-scrollbar-button {
+    height: 16px;
+    background: var(--xp-menu-right-bottom);
+    box-shadow:
+        inset 0 1px 0 var(--xp-line-light),
+        inset -1px -1px 0 var(--xp-line-dark),
+        inset 1px 0 0 var(--xp-line-dark);
+    z-index: 30;
+}
+
+.draw-area::-webkit-scrollbar-corner {
+    background: var(--xp-surface);
+}
+
+
+/*** Scrollbar arrows  */
+.draw-area-outer::before {
+  content: '▲';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 16px;
+  height: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  color: var(--xp-line-deep);
+  z-index: 100;
+  pointer-events: none;
+}
+
+.draw-area-outer::after {
+  content: '▼';
+  position: absolute;
+  bottom: 16px;
+  right: 0;
+  width: 16px;
+  height: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  color: var(--xp-line-deep);
+  z-index: 100;
+  pointer-events: none;
+}
+
+.draw-area-arrows-h {
+    display: none;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 16px;
+    background-color: transparent;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.draw-area-arrows-h::before {
+  content: '◄';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 16px;
+  height: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  color: var(--xp-line-deep);
+}
+
+.draw-area-arrows-h::after {
+  content: '►';
+  position: absolute;
+  bottom: 0;
+  right: 16px;
+  width: 16px;
+  height: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  color: var(--xp-line-deep);
+}
+
+.is-zoomed .draw-area-arrows-h {
+  display: block;
+}
+
+.draw-area-outer::before,
+.draw-area-outer::after {
+  display: none;
+}
+
+.draw-area-outer:has(.is-zoomed)::before,
+.draw-area-outer:has(.is-zoomed)::after {
+  display: flex;
+}
+
+.is-zoomed .draw-area-arrows-h {
+  display: block;
+}
+
+.draw-area-arrows-h {
+  display: none;
 }
