@@ -17,6 +17,7 @@ import Run from '../img/Run.webp'
 import Help from '../img/HelpAndSupport.webp'
 import LogOff from '../img/Logout.webp'
 import TurnOff from '../img/Power.webp'
+import PaintIcon from '../img/Paint.webp'
 import './MenuModal.css'
 
 interface ModalProps {
@@ -61,12 +62,19 @@ const MenuModal = ({ className, onIEOpen, onPaintOpen }: ModalProps) => {
                     <div className="menu-item">
                         <img src={MinesweeperIcon} alt="Minesweeper Icon" />
                         Minesweeper
-                        </div>
+                    </div>
+
                     <div className="menu-item">
                         <img src={Calculator} alt="Calculator Icon" />
                         Calculator
-                        </div>
+                    </div>
+
+                    <div className="menu-item" onClick={() => { onPaintOpen(); playStart(); }}>
+                        <img src={PaintIcon} alt="Paint Icon" />
+                        Paint
+                    </div>
                 </div>
+
                 <div className="menu-right">
                     <div className="menu-item top-menu-item">
                         <img src={MyDocuments} alt="My Documents Icon" />
