@@ -107,7 +107,7 @@ const Toolbox = ({ tool, setTool, lineWidth,lineColor }: ToolboxProps) => {
         <button 
           type="button" 
           title="Pencil"          
-          className={`xp-tool-btn${tool==='pencil'     ?' active':''}`} 
+          className={`xp-tool-btn${tool==='pencil' ?' active':''}`} 
           onClick={()=>setTool('pencil')}
         >
           <img 
@@ -151,7 +151,8 @@ const Toolbox = ({ tool, setTool, lineWidth,lineColor }: ToolboxProps) => {
         <button 
           type="button" 
           title="Line"            
-          className="xp-tool-btn"
+          className={`xp-tool-btn${tool==='line' ?' active':''}`}
+          onClick={() => setTool('line')}
         >
           <img 
             src={Line} 

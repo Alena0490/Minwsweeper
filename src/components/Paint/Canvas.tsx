@@ -26,8 +26,18 @@ const Canvas = ({
   setTool, zoom, setZoom, floodFill, pan, setPan   
 }: CanvasProps) => {
 
+  /* ── State ── */
   const [gradStart, setGradStart] = useState<{x: number, y: number} | null>(null);
 
+  /* ── Refs ── */
+  const historyRef = useRef<string[]>([]);
+  const redoRef = useRef<string[]>([]);
+  const previewRef = useRef<ImageData | null>(null);
+  const lineStartRef = useRef<{ x: number; y: number } | null>(null);
+  const isPanningRef = useRef(false);
+  const panStartRef = useRef({ x: 0, y: 0 });
+
+  /* ── Helpers ── */
   const hexToRgb = (hex: string) => {
     const h = hex.replace("#", "");
     return {
@@ -37,9 +47,24 @@ const Canvas = ({
     };
   };
 
-  const historyRef = useRef<string[]>([]);
-  const redoRef = useRef<string[]>([]);
+  const getCanvasXY = (e: React.MouseEvent | React.TouchEvent | MouseEvent | TouchEvent) => {
+    const canvas = canvasRef.current!;
+    const rect = canvas.getBoundingClientRect();
+    const baseWidth = rect.width / zoom;
+    const baseHeight = rect.height / zoom;
+    const scaleX = canvas.width / baseWidth;
+    const scaleY = canvas.height / baseHeight;
+    const te = e as TouchEvent;
+    const me = e as MouseEvent;
+    const clientX = te.touches?.[0]?.clientX ?? te.changedTouches?.[0]?.clientX ?? me.clientX;
+    const clientY = te.touches?.[0]?.clientY ?? te.changedTouches?.[0]?.clientY ?? me.clientY;
+    return {
+      x: Math.floor(((clientX - rect.left) / zoom) * scaleX),
+      y: Math.floor(((clientY - rect.top) / zoom) * scaleY),
+    };
+  };
 
+  /* ── History ── */
   const snapshot = useCallback(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -80,6 +105,7 @@ const Canvas = ({
     restoreFrom(next);
   }, [canvasRef, restoreFrom]);
 
+  /* ── Keyboard shortcuts ── */
   useEffect(() => {
     const onKeyDown = (e: KeyboardEvent) => {
       const t = e.target as HTMLElement;
@@ -94,6 +120,7 @@ const Canvas = ({
     return () => window.removeEventListener("keydown", onKeyDown);
   }, [undo, redo]);
 
+  /* ── Tool actions (clear, download, undo, redo) ── */
   useEffect(() => {
     if (!canvasRef.current || !ctxRef.current) return;
     const canvas = canvasRef.current;
@@ -115,23 +142,9 @@ const Canvas = ({
     if (tool === "redo") { redo(); setTimeout(() => setTool?.("pencil"), 0); }
   }, [tool, canvasRef, ctxRef, setTool, snapshot, undo, redo]);
 
-  const getCanvasXY = (e: React.MouseEvent | React.TouchEvent | MouseEvent | TouchEvent) => {
-    const canvas = canvasRef.current!;
-    const rect = canvas.getBoundingClientRect();
-    const baseWidth = rect.width / zoom;
-    const baseHeight = rect.height / zoom;
-    const scaleX = canvas.width / baseWidth;
-    const scaleY = canvas.height / baseHeight;
-    const te = e as TouchEvent;
-    const me = e as MouseEvent;
-    const clientX = te.touches?.[0]?.clientX ?? te.changedTouches?.[0]?.clientX ?? me.clientX;
-    const clientY = te.touches?.[0]?.clientY ?? te.changedTouches?.[0]?.clientY ?? me.clientY;
-    return {
-      x: Math.floor(((clientX - rect.left) / zoom) * scaleX),
-      y: Math.floor(((clientY - rect.top) / zoom) * scaleY),
-    };
-  };
+  
 
+  /* ── Pinch to zoom ── */
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -164,9 +177,7 @@ const Canvas = ({
     };
   }, [canvasRef, setZoom]);
 
-  const isPanningRef = useRef(false);
-  const panStartRef = useRef({ x: 0, y: 0 });
-
+  /* ── Panning ── */
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -201,6 +212,7 @@ const Canvas = ({
     };
   }, [pan, setPan, canvasRef]);
 
+  /* ── Mouse / Touch handlers ── */
   const handleMouseUp = (e: React.MouseEvent | React.TouchEvent) => {
     if ((e as React.TouchEvent).touches?.length >= 2) return;
     if (tool === "gradient" && gradStart) {
@@ -220,13 +232,36 @@ const Canvas = ({
       setTool?.("pencil");
       return;
     }
+    if (tool === "line" && lineStartRef.current && previewRef.current) {
+      const ctx = ctxRef.current;
+      if (!ctx) return;
+      const { x, y } = getCanvasXY(e);
+      ctx.putImageData(previewRef.current, 0, 0);
+      ctx.beginPath();
+      ctx.moveTo(lineStartRef.current.x, lineStartRef.current.y);
+      ctx.lineTo(x, y);
+      ctx.lineWidth = lineWidth;
+      ctx.globalAlpha = lineOpacity;
+      ctx.strokeStyle = lineColor;
+      ctx.stroke();
+      lineStartRef.current = null;
+      previewRef.current = null;
+      return;
+    }
     endDrawing(e);
   };
 
   const handleMouseDown = (e: React.MouseEvent | React.TouchEvent) => {
     if ((e as React.TouchEvent).touches?.length >= 2) return;
     const ctx = ctxRef.current;
-    if (tool === "gradient") { setGradStart(getCanvasXY(e)); return; }
+    // if (tool === "gradient") { setGradStart(getCanvasXY(e)); return; }
+    if (tool === "line") {
+        snapshot();
+        const { x, y } = getCanvasXY(e);
+        lineStartRef.current = { x, y };
+        previewRef.current = ctxRef.current!.getImageData(0, 0, canvasRef.current!.width, canvasRef.current!.height);
+        return;
+      }
     if (!ctx) return;
     if (tool === "move") {
       e.preventDefault();
@@ -268,6 +303,25 @@ const Canvas = ({
     startDrawing(e);
   };
 
+  const handleMouseMove = (e: React.MouseEvent | React.TouchEvent) => {
+  if (tool === "line" && lineStartRef.current && previewRef.current) {
+  const ctx = ctxRef.current;
+  if (!ctx) return;
+  const { x, y } = getCanvasXY(e);
+  ctx.putImageData(previewRef.current, 0, 0);
+  ctx.beginPath();
+  ctx.moveTo(lineStartRef.current.x, lineStartRef.current.y);
+  ctx.lineTo(x, y);
+  ctx.lineWidth = lineWidth;
+  ctx.globalAlpha = lineOpacity;
+  ctx.strokeStyle = lineColor;
+  ctx.stroke();
+  return;
+}
+  draw(e);
+};
+
+  /* ── Render ── */
   return (
     <div className={`draw-area-outer${zoom > 1 ? ' is-zoomed' : ''}`}>
       <div className="draw-area-arrows-h" />
@@ -287,11 +341,11 @@ const Canvas = ({
           height={600}
           data-tool={tool}
           onMouseDown={handleMouseDown}
-          onMouseMove={draw}
+          onMouseMove={handleMouseMove}
           onMouseUp={handleMouseUp}
           onMouseLeave={handleMouseUp}
           onTouchStart={handleMouseDown}
-          onTouchMove={draw}
+          onTouchMove={handleMouseMove}
           onTouchEnd={handleMouseUp}
           onTouchCancel={handleMouseUp}
         />
