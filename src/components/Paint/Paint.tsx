@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import {useState, useRef } from 'react';
 import useDraggable from '../../hooks/useDraggable';
 import PaintIcon from '../../img/Paint.webp'
 import '../../App.css'
@@ -16,6 +16,9 @@ interface PaintProps {
 }
 
 const Paint = ({ isFullscreen, setIsFullscreen, isMinimized, setIsMinimized, onClose }: PaintProps) => {
+  
+  const [tool, setTool] = useState("pencil")
+  
   const { position, handleMouseDown } = useDraggable(400, 150);
 
   const onDownloadRef = useRef<() => void>(() => {});
@@ -69,13 +72,15 @@ const Paint = ({ isFullscreen, setIsFullscreen, isMinimized, setIsMinimized, onC
         </div>
       </div>
       <PaintMenu
-        onDownload={() => onDownloadRef.current()}
-        onClear={() => onClearRef.current()}
+        tool={tool}
+        setTool={setTool}
       />
       <div className="paint-canvas-area">
             <PaintApp
             onDownloadRef={onDownloadRef}
             onClearRef={onClearRef}
+            tool={tool}
+            setTool={setTool}
             />
       </div>
       <div className="helper">

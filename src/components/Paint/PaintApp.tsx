@@ -4,8 +4,11 @@ import Canvas from './Canvas'
 import './PaintApp.css'
 
 interface PaintAppProps {
+  tool: string;
+  setTool: React.Dispatch<React.SetStateAction<string>>;
   onDownloadRef: React.RefObject<() => void>;
   onClearRef: React.RefObject<() => void>;
+
 }
 
 const XP_PALETTE = [
@@ -19,7 +22,7 @@ const XP_PALETTE = [
   '#C0FFC0','#008040',
 ];
 
-const PaintApp = ({ onDownloadRef, onClearRef }: PaintAppProps) => {
+const PaintApp = ({ onDownloadRef, onClearRef, tool, setTool }: PaintAppProps) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const ctxRef = useRef<CanvasRenderingContext2D | null>(null);
 
@@ -27,7 +30,6 @@ const PaintApp = ({ onDownloadRef, onClearRef }: PaintAppProps) => {
   const [lineColor, setLineColor] = useState("#000000");
   const [lineWidth, setLineWidth] = useState(5);
   const [lineOpacity, setLineOpacity] = useState(1);
-  const [tool, setTool] = useState("pencil");
   const [zoom, setZoom] = useState(1);
   const [pan, setPan] = useState({ x: 0, y: 0 });
 
@@ -57,7 +59,7 @@ const PaintApp = ({ onDownloadRef, onClearRef }: PaintAppProps) => {
         setTool('clear');
       }
     };
-  }, [onClearRef, onDownloadRef]);
+  }, [onClearRef, onDownloadRef, setTool]);
 
   const getEventCoordinates = (e: React.MouseEvent | React.TouchEvent) => {
     const canvas = canvasRef.current;

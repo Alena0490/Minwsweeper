@@ -2,11 +2,11 @@ import { useState, useEffect, useRef } from 'react'
 import './PaintMenu.css'
 
 interface PaintMenuProps {
-  onDownload: () => void;
-  onClear: () => void;
+  tool: string;
+  setTool: React.Dispatch<React.SetStateAction<string>>;
 }
 
-const PaintMenu = ({ onDownload, onClear }: PaintMenuProps) => {
+const PaintMenu = ({ tool, setTool }: PaintMenuProps) => {
   const [openMenu, setOpenMenu] = useState<'file' | 'edit' | 'view' | 'image' | 'colors' | 'help' | null>(null)
   const menuRef = useRef<HTMLElement>(null)
 
@@ -26,9 +26,9 @@ const PaintMenu = ({ onDownload, onClear }: PaintMenuProps) => {
         <li onClick={() => setOpenMenu(openMenu === 'file' ? null : 'file')}>
           File
           <ul className={`submenu ${openMenu === 'file' ? 'open' : ''}`}>
-            <li onClick={() => { onDownload(); setOpenMenu(null) }}>Save <span>Ctrl+S</span></li>
+            <li onClick={() => { setTool('download'); setOpenMenu(null) }}>Save <span>Ctrl+S</span></li>
             <li className="separator" aria-hidden="true"></li>
-            <li onClick={() => { onClear(); setOpenMenu(null) }}>New <span>Ctrl+N</span></li>
+            <li onClick={() => { setTool('clear'); setOpenMenu(null) }}>New <span>Ctrl+N</span></li>
           </ul>
         </li>
         <li onClick={() => setOpenMenu(openMenu === 'edit' ? null : 'edit')}>

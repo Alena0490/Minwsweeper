@@ -25,7 +25,7 @@ interface ModalProps {
   onPaintOpen: () => void;
 }
 
-const MenuModal = ({ className, onIEOpen }: ModalProps) => {  //, onPaintOpen 
+const MenuModal = ({ className, onIEOpen, onPaintOpen }: ModalProps) => { 
     const {playStart } = useSound();
 
     return (
