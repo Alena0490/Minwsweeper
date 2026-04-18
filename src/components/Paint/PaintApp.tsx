@@ -6,6 +6,13 @@ import './PaintApp.css'
 interface PaintAppProps {
   tool: string;
   setTool: React.Dispatch<React.SetStateAction<string>>;
+  zoom: number;
+  setZoom: React.Dispatch<React.SetStateAction<number>>;
+  onZoomIn: () => void;
+  onZoomOut: () => void;
+  zoomReset: () => void;
+  pan: { x: number; y: number };
+  setPan: React.Dispatch<React.SetStateAction<{ x: number; y: number }>>
   onDownloadRef: React.RefObject<() => void>;
   onClearRef: React.RefObject<() => void>;
 
@@ -22,7 +29,7 @@ const XP_PALETTE = [
   '#C0FFC0','#008040',
 ];
 
-const PaintApp = ({ onDownloadRef, onClearRef, tool, setTool }: PaintAppProps) => {
+const PaintApp = ({ onDownloadRef, onClearRef, tool, setTool, zoom, setZoom, onZoomIn, onZoomOut, zoomReset, pan, setPan }: PaintAppProps) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const ctxRef = useRef<CanvasRenderingContext2D | null>(null);
 
@@ -30,12 +37,6 @@ const PaintApp = ({ onDownloadRef, onClearRef, tool, setTool }: PaintAppProps) =
   const [lineColor, setLineColor] = useState("#000000");
   const [lineWidth, setLineWidth] = useState(5);
   const [lineOpacity, setLineOpacity] = useState(1);
-  const [zoom, setZoom] = useState(1);
-  const [pan, setPan] = useState({ x: 0, y: 0 });
-
-  const zoomOut = () => setZoom(z => Math.max(0.25, +(z * 0.9).toFixed(3)));
-  const zoomIn  = () => setZoom(z => Math.min(4, +(z * 1.1).toFixed(3)));
-  const zoomReset = () => { setZoom(1); setPan({ x: 0, y: 0 }); };
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -59,7 +60,7 @@ const PaintApp = ({ onDownloadRef, onClearRef, tool, setTool }: PaintAppProps) =
         setTool('clear');
       }
     };
-  }, [onClearRef, onDownloadRef, setTool]);
+  }, [onClearRef, onDownloadRef, setTool, zoomReset ]);
 
   const getEventCoordinates = (e: React.MouseEvent | React.TouchEvent) => {
     const canvas = canvasRef.current;
@@ -155,8 +156,8 @@ const PaintApp = ({ onDownloadRef, onClearRef, tool, setTool }: PaintAppProps) =
           setLineOpacity={setLineOpacity}
           tool={tool} 
           setTool={setTool}
-          onZoomIn={zoomIn} 
-          onZoomOut={zoomOut} 
+          onZoomIn={onZoomIn} 
+          onZoomOut={onZoomOut} 
           onZoomReset={zoomReset}
           zoom={zoom}
         />

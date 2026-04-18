@@ -4,9 +4,11 @@ import './PaintMenu.css'
 interface PaintMenuProps {
   tool: string;
   setTool: React.Dispatch<React.SetStateAction<string>>;
+  onZoomIn: () => void;
+  onZoomOut: () => void;
 }
 
-const PaintMenu = ({ tool, setTool }: PaintMenuProps) => {
+const PaintMenu = ({ tool, setTool, onZoomIn, onZoomOut }: PaintMenuProps) => {
   const [openMenu, setOpenMenu] = useState<'file' | 'edit' | 'view' | 'image' | 'colors' | 'help' | null>(null)
   const menuRef = useRef<HTMLElement>(null)
 
@@ -41,8 +43,12 @@ const PaintMenu = ({ tool, setTool }: PaintMenuProps) => {
         <li onClick={() => setOpenMenu(openMenu === 'view' ? null : 'view')}>
           View
           <ul className={`submenu ${openMenu === 'view' ? 'open' : ''}`}>
-            <li>Zoom In</li>
-            <li>Zoom Out</li>
+            <li
+              onClick={onZoomIn}
+            >Zoom In</li>
+            <li
+             onClick={onZoomOut}
+            >Zoom Out</li>
           </ul>
         </li>
         <li>Image</li>

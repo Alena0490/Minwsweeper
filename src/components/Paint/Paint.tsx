@@ -1,4 +1,4 @@
-import {useState, useRef } from 'react';
+import {useState, useRef, useCallback } from 'react';
 import useDraggable from '../../hooks/useDraggable';
 import PaintIcon from '../../img/Paint.webp'
 import '../../App.css'
@@ -17,9 +17,15 @@ interface PaintProps {
 
 const Paint = ({ isFullscreen, setIsFullscreen, isMinimized, setIsMinimized, onClose }: PaintProps) => {
   
-  const [tool, setTool] = useState("pencil")
+  const [tool, setTool] = useState("pencil");
+  const [zoom, setZoom] = useState(1);
+  const [pan, setPan] = useState({ x: 0, y: 0 });
   
   const { position, handleMouseDown } = useDraggable(400, 150);
+
+  const zoomOut = () => setZoom(z => Math.max(0.25, +(z * 0.9).toFixed(3)));
+  const zoomIn  = () => setZoom(z => Math.min(4, +(z * 1.1).toFixed(3)));
+  const zoomReset = useCallback(() => { setZoom(1); setPan({ x: 0, y: 0 }); }, [setZoom, setPan]);
 
   const onDownloadRef = useRef<() => void>(() => {});
   const onClearRef = useRef<() => void>(() => {});
@@ -74,6 +80,8 @@ const Paint = ({ isFullscreen, setIsFullscreen, isMinimized, setIsMinimized, onC
       <PaintMenu
         tool={tool}
         setTool={setTool}
+        onZoomIn={zoomIn}
+        onZoomOut={zoomOut}
       />
       <div className="paint-canvas-area">
             <PaintApp
@@ -81,6 +89,13 @@ const Paint = ({ isFullscreen, setIsFullscreen, isMinimized, setIsMinimized, onC
             onClearRef={onClearRef}
             tool={tool}
             setTool={setTool}
+            zoom={zoom}
+            setZoom={setZoom}
+            pan={pan}
+            setPan={setPan}
+            onZoomIn={zoomIn}
+            onZoomOut={zoomOut}
+            zoomReset={zoomReset}
             />
       </div>
       <div className="helper">
