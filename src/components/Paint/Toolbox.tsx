@@ -32,13 +32,16 @@ interface ToolboxProps {
 }
 
 const Toolbox = ({ tool, setTool, lineWidth, setLineWidth, lineColor }: ToolboxProps) => {
+  const DISABLED_TOOLS = ['freeselect', 'rectselect', 'text', 'curve', 'polygon', 'roundedrect'];
+
   return (
     <aside className="xp-toolbox">
       <div className="xp-tool-grid">
         <button 
             type="button" 
             title="Free Select"     
-            className="xp-tool-btn"
+            onClick={() => {}} 
+            className="xp-tool-btn xp-tool-btn--disabled"
           >
           <img 
             src={FreeSelect} 
@@ -49,7 +52,8 @@ const Toolbox = ({ tool, setTool, lineWidth, setLineWidth, lineColor }: ToolboxP
         <button 
           type="button" 
           title="Rect Select"     
-          className="xp-tool-btn"
+          onClick={() => {}} 
+          className="xp-tool-btn xp-tool-btn--disabled"
         >
           <img 
             src={RectSelect} 
@@ -144,7 +148,8 @@ const Toolbox = ({ tool, setTool, lineWidth, setLineWidth, lineColor }: ToolboxP
         <button 
           type="button" 
           title="Text"            
-          className="xp-tool-btn"
+          onClick={() => {}} 
+          className="xp-tool-btn xp-tool-btn--disabled"
         >
           <img 
             src={Text} 
@@ -167,7 +172,8 @@ const Toolbox = ({ tool, setTool, lineWidth, setLineWidth, lineColor }: ToolboxP
         <button 
           type="button" 
           title="Curve"           
-          className="xp-tool-btn"
+          onClick={() => {}} 
+          className="xp-tool-btn xp-tool-btn--disabled"
         >
           <img 
             src={Curve} 
@@ -178,7 +184,8 @@ const Toolbox = ({ tool, setTool, lineWidth, setLineWidth, lineColor }: ToolboxP
         <button 
           type="button" 
           title="Rectangle"       
-          className="xp-tool-btn"
+          onClick={() => {}} 
+          className="xp-tool-btn xp-tool-btn--disabled"
         >
           <img 
             src={Rectangle} 
@@ -189,7 +196,8 @@ const Toolbox = ({ tool, setTool, lineWidth, setLineWidth, lineColor }: ToolboxP
         <button 
           type="button" 
           title="Polygon"         
-          className="xp-tool-btn"
+          onClick={() => {}} 
+          className="xp-tool-btn xp-tool-btn--disabled"
         >
           <img 
             src={Polygon} 
@@ -200,7 +208,8 @@ const Toolbox = ({ tool, setTool, lineWidth, setLineWidth, lineColor }: ToolboxP
         <button 
           type="button" 
           title="Ellipse"         
-          className="xp-tool-btn"
+          onClick={() => {}} 
+          className="xp-tool-btn xp-tool-btn--disabled"
         >
           <img 
             src={Elipse} 
@@ -211,7 +220,8 @@ const Toolbox = ({ tool, setTool, lineWidth, setLineWidth, lineColor }: ToolboxP
         <button 
           type="button" 
           title="Rounded Rect"    
-          className="xp-tool-btn"
+          onClick={() => {}} 
+          className="xp-tool-btn xp-tool-btn--disabled"
         >
           <img 
             src={RoundedRectangle} 

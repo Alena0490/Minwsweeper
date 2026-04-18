@@ -32,6 +32,11 @@
   cursor: pointer;
 }
 
+.xp-tool-btn--disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
 .xp-tool-btn img {
   width: 18px;
   height: auto;
