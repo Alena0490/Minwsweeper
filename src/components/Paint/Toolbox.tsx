@@ -31,7 +31,7 @@ interface ToolboxProps {
   zoom: number;
 }
 
-const Toolbox = ({ tool, setTool, lineWidth,lineColor }: ToolboxProps) => {
+const Toolbox = ({ tool, setTool, lineWidth, setLineWidth, lineColor }: ToolboxProps) => {
   return (
     <aside className="xp-toolbox">
       <div className="xp-tool-grid">
@@ -228,6 +228,27 @@ const Toolbox = ({ tool, setTool, lineWidth,lineColor }: ToolboxProps) => {
           borderRadius: '50%',
         }} />
       </div>
+
+      {(tool === 'brush' || tool === 'spray' || tool === 'line') && (
+        <div className="xp-context-panel">
+          {[2, 5, 8, 14].map(size => (
+            <button
+              key={size}
+              title='Select brush size'
+              type="button"
+              className={`xp-size-btn${lineWidth === size ? ' active' : ''}`}
+              onClick={() => setLineWidth(size)}
+            >
+              <div style={{
+                width: size,
+                height: size,
+                background: 'var(--text)',
+                borderRadius: '50%',
+              }} />
+            </button>
+          ))}
+        </div>
+      )}
     </aside>
   );
 };
