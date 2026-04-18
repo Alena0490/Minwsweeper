@@ -109,7 +109,24 @@ const PaintApp = ({ onDownloadRef, onClearRef, tool, setTool, zoom, setZoom, onZ
       ctx.filter = `blur(${Math.min(1.0, lineWidth * 0.06)}px)`;
       ctx.stroke();
       ctx.filter = prev;
-    } else {
+    } else if (tool === 'brush') {
+      const prev = ctx.filter;
+      ctx.filter = `blur(${Math.min(3.0, lineWidth * 0.3)}px)`;
+      ctx.stroke();
+      ctx.filter = prev;
+      } else if (tool === 'spray') {
+        const density = 30;
+        const radius = lineWidth * 2;
+        for (let i = 0; i < density; i++) {
+          const angle = Math.random() * Math.PI * 2;
+          const r = Math.random() * radius;
+          const sx = x + r * Math.cos(angle);
+          const sy = y + r * Math.sin(angle);
+          ctx.fillStyle = lineColor;
+          ctx.globalAlpha = lineOpacity * 0.3;
+          ctx.fillRect(sx, sy, 1, 1);
+        }
+      } else {
       ctx.stroke();
     }
   };

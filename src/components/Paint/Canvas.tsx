@@ -276,7 +276,7 @@ const Canvas = ({
     if (tool === "zoom") {
       const me = e as React.MouseEvent;
       if (me.nativeEvent.button !== 2) {
-        setZoom(z => Math.min(4, +(z * 1.1).toFixed(3)));
+        setZoom(z => z !== 1 ? 1 : Math.min(4, +(z * 1.1).toFixed(3)));
       }
       return;
     }
