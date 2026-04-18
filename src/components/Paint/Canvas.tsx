@@ -273,6 +273,13 @@ const Canvas = ({
       panStartRef.current = { x: clientX - pan.x, y: clientY - pan.y };
       return;
     }
+    if (tool === "zoom") {
+      const me = e as React.MouseEvent;
+      if (me.nativeEvent.button !== 2) {
+        setZoom(z => Math.min(4, +(z * 1.1).toFixed(3)));
+      }
+      return;
+    }
     if (tool === "bucket") {
       snapshot();
       const { x, y } = getCanvasXY(e);
@@ -348,6 +355,12 @@ const Canvas = ({
           onTouchMove={handleMouseMove}
           onTouchEnd={handleMouseUp}
           onTouchCancel={handleMouseUp}
+          onContextMenu={(e) => {
+            if (tool === "zoom") {
+              e.preventDefault();
+              setZoom(z => Math.max(0.25, +(z * 0.9).toFixed(3)));
+            }
+          }}
         />
       </section>
     </div>

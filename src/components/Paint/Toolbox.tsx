@@ -96,7 +96,8 @@ const Toolbox = ({ tool, setTool, lineWidth,lineColor }: ToolboxProps) => {
         <button 
           type="button" 
           title="Zoom"            
-          className="xp-tool-btn"
+          className={`xp-tool-btn${tool === 'zoom' ? ' active' : ''}`}
+          onClick={() => setTool('zoom')}
         >
           <img 
             src={Zoom} 
