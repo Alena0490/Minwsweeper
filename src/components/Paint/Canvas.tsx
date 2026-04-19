@@ -18,12 +18,13 @@ interface CanvasProps {
   setZoom: React.Dispatch<React.SetStateAction<number>>;
   pan: { x: number; y: number };
   setPan: React.Dispatch<React.SetStateAction<{ x: number; y: number }>>;
+  onStatusChange: (message: string) => void;
 }
 
 const Canvas = ({ 
   canvasRef, startDrawing, draw, endDrawing, ctxRef, 
   tool, lineColor, lineWidth, lineOpacity, setLineColor, 
-  setTool, zoom, setZoom, floodFill, pan, setPan   
+  setTool, zoom, setZoom, floodFill, pan, setPan, onStatusChange   
 }: CanvasProps) => {
 
   /* ── State ── */
@@ -311,20 +312,21 @@ const Canvas = ({
   };
 
   const handleMouseMove = (e: React.MouseEvent | React.TouchEvent) => {
-  if (tool === "line" && lineStartRef.current && previewRef.current) {
-  const ctx = ctxRef.current;
-  if (!ctx) return;
   const { x, y } = getCanvasXY(e);
-  ctx.putImageData(previewRef.current, 0, 0);
-  ctx.beginPath();
-  ctx.moveTo(lineStartRef.current.x, lineStartRef.current.y);
-  ctx.lineTo(x, y);
-  ctx.lineWidth = lineWidth;
-  ctx.globalAlpha = lineOpacity;
-  ctx.strokeStyle = lineColor;
-  ctx.stroke();
-  return;
-}
+  onStatusChange(`${Math.round(x)}, ${Math.round(y)}`);
+  if (tool === "line" && lineStartRef.current && previewRef.current) {
+    const ctx = ctxRef.current;
+    if (!ctx) return;
+    ctx.putImageData(previewRef.current, 0, 0);
+    ctx.beginPath();
+    ctx.moveTo(lineStartRef.current.x, lineStartRef.current.y);
+    ctx.lineTo(x, y);
+    ctx.lineWidth = lineWidth;
+    ctx.globalAlpha = lineOpacity;
+    ctx.strokeStyle = lineColor;
+    ctx.stroke();
+    return;
+  }
   draw(e);
 };
 
@@ -350,7 +352,10 @@ const Canvas = ({
           onMouseDown={handleMouseDown}
           onMouseMove={handleMouseMove}
           onMouseUp={handleMouseUp}
-          onMouseLeave={handleMouseUp}
+          onMouseLeave={(e) => { 
+            handleMouseUp(e); 
+            onStatusChange(tool.charAt(0).toUpperCase() + tool.slice(1)); 
+          }}
           onTouchStart={handleMouseDown}
           onTouchMove={handleMouseMove}
           onTouchEnd={handleMouseUp}

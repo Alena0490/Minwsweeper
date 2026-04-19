@@ -15,13 +15,15 @@ interface PaintAppProps {
   setPan: React.Dispatch<React.SetStateAction<{ x: number; y: number }>>
   onDownloadRef: React.RefObject<() => void>;
   onClearRef: React.RefObject<() => void>;
+  onOpenRef:  React.RefObject<() => void>;
+  onStatusChange: (message: string) => void;
 
 }
 
 const XP_PALETTE = [
   '#000000','#808080','#800000','#FF0000','#FF8040','#FFFF00',
   '#808000','#008000','#008080','#00FFFF','#000080','#0000FF',
-  '#800080','#FF00FF','#804000','#FF8080','#FF8000','#FFFF80',
+  '#800080','#FF00FF','#804000','#FF8080','#FF8020','#FFFF80',
   '#80FF00','#004040',
   '#FFFFFF','#C0C0C0','#FF0080','#804040','#FF8000','#FFFF40',
   '#80FF80','#00FF80','#40FFFF','#80C0FF','#4040FF','#8000FF',
@@ -29,7 +31,7 @@ const XP_PALETTE = [
   '#C0FFC0','#008040',
 ];
 
-const PaintApp = ({ onDownloadRef, onClearRef, tool, setTool, zoom, setZoom, onZoomIn, onZoomOut, zoomReset, pan, setPan }: PaintAppProps) => {
+const PaintApp = ({ onDownloadRef, onClearRef, onOpenRef, tool, setTool, zoom, setZoom, onZoomIn, onZoomOut, zoomReset, pan, setPan, onStatusChange }: PaintAppProps) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const ctxRef = useRef<CanvasRenderingContext2D | null>(null);
 
@@ -61,6 +63,10 @@ const PaintApp = ({ onDownloadRef, onClearRef, tool, setTool, zoom, setZoom, onZ
       }
     };
   }, [onClearRef, onDownloadRef, setTool, zoomReset ]);
+
+  useEffect(() => {
+    onStatusChange(tool.charAt(0).toUpperCase() + tool.slice(1));
+  }, [tool, onStatusChange]);
 
   const getEventCoordinates = (e: React.MouseEvent | React.TouchEvent) => {
     const canvas = canvasRef.current;
@@ -104,6 +110,7 @@ const PaintApp = ({ onDownloadRef, onClearRef, tool, setTool, zoom, setZoom, onZ
     const ctx = ctxRef.current;
     if (!ctx) return;
     ctx.lineTo(x, y);
+    onStatusChange(`${Math.round(x)}, ${Math.round(y)}`);
     if (tool === 'pencil') {
       const prev = ctx.filter;
       ctx.filter = `blur(${Math.min(1.0, lineWidth * 0.06)}px)`;
@@ -185,6 +192,7 @@ const PaintApp = ({ onDownloadRef, onClearRef, tool, setTool, zoom, setZoom, onZ
           lineWidth={lineWidth} lineOpacity={lineOpacity}
           tool={tool} setTool={setTool} floodFill={floodFill}
           zoom={zoom} setZoom={setZoom} pan={pan} setPan={setPan}
+          onStatusChange={onStatusChange}
         />
       </div>
       <div className="colors">

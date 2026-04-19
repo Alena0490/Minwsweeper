@@ -32,7 +32,7 @@ interface ToolboxProps {
 }
 
 const Toolbox = ({ tool, setTool, lineWidth, setLineWidth, lineColor }: ToolboxProps) => {
-  const DISABLED_TOOLS = ['freeselect', 'rectselect', 'text', 'curve', 'polygon', 'roundedrect'];
+  // const DISABLED_TOOLS = ['freeselect', 'rectselect', 'text', 'curve', 'polygon', 'roundedrect'];
 
   return (
     <aside className="xp-toolbox">

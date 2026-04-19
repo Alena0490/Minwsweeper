@@ -20,7 +20,7 @@ const Paint = ({ isFullscreen, setIsFullscreen, isMinimized, setIsMinimized, onC
   const [tool, setTool] = useState("pencil");
   const [zoom, setZoom] = useState(1);
   const [pan, setPan] = useState({ x: 0, y: 0 });
-  
+
   const { position, handleMouseDown } = useDraggable(400, 150);
 
   const zoomOut = () => setZoom(z => Math.max(0.25, +(z * 0.9).toFixed(3)));
@@ -28,7 +28,9 @@ const Paint = ({ isFullscreen, setIsFullscreen, isMinimized, setIsMinimized, onC
   const zoomReset = useCallback(() => { setZoom(1); setPan({ x: 0, y: 0 }); }, [setZoom, setPan]);
 
   const onDownloadRef = useRef<() => void>(() => {});
+  const onOpendRef = useRef<() => void>(() => {});
   const onClearRef = useRef<() => void>(() => {});
+  const statusRef = useRef<HTMLSpanElement>(null);
   
 
   return (
@@ -84,8 +86,9 @@ const Paint = ({ isFullscreen, setIsFullscreen, isMinimized, setIsMinimized, onC
         onZoomOut={zoomOut}
       />
       <div className="paint-canvas-area">
-            <PaintApp
+          <PaintApp
             onDownloadRef={onDownloadRef}
+            onOpenRef={onOpendRef}
             onClearRef={onClearRef}
             tool={tool}
             setTool={setTool}
@@ -96,10 +99,11 @@ const Paint = ({ isFullscreen, setIsFullscreen, isMinimized, setIsMinimized, onC
             onZoomIn={zoomIn}
             onZoomOut={zoomOut}
             zoomReset={zoomReset}
+            onStatusChange={(msg) => { if (statusRef.current) statusRef.current.textContent = msg; }}
             />
       </div>
       <div className="helper">
-        <span>For Help, click Help Topics on the Help Menu.</span>
+        <span ref={statusRef}>For Help, click Help Topics on the Help Menu.</span>
       </div>
     </div>
   );
