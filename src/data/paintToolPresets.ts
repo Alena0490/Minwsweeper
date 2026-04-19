@@ -15,6 +15,9 @@ import zoom2 from '../img/Paint/zoom2.png'
 import zoom6 from '../img/Paint/zoom6.png'
 import zoom8 from '../img/Paint/zoom8.png'
 
+import notTransparent from '../img/Paint/notTransparent.webp'
+import transparent from '../img/Paint/transparent.webp'
+
 
 export const ZOOM_PRESETS = [
   { id: 'zoom-1x', value: 1, icon: zoom1, label: '100%' },
@@ -23,6 +26,20 @@ export const ZOOM_PRESETS = [
   { id: 'zoom-8x', value: 8, icon: zoom8, label: '800%' },
 ] as const;
 
+export const BACKGROUND_PRESETS = [
+  {
+    id: 'bg-opaque',
+    icon: notTransparent,
+    label: 'Opaque background',
+    transparent: false,
+  },
+  {
+    id: 'bg-transparent',
+    icon: transparent,
+    label: 'Transparent background',
+    transparent: true,
+  },
+] as const;
 
 export const LINE_PRESETS = [
   { id: "line-1", width: 1, icon: line1, label: "Thin line" },
@@ -168,8 +185,8 @@ export const SPRAY_PRESETS = [
   },
 ] as const;
 
-
 export type LinePreset = typeof LINE_PRESETS[number];
 export type BrushPreset = typeof BRUSH_PRESETS[number];
 export type SprayPreset = typeof SPRAY_PRESETS[number];
 export type ZoomPreset = typeof ZOOM_PRESETS[number];
+export type BackgroundPreset = typeof BACKGROUND_PRESETS[number];
