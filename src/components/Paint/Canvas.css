@@ -1,3 +1,8 @@
+
+.app-window--fullscreen .app-wrap {
+    width: 100%;
+}
+
 .draw-area-outer {
     position: relative;
     flex: 1;

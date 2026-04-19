@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef, useCallback } from "react";
+import useSound from "../../hooks/useSound";
 import "./Canvas.css";
 
 interface CanvasProps {
@@ -53,6 +54,8 @@ const Canvas = ({
   /* ── State ── */
   const [gradStart, setGradStart] = useState<{ x: number; y: number } | null>(null);
   const [fileName, setFileName] = useState("drawing.png");
+
+  const { playNavStart, playMinimize } = useSound();
 
   /* ── Refs ── */
   const historyRef = useRef<string[]>([]);
@@ -161,6 +164,8 @@ const Canvas = ({
       ? safeName
       : `${safeName}.png`;
 
+    playNavStart();
+
     const url = canvas.toDataURL("image/png");
     const a = document.createElement("a");
     a.download = finalName;
@@ -168,7 +173,7 @@ const Canvas = ({
     a.click();
 
     setSaveAsOpen(false);
-  }, [canvasRef, fileName, setSaveAsOpen]);
+  }, [canvasRef, fileName, setSaveAsOpen, playNavStart]);
 
   const handleOpenFile = useCallback(() => {
     const canvas = canvasRef.current;
@@ -566,7 +571,7 @@ const Canvas = ({
         />
       </section>
 
-      // Dialog Window
+      {/* Dialog Window */}
       {saveAsOpen && (
         <div
           className={`paint-dialog-backdrop ${saveAsOpen ? "is-open" : ""}`}
@@ -586,7 +591,10 @@ const Canvas = ({
                 <button
                   type="button"
                   className="btn-close"
-                  onClick={() => setSaveAsOpen(false)}
+                  onClick={() => {
+                    playMinimize();
+                    setSaveAsOpen(false);
+                  }}
                   aria-label="Close"
                 >
                   ×
@@ -609,7 +617,13 @@ const Canvas = ({
               <button type="button" onClick={handleSaveAsConfirm}>
                 Save
               </button>
-              <button type="button" onClick={() => setSaveAsOpen(false)}>
+              <button 
+                type="button" 
+                onClick={() => {
+                  playMinimize();
+                  setSaveAsOpen(false);
+                }}
+              >
                 Cancel
               </button>
             </div>
