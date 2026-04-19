@@ -189,3 +189,153 @@
 .draw-area-arrows-h {
   display: none;
 }
+
+
+/*** SAVE DIALOG */
+.paint-dialog-backdrop {
+  position: fixed;
+  inset: 0;
+  background: color-mix(in srgb, #000 15%, transparent);
+  display: grid;
+  place-items: center;
+  z-index: 9999;
+}
+
+.paint-dialog {
+  width: 20rem;
+  background: var(--xp-surface);
+  border: 2px solid;
+  border-color:
+    var(--xp-line-light)
+    var(--xp-line-dark)
+    var(--xp-line-dark)
+    var(--xp-line-light);
+
+  box-shadow: 1px 1px 0 var(--xp-line-deep);
+  font: 11px Tahoma, sans-serif;
+  color: var(--text);
+}
+
+/** Save dialog bar */
+.paint-dialog .title-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-width: 0;
+  padding: 0 0.1875rem 0 0.375rem;
+  min-height: 1.5625rem;
+  color: var(--xp-title-text);
+  background: linear-gradient(
+    to right,
+    var(--xp-title-start) 0%,
+    var(--xp-title-mid) 55%,
+    var(--xp-title-end) 100%
+  );
+  cursor: default;
+  border-bottom: 1px solid color-mix(in srgb, var(--xp-line-dark) 70%, transparent);
+}
+
+.paint-dialog .title-bar-text {
+  display: inline-flex;
+  align-items: center;
+  min-width: 0;
+  color: var(--xp-title-text);
+  font: 700 0.6875rem/1 Tahoma, sans-serif;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-shadow: 1px 1px 0 rgb(0 0 0 / 0.35);
+}
+
+.paint-dialog .title-bar-buttons {
+  display: flex;
+  gap: 0.125rem;
+  margin-left: 0.375rem;
+}
+
+.paint-dialog .title-bar-buttons button {
+  width: 1.3125rem;
+  height: 1.3125rem;
+  padding: 0;
+  border: 1px solid var(--background);
+  border-radius: 0.1875rem;
+  color: var(--xp-title-text);
+  font: bold 0.6875rem Tahoma, sans-serif;
+  line-height: 1;
+  background: linear-gradient(to bottom, #9CC2FF, #2B74E3);
+  box-shadow: inset -1px -1px 0 rgb(0 0 0 / 0.25);
+}
+
+.paint-dialog .title-bar-buttons button:hover {
+  filter: brightness(1.05);
+}
+
+.paint-dialog .title-bar-buttons button:active {
+  background: linear-gradient(to bottom, #2B74E3, #9CC2FF);
+  box-shadow:
+    inset 1px 1px 0 rgb(0 0 0 / 0.4),
+    inset -1px -1px 0 rgb(255 255 255 / 0.6);
+  transform: translate(1px, 1px);
+}
+
+.paint-dialog .title-bar-buttons .btn-close {
+  background: linear-gradient(to bottom, #FFB1A6, #D94B31);
+}
+
+.paint-dialog .title-bar-buttons .btn-close:active {
+  background: linear-gradient(to bottom, #D94B31, #FFB1A6);
+}
+
+/** Save dialog body */
+.paint-dialog-body {
+  display: grid;
+  gap: 0.5rem;
+  padding: 0.9rem;
+}
+
+.paint-dialog-body input {
+  width: 100%;
+  min-height: 1.5rem;
+  padding: 0.15rem 0.25rem;
+
+  border: 1px solid var(--xp-line-dark);
+  background: var(--xp-line-light);
+
+  box-shadow:
+    inset 1px 1px 0 var(--xp-line-mid);
+
+  font: inherit;
+}
+
+.paint-dialog-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  padding: 0 0.9rem 0.9rem;
+}
+
+.paint-dialog-actions button {
+  min-width: 4.75rem;
+  min-height: 1.45rem;
+  padding: 0 0.5rem;
+
+  border: 1px solid var(--xp-line-dark);
+  background: var(--xp-surface);
+
+  box-shadow:
+    inset 1px 1px 0 var(--xp-line-light),
+    inset -1px -1px 0 var(--xp-line-dark);
+
+  font: inherit;
+}
+
+.paint-dialog-actions button:hover {
+  background: var(--xp-surface-2);
+}
+
+.paint-dialog-actions button:active {
+  box-shadow:
+    inset -1px -1px 0 var(--xp-line-light),
+    inset 1px 1px 0 var(--xp-line-dark);
+}
+

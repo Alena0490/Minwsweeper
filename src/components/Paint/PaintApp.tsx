@@ -17,6 +17,8 @@ interface PaintAppProps {
   onClearRef: React.RefObject<() => void>;
   onOpenRef:  React.RefObject<() => void>;
   onStatusChange: (message: string) => void;
+  saveAsOpen: boolean;
+  setSaveAsOpen: React.Dispatch<React.SetStateAction<boolean>>;
 
 }
 
@@ -31,7 +33,7 @@ const XP_PALETTE = [
   '#C0FFC0','#008040',
 ];
 
-const PaintApp = ({ onDownloadRef, onClearRef, onOpenRef, tool, setTool, zoom, setZoom, onZoomIn, onZoomOut, zoomReset, pan, setPan, onStatusChange }: PaintAppProps) => {
+const PaintApp = ({ onDownloadRef, onClearRef, onOpenRef, tool, setTool, zoom, setZoom, onZoomIn, onZoomOut, zoomReset, pan, setPan, onStatusChange, saveAsOpen, setSaveAsOpen }: PaintAppProps) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const ctxRef = useRef<CanvasRenderingContext2D | null>(null);
 
@@ -62,7 +64,8 @@ const PaintApp = ({ onDownloadRef, onClearRef, onOpenRef, tool, setTool, zoom, s
         setTool('clear');
       }
     };
-  }, [onClearRef, onDownloadRef, setTool, zoomReset ]);
+    onOpenRef.current = () => setTool('open');
+  }, [onClearRef, onDownloadRef, onOpenRef, setTool, zoomReset ]);
 
   useEffect(() => {
     onStatusChange(tool.charAt(0).toUpperCase() + tool.slice(1));
@@ -186,13 +189,25 @@ const PaintApp = ({ onDownloadRef, onClearRef, onOpenRef, tool, setTool, zoom, s
           zoom={zoom}
         />
         <Canvas
-          canvasRef={canvasRef} ctxRef={ctxRef}
-          startDrawing={startDrawing} draw={draw} endDrawing={endDrawing}
-          lineColor={lineColor} setLineColor={setLineColor}
-          lineWidth={lineWidth} lineOpacity={lineOpacity}
-          tool={tool} setTool={setTool} floodFill={floodFill}
-          zoom={zoom} setZoom={setZoom} pan={pan} setPan={setPan}
+          canvasRef={canvasRef}
+          ctxRef={ctxRef}
+          startDrawing={startDrawing}
+          draw={draw}
+          endDrawing={endDrawing}
+          lineColor={lineColor}
+          setLineColor={setLineColor}
+          lineWidth={lineWidth}
+          lineOpacity={lineOpacity}
+          tool={tool}
+          setTool={setTool}
+          floodFill={floodFill}
+          zoom={zoom}
+          setZoom={setZoom}
+          pan={pan}
+          setPan={setPan}
           onStatusChange={onStatusChange}
+          saveAsOpen={saveAsOpen}
+          setSaveAsOpen={setSaveAsOpen}
         />
       </div>
       <div className="colors">

@@ -20,6 +20,7 @@ const Paint = ({ isFullscreen, setIsFullscreen, isMinimized, setIsMinimized, onC
   const [tool, setTool] = useState("pencil");
   const [zoom, setZoom] = useState(1);
   const [pan, setPan] = useState({ x: 0, y: 0 });
+  const [saveAsOpen, setSaveAsOpen] = useState(false);
 
   const { position, handleMouseDown } = useDraggable(400, 150);
 
@@ -84,6 +85,7 @@ const Paint = ({ isFullscreen, setIsFullscreen, isMinimized, setIsMinimized, onC
         isZoomed={zoom > 1}
         onZoomIn={zoomIn}
         onZoomOut={zoomOut}
+        onSaveAs={() => setSaveAsOpen(true)}
       />
       <div className="paint-canvas-area">
           <PaintApp
@@ -100,6 +102,8 @@ const Paint = ({ isFullscreen, setIsFullscreen, isMinimized, setIsMinimized, onC
             onZoomOut={zoomOut}
             zoomReset={zoomReset}
             onStatusChange={(msg) => { if (statusRef.current) statusRef.current.textContent = msg; }}
+            saveAsOpen={saveAsOpen}
+            setSaveAsOpen={setSaveAsOpen}
             />
       </div>
       <div className="helper">

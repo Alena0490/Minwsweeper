@@ -19,16 +19,35 @@ interface CanvasProps {
   pan: { x: number; y: number };
   setPan: React.Dispatch<React.SetStateAction<{ x: number; y: number }>>;
   onStatusChange: (message: string) => void;
+  saveAsOpen: boolean;
+  setSaveAsOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const Canvas = ({ 
-  canvasRef, startDrawing, draw, endDrawing, ctxRef, 
-  tool, lineColor, lineWidth, lineOpacity, setLineColor, 
-  setTool, zoom, setZoom, floodFill, pan, setPan, onStatusChange   
+const Canvas = ({
+  canvasRef,
+  startDrawing,
+  draw,
+  endDrawing,
+  ctxRef,
+  tool,
+  lineColor,
+  lineWidth,
+  lineOpacity,
+  setLineColor,
+  setTool,
+  zoom,
+  setZoom,
+  floodFill,
+  pan,
+  setPan,
+  onStatusChange,
+  saveAsOpen,
+  setSaveAsOpen
 }: CanvasProps) => {
 
   /* ── State ── */
   const [gradStart, setGradStart] = useState<{x: number, y: number} | null>(null);
+  const [fileName, setFileName] = useState("drawing.png");
 
   /* ── Refs ── */
   const historyRef = useRef<string[]>([]);
@@ -85,7 +104,7 @@ const Canvas = ({
     const img = new Image();
     img.onload = () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
-      ctx.drawImage(img, 0, 0);
+      ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
     };
     img.src = url;
   }, [canvasRef, ctxRef]);
@@ -106,31 +125,78 @@ const Canvas = ({
     restoreFrom(next);
   }, [canvasRef, restoreFrom]);
 
-  /* ── Keyboard shortcuts ── */
-  useEffect(() => {
-    const onKeyDown = (e: KeyboardEvent) => {
-      const t = e.target as HTMLElement;
-      if (t && (t.tagName === "INPUT" || t.tagName === "TEXTAREA" || t.isContentEditable)) return;
-      const key = e.key.toLowerCase();
-      const mod = e.ctrlKey || e.metaKey;
-      if (!mod) return;
-      if (key === "z") { e.preventDefault(); if (e.shiftKey) { redo(); } else { undo(); } return; }
-      if (key === "y") { e.preventDefault(); redo(); }
-    };
-    window.addEventListener("keydown", onKeyDown, { passive: false });
-    return () => window.removeEventListener("keydown", onKeyDown);
-  }, [undo, redo]);
+  const handleSaveAsConfirm = () => {
+  const canvas = canvasRef.current;
+  if (!canvas) return;
 
-  /* ── Tool actions (clear, download, undo, redo) ── */
+  const safeName = fileName.trim() || "drawing.png";
+  const finalName = safeName.toLowerCase().endsWith(".png")
+    ? safeName
+    : `${safeName}.png`;
+
+  const url = canvas.toDataURL("image/png");
+  const a = document.createElement("a");
+  a.download = finalName;
+  a.href = url;
+  a.click();
+
+  setSaveAsOpen(false);
+};
+
+const handleOpenFile = useCallback(() => {
+  const canvas = canvasRef.current;
+  const ctx = ctxRef.current;
+  if (!canvas || !ctx) return;
+
+  const input = document.createElement("input");
+  input.type = "file";
+  input.accept = "image/*";
+
+  input.onchange = (e) => {
+    const file = (e.target as HTMLInputElement).files?.[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+
+    reader.onload = (ev) => {
+      const result = ev.target?.result;
+      if (typeof result !== "string") return;
+
+      const img = new Image();
+
+      img.onload = () => {
+        snapshot();
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+        onStatusChange("Image opened");
+      };
+
+      img.onerror = () => {
+        onStatusChange("Failed to open image");
+      };
+
+      img.src = result;
+    };
+
+    reader.readAsDataURL(file);
+  };
+
+  input.click();
+}, [canvasRef, ctxRef, snapshot, onStatusChange]);
+
+  /* ── Keyboard shortcuts ── */
   useEffect(() => {
     if (!canvasRef.current || !ctxRef.current) return;
     const canvas = canvasRef.current;
     const ctx = ctxRef.current;
+
     if (tool === "clear") {
       snapshot();
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       setTimeout(() => setTool?.("pencil"), 0);
     }
+
     if (tool === "download") {
       const url = canvas.toDataURL("image/png");
       const a = document.createElement("a");
@@ -139,11 +205,22 @@ const Canvas = ({
       a.click();
       setTimeout(() => setTool?.("pencil"), 0);
     }
-    if (tool === "undo") { undo(); setTimeout(() => setTool?.("pencil"), 0); }
-    if (tool === "redo") { redo(); setTimeout(() => setTool?.("pencil"), 0); }
-  }, [tool, canvasRef, ctxRef, setTool, snapshot, undo, redo]);
 
-  
+    if (tool === "undo") {
+      undo();
+      setTimeout(() => setTool?.("pencil"), 0);
+    }
+
+    if (tool === "redo") {
+      redo();
+      setTimeout(() => setTool?.("pencil"), 0);
+    }
+
+    if (tool === "open") {
+      handleOpenFile();
+      setTimeout(() => setTool?.("pencil"), 0);
+    }
+  }, [tool, canvasRef, ctxRef, setTool, snapshot, undo, redo, handleOpenFile]);
 
   /* ── Pinch to zoom ── */
   useEffect(() => {
@@ -368,6 +445,48 @@ const Canvas = ({
           }}
         />
       </section>
+      {saveAsOpen && (
+        <div className="paint-dialog-backdrop" onClick={() => setSaveAsOpen(false)}>
+          <div
+            className="paint-dialog"
+            onClick={(e) => e.stopPropagation()}
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="save-as-title"
+          >
+            <div className="title-bar">
+              <div className="title-bar-text">Save As</div>
+
+              <div className="title-bar-buttons">
+                <button
+                  type="button"
+                  className="btn-close"
+                  onClick={() => setSaveAsOpen(false)}
+                  aria-label="Close"
+                >
+                  ×
+                </button>
+              </div>
+            </div>
+
+            <div className="paint-dialog-body">
+              <label htmlFor="filename-input">File name:</label>
+              <input
+                id="filename-input"
+                type="text"
+                value={fileName}
+                onChange={(e) => setFileName(e.target.value)}
+                autoFocus
+              />
+            </div>
+
+            <div className="paint-dialog-actions">
+              <button type="button" onClick={handleSaveAsConfirm}>Save</button>
+              <button type="button" onClick={() => setSaveAsOpen(false)}>Cancel</button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
