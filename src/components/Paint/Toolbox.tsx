@@ -17,7 +17,7 @@ import Elipse from '../../img/elipse.webp'
 import RoundedRectangle from '../../img/roundedRect.webp'
 
 interface ToolboxProps {
-  lineColor: string;
+  // lineColor: string;
   setLineColor: (color: string) => void;
   lineWidth: number;
   setLineWidth: (width: number) => void;
@@ -31,7 +31,7 @@ interface ToolboxProps {
   zoom: number;
 }
 
-const Toolbox = ({ tool, setTool, lineWidth, setLineWidth, lineColor }: ToolboxProps) => {
+const Toolbox = ({ tool, setTool, lineWidth, setLineWidth }: ToolboxProps) => {
   // const DISABLED_TOOLS = ['freeselect', 'rectselect', 'text', 'curve', 'polygon', 'roundedrect'];
 
   return (
@@ -230,35 +230,28 @@ const Toolbox = ({ tool, setTool, lineWidth, setLineWidth, lineColor }: ToolboxP
         </button>
       </div>
 
-      <div className="xp-size-preview">
-        <div className="xp-dot-preview" style={{
-          width: Math.min(lineWidth, 36),
-          height: Math.min(lineWidth, 36),
-          background: lineColor,
-          borderRadius: '50%',
-        }} />
+      <div className="xp-tool-preview">
+        {(tool === 'brush' || tool === 'spray' || tool === 'line') && (
+          <div className="xp-context-panel">
+            {[2, 5, 8, 14].map(size => (
+              <button
+                key={size}
+                title='Select brush size'
+                type="button"
+                className={`xp-size-btn${lineWidth === size ? ' active' : ''}`}
+                onClick={() => setLineWidth(size)}
+              >
+                <div 
+                className='xp-dot'
+                style={{
+                  width: size,
+                  height: size,
+                }} />
+              </button>
+            ))}
+          </div>
+        )}
       </div>
-
-      {(tool === 'brush' || tool === 'spray' || tool === 'line') && (
-        <div className="xp-context-panel">
-          {[2, 5, 8, 14].map(size => (
-            <button
-              key={size}
-              title='Select brush size'
-              type="button"
-              className={`xp-size-btn${lineWidth === size ? ' active' : ''}`}
-              onClick={() => setLineWidth(size)}
-            >
-              <div style={{
-                width: size,
-                height: size,
-                background: 'var(--text)',
-                borderRadius: '50%',
-              }} />
-            </button>
-          ))}
-        </div>
-      )}
     </aside>
   );
 };

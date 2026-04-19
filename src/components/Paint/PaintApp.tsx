@@ -175,7 +175,7 @@ const PaintApp = ({ onDownloadRef, onClearRef, onOpenRef, tool, setTool, zoom, s
     <div className="app-wrap">
       <div className="top-part">
         <Toolbox
-          lineColor={lineColor}
+          // lineColor={lineColor}
           setLineColor={setLineColor}
           lineWidth={lineWidth} 
           setLineWidth={setLineWidth}
