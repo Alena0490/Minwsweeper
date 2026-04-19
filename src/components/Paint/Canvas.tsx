@@ -13,7 +13,13 @@ interface CanvasProps {
   lineOpacity: number;
   tool: string;
   setTool: (tool: string) => void;
-  floodFill: (ctx: CanvasRenderingContext2D, x: number, y: number, fillRGBA: number[], tolerance?: number) => void;
+  floodFill: (
+    ctx: CanvasRenderingContext2D,
+    x: number,
+    y: number,
+    fillRGBA: number[],
+    tolerance?: number
+  ) => void;
   zoom: number;
   setZoom: React.Dispatch<React.SetStateAction<number>>;
   pan: { x: number; y: number };
@@ -42,11 +48,10 @@ const Canvas = ({
   setPan,
   onStatusChange,
   saveAsOpen,
-  setSaveAsOpen
+  setSaveAsOpen,
 }: CanvasProps) => {
-
   /* ── State ── */
-  const [gradStart, setGradStart] = useState<{x: number, y: number} | null>(null);
+  const [gradStart, setGradStart] = useState<{ x: number; y: number } | null>(null);
   const [fileName, setFileName] = useState("drawing.png");
 
   /* ── Refs ── */
@@ -57,7 +62,7 @@ const Canvas = ({
   const isPanningRef = useRef(false);
   const panStartRef = useRef({ x: 0, y: 0 });
 
-  /* ── Helpers ── */
+  /* ── Coordinate helpers ── */
   const hexToRgb = (hex: string) => {
     const h = hex.replace("#", "");
     return {
@@ -67,27 +72,40 @@ const Canvas = ({
     };
   };
 
-  const getCanvasXY = (e: React.MouseEvent | React.TouchEvent | MouseEvent | TouchEvent) => {
+  const getCanvasXY = (
+    e: React.MouseEvent | React.TouchEvent | MouseEvent | TouchEvent
+  ) => {
     const canvas = canvasRef.current!;
     const rect = canvas.getBoundingClientRect();
     const baseWidth = rect.width / zoom;
     const baseHeight = rect.height / zoom;
     const scaleX = canvas.width / baseWidth;
     const scaleY = canvas.height / baseHeight;
+
     const te = e as TouchEvent;
     const me = e as MouseEvent;
-    const clientX = te.touches?.[0]?.clientX ?? te.changedTouches?.[0]?.clientX ?? me.clientX;
-    const clientY = te.touches?.[0]?.clientY ?? te.changedTouches?.[0]?.clientY ?? me.clientY;
+
+    const clientX =
+      te.touches?.[0]?.clientX ??
+      te.changedTouches?.[0]?.clientX ??
+      me.clientX;
+
+    const clientY =
+      te.touches?.[0]?.clientY ??
+      te.changedTouches?.[0]?.clientY ??
+      me.clientY;
+
     return {
       x: Math.floor(((clientX - rect.left) / zoom) * scaleX),
       y: Math.floor(((clientY - rect.top) / zoom) * scaleY),
     };
   };
 
-  /* ── History ── */
+  /* ── History helpers ── */
   const snapshot = useCallback(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
+
     try {
       const url = canvas.toDataURL("image/png");
       historyRef.current.push(url);
@@ -97,21 +115,28 @@ const Canvas = ({
     }
   }, [canvasRef]);
 
-  const restoreFrom = useCallback((url: string) => {
-    const canvas = canvasRef.current;
-    const ctx = ctxRef.current;
-    if (!canvas || !ctx || !url) return;
-    const img = new Image();
-    img.onload = () => {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-    };
-    img.src = url;
-  }, [canvasRef, ctxRef]);
+  const restoreFrom = useCallback(
+    (url: string) => {
+      const canvas = canvasRef.current;
+      const ctx = ctxRef.current;
+      if (!canvas || !ctx || !url) return;
+
+      const img = new Image();
+
+      img.onload = () => {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+      };
+
+      img.src = url;
+    },
+    [canvasRef, ctxRef]
+  );
 
   const undo = useCallback(() => {
     const canvas = canvasRef.current;
     if (!canvas || historyRef.current.length === 0) return;
+
     redoRef.current.push(canvas.toDataURL("image/png"));
     const prev = historyRef.current.pop()!;
     restoreFrom(prev);
@@ -120,81 +145,103 @@ const Canvas = ({
   const redo = useCallback(() => {
     const canvas = canvasRef.current;
     if (!canvas || redoRef.current.length === 0) return;
+
     historyRef.current.push(canvas.toDataURL("image/png"));
     const next = redoRef.current.pop()!;
     restoreFrom(next);
   }, [canvasRef, restoreFrom]);
 
-  const handleSaveAsConfirm = () => {
-  const canvas = canvasRef.current;
-  if (!canvas) return;
+  /* ── File actions ── */
+  const handleSaveAsConfirm = useCallback(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
 
-  const safeName = fileName.trim() || "drawing.png";
-  const finalName = safeName.toLowerCase().endsWith(".png")
-    ? safeName
-    : `${safeName}.png`;
+    const safeName = fileName.trim() || "drawing.png";
+    const finalName = safeName.toLowerCase().endsWith(".png")
+      ? safeName
+      : `${safeName}.png`;
 
-  const url = canvas.toDataURL("image/png");
-  const a = document.createElement("a");
-  a.download = finalName;
-  a.href = url;
-  a.click();
+    const url = canvas.toDataURL("image/png");
+    const a = document.createElement("a");
+    a.download = finalName;
+    a.href = url;
+    a.click();
 
-  setSaveAsOpen(false);
-};
+    setSaveAsOpen(false);
+  }, [canvasRef, fileName, setSaveAsOpen]);
 
-const handleOpenFile = useCallback(() => {
-  const canvas = canvasRef.current;
-  const ctx = ctxRef.current;
-  if (!canvas || !ctx) return;
+  const handleOpenFile = useCallback(() => {
+    const canvas = canvasRef.current;
+    const ctx = ctxRef.current;
+    if (!canvas || !ctx) return;
 
-  const input = document.createElement("input");
-  input.type = "file";
-  input.accept = "image/*";
+    const input = document.createElement("input");
+    input.type = "file";
+    input.accept = "image/*";
 
-  input.onchange = (e) => {
-    const file = (e.target as HTMLInputElement).files?.[0];
-    if (!file) return;
+    input.onchange = (e) => {
+      const file = (e.target as HTMLInputElement).files?.[0];
+      if (!file) return;
 
-    const reader = new FileReader();
+      const reader = new FileReader();
 
-    reader.onload = (ev) => {
-      const result = ev.target?.result;
-      if (typeof result !== "string") return;
+      reader.onload = (ev) => {
+        const result = ev.target?.result;
+        if (typeof result !== "string") return;
 
-      const img = new Image();
+        const img = new Image();
 
-      img.onload = () => {
-        snapshot();
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        img.onload = () => {
+          snapshot();
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+          ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+          onStatusChange("Image opened");
+        };
 
-        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-        onStatusChange("Image opened");
+        img.onerror = () => {
+          onStatusChange("Failed to open image");
+        };
+
+        img.src = result;
       };
 
-      img.onerror = () => {
-        onStatusChange("Failed to open image");
-      };
-
-      img.src = result;
+      reader.readAsDataURL(file);
     };
 
-    reader.readAsDataURL(file);
-  };
+    input.click();
+  }, [canvasRef, ctxRef, snapshot, onStatusChange]);
 
-  input.click();
-}, [canvasRef, ctxRef, snapshot, onStatusChange]);
+  /* ── Dialog keyboard handling ── */
+  useEffect(() => {
+    if (!saveAsOpen) return;
 
-  /* ── Keyboard shortcuts ── */
+    const handleKey = (e: KeyboardEvent) => {
+      if (e.key === "Enter") {
+        e.preventDefault();
+        handleSaveAsConfirm();
+      }
+
+      if (e.key === "Escape") {
+        e.preventDefault();
+        setSaveAsOpen(false);
+      }
+    };
+
+    window.addEventListener("keydown", handleKey);
+    return () => window.removeEventListener("keydown", handleKey);
+  }, [saveAsOpen, handleSaveAsConfirm, setSaveAsOpen]);
+
+  /* ── Tool side effects ── */
   useEffect(() => {
     if (!canvasRef.current || !ctxRef.current) return;
+
     const canvas = canvasRef.current;
     const ctx = ctxRef.current;
 
     if (tool === "clear") {
       snapshot();
       ctx.clearRect(0, 0, canvas.width, canvas.height);
-      setTimeout(() => setTool?.("pencil"), 0);
+      setTimeout(() => setTool("pencil"), 0);
     }
 
     if (tool === "download") {
@@ -203,116 +250,153 @@ const handleOpenFile = useCallback(() => {
       a.download = "drawing.png";
       a.href = url;
       a.click();
-      setTimeout(() => setTool?.("pencil"), 0);
+      setTimeout(() => setTool("pencil"), 0);
     }
 
     if (tool === "undo") {
       undo();
-      setTimeout(() => setTool?.("pencil"), 0);
+      setTimeout(() => setTool("pencil"), 0);
     }
 
     if (tool === "redo") {
       redo();
-      setTimeout(() => setTool?.("pencil"), 0);
+      setTimeout(() => setTool("pencil"), 0);
     }
 
     if (tool === "open") {
       handleOpenFile();
-      setTimeout(() => setTool?.("pencil"), 0);
+      setTimeout(() => setTool("pencil"), 0);
     }
   }, [tool, canvasRef, ctxRef, setTool, snapshot, undo, redo, handleOpenFile]);
 
-  /* ── Pinch to zoom ── */
+  /* ── Touch zoom handling ── */
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
+
     const initialDistanceRef = { current: 0 };
     const initialZoomRef = { current: 1 };
+
     const getDistance = (t1: Touch, t2: Touch) => {
       const dx = t2.clientX - t1.clientX;
       const dy = t2.clientY - t1.clientY;
       return Math.sqrt(dx * dx + dy * dy);
     };
+
     const handleTouchStart = (e: TouchEvent) => {
       if (e.touches.length === 2) {
         e.preventDefault();
         initialDistanceRef.current = getDistance(e.touches[0], e.touches[1]);
-        setZoom?.((currentZoom) => { initialZoomRef.current = currentZoom; return currentZoom; });
+        setZoom((currentZoom) => {
+          initialZoomRef.current = currentZoom;
+          return currentZoom;
+        });
       }
     };
+
     const handleTouchMove = (e: TouchEvent) => {
       if (e.touches.length === 2) {
         e.preventDefault();
-        const scale = getDistance(e.touches[0], e.touches[1]) / initialDistanceRef.current;
-        setZoom?.(+(Math.min(4, Math.max(0.25, initialZoomRef.current * scale)).toFixed(3)));
+        const scale =
+          getDistance(e.touches[0], e.touches[1]) / initialDistanceRef.current;
+
+        setZoom(
+          +Math.min(4, Math.max(0.25, initialZoomRef.current * scale)).toFixed(3)
+        );
       }
     };
-    canvas.addEventListener('touchstart', handleTouchStart, { passive: false });
-    canvas.addEventListener('touchmove', handleTouchMove, { passive: false });
+
+    canvas.addEventListener("touchstart", handleTouchStart, { passive: false });
+    canvas.addEventListener("touchmove", handleTouchMove, { passive: false });
+
     return () => {
-      canvas.removeEventListener('touchstart', handleTouchStart);
-      canvas.removeEventListener('touchmove', handleTouchMove);
+      canvas.removeEventListener("touchstart", handleTouchStart);
+      canvas.removeEventListener("touchmove", handleTouchMove);
     };
   }, [canvasRef, setZoom]);
 
-  /* ── Panning ── */
+  /* ── Canvas panning ── */
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
+
     const handlePanStart = (e: MouseEvent) => {
       if (e.button === 1 || (e.button === 0 && e.shiftKey)) {
         e.preventDefault();
         isPanningRef.current = true;
-        panStartRef.current = { x: e.clientX - pan.x, y: e.clientY - pan.y };
+        panStartRef.current = {
+          x: e.clientX - pan.x,
+          y: e.clientY - pan.y,
+        };
       }
     };
+
     const handlePanMove = (e: MouseEvent | TouchEvent) => {
       if (!isPanningRef.current) return;
+
       e.preventDefault();
+
       const te = e as TouchEvent;
       const me = e as MouseEvent;
+
       const clientX = te.touches?.[0]?.clientX ?? me.clientX;
       const clientY = te.touches?.[0]?.clientY ?? me.clientY;
-      setPan?.({ x: clientX - panStartRef.current.x, y: clientY - panStartRef.current.y });
+
+      setPan({
+        x: clientX - panStartRef.current.x,
+        y: clientY - panStartRef.current.y,
+      });
     };
-    const handlePanEnd = () => { isPanningRef.current = false; };
-    canvas.addEventListener('mousedown', handlePanStart);
-    window.addEventListener('mousemove', handlePanMove);
-    window.addEventListener('mouseup', handlePanEnd);
-    window.addEventListener('touchmove', handlePanMove, { passive: false });
-    window.addEventListener('touchend', handlePanEnd);
+
+    const handlePanEnd = () => {
+      isPanningRef.current = false;
+    };
+
+    canvas.addEventListener("mousedown", handlePanStart);
+    window.addEventListener("mousemove", handlePanMove);
+    window.addEventListener("mouseup", handlePanEnd);
+    window.addEventListener("touchmove", handlePanMove, { passive: false });
+    window.addEventListener("touchend", handlePanEnd);
+
     return () => {
-      canvas.removeEventListener('mousedown', handlePanStart);
-      window.removeEventListener('mousemove', handlePanMove);
-      window.removeEventListener('mouseup', handlePanEnd);
-      window.removeEventListener('touchmove', handlePanMove);
-      window.removeEventListener('touchend', handlePanEnd);
+      canvas.removeEventListener("mousedown", handlePanStart);
+      window.removeEventListener("mousemove", handlePanMove);
+      window.removeEventListener("mouseup", handlePanEnd);
+      window.removeEventListener("touchmove", handlePanMove);
+      window.removeEventListener("touchend", handlePanEnd);
     };
   }, [pan, setPan, canvasRef]);
 
-  /* ── Mouse / Touch handlers ── */
+  /* ── Pointer handlers ── */
   const handleMouseUp = (e: React.MouseEvent | React.TouchEvent) => {
     if ((e as React.TouchEvent).touches?.length >= 2) return;
+
     if (tool === "gradient" && gradStart) {
       const end = getCanvasXY(e);
       const ctx = ctxRef.current!;
       const { r, g, b } = hexToRgb(lineColor);
-      snapshot?.();
+
+      snapshot();
+
       const lg = ctx.createLinearGradient(gradStart.x, gradStart.y, end.x, end.y);
       lg.addColorStop(0, `rgba(${r},${g},${b},0)`);
       lg.addColorStop(1, `rgba(${r},${g},${b},${lineOpacity})`);
+
       ctx.save();
       ctx.globalCompositeOperation = "source-over";
       ctx.fillStyle = lg;
       ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
       ctx.restore();
+
       setGradStart(null);
-      setTool?.("pencil");
+      setTool("pencil");
       return;
     }
+
     if (tool === "line" && lineStartRef.current && previewRef.current) {
       const ctx = ctxRef.current;
       if (!ctx) return;
+
       const { x, y } = getCanvasXY(e);
       ctx.putImageData(previewRef.current, 0, 0);
       ctx.beginPath();
@@ -322,103 +406,139 @@ const handleOpenFile = useCallback(() => {
       ctx.globalAlpha = lineOpacity;
       ctx.strokeStyle = lineColor;
       ctx.stroke();
+
       lineStartRef.current = null;
       previewRef.current = null;
       return;
     }
+
     endDrawing(e);
   };
 
   const handleMouseDown = (e: React.MouseEvent | React.TouchEvent) => {
     if ((e as React.TouchEvent).touches?.length >= 2) return;
+
     const ctx = ctxRef.current;
-    // if (tool === "gradient") { setGradStart(getCanvasXY(e)); return; }
+
     if (tool === "line") {
-        snapshot();
-        const { x, y } = getCanvasXY(e);
-        lineStartRef.current = { x, y };
-        previewRef.current = ctxRef.current!.getImageData(0, 0, canvasRef.current!.width, canvasRef.current!.height);
-        return;
-      }
-    if (!ctx) return;
-    if (tool === "move") {
-      e.preventDefault();
-      isPanningRef.current = true;
-      const te = e as React.TouchEvent;
-      const me = e as React.MouseEvent;
-      const clientX = te.touches ? te.touches[0].clientX : me.clientX;
-      const clientY = te.touches ? te.touches[0].clientY : me.clientY;
-      panStartRef.current = { x: clientX - pan.x, y: clientY - pan.y };
-      return;
-    }
-    if (tool === "zoom") {
-      const me = e as React.MouseEvent;
-      if (me.nativeEvent.button !== 2) {
-        setZoom(z => z !== 1 ? 1 : Math.min(4, +(z * 1.1).toFixed(3)));
-      }
-      return;
-    }
-    if (tool === "bucket") {
       snapshot();
       const { x, y } = getCanvasXY(e);
-      const hex = lineColor.replace('#', '');
-      const r = parseInt(hex.slice(0,2),16);
-      const g = parseInt(hex.slice(2,4),16);
-      const b = parseInt(hex.slice(4,6),16);
-      const a = Math.round((lineOpacity ?? 1) * 255);
-      floodFill(ctx, x, y, [r,g,b,a], 8);
-      setTool?.("pencil");
+      lineStartRef.current = { x, y };
+      previewRef.current = ctxRef.current!.getImageData(
+        0,
+        0,
+        canvasRef.current!.width,
+        canvasRef.current!.height
+      );
       return;
     }
+
+    if (!ctx) return;
+
+    if (tool === "move") {
+      e.preventDefault();
+
+      isPanningRef.current = true;
+
+      const te = e as React.TouchEvent;
+      const me = e as React.MouseEvent;
+
+      const clientX = te.touches ? te.touches[0].clientX : me.clientX;
+      const clientY = te.touches ? te.touches[0].clientY : me.clientY;
+
+      panStartRef.current = {
+        x: clientX - pan.x,
+        y: clientY - pan.y,
+      };
+      return;
+    }
+
+    if (tool === "zoom") {
+      const me = e as React.MouseEvent;
+
+      if (me.nativeEvent.button !== 2) {
+        setZoom((z) => (z !== 1 ? 1 : Math.min(4, +(z * 1.1).toFixed(3))));
+      }
+      return;
+    }
+
+    if (tool === "bucket") {
+      snapshot();
+
+      const { x, y } = getCanvasXY(e);
+      const hex = lineColor.replace("#", "");
+      const r = parseInt(hex.slice(0, 2), 16);
+      const g = parseInt(hex.slice(2, 4), 16);
+      const b = parseInt(hex.slice(4, 6), 16);
+      const a = Math.round((lineOpacity ?? 1) * 255);
+
+      floodFill(ctx, x, y, [r, g, b, a], 8);
+      setTool("pencil");
+      return;
+    }
+
     if (tool === "eyedropper") {
       const { x, y } = getCanvasXY(e);
-      const [r,g,b] = ctx.getImageData(x, y, 1, 1).data;
-      setLineColor?.("#" + [r,g,b].map(v => v.toString(16).padStart(2,"0")).join(""));
-      setTool?.("pencil");
+      const [r, g, b] = ctx.getImageData(x, y, 1, 1).data;
+
+      setLineColor(
+        "#" + [r, g, b].map((v) => v.toString(16).padStart(2, "0")).join("")
+      );
+      setTool("pencil");
       return;
     }
+
     snapshot();
+
     const { x, y } = getCanvasXY(e);
     ctx.beginPath();
     ctx.moveTo(x, y);
     ctx.lineWidth = lineWidth;
     ctx.globalAlpha = lineOpacity;
     ctx.strokeStyle = lineColor;
-    ctx.globalCompositeOperation = (tool === "eraser") ? "destination-out" : "source-over";
+    ctx.globalCompositeOperation =
+      tool === "eraser" ? "destination-out" : "source-over";
+
     startDrawing(e);
   };
 
   const handleMouseMove = (e: React.MouseEvent | React.TouchEvent) => {
-  const { x, y } = getCanvasXY(e);
-  onStatusChange(`${Math.round(x)}, ${Math.round(y)}`);
-  if (tool === "line" && lineStartRef.current && previewRef.current) {
-    const ctx = ctxRef.current;
-    if (!ctx) return;
-    ctx.putImageData(previewRef.current, 0, 0);
-    ctx.beginPath();
-    ctx.moveTo(lineStartRef.current.x, lineStartRef.current.y);
-    ctx.lineTo(x, y);
-    ctx.lineWidth = lineWidth;
-    ctx.globalAlpha = lineOpacity;
-    ctx.strokeStyle = lineColor;
-    ctx.stroke();
-    return;
-  }
-  draw(e);
-};
+    const { x, y } = getCanvasXY(e);
+    onStatusChange(`${Math.round(x)}, ${Math.round(y)}`);
+
+    if (tool === "line" && lineStartRef.current && previewRef.current) {
+      const ctx = ctxRef.current;
+      if (!ctx) return;
+
+      ctx.putImageData(previewRef.current, 0, 0);
+      ctx.beginPath();
+      ctx.moveTo(lineStartRef.current.x, lineStartRef.current.y);
+      ctx.lineTo(x, y);
+      ctx.lineWidth = lineWidth;
+      ctx.globalAlpha = lineOpacity;
+      ctx.strokeStyle = lineColor;
+      ctx.stroke();
+      return;
+    }
+
+    draw(e);
+  };
 
   /* ── Render ── */
   return (
-    <div className={`draw-area-outer${zoom > 1 ? ' is-zoomed' : ''}`}>
+    <div className={`draw-area-outer${zoom > 1 ? " is-zoomed" : ""}`}>
       <div className="draw-area-arrows-h" />
       <div className="draw-area-shadow" />
+
       <section
-        className={`draw-area${zoom > 1 ? ' is-zoomed' : ''}`}
-        style={{
-          '--zoom': zoom,
-          '--pan-x': `${pan.x}px`,
-          '--pan-y': `${pan.y}px`,
-        } as React.CSSProperties}
+        className={`draw-area${zoom > 1 ? " is-zoomed" : ""}`}
+        style={
+          {
+            "--zoom": zoom,
+            "--pan-x": `${pan.x}px`,
+            "--pan-y": `${pan.y}px`,
+          } as React.CSSProperties
+        }
       >
         <canvas
           id="draw-canvas"
@@ -429,9 +549,9 @@ const handleOpenFile = useCallback(() => {
           onMouseDown={handleMouseDown}
           onMouseMove={handleMouseMove}
           onMouseUp={handleMouseUp}
-          onMouseLeave={(e) => { 
-            handleMouseUp(e); 
-            onStatusChange(tool.charAt(0).toUpperCase() + tool.slice(1)); 
+          onMouseLeave={(e) => {
+            handleMouseUp(e);
+            onStatusChange(tool.charAt(0).toUpperCase() + tool.slice(1));
           }}
           onTouchStart={handleMouseDown}
           onTouchMove={handleMouseMove}
@@ -440,11 +560,12 @@ const handleOpenFile = useCallback(() => {
           onContextMenu={(e) => {
             if (tool === "zoom") {
               e.preventDefault();
-              setZoom(z => Math.max(0.25, +(z * 0.9).toFixed(3)));
+              setZoom((z) => Math.max(0.25, +(z * 0.9).toFixed(3)));
             }
           }}
         />
       </section>
+
       {saveAsOpen && (
         <div className="paint-dialog-backdrop" onClick={() => setSaveAsOpen(false)}>
           <div
@@ -481,14 +602,18 @@ const handleOpenFile = useCallback(() => {
             </div>
 
             <div className="paint-dialog-actions">
-              <button type="button" onClick={handleSaveAsConfirm}>Save</button>
-              <button type="button" onClick={() => setSaveAsOpen(false)}>Cancel</button>
+              <button type="button" onClick={handleSaveAsConfirm}>
+                Save
+              </button>
+              <button type="button" onClick={() => setSaveAsOpen(false)}>
+                Cancel
+              </button>
             </div>
           </div>
         </div>
       )}
     </div>
   );
-}
+};
 
 export default Canvas;

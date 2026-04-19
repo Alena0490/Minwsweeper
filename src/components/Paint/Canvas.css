@@ -339,3 +339,8 @@
     inset 1px 1px 0 var(--xp-line-dark);
 }
 
+.paint-dialog-actions button:first-child {
+  outline: 1px dotted #000;
+  outline-offset: -4px;
+}
+
