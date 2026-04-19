@@ -24,15 +24,22 @@ const Paint = ({ isFullscreen, setIsFullscreen, isMinimized, setIsMinimized, onC
 
   const { position, handleMouseDown } = useDraggable(400, 150);
 
+  const setZoomLevel = useCallback((value: number) => {
+    setZoom(value);
+    setPan({ x: 0, y: 0 });
+  }, [setZoom, setPan]);
+
   const zoomOut = () => setZoom(z => Math.max(0.25, +(z * 0.9).toFixed(3)));
-  const zoomIn  = () => setZoom(z => Math.min(4, +(z * 1.1).toFixed(3)));
-  const zoomReset = useCallback(() => { setZoom(1); setPan({ x: 0, y: 0 }); }, [setZoom, setPan]);
+    const zoomIn  = () => setZoom(z => Math.min(8, +(z * 1.1).toFixed(3)));
+    const zoomReset = useCallback(() => {
+      setZoom(1);
+      setPan({ x: 0, y: 0 });
+  }, [setZoom, setPan]);
 
   const onDownloadRef = useRef<() => void>(() => {});
   const onOpendRef = useRef<() => void>(() => {});
   const onClearRef = useRef<() => void>(() => {});
   const statusRef = useRef<HTMLSpanElement>(null);
-  
 
   return (
     <div
@@ -96,10 +103,9 @@ const Paint = ({ isFullscreen, setIsFullscreen, isMinimized, setIsMinimized, onC
             setTool={setTool}
             zoom={zoom}
             setZoom={setZoom}
+            setZoomLevel={setZoomLevel}
             pan={pan}
             setPan={setPan}
-            onZoomIn={zoomIn}
-            onZoomOut={zoomOut}
             zoomReset={zoomReset}
             onStatusChange={(msg) => { if (statusRef.current) statusRef.current.textContent = msg; }}
             saveAsOpen={saveAsOpen}

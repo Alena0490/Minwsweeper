@@ -1,4 +1,11 @@
-import './Toolbox.css'
+import {
+  LINE_PRESETS,
+  BRUSH_PRESETS,
+  SPRAY_PRESETS,
+  ZOOM_PRESETS,
+  ERASER_PRESETS
+} from "../../data/paintToolPresets"
+// Images
 import FreeSelect from '../../img/star.webp'
 import RectSelect from '../../img/freeSelect.webp'
 import Pen from '../../img/pen.webp'
@@ -15,23 +22,46 @@ import Rectangle from '../../img/rectangle.webp'
 import Polygon from '../../img/polygon.webp'
 import Elipse from '../../img/elipse.webp'
 import RoundedRectangle from '../../img/roundedRect.webp'
+// Styles
+import './Toolbox.css'
+
 
 interface ToolboxProps {
-  // lineColor: string;
-  setLineColor: (color: string) => void;
-  lineWidth: number;
-  setLineWidth: (width: number) => void;
-  lineOpacity: number;
-  setLineOpacity: (opacity: number) => void;
   tool: string;
   setTool: (tool: string) => void;
-  onZoomIn: () => void;
-  onZoomOut: () => void;
-  onZoomReset: () => void;
-  zoom: number;
+  zoom: number; 
+  setZoomLevel: (value: number) => void;
+  lineWidth: number;
+  setLineWidth: (width: number) => void;
+  selectedLinePreset: number;
+  setSelectedLinePreset: (i: number) => void;
+  selectedBrushPreset: number;
+  setSelectedBrushPreset: (i: number) => void;
+  selectedSprayPreset: number;
+  setSelectedSprayPreset: (i: number) => void;
+   selectedEraserPreset: number;
+  setSelectedEraserPreset: (i: number) => void;
 }
 
-const Toolbox = ({ tool, setTool, lineWidth, setLineWidth }: ToolboxProps) => {
+const Toolbox = ({
+  tool,
+  setTool,
+  zoom,
+  setLineWidth,
+  setZoomLevel,
+
+  selectedLinePreset,
+  setSelectedLinePreset,
+
+  selectedBrushPreset,
+  setSelectedBrushPreset,
+
+  selectedSprayPreset,
+  setSelectedSprayPreset,
+
+  selectedEraserPreset,
+  setSelectedEraserPreset
+}: ToolboxProps) => {
   // const DISABLED_TOOLS = ['freeselect', 'rectselect', 'text', 'curve', 'polygon', 'roundedrect'];
 
   return (
@@ -230,27 +260,94 @@ const Toolbox = ({ tool, setTool, lineWidth, setLineWidth }: ToolboxProps) => {
         </button>
       </div>
 
+      {/* TOOL OPTIONS */}
       <div className="xp-tool-preview">
-        {(tool === 'brush' || tool === 'spray' || tool === 'line') && (
-          <div className="xp-context-panel">
-            {[2, 5, 8, 14].map(size => (
-              <button
-                key={size}
-                title='Select brush size'
-                type="button"
-                className={`xp-size-btn${lineWidth === size ? ' active' : ''}`}
-                onClick={() => setLineWidth(size)}
-              >
-                <div 
-                className='xp-dot'
-                style={{
-                  width: size,
-                  height: size,
-                }} />
-              </button>
-            ))}
-          </div>
-        )}
+        <div className="xp-context-panel">
+
+          {tool === 'zoom' && ZOOM_PRESETS.map((p) => (
+            <button
+              key={p.id}
+              type="button"
+              title={p.label}
+              aria-label={p.label}
+              className={`zoom xp-size-btn${zoom === p.value ? ' active' : ''}`}
+              onClick={() => setZoomLevel(p.value)}
+            >
+              <img src={p.icon} alt={p.label} />
+            </button>
+          ))}
+
+          {/* LINE */}
+          {tool === 'line' && LINE_PRESETS.map((p, i) => (
+            <button
+              key={p.id}
+              type="button"
+              title={p.label}
+              aria-label={p.label}
+              className={`line xp-size-btn${selectedLinePreset === i ? ' active' : ''}`}
+              onClick={() => {
+                setSelectedLinePreset(i);
+                setLineWidth(p.width); // ✔ správně
+              }}
+            >
+              <img src={p.icon} alt="" />
+            </button>
+          ))}
+
+          {/* SPRAY */}
+          {tool === 'spray' && SPRAY_PRESETS.map((p, i) => (
+            <button
+              key={p.id}
+              type="button"
+              title={p.label}
+              aria-label={p.label}
+              className={`xp-size-btn${selectedSprayPreset === i ? ' active' : ''}`}
+              onClick={() => {
+                setSelectedSprayPreset(i);
+                setLineWidth(p.radius); // ✔ TADY JE FIX
+              }}
+            >
+              <img src={p.icon} alt="" />
+            </button>
+          ))}
+
+          {tool === 'brush' && BRUSH_PRESETS.map((p, i) => (
+            <button
+              key={p.id}
+              type="button"
+              title={`${p.shape} ${p.size}px`}
+              aria-label={`${p.shape} ${p.size}px`}
+              className={`xp-size-btn${selectedBrushPreset === i ? ' active' : ''}`}
+              onClick={() => {
+                setSelectedBrushPreset(i);
+                setLineWidth(p.size);
+              }}
+            >
+              <svg width="24" height="24" viewBox="0 0 24 24"
+                dangerouslySetInnerHTML={{ __html: p.svg }}
+              />
+            </button>
+          ))}
+
+          {tool === 'eraser' && ERASER_PRESETS.map((p, i) => (
+            <button
+              key={p.id}
+              type="button"
+              title={p.label}
+              aria-label={p.label}
+              className={`eraser xp-size-btn${selectedEraserPreset === i ? ' active' : ''}`}
+              onClick={() => {
+                setSelectedEraserPreset(i);
+                setLineWidth(p.size);
+              }}
+            >
+              <svg width="24" height="24" viewBox="0 0 24 24"
+                dangerouslySetInnerHTML={{ __html: p.svg }}
+              />
+            </button>
+          ))}
+
+        </div>
       </div>
     </aside>
   );

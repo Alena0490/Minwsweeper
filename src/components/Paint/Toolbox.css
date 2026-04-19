@@ -51,6 +51,27 @@
   background: var(--xp-surface-2);
 }
 
+.xp-size-btn.line,
+.xp-size-btn.eraser,
+.xp-size-btn.zoom  {
+  width: unset;
+  aspect-ratio: unset;
+}
+
+.xp-size-btn.line img,
+.xp-size-btn.line svg {
+  width: 34px;
+  height: auto;
+  transform: scaleY(0.6);
+}
+
+.xp-size-btn.zoom img {
+  width: 22px;
+  height: auto;
+  padding-block: 3px;
+}
+
+
 .xp-color-preview {
   position: relative;
   width: 36px;
@@ -83,7 +104,8 @@
   align-items: center;
   justify-content: center;
   width: 100%;
-  height: 100%;
+  min-height: 56px;
+  height: fit-content;
   background: var(--xp-surface);
   margin-top: 4px;
   box-shadow: inset  -1px -1px 0 var(--xp-line-light),
@@ -98,6 +120,11 @@
   width: 100%;
 }
 
+.xp-context-panel:has(.line, .eraser, .zoom) {
+  display: flex;
+  flex-direction: column;
+}
+
 .xp-size-btn {
   aspect-ratio: 1/1;
   display: flex;
@@ -108,12 +135,23 @@
   cursor: pointer;
 }
 
+.xp-size-btn svg,
+.xp-size-btn img  {
+  width: 16px;
+  height: auto;
+}
+
 .xp-size-btn.active {
   background: var(--xp-menu-hover);
 }
 
 .xp-size-btn.active .xp-dot {
   background: var(--xp-line-light);
+}
+
+.xp-size-btn.active img,
+.xp-size-btn.active svg {
+  filter: invert(1);
 }
 
 .xp-dot {

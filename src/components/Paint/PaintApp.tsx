@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from "react"
+import { SPRAY_PRESETS, BRUSH_PRESETS, ERASER_PRESETS } from '../../data/paintToolPresets'
 import Toolbox from './Toolbox'
 import Canvas from './Canvas'
 import './PaintApp.css'
@@ -8,9 +9,8 @@ interface PaintAppProps {
   setTool: React.Dispatch<React.SetStateAction<string>>;
   zoom: number;
   setZoom: React.Dispatch<React.SetStateAction<number>>;
-  onZoomIn: () => void;
-  onZoomOut: () => void;
   zoomReset: () => void;
+  setZoomLevel: (value: number) => void;
   pan: { x: number; y: number };
   setPan: React.Dispatch<React.SetStateAction<{ x: number; y: number }>>
   onDownloadRef: React.RefObject<() => void>;
@@ -33,14 +33,33 @@ const XP_PALETTE = [
   '#C0FFC0','#008040',
 ];
 
-const PaintApp = ({ onDownloadRef, onClearRef, onOpenRef, tool, setTool, zoom, setZoom, onZoomIn, onZoomOut, zoomReset, pan, setPan, onStatusChange, saveAsOpen, setSaveAsOpen }: PaintAppProps) => {
+const PaintApp = ({ 
+  onDownloadRef, 
+  onClearRef, 
+  onOpenRef, 
+  tool, 
+  setTool, 
+  zoom, 
+  setZoom, 
+  zoomReset,
+  setZoomLevel, 
+  pan, 
+  setPan, 
+  onStatusChange, 
+  saveAsOpen, 
+  setSaveAsOpen 
+}: PaintAppProps) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const ctxRef = useRef<CanvasRenderingContext2D | null>(null);
 
   const [isDrawing, setIsDrawing] = useState(false);
   const [lineColor, setLineColor] = useState("#000000");
   const [lineWidth, setLineWidth] = useState(5);
-  const [lineOpacity, setLineOpacity] = useState(1);
+  const [lineOpacity, ] = useState(1);
+  const [selectedLinePreset, setSelectedLinePreset] = useState(0);
+  const [selectedBrushPreset, setSelectedBrushPreset] = useState(0);
+  const [selectedSprayPreset, setSelectedSprayPreset] = useState(0);
+  const [selectedEraserPreset, setSelectedEraserPreset] = useState(0);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -54,7 +73,10 @@ const PaintApp = ({ onDownloadRef, onClearRef, onOpenRef, tool, setTool, zoom, s
     ctx.strokeStyle = lineColor;
     ctxRef.current = ctx;
     ctx.filter = 'none';
-  }, [lineColor, lineWidth, lineOpacity]);
+    const brushShape = BRUSH_PRESETS[selectedBrushPreset].shape;
+    ctx.lineCap = brushShape === 'square' ? 'square' : 'round';
+    ctx.lineJoin = brushShape === 'square' ? 'miter' : 'round';
+  }, [lineColor, lineWidth, lineOpacity, selectedBrushPreset]);
 
   useEffect(() => {
     onDownloadRef.current = () => setTool('download');
@@ -120,13 +142,29 @@ const PaintApp = ({ onDownloadRef, onClearRef, onOpenRef, tool, setTool, zoom, s
       ctx.stroke();
       ctx.filter = prev;
     } else if (tool === 'brush') {
+      const { shape, size } = BRUSH_PRESETS[selectedBrushPreset]; // ← tvar z presetu
       const prev = ctx.filter;
-      ctx.filter = `blur(${Math.min(3.0, lineWidth * 0.3)}px)`;
-      ctx.stroke();
+      ctx.filter = `blur(${Math.min(3.0, size * 0.3)}px)`;
+
+      if (shape === 'round' || shape === 'square') {
+        ctx.stroke();
+      } else if (shape === 'diag-right') {
+        ctx.save();
+        ctx.translate(x, y);
+        ctx.rotate(Math.PI / 4);
+        ctx.fillRect(-size / 2, -size * 2, size, size * 4);
+        ctx.restore();
+      } else if (shape === 'diag-left') {
+        ctx.save();
+        ctx.translate(x, y);
+        ctx.rotate(-Math.PI / 4);
+        ctx.fillRect(-size / 2, -size * 2, size, size * 4);
+        ctx.restore();
+      }
+
       ctx.filter = prev;
       } else if (tool === 'spray') {
-        const density = 30;
-        const radius = lineWidth * 2;
+        const { density, radius } = SPRAY_PRESETS[selectedSprayPreset]; // ← místo hardcoded hodnot
         for (let i = 0; i < density; i++) {
           const angle = Math.random() * Math.PI * 2;
           const r = Math.random() * radius;
@@ -136,6 +174,13 @@ const PaintApp = ({ onDownloadRef, onClearRef, onOpenRef, tool, setTool, zoom, s
           ctx.globalAlpha = lineOpacity * 0.3;
           ctx.fillRect(sx, sy, 1, 1);
         }
+        } else if (tool === 'eraser') {
+          const prevComposite = ctx.globalCompositeOperation;
+          ctx.globalCompositeOperation = 'destination-out';
+          ctx.lineWidth = ERASER_PRESETS[selectedEraserPreset].size;
+          ctx.stroke();
+          ctx.globalCompositeOperation = prevComposite;
+          ctx.lineWidth = lineWidth;
       } else {
       ctx.stroke();
     }
@@ -175,17 +220,24 @@ const PaintApp = ({ onDownloadRef, onClearRef, onOpenRef, tool, setTool, zoom, s
     <div className="app-wrap">
       <div className="top-part">
         <Toolbox
-          // lineColor={lineColor}
-          setLineColor={setLineColor}
-          lineWidth={lineWidth} 
-          setLineWidth={setLineWidth}
-          lineOpacity={lineOpacity} 
-          setLineOpacity={setLineOpacity}
-          tool={tool} 
+          tool={tool}
           setTool={setTool}
-          onZoomIn={onZoomIn} 
-          onZoomOut={onZoomOut} 
-          onZoomReset={zoomReset}
+          lineWidth={lineWidth}        // ← chybělo
+          setLineWidth={setLineWidth} 
+
+          selectedLinePreset={selectedLinePreset}
+          setSelectedLinePreset={setSelectedLinePreset}
+
+          selectedBrushPreset={selectedBrushPreset}
+          setSelectedBrushPreset={setSelectedBrushPreset}
+
+          selectedSprayPreset={selectedSprayPreset}
+          setSelectedSprayPreset={setSelectedSprayPreset}
+
+          selectedEraserPreset={selectedEraserPreset}
+          setSelectedEraserPreset={setSelectedEraserPreset}
+
+          setZoomLevel={setZoomLevel}
           zoom={zoom}
         />
         <Canvas
