@@ -193,12 +193,19 @@
 
 /*** SAVE DIALOG */
 .paint-dialog-backdrop {
-  position: fixed;
+  position: absolute;
   inset: 0;
   background: color-mix(in srgb, #000 15%, transparent);
   display: grid;
   place-items: center;
   z-index: 9999;
+
+  opacity: 0;
+  transition: opacity 0.16s ease;
+}
+
+.paint-dialog-backdrop.is-open {
+  opacity: 1;
 }
 
 .paint-dialog {
@@ -210,10 +217,21 @@
     var(--xp-line-dark)
     var(--xp-line-dark)
     var(--xp-line-light);
-
   box-shadow: 1px 1px 0 var(--xp-line-deep);
   font: 11px Tahoma, sans-serif;
   color: var(--text);
+  overflow: hidden;
+
+  opacity: 0;
+  transform: translateY(10px) scale(0.98);
+  transition:
+    opacity 0.16s ease,
+    transform 0.16s ease;
+}
+
+.paint-dialog.is-open {
+  opacity: 1;
+  transform: translateY(0) scale(1);
 }
 
 /** Save dialog bar */

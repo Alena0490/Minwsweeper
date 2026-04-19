@@ -566,10 +566,14 @@ const Canvas = ({
         />
       </section>
 
+      // Dialog Window
       {saveAsOpen && (
-        <div className="paint-dialog-backdrop" onClick={() => setSaveAsOpen(false)}>
+        <div
+          className={`paint-dialog-backdrop ${saveAsOpen ? "is-open" : ""}`}
+          onClick={() => setSaveAsOpen(false)}
+        >
           <div
-            className="paint-dialog"
+            className={`paint-dialog ${saveAsOpen ? "is-open" : ""}`}
             onClick={(e) => e.stopPropagation()}
             role="dialog"
             aria-modal="true"

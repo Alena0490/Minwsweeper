@@ -3,6 +3,7 @@ import tickSound from '../sounds/tick.mp3'
 import winSound from '../sounds/win.mp3'
 import loseSound from '../sounds/lose.mp3'
 import startApp from '../sounds/Windows XP Start.wav'
+import stratAppShort from '../sounds/Windows Navigation Start.wav'
 import minimize from '../sounds/Windows XP Minimize.wav'
 
 const useSound = () => {
@@ -19,6 +20,7 @@ const useSound = () => {
         playWin: () => playSound(winSound), 
         playLose: () => playSound(loseSound),
         playStart: () => playSound(startApp),
+        playNavStart: () => playSound(stratAppShort),
         playMinimize: () => playSound(minimize),
         enabled,
         toggleSound: () => setEnabled(prev => !prev),
