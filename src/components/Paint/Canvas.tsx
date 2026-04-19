@@ -544,13 +544,14 @@ const Canvas = ({
             "--pan-y": `${pan.y}px`,
           } as React.CSSProperties
         }
+        data-tool={tool} 
       >
         <canvas
           id="draw-canvas"
           ref={canvasRef}
           width={800}
           height={600}
-          data-tool={tool}
+          // data-tool={tool}
           onMouseDown={handleMouseDown}
           onMouseMove={handleMouseMove}
           onMouseUp={handleMouseUp}
