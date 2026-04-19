@@ -31,4 +31,6 @@
   flex: 1;
   min-height: 0;
   overflow: hidden;
+  /* ⚠ stacking context fix for menu overlap */
+  z-index: 0;
 }

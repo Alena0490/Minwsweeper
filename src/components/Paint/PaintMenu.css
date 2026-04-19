@@ -66,6 +66,22 @@
   white-space: nowrap;
 }
 
+.submenu li.is-disabled {
+  color: var(--xp-disabled);
+  pointer-events: none;
+}
+
+.submenu li.is-disabled span {
+  color: inherit;
+}
+
+.submenu li.is-disabled:hover,
+.submenu li.is-disabled:focus,
+.submenu li.is-disabled:active {
+  background: transparent;
+  color: var(--xp-disabled);
+}
+
 .paint-menu .submenu li:hover {
   background: var(--xp-menu-hover);
   color: var(--xp-menu-hover-text);
