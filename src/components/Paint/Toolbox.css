@@ -54,15 +54,20 @@
 
 .xp-size-btn.line,
 .xp-size-btn.eraser,
-.xp-size-btn.zoom  {
+.xp-size-btn.zoom ,
+.xp-size-btn.rectselect {
   width: unset;
   aspect-ratio: unset;
 }
 
 .xp-size-btn.line img,
-.xp-size-btn.line svg {
+.xp-size-btn.line svg ,
+.xp-size-btn.rectselect img {
   width: 34px;
   height: auto;
+}
+
+.xp-size-btn.line img {
   transform: scaleY(0.6);
 }
 
@@ -121,7 +126,7 @@
   width: 100%;
 }
 
-.xp-context-panel:has(.line, .eraser, .zoom) {
+.xp-context-panel:has(.line, .eraser, .zoom, .rectselect) {
   display: flex;
   flex-direction: column;
 }

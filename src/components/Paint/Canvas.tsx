@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import useSound from "../../hooks/useSound";
-import { RECT_PRESETS } from '../../data/paintToolPresets'
+import { RECT_PRESETS, BACKGROUND_PRESETS } from '../../data/paintToolPresets'
 import "./Canvas.css";
 
 interface CanvasProps {
@@ -8,7 +8,7 @@ interface CanvasProps {
   ctxRef: React.RefObject<CanvasRenderingContext2D | null>;
   startDrawing: (e: React.MouseEvent | React.TouchEvent) => void;
   draw: (e: React.MouseEvent | React.TouchEvent) => void;
-  endDrawing: (e?: React.MouseEvent | React.TouchEvent) => void;
+  endDrawing: () => void;
   lineColor: string;
   setLineColor: (color: string) => void;
   lineWidth: number;
@@ -30,7 +30,12 @@ interface CanvasProps {
   saveAsOpen: boolean;
   setSaveAsOpen: React.Dispatch<React.SetStateAction<boolean>>;
   selectedShapePreset: number;
-  bgColor: string
+  bgColor: string,
+  selection: { x: number; y: number; w: number; h: number } | null;
+  setSelection: React.Dispatch<React.SetStateAction<{ x: number; y: number; w: number; h: number } | null>>;
+  selectionData: ImageData | null;
+  setSelectionData: React.Dispatch<React.SetStateAction<ImageData | null>>;
+  selectedBgPreset: number;
 }
 
 const Canvas = ({
@@ -54,7 +59,12 @@ const Canvas = ({
   saveAsOpen,
   setSaveAsOpen,
   selectedShapePreset,
-  bgColor
+  bgColor,
+  selection,
+  setSelection,
+  selectionData,
+  setSelectionData,
+  selectedBgPreset
 }: CanvasProps) => {
 
   /* ── State ── */
@@ -70,9 +80,14 @@ const Canvas = ({
   const rectStartRef = useRef<{ x: number; y: number } | null>(null);
   const isPanningRef = useRef(false);
   const panStartRef = useRef({ x: 0, y: 0 });
+  const selStartRef = useRef<{ x: number; y: number } | null>(null);
+  const isDraggingSelectionRef = useRef(false);
+  const dragOffsetRef = useRef({ x: 0, y: 0 });
+  const cleanCanvasRef = useRef<ImageData | null>(null);
+
+  const transparentBg = BACKGROUND_PRESETS[selectedBgPreset].transparent;
 
   /* ── Coordinate helpers ── */
- 
   const getCanvasXY = (
     e: React.MouseEvent | React.TouchEvent | MouseEvent | TouchEvent
   ) => {
@@ -444,6 +459,29 @@ const Canvas = ({
       return;
     }
 
+    // Rect Select tool
+    if (tool === "rectselect") {
+      const { x, y } = getCanvasXY(e);
+
+      // If clicking inside existing selection — start drag
+      if (selection &&
+        x >= selection.x && x <= selection.x + selection.w &&
+        y >= selection.y && y <= selection.y + selection.h
+      ) {
+        isDraggingSelectionRef.current = true;
+        dragOffsetRef.current = { x: x - selection.x, y: y - selection.y };
+        return;
+      }
+
+      // Otherwise start new selection
+      isDraggingSelectionRef.current = false;
+      selStartRef.current = { x, y };
+      setSelection(null);
+      setSelectionData(null);
+      previewRef.current = ctxRef.current!.getImageData(0, 0, canvasRef.current!.width, canvasRef.current!.height);
+      return;
+    }
+
     if (!ctx) return;
 
     // Move tool
@@ -552,6 +590,72 @@ const Canvas = ({
       return;
     }
 
+    // Rect Select preview
+      if (tool === "rectselect" && selStartRef.current && previewRef.current) {
+        const ctx = ctxRef.current;
+        if (!ctx) return;
+
+        // Restore canvas without selection overlay
+        ctx.putImageData(previewRef.current, 0, 0);
+
+        // Draw dashed selection rectangle
+        const w = x - selStartRef.current.x;
+        const h = y - selStartRef.current.y;
+        ctx.save();
+        ctx.strokeStyle = '#000';
+        ctx.lineWidth = 1;
+        ctx.setLineDash([4, 4]);
+        ctx.globalAlpha = 1;
+        ctx.strokeRect(selStartRef.current.x, selStartRef.current.y, w, h);
+        ctx.restore();
+        return;
+      }
+
+    // Rect Select drag
+    if (tool === "rectselect" && isDraggingSelectionRef.current && selection && selectionData) {
+      const ctx = ctxRef.current;
+      if (!ctx) return;
+
+      const newX = x - dragOffsetRef.current.x;
+      const newY = y - dragOffsetRef.current.y;
+
+      // Restore base canvas
+      ctx.putImageData(previewRef.current!, 0, 0);
+
+      // Fill original position with bgColor
+      if (!transparentBg) {
+        ctx.fillStyle = bgColor;
+        ctx.fillRect(selection.x, selection.y, selection.w, selection.h);
+}
+
+      // Draw selection at new position
+      ctx.putImageData(selectionData, newX, newY);
+
+      // Draw dashed border
+      ctx.save();
+      ctx.strokeStyle = '#000';
+      ctx.lineWidth = 1;
+      ctx.setLineDash([4, 4]);
+      ctx.globalAlpha = 1;
+      ctx.strokeRect(newX, newY, selection.w, selection.h);
+      ctx.restore();
+      return;
+    }
+
+    // Draw active selection border when hovering
+    if (tool === "rectselect" && selection && !selStartRef.current && !isDraggingSelectionRef.current) {
+      const ctx = ctxRef.current;
+      if (!ctx || !cleanCanvasRef.current) return;
+      ctx.putImageData(cleanCanvasRef.current, 0, 0);
+      ctx.save();
+      ctx.strokeStyle = '#000';
+      ctx.lineWidth = 1;
+      ctx.setLineDash([4, 4]);
+      ctx.globalAlpha = 1;
+      ctx.strokeRect(selection.x, selection.y, selection.w, selection.h);
+      ctx.restore();
+    }
+
     draw(e);
   };
 
@@ -616,8 +720,110 @@ const Canvas = ({
       return;
     }
 
-    endDrawing(e);
+    // Rect Select finalize
+    if (tool === "rectselect" && selStartRef.current && previewRef.current) {
+      const ctx = ctxRef.current;
+      if (!ctx) return;
+      const { x, y } = getCanvasXY(e);
+
+      const sx = Math.min(selStartRef.current.x, x);
+      const sy = Math.min(selStartRef.current.y, y);
+      const sw = Math.abs(x - selStartRef.current.x);
+      const sh = Math.abs(y - selStartRef.current.y);
+
+      if (sw > 0 && sh > 0) {
+        const data = ctx.getImageData(sx, sy, sw, sh);
+        setSelectionData(data);
+        setSelection({ x: sx, y: sy, w: sw, h: sh });
+        ctx.putImageData(previewRef.current!, 0, 0);
+        cleanCanvasRef.current = ctx.getImageData(0, 0, canvasRef.current!.width, canvasRef.current!.height);
+        previewRef.current = cleanCanvasRef.current;
+      }
+
+      selStartRef.current = null;
+      return;
+    }
+
+    // Rect Select drag finalize
+    if (tool === "rectselect" && isDraggingSelectionRef.current && selection && selectionData) {
+      const ctx = ctxRef.current;
+      if (!ctx) return;
+      const { x, y } = getCanvasXY(e);
+
+      const newX = x - dragOffsetRef.current.x;
+      const newY = y - dragOffsetRef.current.y;
+
+      snapshot();
+      if (!transparentBg) {
+        ctx.fillStyle = bgColor;
+        ctx.fillRect(selection.x, selection.y, selection.w, selection.h);
+      }
+      ctx.putImageData(selectionData, newX, newY);
+      cleanCanvasRef.current = ctx.getImageData(0, 0, canvasRef.current!.width, canvasRef.current!.height);
+      previewRef.current = cleanCanvasRef.current;
+      setSelection({ x: newX, y: newY, w: selection.w, h: selection.h });
+      isDraggingSelectionRef.current = false;
+      return;
+    }
+
+    endDrawing();
   };
+
+  /* ── Rect Select keyboard actions ── */
+  useEffect(() => {
+    const handleKey = (e: KeyboardEvent) => {
+      if (tool !== 'rectselect' || !selection || !selectionData) return;
+      const ctx = ctxRef.current;
+      if (!ctx) return;
+
+      // Delete — fill selection with bgColor
+      if (e.key === 'Delete') {
+        snapshot();
+        ctx.fillStyle = bgColor;
+        ctx.fillRect(selection.x, selection.y, selection.w, selection.h);
+        setSelection(null);
+        setSelectionData(null);
+      }
+
+      // Ctrl+C — copy to clipboard
+      if (e.key === 'c' && e.ctrlKey) {
+        const tempCanvas = document.createElement('canvas');
+        tempCanvas.width = selection.w;
+        tempCanvas.height = selection.h;
+        const tempCtx = tempCanvas.getContext('2d')!;
+        tempCtx.putImageData(selectionData, 0, 0);
+        tempCanvas.toBlob((blob) => {
+          if (!blob) return;
+          navigator.clipboard.write([
+            new ClipboardItem({ 'image/png': blob })
+          ]);
+        });
+      }
+
+      // Ctrl+X — cut
+      if (e.key === 'x' && e.ctrlKey) {
+        snapshot();
+        const tempCanvas = document.createElement('canvas');
+        tempCanvas.width = selection.w;
+        tempCanvas.height = selection.h;
+        const tempCtx = tempCanvas.getContext('2d')!;
+        tempCtx.putImageData(selectionData, 0, 0);
+        tempCanvas.toBlob((blob) => {
+          if (!blob) return;
+          navigator.clipboard.write([
+            new ClipboardItem({ 'image/png': blob })
+          ]);
+        });
+        ctx.fillStyle = bgColor;
+        ctx.fillRect(selection.x, selection.y, selection.w, selection.h);
+        setSelection(null);
+        setSelectionData(null);
+      }
+    };
+
+    window.addEventListener('keydown', handleKey);
+    return () => window.removeEventListener('keydown', handleKey);
+  }, [tool, selection, selectionData, bgColor, ctxRef, snapshot, setSelection, setSelectionData]);
 
   /* ── Render ── */
   return (

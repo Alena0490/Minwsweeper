@@ -4,7 +4,8 @@ import {
   SPRAY_PRESETS,
   ZOOM_PRESETS,
   ERASER_PRESETS,
-  RECT_PRESETS
+  RECT_PRESETS,
+  BACKGROUND_PRESETS
 } from "../../data/paintToolPresets"
 // Images
 import FreeSelect from '../../img/star.webp'
@@ -44,6 +45,8 @@ interface ToolboxProps {
   setSelectedEraserPreset: (i: number) => void;
   selectedShapePreset: number;
   setSelectedShapePreset: (i: number) => void;
+  selectedBgPreset: number;
+  setSelectedBgPreset: (i: number) => void;
 }
 
 const Toolbox = ({
@@ -67,6 +70,9 @@ const Toolbox = ({
 
   selectedShapePreset,
   setSelectedShapePreset,
+
+  selectedBgPreset,
+  setSelectedBgPreset
 }: ToolboxProps) => {
   // const DISABLED_TOOLS = ['freeselect', 'rectselect', 'text', 'curve', 'polygon', 'roundedrect'];
 
@@ -88,8 +94,8 @@ const Toolbox = ({
         <button 
           type="button" 
           title="Rect Select"     
-          onClick={() => {}} 
-          className="xp-tool-btn xp-tool-btn--disabled"
+          className={`xp-tool-btn${tool==='rectselect'     ?' active':''}`} 
+          onClick={()=>setTool('rectselect')}
         >
           <img 
             src={RectSelect} 
@@ -368,6 +374,19 @@ const Toolbox = ({
               <svg width="24" height="24" viewBox="0 0 24 24"
                 dangerouslySetInnerHTML={{ __html: p.svg }}
               />
+            </button>
+          ))}
+
+          {/* RECTANGLE SELECT */}
+          {(tool === 'rectselect' || tool === 'text') && BACKGROUND_PRESETS.map((p, i) => (
+            <button
+              key={p.id}
+              type="button"
+              title={p.label}
+              className={`rectselect xp-size-btn${selectedBgPreset === i ? ' active' : ''}`}
+              onClick={() => setSelectedBgPreset(i)}
+            >
+              <img src={p.icon} alt={p.label} />
             </button>
           ))}
 

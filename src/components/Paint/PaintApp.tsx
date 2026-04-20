@@ -19,7 +19,6 @@ interface PaintAppProps {
   onStatusChange: (message: string) => void;
   saveAsOpen: boolean;
   setSaveAsOpen: React.Dispatch<React.SetStateAction<boolean>>;
-
 }
 
 const XP_PALETTE = [
@@ -62,6 +61,9 @@ const PaintApp = ({
   const [selectedEraserPreset, setSelectedEraserPreset] = useState(0);
   const [selectedShapePreset, setSelectedShapePreset] = useState(0);
   const [bgColor, setBgColor] = useState("#ffffff");
+  const [selection, setSelection] = useState<{ x: number; y: number; w: number; h: number } | null>(null);
+  const [selectionData, setSelectionData] = useState<ImageData | null>(null);
+  const [selectedBgPreset, setSelectedBgPreset] = useState(0); // 0 = opaque, 1 = transparent
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -242,6 +244,9 @@ const PaintApp = ({
           selectedShapePreset={selectedShapePreset}
           setSelectedShapePreset={setSelectedShapePreset}
 
+          selectedBgPreset={selectedBgPreset}
+          setSelectedBgPreset={setSelectedBgPreset}
+
           setZoomLevel={setZoomLevel}
           zoom={zoom}
         />
@@ -267,6 +272,11 @@ const PaintApp = ({
           saveAsOpen={saveAsOpen}
           setSaveAsOpen={setSaveAsOpen}
           bgColor={bgColor}
+          selection={selection}
+          setSelection={setSelection}
+          selectionData={selectionData}
+          setSelectionData={setSelectionData}
+          selectedBgPreset={selectedBgPreset}
         />
       </div>
       <div className="colors">
