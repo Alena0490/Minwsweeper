@@ -462,6 +462,8 @@ const Canvas = ({
     // Rect Select tool
     if (tool === "rectselect") {
       const { x, y } = getCanvasXY(e);
+      cleanCanvasRef.current = ctxRef.current!.getImageData(0, 0, canvasRef.current!.width, canvasRef.current!.height); // ← přidat
+      previewRef.current = cleanCanvasRef.current;
 
       // If clicking inside existing selection — start drag
       if (selection &&
@@ -478,7 +480,8 @@ const Canvas = ({
       selStartRef.current = { x, y };
       setSelection(null);
       setSelectionData(null);
-      previewRef.current = ctxRef.current!.getImageData(0, 0, canvasRef.current!.width, canvasRef.current!.height);
+      cleanCanvasRef.current = ctxRef.current!.getImageData(0, 0, canvasRef.current!.width, canvasRef.current!.height); // ← přidat
+      previewRef.current = cleanCanvasRef.current;
       return;
     }
 
@@ -764,6 +767,12 @@ const Canvas = ({
       setSelection({ x: newX, y: newY, w: selection.w, h: selection.h });
       isDraggingSelectionRef.current = false;
       return;
+    }
+
+    endDrawing();
+    // Keep cleanCanvasRef up to date after any drawing
+    if (canvasRef.current && ctxRef.current) {
+      cleanCanvasRef.current = ctxRef.current.getImageData(0, 0, canvasRef.current.width, canvasRef.current.height);
     }
 
     endDrawing();
