@@ -9,7 +9,10 @@
     flex-direction: column;
     margin: auto;
     padding: 3px;
-    border-radius: var(--window-radius);
+    border-top-left-radius: var(--window-radius-top-x) var(--window-radius-top-y);
+    border-top-right-radius: var(--window-radius-top-x) var(--window-radius-top-y);
+    border-bottom-left-radius: var(--window-radius);
+    border-bottom-right-radius: var(--window-radius);
     background:
         linear-gradient(
             to right,

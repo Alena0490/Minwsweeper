@@ -82,8 +82,8 @@ const Toolbox = ({
         <button 
             type="button" 
             title="Free Select"     
-            onClick={() => {}} 
-            className="xp-tool-btn xp-tool-btn--disabled"
+            className={`xp-tool-btn${tool==='freeselect'     ?' active':''}`} 
+            onClick={()=>setTool('freeselect')}
           >
           <img 
             src={FreeSelect} 
@@ -377,8 +377,8 @@ const Toolbox = ({
             </button>
           ))}
 
-          {/* RECTANGLE SELECT */}
-          {(tool === 'rectselect' || tool === 'text') && BACKGROUND_PRESETS.map((p, i) => (
+          {/* SEŮECTION TOOLS */}
+          {(tool === 'rectselect' || tool === 'freeselect' || tool === 'text') && BACKGROUND_PRESETS.map((p, i) => (
             <button
               key={p.id}
               type="button"

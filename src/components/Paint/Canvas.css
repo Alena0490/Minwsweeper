@@ -19,6 +19,7 @@
 .draw-area[data-tool="move"]       #draw-canvas { cursor: url('/cursors/move.png') 16 16, move; }
 
 .draw-area[data-tool="rectselect"] #draw-canvas { cursor: url('/cursors/precise-dotted.png') 16 16, crosshair; }
+.draw-area[data-tool="freeselect"] #draw-canvas { cursor: url('/cursors/precise-dotted.png') 16 16, crosshair; }
 
 /*** CANVAS */
 .app-window--fullscreen .app-wrap {

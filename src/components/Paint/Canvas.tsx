@@ -84,6 +84,8 @@ const Canvas = ({
   const isDraggingSelectionRef = useRef(false);
   const dragOffsetRef = useRef({ x: 0, y: 0 });
   const cleanCanvasRef = useRef<ImageData | null>(null);
+  const freeSelectPathRef = useRef<{ x: number; y: number }[]>([]);
+  const freeSelectClipPathRef = useRef<{ x: number; y: number }[]>([]);
 
   const transparentBg = BACKGROUND_PRESETS[selectedBgPreset].transparent;
 
@@ -187,7 +189,7 @@ const Canvas = ({
     ctx: CanvasRenderingContext2D,
     sx: number, sy: number,
     ex: number, ey: number,
-    shift = false,
+    shift = false
     
   ) => {
     // Constrain to circle if Shift is held
@@ -216,7 +218,6 @@ const Canvas = ({
     ctx.globalAlpha = lineOpacity;
     ctx.strokeStyle = lineColor;
 
-    console.log('w:', w, 'h:', h, 'size:', Math.min(Math.abs(w), Math.abs(h)));
     // Draw shape according to selected preset
     const preset = RECT_PRESETS[selectedShapePreset];
     ctx.beginPath();
@@ -423,7 +424,7 @@ const Canvas = ({
     if ((e as React.TouchEvent).touches?.length >= 2) return;
     const ctx = ctxRef.current;
 
-    // Line tool
+    // LINE TOOL
     if (tool === "line") {
       snapshot();
       const { x, y } = getCanvasXY(e);
@@ -432,7 +433,7 @@ const Canvas = ({
       return;
     }
 
-    // Rectangle tool
+    // RECTANLE TOOL
     if (tool === "rectangle") {
       snapshot();
       const { x, y } = getCanvasXY(e);
@@ -441,7 +442,7 @@ const Canvas = ({
       return;
     }
 
-    // Rounded rectangle tool
+    // ROUNDED RECTANGLE TOOL
     if (tool === "roundedRectangle") {
       snapshot();
       const { x, y } = getCanvasXY(e);
@@ -450,7 +451,7 @@ const Canvas = ({
       return;
     }
 
-    // Ellipse tool
+    // ELLIPSE TOOL
     if (tool === "ellipse") {
       snapshot();
       const { x, y } = getCanvasXY(e);
@@ -459,7 +460,7 @@ const Canvas = ({
       return;
     }
 
-    // Rect Select tool
+    // RECT SELECT TOOL
     if (tool === "rectselect") {
       const { x, y } = getCanvasXY(e);
       cleanCanvasRef.current = ctxRef.current!.getImageData(0, 0, canvasRef.current!.width, canvasRef.current!.height); // ← přidat
@@ -485,9 +486,33 @@ const Canvas = ({
       return;
     }
 
+    // FREE SELECT TOOL
+  if (tool === "freeselect") {
+    const { x, y } = getCanvasXY(e);
+
+    // If clicking inside existing selection — start drag
+    if (selection &&
+      x >= selection.x && x <= selection.x + selection.w &&
+      y >= selection.y && y <= selection.y + selection.h
+    ) {
+      isDraggingSelectionRef.current = true;
+      dragOffsetRef.current = { x: x - selection.x, y: y - selection.y };
+      return;
+    }
+
+    // Start new free selection
+    isDraggingSelectionRef.current = false;
+    freeSelectPathRef.current = [{ x, y }];
+    setSelection(null);
+    setSelectionData(null);
+    cleanCanvasRef.current = ctxRef.current!.getImageData(0, 0, canvasRef.current!.width, canvasRef.current!.height);
+    previewRef.current = cleanCanvasRef.current;
+    return;
+  }
+
     if (!ctx) return;
 
-    // Move tool
+    // MOVE TOOL
     if (tool === "move") {
       e.preventDefault();
       isPanningRef.current = true;
@@ -499,7 +524,7 @@ const Canvas = ({
       return;
     }
 
-    // Zoom tool
+    // ZOOM TOOL
     if (tool === "zoom") {
       const me = e as React.MouseEvent;
       if (me.nativeEvent.button !== 2) {
@@ -508,7 +533,7 @@ const Canvas = ({
       return;
     }
 
-    // Bucket tool
+    // BUCKET TOOL
     if (tool === "bucket") {
       snapshot();
       const { x, y } = getCanvasXY(e);
@@ -522,7 +547,7 @@ const Canvas = ({
       return;
     }
 
-    // Eyedropper tool
+    // EYEDROPPER TOOL
     if (tool === "eyedropper") {
       const { x, y } = getCanvasXY(e);
       const [r, g, b] = ctx.getImageData(x, y, 1, 1).data;
@@ -531,7 +556,7 @@ const Canvas = ({
       return;
     }
 
-    // Freehand tools (pencil, brush, spray, eraser)
+    // FREEHAND TOOLS (pencil, brush, spray, eraser)
     snapshot();
     const { x, y } = getCanvasXY(e);
     ctx.beginPath();
@@ -548,7 +573,7 @@ const Canvas = ({
     const { x, y } = getCanvasXY(e);
     onStatusChange(`${Math.round(x)}, ${Math.round(y)}`);
 
-    // Line preview
+    // LINE PREVIEW
     if (tool === "line" && lineStartRef.current && previewRef.current) {
       const ctx = ctxRef.current;
       if (!ctx) return;
@@ -563,7 +588,7 @@ const Canvas = ({
       return;
     }
 
-    // Rectangle preview
+    // RECTANGLE PREVIEW
     if (tool === "rectangle" && rectStartRef.current && previewRef.current) {
       const ctx = ctxRef.current;
       if (!ctx) return;
@@ -573,7 +598,7 @@ const Canvas = ({
       return;
     }
 
-    // Rounded rectangle preview
+    // ROUNDED RECTANGLE PREVIEW
      if (tool === "roundedRectangle" && rectStartRef.current && previewRef.current) {
       const ctx = ctxRef.current;
       if (!ctx) return;
@@ -583,7 +608,7 @@ const Canvas = ({
       return;
     }
 
-    // Ellipse preview
+    // ELLIPSE PREVIEW
     if (tool === "ellipse" && rectStartRef.current && previewRef.current) {
       const ctx = ctxRef.current;
       if (!ctx) return;
@@ -593,7 +618,8 @@ const Canvas = ({
       return;
     }
 
-    // Rect Select preview
+    // RECT SELECT 
+    // Rect Select Preview
       if (tool === "rectselect" && selStartRef.current && previewRef.current) {
         const ctx = ctxRef.current;
         if (!ctx) return;
@@ -605,17 +631,20 @@ const Canvas = ({
         const w = x - selStartRef.current.x;
         const h = y - selStartRef.current.y;
         ctx.save();
-        ctx.strokeStyle = '#000';
         ctx.lineWidth = 1;
-        ctx.setLineDash([4, 4]);
         ctx.globalAlpha = 1;
+        ctx.strokeStyle = '#ffffff';
+        ctx.setLineDash([]);
+        ctx.strokeRect(selStartRef.current.x, selStartRef.current.y, w, h);
+        ctx.strokeStyle = '#000000';
+        ctx.setLineDash([4, 4]);
         ctx.strokeRect(selStartRef.current.x, selStartRef.current.y, w, h);
         ctx.restore();
         return;
       }
 
     // Rect Select drag
-    if (tool === "rectselect" && isDraggingSelectionRef.current && selection && selectionData) {
+    if ((tool === "rectselect" || tool === "freeselect") && isDraggingSelectionRef.current && selection && selectionData) {
       const ctx = ctxRef.current;
       if (!ctx) return;
 
@@ -628,35 +657,77 @@ const Canvas = ({
       // Fill original position with bgColor
       if (!transparentBg) {
         ctx.fillStyle = bgColor;
-        ctx.fillRect(selection.x, selection.y, selection.w, selection.h);
-}
+        if (tool === 'freeselect' && freeSelectClipPathRef.current.length > 0) {
+          // Fill only the free select path shape
+          ctx.beginPath();
+          ctx.moveTo(freeSelectClipPathRef.current[0].x, freeSelectClipPathRef.current[0].y);
+          freeSelectClipPathRef.current.forEach(p => ctx.lineTo(p.x, p.y));
+          ctx.closePath();
+          ctx.fill();
+        } else {
+          ctx.fillRect(selection.x, selection.y, selection.w, selection.h);
+        }
+      }
 
       // Draw selection at new position
       ctx.putImageData(selectionData, newX, newY);
 
       // Draw dashed border
       ctx.save();
-      ctx.strokeStyle = '#000';
       ctx.lineWidth = 1;
-      ctx.setLineDash([4, 4]);
       ctx.globalAlpha = 1;
+      ctx.strokeStyle = '#ffffff';
+      ctx.setLineDash([]);
+      ctx.strokeRect(newX, newY, selection.w, selection.h);
+      ctx.strokeStyle = '#000000';
+      ctx.setLineDash([4, 4]);
       ctx.strokeRect(newX, newY, selection.w, selection.h);
       ctx.restore();
       return;
     }
 
     // Draw active selection border when hovering
-    if (tool === "rectselect" && selection && !selStartRef.current && !isDraggingSelectionRef.current) {
+    if ((tool === "rectselect" || tool === "freeselect") && selection && !selStartRef.current && !isDraggingSelectionRef.current) {
       const ctx = ctxRef.current;
       if (!ctx || !cleanCanvasRef.current) return;
       ctx.putImageData(cleanCanvasRef.current, 0, 0);
       ctx.save();
-      ctx.strokeStyle = '#000';
       ctx.lineWidth = 1;
-      ctx.setLineDash([4, 4]);
       ctx.globalAlpha = 1;
+      ctx.strokeStyle = '#ffffff';
+      ctx.setLineDash([]);
+      ctx.strokeRect(selection.x, selection.y, selection.w, selection.h);
+      ctx.strokeStyle = '#000000';
+      ctx.setLineDash([4, 4]);
       ctx.strokeRect(selection.x, selection.y, selection.w, selection.h);
       ctx.restore();
+    }
+
+    // FREE SELECT
+    // Free Select preview
+    if (tool === "freeselect" && freeSelectPathRef.current.length > 0 && previewRef.current) {
+      const ctx = ctxRef.current;
+      if (!ctx) return;
+      const path = freeSelectPathRef.current;
+      freeSelectPathRef.current = [...path, { x, y }];
+      ctx.putImageData(previewRef.current, 0, 0);
+      ctx.save();
+      ctx.lineWidth = 1;
+      ctx.globalAlpha = 1;
+      ctx.strokeStyle = '#ffffff';
+      ctx.setLineDash([]);
+      ctx.beginPath();
+      ctx.moveTo(path[0].x, path[0].y);
+      freeSelectPathRef.current.forEach(p => ctx.lineTo(p.x, p.y));
+      ctx.stroke();
+      ctx.strokeStyle = '#000000';
+      ctx.setLineDash([4, 4]);
+      ctx.beginPath();
+      ctx.moveTo(path[0].x, path[0].y);
+      freeSelectPathRef.current.forEach(p => ctx.lineTo(p.x, p.y));
+      ctx.stroke();
+      ctx.restore();
+      return;
     }
 
     draw(e);
@@ -666,7 +737,7 @@ const Canvas = ({
   const handleMouseUp = (e: React.MouseEvent | React.TouchEvent) => {
     if ((e as React.TouchEvent).touches?.length >= 2) return;
 
-    // Line finalize
+    // LINE FINALIZE
     if (tool === "line" && lineStartRef.current && previewRef.current) {
       const ctx = ctxRef.current;
       if (!ctx) return;
@@ -684,7 +755,7 @@ const Canvas = ({
       return;
     }
 
-    // Rectangle finalize
+    // RECTANGLE FINALIZE
     if (tool === "rectangle" && rectStartRef.current && previewRef.current) {
       const ctx = ctxRef.current;
       if (!ctx) return;
@@ -697,7 +768,7 @@ const Canvas = ({
       return;
     }
 
-    // Rounded rectangle finalize
+    // ROUNDED RECTANGLE FINALIZE
     if (tool === "roundedRectangle" && rectStartRef.current && previewRef.current) {
       const ctx = ctxRef.current;
       if (!ctx) return;
@@ -710,7 +781,7 @@ const Canvas = ({
       return;
     }
 
-    // Ellipse finalize
+    // ELLIPSE FINALIZE
     if (tool === "ellipse" && rectStartRef.current && previewRef.current) {
       const ctx = ctxRef.current;
       if (!ctx) return;
@@ -723,7 +794,7 @@ const Canvas = ({
       return;
     }
 
-    // Rect Select finalize
+    // RECT SELECT FINALIZE
     if (tool === "rectselect" && selStartRef.current && previewRef.current) {
       const ctx = ctxRef.current;
       if (!ctx) return;
@@ -747,8 +818,8 @@ const Canvas = ({
       return;
     }
 
-    // Rect Select drag finalize
-    if (tool === "rectselect" && isDraggingSelectionRef.current && selection && selectionData) {
+    // Select drag finalize (rect + free)
+    if ((tool === "rectselect" || tool === "freeselect") && isDraggingSelectionRef.current && selection && selectionData) {
       const ctx = ctxRef.current;
       if (!ctx) return;
       const { x, y } = getCanvasXY(e);
@@ -759,7 +830,16 @@ const Canvas = ({
       snapshot();
       if (!transparentBg) {
         ctx.fillStyle = bgColor;
-        ctx.fillRect(selection.x, selection.y, selection.w, selection.h);
+        if (tool === 'freeselect' && freeSelectClipPathRef.current.length > 0) {
+          // Fill only the free select path shape
+          ctx.beginPath();
+          ctx.moveTo(freeSelectClipPathRef.current[0].x, freeSelectClipPathRef.current[0].y);
+          freeSelectClipPathRef.current.forEach(p => ctx.lineTo(p.x, p.y));
+          ctx.closePath();
+          ctx.fill();
+        } else {
+          ctx.fillRect(selection.x, selection.y, selection.w, selection.h);
+        }
       }
       ctx.putImageData(selectionData, newX, newY);
       cleanCanvasRef.current = ctx.getImageData(0, 0, canvasRef.current!.width, canvasRef.current!.height);
@@ -769,19 +849,68 @@ const Canvas = ({
       return;
     }
 
+    // FREE SELECT FINALIZE
+    if (tool === "freeselect" && freeSelectPathRef.current.length > 1 && previewRef.current) {
+      const ctx = ctxRef.current;
+      if (!ctx) return;
+      const path = freeSelectPathRef.current;
+
+      // Get bounding box
+      const xs = path.map(p => p.x);
+      const ys = path.map(p => p.y);
+      const sx = Math.floor(Math.min(...xs));
+      const sy = Math.floor(Math.min(...ys));
+      const sw = Math.ceil(Math.max(...xs)) - sx;
+      const sh = Math.ceil(Math.max(...ys)) - sy;
+
+      if (sw > 0 && sh > 0) {
+        // Create temp canvas with clipped path shape
+        const tempCanvas = document.createElement('canvas');
+        tempCanvas.width = sw;
+        tempCanvas.height = sh;
+        const tempCtx = tempCanvas.getContext('2d')!;
+
+        // Draw clip path
+        tempCtx.beginPath();
+        tempCtx.moveTo(path[0].x - sx, path[0].y - sy);
+        path.forEach(p => tempCtx.lineTo(p.x - sx, p.y - sy));
+        tempCtx.closePath();
+        tempCtx.clip();
+
+        // Draw canvas content via drawImage (respects clip, unlike putImageData)
+        const sourceCanvas = document.createElement('canvas');
+        sourceCanvas.width = sw;
+        sourceCanvas.height = sh;
+        const sourceCtx = sourceCanvas.getContext('2d')!;
+        sourceCtx.putImageData(ctx.getImageData(sx, sy, sw, sh), 0, 0);
+        tempCtx.drawImage(sourceCanvas, 0, 0);
+
+        // Get result as ImageData
+        const data = tempCtx.getImageData(0, 0, sw, sh);
+
+        setSelectionData(data);
+        setSelection({ x: sx, y: sy, w: sw, h: sh });
+        ctx.putImageData(previewRef.current!, 0, 0);
+        cleanCanvasRef.current = ctx.getImageData(0, 0, canvasRef.current!.width, canvasRef.current!.height);
+        previewRef.current = cleanCanvasRef.current;
+      }
+
+      freeSelectClipPathRef.current = path;
+      freeSelectPathRef.current = [];
+      return;
+    }
+
     endDrawing();
     // Keep cleanCanvasRef up to date after any drawing
     if (canvasRef.current && ctxRef.current) {
       cleanCanvasRef.current = ctxRef.current.getImageData(0, 0, canvasRef.current.width, canvasRef.current.height);
     }
-
-    endDrawing();
   };
 
   /* ── Rect Select keyboard actions ── */
   useEffect(() => {
     const handleKey = (e: KeyboardEvent) => {
-      if (tool !== 'rectselect' || !selection || !selectionData) return;
+      if ((tool !== 'rectselect' && tool !== 'freeselect') || !selection || !selectionData) return;
       const ctx = ctxRef.current;
       if (!ctx) return;
 
