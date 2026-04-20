@@ -1,13 +1,21 @@
 /*** CUSTOM CURSORS */
+
+/* Freehand tools */
 .draw-area[data-tool="pencil"]     #draw-canvas { cursor: url('/cursors/pencil.png') 9 28, crosshair; }
 .draw-area[data-tool="brush"]      #draw-canvas { cursor: url('/cursors/precise.png') 16 16, crosshair; }
 .draw-area[data-tool="spray"]      #draw-canvas { cursor: url('/cursors/airbrush.png') 9 28, crosshair; }
 .draw-area[data-tool="eraser"]     #draw-canvas { cursor: url('/cursors/precise-dotted.png') 16 16, crosshair; }
+
+/* Shape tools */
+.draw-area[data-tool="line"]       #draw-canvas { cursor: url('/cursors/precise2.png') 16 16, crosshair; }
+.draw-area[data-tool="rectangle"]  #draw-canvas { cursor: url('/cursors/precise2.png') 16 16, crosshair; }
+.draw-area[data-tool="ellipse"]    #draw-canvas { cursor: url('/cursors/precise2.png') 16 16, crosshair; }
+
+/* Utility tools */
 .draw-area[data-tool="bucket"]     #draw-canvas { cursor: url('/cursors/fill-bucket.png') 9 28, default; }
 .draw-area[data-tool="eyedropper"] #draw-canvas { cursor: url('/cursors/eye-dropper.png') 0 31, crosshair; }
 .draw-area[data-tool="zoom"]       #draw-canvas { cursor: url('/cursors/magnifier.png') 16 16, zoom-in; }
-.draw-area[data-tool="line"]       #draw-canvas { cursor: url('/cursors/precise2.png') 16 16, crosshair; }
-.draw-area[data-tool="move"] #draw-canvas { cursor: url('/cursors/move.png') 16 16, move; }
+.draw-area[data-tool="move"]       #draw-canvas { cursor: url('/cursors/move.png') 16 16, move; }
 
 /*** CANVAS */
 .app-window--fullscreen .app-wrap {

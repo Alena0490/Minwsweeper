@@ -241,11 +241,11 @@ const Toolbox = ({
           />
         </button>
 
-        <button 
-          type="button" 
-          title="Ellipse"         
-          onClick={() => {}} 
-          className="xp-tool-btn xp-tool-btn--disabled"
+        <button
+          type="button"
+          title="Ellipse"
+          className={`xp-tool-btn${tool === 'ellipse' ? ' active' : ''}`}
+          onClick={() => setTool('ellipse')}
         >
           <img 
             src={Elipse} 
@@ -351,6 +351,23 @@ const Toolbox = ({
             </button>
           ))}
 
+           {/* ELLIPSE */}
+          {tool === 'ellipse' && RECT_PRESETS.map((p, i) => (
+            <button
+              key={p.id}
+              type="button"
+              title={p.label}
+              aria-label={p.label}
+              className={`xp-size-btn${selectedShapePreset === i ? ' active' : ''}`}
+              onClick={() => setSelectedShapePreset(i)}
+            >
+              <svg width="24" height="24" viewBox="0 0 24 24"
+                dangerouslySetInnerHTML={{ __html: p.svg }}
+              />
+            </button>
+          ))}
+
+           {/* ERASER */}
           {tool === 'eraser' && ERASER_PRESETS.map((p, i) => (
             <button
               key={p.id}

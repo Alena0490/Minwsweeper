@@ -132,21 +132,77 @@ const Canvas = ({
   const drawRect = (
     ctx: CanvasRenderingContext2D,
     sx: number, sy: number,
-    ex: number, ey: number
+    ex: number, ey: number,
+    shift = false
   ) => {
+    // Constrain to square if Shift is held
+    let w = ex - sx;
+    let h = ey - sy;
+    if (shift) {
+      const size = Math.min(Math.abs(w), Math.abs(h));
+      w = w < 0 ? -size : size;
+      h = h < 0 ? -size : size;
+    }
+
+    // Apply stroke style
     ctx.lineWidth = lineWidth;
     ctx.globalAlpha = lineOpacity;
     ctx.strokeStyle = lineColor;
+
+    // Draw shape according to selected preset
     const preset = RECT_PRESETS[selectedShapePreset];
     if (preset.id === 'rect-outline') {
-      ctx.strokeRect(sx, sy, ex - sx, ey - sy);
+      ctx.strokeRect(sx, sy, w, h);
     } else if (preset.id === 'rect-outline-fill') {
       ctx.fillStyle = bgColor;
-      ctx.fillRect(sx, sy, ex - sx, ey - sy);
-      ctx.strokeRect(sx, sy, ex - sx, ey - sy);
+      ctx.fillRect(sx, sy, w, h);
+      ctx.strokeRect(sx, sy, w, h);
     } else if (preset.id === 'rect-fill') {
       ctx.fillStyle = lineColor;
-      ctx.fillRect(sx, sy, ex - sx, ey - sy);
+      ctx.fillRect(sx, sy, w, h);
+    }
+  };
+
+  /* ── Ellipse drawing helper ── */
+  const drawEllipse = (
+    ctx: CanvasRenderingContext2D,
+    sx: number, sy: number,
+    ex: number, ey: number,
+    shift = false
+  ) => {
+    // Constrain to circle if Shift is held
+    let w = ex - sx;
+    let h = ey - sy;
+    if (shift) {
+      const size = Math.min(Math.abs(w), Math.abs(h));
+      w = w < 0 ? -size : size;
+      h = h < 0 ? -size : size;
+    }
+
+    // Compute center and radii from constrained dimensions
+    const cx = sx + w / 2;
+    const cy = sy + h / 2;
+    const rx = Math.abs(w) / 2;
+    const ry = Math.abs(h) / 2;
+
+    // Apply stroke style
+    ctx.lineWidth = lineWidth;
+    ctx.globalAlpha = lineOpacity;
+    ctx.strokeStyle = lineColor;
+
+    // Draw shape according to selected preset
+    const preset = RECT_PRESETS[selectedShapePreset];
+    ctx.beginPath();
+    ctx.ellipse(cx, cy, rx, ry, 0, 0, Math.PI * 2);
+    if (preset.id === 'rect-outline') {
+      ctx.stroke();
+    } else if (preset.id === 'rect-outline-fill') {
+      ctx.fillStyle = bgColor;
+      ctx.fill();
+      ctx.stroke();
+    } else if (preset.id === 'rect-fill') {
+      ctx.fillStyle = lineColor;
+      ctx.fill();
     }
   };
 
@@ -256,12 +312,12 @@ const Canvas = ({
     };
   }, [canvasRef, setZoom]);
 
-  /* ── Canvas panning (middle mouse / shift+drag) ── */
+  /* ── Canvas panning (middle mouse + drag) ── */
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
     const handlePanStart = (e: MouseEvent) => {
-      if (e.button === 1 || (e.button === 0 && e.shiftKey)) {
+      if (e.button === 1) {  // middle mouse
         e.preventDefault();
         isPanningRef.current = true;
         panStartRef.current = { x: e.clientX - pan.x, y: e.clientY - pan.y };
@@ -307,6 +363,15 @@ const Canvas = ({
 
     // Rectangle tool
     if (tool === "rectangle") {
+      snapshot();
+      const { x, y } = getCanvasXY(e);
+      rectStartRef.current = { x, y };
+      previewRef.current = ctxRef.current!.getImageData(0, 0, canvasRef.current!.width, canvasRef.current!.height);
+      return;
+    }
+
+    // Ellipse tool
+    if (tool === "ellipse") {
       snapshot();
       const { x, y } = getCanvasXY(e);
       rectStartRef.current = { x, y };
@@ -397,7 +462,18 @@ const Canvas = ({
       const ctx = ctxRef.current;
       if (!ctx) return;
       ctx.putImageData(previewRef.current, 0, 0);
-      drawRect(ctx, rectStartRef.current.x, rectStartRef.current.y, x, y);
+      const shift = (e as React.MouseEvent).shiftKey;
+      drawRect(ctx, rectStartRef.current.x, rectStartRef.current.y, x, y, shift);
+      return;
+    }
+
+    // Ellipse preview
+    if (tool === "ellipse" && rectStartRef.current && previewRef.current) {
+      const ctx = ctxRef.current;
+      if (!ctx) return;
+      ctx.putImageData(previewRef.current, 0, 0);
+      const shift = (e as React.MouseEvent).shiftKey;
+      drawEllipse(ctx, rectStartRef.current.x, rectStartRef.current.y, x, y, shift);
       return;
     }
 
@@ -432,7 +508,21 @@ const Canvas = ({
       if (!ctx) return;
       const { x, y } = getCanvasXY(e);
       ctx.putImageData(previewRef.current, 0, 0);
-      drawRect(ctx, rectStartRef.current.x, rectStartRef.current.y, x, y);
+      const shift = (e as React.MouseEvent).shiftKey;
+      drawRect(ctx, rectStartRef.current.x, rectStartRef.current.y, x, y, shift);
+      rectStartRef.current = null;
+      previewRef.current = null;
+      return;
+    }
+
+    // Ellipse finalize
+    if (tool === "ellipse" && rectStartRef.current && previewRef.current) {
+      const ctx = ctxRef.current;
+      if (!ctx) return;
+      const { x, y } = getCanvasXY(e);
+      ctx.putImageData(previewRef.current, 0, 0);
+      const shift = (e as React.MouseEvent).shiftKey;
+      drawEllipse(ctx, rectStartRef.current.x, rectStartRef.current.y, x, y, shift);
       rectStartRef.current = null;
       previewRef.current = null;
       return;
