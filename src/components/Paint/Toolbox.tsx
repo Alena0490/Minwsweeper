@@ -256,12 +256,12 @@ const Toolbox = ({
         <button 
           type="button" 
           title="Rounded Rect"    
-          onClick={() => {}} 
-          className="xp-tool-btn xp-tool-btn--disabled"
+          className={`xp-tool-btn${tool === 'roundedRectangle' ? ' active' : ''}`}
+          onClick={() => setTool('roundedRectangle')}
         >
           <img 
             src={RoundedRectangle} 
-            alt="Rounded Rect" 
+            alt="Rounded Rectangle" 
           />
         </button>
       </div>
@@ -300,7 +300,8 @@ const Toolbox = ({
             </button>
           ))}
 
-          {tool === 'rectangle' && RECT_PRESETS.map((p, i) => (
+          {/* SHAPE TOOLS */}
+          {(tool === 'rectangle' || tool === 'roundedRectangle' || tool === 'ellipse') && RECT_PRESETS.map((p, i) => (
             <button
               key={p.id}
               type="button"
@@ -332,7 +333,7 @@ const Toolbox = ({
             </button>
           ))}
 
-          {/* RECTANGLE */}
+          {/* BRUSH */}
           {tool === 'brush' && BRUSH_PRESETS.map((p, i) => (
             <button
               key={p.id}
@@ -344,22 +345,6 @@ const Toolbox = ({
                 setSelectedBrushPreset(i);
                 setLineWidth(p.size);
               }}
-            >
-              <svg width="24" height="24" viewBox="0 0 24 24"
-                dangerouslySetInnerHTML={{ __html: p.svg }}
-              />
-            </button>
-          ))}
-
-           {/* ELLIPSE */}
-          {tool === 'ellipse' && RECT_PRESETS.map((p, i) => (
-            <button
-              key={p.id}
-              type="button"
-              title={p.label}
-              aria-label={p.label}
-              className={`xp-size-btn${selectedShapePreset === i ? ' active' : ''}`}
-              onClick={() => setSelectedShapePreset(i)}
             >
               <svg width="24" height="24" viewBox="0 0 24 24"
                 dangerouslySetInnerHTML={{ __html: p.svg }}

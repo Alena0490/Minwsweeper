@@ -218,6 +218,50 @@ const Canvas = ({
     }
   };
 
+  /* ── Rounded Rectangle drawing helper ── */
+  const drawRoundedRect = (
+    ctx: CanvasRenderingContext2D,
+    sx: number, sy: number,
+    ex: number, ey: number,
+    shift = false
+  ) => {
+    // Constrain to square if Shift is held
+    let w = ex - sx;
+    let h = ey - sy;
+    if (shift) {
+      const canvas = canvasRef.current!;
+      const rect = canvas.getBoundingClientRect();
+      const visualW = Math.abs(w) * rect.width / canvas.width;
+      const visualH = Math.abs(h) * rect.height / canvas.height;
+      const visualSize = Math.min(visualW, visualH);
+      w = (w < 0 ? -1 : 1) * visualSize * canvas.width / rect.width;
+      h = (h < 0 ? -1 : 1) * visualSize * canvas.height / rect.height;
+    }
+
+    // Radius — 15% of shorter side
+    const radius = Math.min(Math.abs(w), Math.abs(h)) * 0.15;
+
+    // Apply stroke style
+    ctx.lineWidth = lineWidth;
+    ctx.globalAlpha = lineOpacity;
+    ctx.strokeStyle = lineColor;
+
+    // Draw shape according to selected preset
+    const preset = RECT_PRESETS[selectedShapePreset];
+    ctx.beginPath();
+    ctx.roundRect(sx, sy, w, h, radius);
+    if (preset.id === 'rect-outline') {
+      ctx.stroke();
+    } else if (preset.id === 'rect-outline-fill') {
+      ctx.fillStyle = bgColor;
+      ctx.fill();
+      ctx.stroke();
+    } else if (preset.id === 'rect-fill') {
+      ctx.fillStyle = lineColor;
+      ctx.fill();
+    }
+  };
+
   /* ── File actions ── */
   const handleSaveAsConfirm = useCallback(() => {
     const canvas = canvasRef.current;
@@ -382,6 +426,15 @@ const Canvas = ({
       return;
     }
 
+    // Rounded rectangle tool
+    if (tool === "roundedRectangle") {
+      snapshot();
+      const { x, y } = getCanvasXY(e);
+      rectStartRef.current = { x, y };
+      previewRef.current = ctxRef.current!.getImageData(0, 0, canvasRef.current!.width, canvasRef.current!.height);
+      return;
+    }
+
     // Ellipse tool
     if (tool === "ellipse") {
       snapshot();
@@ -479,6 +532,16 @@ const Canvas = ({
       return;
     }
 
+    // Rounded rectangle preview
+     if (tool === "roundedRectangle" && rectStartRef.current && previewRef.current) {
+      const ctx = ctxRef.current;
+      if (!ctx) return;
+      ctx.putImageData(previewRef.current, 0, 0);
+      const shift = (e as React.MouseEvent).shiftKey;
+      drawRoundedRect(ctx, rectStartRef.current.x, rectStartRef.current.y, x, y, shift);
+      return;
+    }
+
     // Ellipse preview
     if (tool === "ellipse" && rectStartRef.current && previewRef.current) {
       const ctx = ctxRef.current;
@@ -522,6 +585,19 @@ const Canvas = ({
       ctx.putImageData(previewRef.current, 0, 0);
       const shift = (e as React.MouseEvent).shiftKey;
       drawRect(ctx, rectStartRef.current.x, rectStartRef.current.y, x, y, shift);
+      rectStartRef.current = null;
+      previewRef.current = null;
+      return;
+    }
+
+    // Rounded rectangle finalize
+    if (tool === "roundedRectangle" && rectStartRef.current && previewRef.current) {
+      const ctx = ctxRef.current;
+      if (!ctx) return;
+      const { x, y } = getCanvasXY(e);
+      ctx.putImageData(previewRef.current, 0, 0);
+      const shift = (e as React.MouseEvent).shiftKey;
+      drawRoundedRect(ctx, rectStartRef.current.x, rectStartRef.current.y, x, y, shift);
       rectStartRef.current = null;
       previewRef.current = null;
       return;
