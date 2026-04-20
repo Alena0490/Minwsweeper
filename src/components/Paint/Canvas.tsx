@@ -86,6 +86,7 @@ const Canvas = ({
   const cleanCanvasRef = useRef<ImageData | null>(null);
   const freeSelectPathRef = useRef<{ x: number; y: number }[]>([]);
   const freeSelectClipPathRef = useRef<{ x: number; y: number }[]>([]);
+  const polygonPointsRef = useRef<{ x: number; y: number }[]>([]);
 
   const transparentBg = BACKGROUND_PRESETS[selectedBgPreset].transparent;
 
@@ -266,6 +267,33 @@ const Canvas = ({
     const preset = RECT_PRESETS[selectedShapePreset];
     ctx.beginPath();
     ctx.roundRect(sx, sy, w, h, radius);
+    if (preset.id === 'rect-outline') {
+      ctx.stroke();
+    } else if (preset.id === 'rect-outline-fill') {
+      ctx.fillStyle = bgColor;
+      ctx.fill();
+      ctx.stroke();
+    } else if (preset.id === 'rect-fill') {
+      ctx.fillStyle = lineColor;
+      ctx.fill();
+    }
+  };
+
+  /* ── Polygon drawing helper ── */
+  const drawPolygon = (
+    ctx: CanvasRenderingContext2D,
+    points: { x: number; y: number }[],
+    close = false
+  ) => {
+    if (points.length < 2) return;
+    ctx.lineWidth = lineWidth;
+    ctx.globalAlpha = lineOpacity;
+    ctx.strokeStyle = lineColor;
+    const preset = RECT_PRESETS[selectedShapePreset];
+    ctx.beginPath();
+    ctx.moveTo(points[0].x, points[0].y);
+    points.slice(1).forEach(p => ctx.lineTo(p.x, p.y));
+    if (close) ctx.closePath();
     if (preset.id === 'rect-outline') {
       ctx.stroke();
     } else if (preset.id === 'rect-outline-fill') {
@@ -460,6 +488,33 @@ const Canvas = ({
       return;
     }
 
+    // POLYGON TOOL
+    if (tool === "polygon") {
+      const { x, y } = getCanvasXY(e);
+      const me = e as React.MouseEvent;
+
+      // Double click — finalize
+      if (me.detail === 2 && polygonPointsRef.current.length > 1) {
+        const ctx = ctxRef.current;
+        if (!ctx || !previewRef.current) return;
+        ctx.putImageData(previewRef.current, 0, 0);
+        drawPolygon(ctx, polygonPointsRef.current, true);
+        polygonPointsRef.current = [];
+        previewRef.current = null;
+        return;
+      }
+
+      // First click — start
+      if (polygonPointsRef.current.length === 0) {
+        snapshot();
+        previewRef.current = ctxRef.current!.getImageData(0, 0, canvasRef.current!.width, canvasRef.current!.height);
+      }
+
+      // Add point
+      polygonPointsRef.current = [...polygonPointsRef.current, { x, y }];
+      return;
+    }
+
     // RECT SELECT TOOL
     if (tool === "rectselect") {
       const { x, y } = getCanvasXY(e);
@@ -615,6 +670,15 @@ const Canvas = ({
       ctx.putImageData(previewRef.current, 0, 0);
       const shift = (e as React.MouseEvent).shiftKey;
       drawEllipse(ctx, rectStartRef.current.x, rectStartRef.current.y, x, y, shift);
+      return;
+    }
+
+    // POLYGON PREVIEW
+    if (tool === "polygon" && polygonPointsRef.current.length > 0 && previewRef.current) {
+      const ctx = ctxRef.current;
+      if (!ctx) return;
+      ctx.putImageData(previewRef.current, 0, 0);
+      drawPolygon(ctx, [...polygonPointsRef.current, { x, y }]);
       return;
     }
 

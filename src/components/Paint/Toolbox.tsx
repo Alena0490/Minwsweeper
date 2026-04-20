@@ -238,8 +238,8 @@ const Toolbox = ({
         <button 
           type="button" 
           title="Polygon"         
-          onClick={() => {}} 
-          className="xp-tool-btn xp-tool-btn--disabled"
+          className={`xp-tool-btn${tool === 'polygon' ? ' active' : ''}`}
+          onClick={() => setTool('polygon')}
         >
           <img 
             src={Polygon} 
@@ -307,7 +307,7 @@ const Toolbox = ({
           ))}
 
           {/* SHAPE TOOLS */}
-          {(tool === 'rectangle' || tool === 'roundedRectangle' || tool === 'ellipse') && RECT_PRESETS.map((p, i) => (
+          {(tool === 'rectangle' || tool === 'roundedRectangle' || tool === 'ellipse' || tool === 'polygon') && RECT_PRESETS.map((p, i) => (
             <button
               key={p.id}
               type="button"
@@ -377,7 +377,7 @@ const Toolbox = ({
             </button>
           ))}
 
-          {/* SEŮECTION TOOLS */}
+          {/* SELECTION TOOLS */}
           {(tool === 'rectselect' || tool === 'freeselect' || tool === 'text') && BACKGROUND_PRESETS.map((p, i) => (
             <button
               key={p.id}

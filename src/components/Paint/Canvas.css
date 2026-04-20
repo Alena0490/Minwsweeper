@@ -11,6 +11,7 @@
 .draw-area[data-tool="rectangle"]  #draw-canvas { cursor: url('/cursors/precise2.png') 16 16, crosshair; }
 .draw-area[data-tool="ellipse"]    #draw-canvas { cursor: url('/cursors/precise2.png') 16 16, crosshair; }
 .draw-area[data-tool="roundedRectangle"] #draw-canvas { cursor: url('/cursors/precise2.png') 16 16, crosshair; }
+.draw-area[data-tool="polygon"] #draw-canvas { cursor: url('/cursors/precise2.png') 16 16, crosshair; }
 
 /* Utility tools */
 .draw-area[data-tool="bucket"]     #draw-canvas { cursor: url('/cursors/fill-bucket.png') 9 28, default; }
