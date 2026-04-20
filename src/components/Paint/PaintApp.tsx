@@ -60,6 +60,8 @@ const PaintApp = ({
   const [selectedBrushPreset, setSelectedBrushPreset] = useState(0);
   const [selectedSprayPreset, setSelectedSprayPreset] = useState(0);
   const [selectedEraserPreset, setSelectedEraserPreset] = useState(0);
+  const [selectedShapePreset, setSelectedShapePreset] = useState(0);
+  const [bgColor, setBgColor] = useState("#ffffff");
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -237,6 +239,9 @@ const PaintApp = ({
           selectedEraserPreset={selectedEraserPreset}
           setSelectedEraserPreset={setSelectedEraserPreset}
 
+          selectedShapePreset={selectedShapePreset}
+          setSelectedShapePreset={setSelectedShapePreset}
+
           setZoomLevel={setZoomLevel}
           zoom={zoom}
         />
@@ -252,6 +257,7 @@ const PaintApp = ({
           lineOpacity={lineOpacity}
           tool={tool}
           setTool={setTool}
+          selectedShapePreset={selectedShapePreset}
           floodFill={floodFill}
           zoom={zoom}
           setZoom={setZoom}
@@ -260,13 +266,18 @@ const PaintApp = ({
           onStatusChange={onStatusChange}
           saveAsOpen={saveAsOpen}
           setSaveAsOpen={setSaveAsOpen}
+          bgColor={bgColor}
         />
       </div>
       <div className="colors">
-        <div className="colors__swatches">
-          <div className="colors__bg" />
-          <div className="colors__fg" style={{ background: lineColor }} />
-        </div>
+        <div className="colors__swatches" onClick={() => {
+            const tmp = lineColor;
+            setLineColor(bgColor);
+            setBgColor(tmp);
+          }}>
+            <div className="colors__bg" style={{ background: bgColor }} />
+            <div className="colors__fg" style={{ background: lineColor }} />
+          </div>
         <div className="colors__sep" />
         <div className="colors__grid">
           {XP_PALETTE.map(color => (
@@ -275,6 +286,10 @@ const PaintApp = ({
               className={`colors__chip${lineColor === color ? ' colors__chip--active' : ''}`}
               style={{ background: color }} title={color}
               onClick={() => setLineColor(color)}
+              onContextMenu={(e) => {
+                e.preventDefault();
+                setBgColor(color);
+              }}
             />
           ))}
         </div>

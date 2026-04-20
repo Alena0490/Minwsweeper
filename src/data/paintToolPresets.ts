@@ -185,8 +185,15 @@ export const SPRAY_PRESETS = [
   },
 ] as const;
 
+export const RECT_PRESETS = [
+  { id: 'rect-outline',      svg: `<rect x="3" y="6" width="18" height="12" fill="none" stroke="black" stroke-width="1.5"/>`,      label: 'Outline only'       },
+  { id: 'rect-outline-fill', svg: `<rect x="3" y="6" width="18" height="12" fill="#c0c0c0" stroke="black" stroke-width="1.5"/>`,  label: 'Outline with fill'  },
+  { id: 'rect-fill',         svg: `<rect x="3" y="6" width="18" height="12" fill="black" stroke="none"/>`,                         label: 'Fill only'          },
+] as const;
+
 export type LinePreset = typeof LINE_PRESETS[number];
 export type BrushPreset = typeof BRUSH_PRESETS[number];
 export type SprayPreset = typeof SPRAY_PRESETS[number];
 export type ZoomPreset = typeof ZOOM_PRESETS[number];
 export type BackgroundPreset = typeof BACKGROUND_PRESETS[number];
+export type RectPreset = typeof RECT_PRESETS[number];

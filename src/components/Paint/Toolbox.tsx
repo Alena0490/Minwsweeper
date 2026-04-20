@@ -3,7 +3,8 @@ import {
   BRUSH_PRESETS,
   SPRAY_PRESETS,
   ZOOM_PRESETS,
-  ERASER_PRESETS
+  ERASER_PRESETS,
+  RECT_PRESETS
 } from "../../data/paintToolPresets"
 // Images
 import FreeSelect from '../../img/star.webp'
@@ -39,8 +40,10 @@ interface ToolboxProps {
   setSelectedBrushPreset: (i: number) => void;
   selectedSprayPreset: number;
   setSelectedSprayPreset: (i: number) => void;
-   selectedEraserPreset: number;
+  selectedEraserPreset: number;
   setSelectedEraserPreset: (i: number) => void;
+  selectedShapePreset: number;
+  setSelectedShapePreset: (i: number) => void;
 }
 
 const Toolbox = ({
@@ -60,7 +63,10 @@ const Toolbox = ({
   setSelectedSprayPreset,
 
   selectedEraserPreset,
-  setSelectedEraserPreset
+  setSelectedEraserPreset,
+
+  selectedShapePreset,
+  setSelectedShapePreset,
 }: ToolboxProps) => {
   // const DISABLED_TOOLS = ['freeselect', 'rectselect', 'text', 'curve', 'polygon', 'roundedrect'];
 
@@ -211,11 +217,11 @@ const Toolbox = ({
           />
         </button>
 
-        <button 
-          type="button" 
-          title="Rectangle"       
-          onClick={() => {}} 
-          className="xp-tool-btn xp-tool-btn--disabled"
+        <button
+          type="button"
+          title="Rectangle"
+          className={`xp-tool-btn${tool === 'rectangle' ? ' active' : ''}`}
+          onClick={() => setTool('rectangle')}
         >
           <img 
             src={Rectangle} 
@@ -287,10 +293,25 @@ const Toolbox = ({
               className={`line xp-size-btn${selectedLinePreset === i ? ' active' : ''}`}
               onClick={() => {
                 setSelectedLinePreset(i);
-                setLineWidth(p.width); // ✔ správně
+                setLineWidth(p.width);
               }}
             >
               <img src={p.icon} alt="" />
+            </button>
+          ))}
+
+          {tool === 'rectangle' && RECT_PRESETS.map((p, i) => (
+            <button
+              key={p.id}
+              type="button"
+              title={p.label}
+              aria-label={p.label}
+              className={`xp-size-btn${selectedShapePreset === i ? ' active' : ''}`}
+              onClick={() => setSelectedShapePreset(i)}
+            >
+              <svg width="24" height="24" viewBox="0 0 24 24"
+                dangerouslySetInnerHTML={{ __html: p.svg }}
+              />
             </button>
           ))}
 
@@ -311,6 +332,7 @@ const Toolbox = ({
             </button>
           ))}
 
+          {/* RECTANGLE */}
           {tool === 'brush' && BRUSH_PRESETS.map((p, i) => (
             <button
               key={p.id}
