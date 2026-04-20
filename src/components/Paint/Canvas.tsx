@@ -139,9 +139,13 @@ const Canvas = ({
     let w = ex - sx;
     let h = ey - sy;
     if (shift) {
-      const size = Math.min(Math.abs(w), Math.abs(h));
-      w = w < 0 ? -size : size;
-      h = h < 0 ? -size : size;
+      const canvas = canvasRef.current!;
+      const rect = canvas.getBoundingClientRect();
+      const visualW = Math.abs(w) * rect.width / canvas.width;
+      const visualH = Math.abs(h) * rect.height / canvas.height;
+      const visualSize = Math.min(visualW, visualH);
+      w = (w < 0 ? -1 : 1) * visualSize * canvas.width / rect.width;
+      h = (h < 0 ? -1 : 1) * visualSize * canvas.height / rect.height;
     }
 
     // Apply stroke style
@@ -168,28 +172,36 @@ const Canvas = ({
     ctx: CanvasRenderingContext2D,
     sx: number, sy: number,
     ex: number, ey: number,
-    shift = false
+    shift = false,
+    
   ) => {
     // Constrain to circle if Shift is held
     let w = ex - sx;
     let h = ey - sy;
     if (shift) {
-      const size = Math.min(Math.abs(w), Math.abs(h));
-      w = w < 0 ? -size : size;
-      h = h < 0 ? -size : size;
+      const canvas = canvasRef.current!;
+      const rect = canvas.getBoundingClientRect();
+      // Convert to visual pixels to find equal visual size
+      const visualW = Math.abs(w) * rect.width / canvas.width;
+      const visualH = Math.abs(h) * rect.height / canvas.height;
+      const visualSize = Math.min(visualW, visualH);
+      // Convert back to canvas pixels
+      w = (w < 0 ? -1 : 1) * visualSize * canvas.width / rect.width;
+      h = (h < 0 ? -1 : 1) * visualSize * canvas.height / rect.height;
     }
 
     // Compute center and radii from constrained dimensions
     const cx = sx + w / 2;
     const cy = sy + h / 2;
     const rx = Math.abs(w) / 2;
-    const ry = Math.abs(h) / 2;
-
+    const ry = Math.abs(h) / 2;  
+    
     // Apply stroke style
     ctx.lineWidth = lineWidth;
     ctx.globalAlpha = lineOpacity;
     ctx.strokeStyle = lineColor;
 
+    console.log('w:', w, 'h:', h, 'size:', Math.min(Math.abs(w), Math.abs(h)));
     // Draw shape according to selected preset
     const preset = RECT_PRESETS[selectedShapePreset];
     ctx.beginPath();
