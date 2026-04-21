@@ -93,6 +93,7 @@ const Paint = ({ isFullscreen, setIsFullscreen, isMinimized, setIsMinimized, onC
         onZoomIn={zoomIn}
         onZoomOut={zoomOut}
         onSaveAs={() => setSaveAsOpen(true)}
+        onClose={onClose}
       />
       <div className="paint-canvas-area">
           <PaintApp

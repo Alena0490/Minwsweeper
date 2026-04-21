@@ -7,9 +7,10 @@ interface PaintMenuProps {
   onZoomOut: () => void;
   isZoomed: boolean;
   onSaveAs: () => void;
+  onClose: () => void;
 }
 
-const PaintMenu = ({ setTool, onZoomIn, onZoomOut, isZoomed, onSaveAs }: PaintMenuProps) => {
+const PaintMenu = ({ setTool, onZoomIn, onZoomOut, isZoomed, onSaveAs, onClose }: PaintMenuProps) => {
   const [openMenu, setOpenMenu] = useState<'file' | 'edit' | 'view' | 'image' | 'colors' | 'help' | null>(null)
   const menuRef = useRef<HTMLElement>(null)
 
@@ -61,7 +62,7 @@ const PaintMenu = ({ setTool, onZoomIn, onZoomOut, isZoomed, onSaveAs }: PaintMe
 
             <li className="separator" aria-hidden="true" />
 
-            <li onClick={() => { setOpenMenu(null) }}>
+            <li onClick={onClose}>
               Exit
             </li>
           </ul>

@@ -1,6 +1,10 @@
-import { useState, useEffect, useRef, useCallback } from "react";
-import useSound from "../../hooks/useSound";
-import { RECT_PRESETS, BACKGROUND_PRESETS } from '../../data/paintToolPresets'
+import { useEffect, useRef } from "react";
+import { usePaintHistory } from '../../hooks/usePaintHistory';
+import { usePaintFileActions } from '../../hooks/usePaintFileActions';
+import { usePaintShapeDrawing } from '../../hooks/usePaintShapeDrawing';
+import { usePaintSelection } from '../../hooks/usePaintSelection';
+import { usePaintPanning } from '../../hooks/usePaintPanning';
+import { BACKGROUND_PRESETS } from '../../data/paintToolPresets'
 import "./Canvas.css";
 
 interface CanvasProps {
@@ -67,32 +71,9 @@ const Canvas = ({
   selectedBgPreset
 }: CanvasProps) => {
 
-  /* ── State ── */
-  const [fileName, setFileName] = useState("drawing.png");
-
-  const { playNavStart, playMinimize } = useSound();
-
   /* ── Refs ── */
-  const historyRef = useRef<string[]>([]);
-  const redoRef = useRef<string[]>([]);
   const previewRef = useRef<ImageData | null>(null);
-  const lineStartRef = useRef<{ x: number; y: number } | null>(null);
-  const rectStartRef = useRef<{ x: number; y: number } | null>(null);
-  const isPanningRef = useRef(false);
-  const panStartRef = useRef({ x: 0, y: 0 });
-  const selStartRef = useRef<{ x: number; y: number } | null>(null);
-  const isDraggingSelectionRef = useRef(false);
-  const dragOffsetRef = useRef({ x: 0, y: 0 });
-  const cleanCanvasRef = useRef<ImageData | null>(null);
-  const freeSelectPathRef = useRef<{ x: number; y: number }[]>([]);
-  const freeSelectClipPathRef = useRef<{ x: number; y: number }[]>([]);
-  const polygonPointsRef = useRef<{ x: number; y: number }[]>([]);
-  const curvePhaseRef = useRef(0);
-  const curveStartRef = useRef<{ x: number; y: number } | null>(null);
-  const curveEndRef = useRef<{ x: number; y: number } | null>(null);
-  const curveCtrl1Ref = useRef<{ x: number; y: number } | null>(null);
-  const curveCtrl2Ref = useRef<{ x: number; y: number } | null>(null);
-
+ 
   const transparentBg = BACKGROUND_PRESETS[selectedBgPreset].transparent;
 
   /* ── Coordinate helpers ── */
@@ -114,270 +95,52 @@ const Canvas = ({
   };
 
   /* ── History ── */
-  const snapshot = useCallback(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    try {
-      historyRef.current.push(canvas.toDataURL("image/png"));
-      redoRef.current = [];
-    } catch (err) {
-      console.warn("Failed to save snapshot:", err);
-    }
-  }, [canvasRef]);
+  const { snapshot, undo, redo } = usePaintHistory(canvasRef, ctxRef);
 
-  const restoreFrom = useCallback((url: string) => {
-    const canvas = canvasRef.current;
-    const ctx = ctxRef.current;
-    if (!canvas || !ctx || !url) return;
-    const img = new Image();
-    img.onload = () => {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-    };
-    img.src = url;
-  }, [canvasRef, ctxRef]);
-
-  const undo = useCallback(() => {
-    const canvas = canvasRef.current;
-    if (!canvas || historyRef.current.length === 0) return;
-    redoRef.current.push(canvas.toDataURL("image/png"));
-    restoreFrom(historyRef.current.pop()!);
-  }, [canvasRef, restoreFrom]);
-
-  const redo = useCallback(() => {
-    const canvas = canvasRef.current;
-    if (!canvas || redoRef.current.length === 0) return;
-    historyRef.current.push(canvas.toDataURL("image/png"));
-    restoreFrom(redoRef.current.pop()!);
-  }, [canvasRef, restoreFrom]);
-
-  /* ── Rectangle drawing helper ── */
-  const drawRect = (
-    ctx: CanvasRenderingContext2D,
-    sx: number, sy: number,
-    ex: number, ey: number,
-    shift = false
-  ) => {
-    // Constrain to square if Shift is held
-    let w = ex - sx;
-    let h = ey - sy;
-    if (shift) {
-      const canvas = canvasRef.current!;
-      const rect = canvas.getBoundingClientRect();
-      const visualW = Math.abs(w) * rect.width / canvas.width;
-      const visualH = Math.abs(h) * rect.height / canvas.height;
-      const visualSize = Math.min(visualW, visualH);
-      w = (w < 0 ? -1 : 1) * visualSize * canvas.width / rect.width;
-      h = (h < 0 ? -1 : 1) * visualSize * canvas.height / rect.height;
-    }
-
-    // Apply stroke style
-    ctx.lineWidth = lineWidth;
-    ctx.globalAlpha = lineOpacity;
-    ctx.strokeStyle = lineColor;
-
-    // Draw shape according to selected preset
-    const preset = RECT_PRESETS[selectedShapePreset];
-    if (preset.id === 'rect-outline') {
-      ctx.strokeRect(sx, sy, w, h);
-    } else if (preset.id === 'rect-outline-fill') {
-      ctx.fillStyle = bgColor;
-      ctx.fillRect(sx, sy, w, h);
-      ctx.strokeRect(sx, sy, w, h);
-    } else if (preset.id === 'rect-fill') {
-      ctx.fillStyle = lineColor;
-      ctx.fillRect(sx, sy, w, h);
-    }
-  };
-
-  /* ── Ellipse drawing helper ── */
-  const drawEllipse = (
-    ctx: CanvasRenderingContext2D,
-    sx: number, sy: number,
-    ex: number, ey: number,
-    shift = false
-    
-  ) => {
-    // Constrain to circle if Shift is held
-    let w = ex - sx;
-    let h = ey - sy;
-    if (shift) {
-      const canvas = canvasRef.current!;
-      const rect = canvas.getBoundingClientRect();
-      // Convert to visual pixels to find equal visual size
-      const visualW = Math.abs(w) * rect.width / canvas.width;
-      const visualH = Math.abs(h) * rect.height / canvas.height;
-      const visualSize = Math.min(visualW, visualH);
-      // Convert back to canvas pixels
-      w = (w < 0 ? -1 : 1) * visualSize * canvas.width / rect.width;
-      h = (h < 0 ? -1 : 1) * visualSize * canvas.height / rect.height;
-    }
-
-    // Compute center and radii from constrained dimensions
-    const cx = sx + w / 2;
-    const cy = sy + h / 2;
-    const rx = Math.abs(w) / 2;
-    const ry = Math.abs(h) / 2;  
-    
-    // Apply stroke style
-    ctx.lineWidth = lineWidth;
-    ctx.globalAlpha = lineOpacity;
-    ctx.strokeStyle = lineColor;
-
-    // Draw shape according to selected preset
-    const preset = RECT_PRESETS[selectedShapePreset];
-    ctx.beginPath();
-    ctx.ellipse(cx, cy, rx, ry, 0, 0, Math.PI * 2);
-    if (preset.id === 'rect-outline') {
-      ctx.stroke();
-    } else if (preset.id === 'rect-outline-fill') {
-      ctx.fillStyle = bgColor;
-      ctx.fill();
-      ctx.stroke();
-    } else if (preset.id === 'rect-fill') {
-      ctx.fillStyle = lineColor;
-      ctx.fill();
-    }
-  };
-
-  /* ── Rounded Rectangle drawing helper ── */
-  const drawRoundedRect = (
-    ctx: CanvasRenderingContext2D,
-    sx: number, sy: number,
-    ex: number, ey: number,
-    shift = false
-  ) => {
-    // Constrain to square if Shift is held
-    let w = ex - sx;
-    let h = ey - sy;
-    if (shift) {
-      const canvas = canvasRef.current!;
-      const rect = canvas.getBoundingClientRect();
-      const visualW = Math.abs(w) * rect.width / canvas.width;
-      const visualH = Math.abs(h) * rect.height / canvas.height;
-      const visualSize = Math.min(visualW, visualH);
-      w = (w < 0 ? -1 : 1) * visualSize * canvas.width / rect.width;
-      h = (h < 0 ? -1 : 1) * visualSize * canvas.height / rect.height;
-    }
-
-    // Radius — 15% of shorter side
-    const radius = Math.min(Math.abs(w), Math.abs(h)) * 0.15;
-
-    // Apply stroke style
-    ctx.lineWidth = lineWidth;
-    ctx.globalAlpha = lineOpacity;
-    ctx.strokeStyle = lineColor;
-
-    // Draw shape according to selected preset
-    const preset = RECT_PRESETS[selectedShapePreset];
-    ctx.beginPath();
-    ctx.roundRect(sx, sy, w, h, radius);
-    if (preset.id === 'rect-outline') {
-      ctx.stroke();
-    } else if (preset.id === 'rect-outline-fill') {
-      ctx.fillStyle = bgColor;
-      ctx.fill();
-      ctx.stroke();
-    } else if (preset.id === 'rect-fill') {
-      ctx.fillStyle = lineColor;
-      ctx.fill();
-    }
-  };
-
-  /* ── Polygon drawing helper ── */
-  const drawPolygon = (
-    ctx: CanvasRenderingContext2D,
-    points: { x: number; y: number }[],
-    close = false
-  ) => {
-    if (points.length < 2) return;
-    ctx.lineWidth = lineWidth;
-    ctx.globalAlpha = lineOpacity;
-    ctx.strokeStyle = lineColor;
-    const preset = RECT_PRESETS[selectedShapePreset];
-    ctx.beginPath();
-    ctx.moveTo(points[0].x, points[0].y);
-    points.slice(1).forEach(p => ctx.lineTo(p.x, p.y));
-    if (close) ctx.closePath();
-    if (preset.id === 'rect-outline') {
-      ctx.stroke();
-    } else if (preset.id === 'rect-outline-fill') {
-      ctx.fillStyle = bgColor;
-      ctx.fill();
-      ctx.stroke();
-    } else if (preset.id === 'rect-fill') {
-      ctx.fillStyle = lineColor;
-      ctx.fill();
-    }
-  };
-
-   /* ── Curve drawing helper ── */
-  const drawCurve = (ctx: CanvasRenderingContext2D) => {
-    if (!curveStartRef.current || !curveEndRef.current) return;
-    const cp1 = curveCtrl1Ref.current ?? curveStartRef.current;
-    const cp2 = curveCtrl2Ref.current ?? curveEndRef.current;
-    ctx.lineWidth = lineWidth;
-    ctx.globalAlpha = lineOpacity;
-    ctx.strokeStyle = lineColor;
-    ctx.beginPath();
-    ctx.moveTo(curveStartRef.current.x, curveStartRef.current.y);
-    ctx.bezierCurveTo(cp1.x, cp1.y, cp2.x, cp2.y, curveEndRef.current.x, curveEndRef.current.y);
-    ctx.stroke();
-  };
+  /* ── Drawing Shapes ── */
+  const {
+    rectStartRef,
+    lineStartRef,
+    polygonPointsRef,
+    curvePhaseRef,
+    curveStartRef,
+    curveEndRef,
+    curveCtrl1Ref,
+    curveCtrl2Ref,
+    drawRect,
+    drawEllipse,
+    drawRoundedRect,
+    drawPolygon,
+    drawCurve,
+  } = usePaintShapeDrawing({ canvasRef, lineWidth, lineOpacity, lineColor, bgColor, selectedShapePreset });
 
   /* ── File actions ── */
-  const handleSaveAsConfirm = useCallback(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    const safeName = fileName.trim() || "drawing.png";
-    const finalName = safeName.toLowerCase().endsWith(".png") ? safeName : `${safeName}.png`;
-    playNavStart();
-    const a = document.createElement("a");
-    a.download = finalName;
-    a.href = canvas.toDataURL("image/png");
-    a.click();
-    setSaveAsOpen(false);
-  }, [canvasRef, fileName, setSaveAsOpen, playNavStart]);
+  const {
+    fileName,
+    setFileName,
+    playMinimize,
+    handleSaveAsConfirm,
+    handleOpenFile
+  } = usePaintFileActions(canvasRef, ctxRef, snapshot, onStatusChange, saveAsOpen, setSaveAsOpen);
 
-  const handleOpenFile = useCallback(() => {
-    const canvas = canvasRef.current;
-    const ctx = ctxRef.current;
-    if (!canvas || !ctx) return;
-    const input = document.createElement("input");
-    input.type = "file";
-    input.accept = "image/*";
-    input.onchange = (e) => {
-      const file = (e.target as HTMLInputElement).files?.[0];
-      if (!file) return;
-      const reader = new FileReader();
-      reader.onload = (ev) => {
-        const result = ev.target?.result;
-        if (typeof result !== "string") return;
-        const img = new Image();
-        img.onload = () => {
-          snapshot();
-          ctx.clearRect(0, 0, canvas.width, canvas.height);
-          ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-          onStatusChange("Image opened");
-        };
-        img.onerror = () => onStatusChange("Failed to open image");
-        img.src = result;
-      };
-      reader.readAsDataURL(file);
-    };
-    input.click();
-  }, [canvasRef, ctxRef, snapshot, onStatusChange]);
-
-  /* ── Keyboard: Save As dialog ── */
-  useEffect(() => {
-    if (!saveAsOpen) return;
-    const handleKey = (e: KeyboardEvent) => {
-      if (e.key === "Enter") { e.preventDefault(); handleSaveAsConfirm(); }
-      if (e.key === "Escape") { e.preventDefault(); setSaveAsOpen(false); }
-    };
-    window.addEventListener("keydown", handleKey);
-    return () => window.removeEventListener("keydown", handleKey);
-  }, [saveAsOpen, handleSaveAsConfirm, setSaveAsOpen]);
+  /* ── Selection ── */
+  const {
+    selStartRef,
+    isDraggingSelectionRef,
+    dragOffsetRef,
+    cleanCanvasRef,
+    freeSelectPathRef,
+    freeSelectClipPathRef,
+  } = usePaintSelection({
+    tool,
+    bgColor,
+    ctxRef,
+    selection,
+    setSelection,
+    selectionData,
+    setSelectionData,
+    snapshot,
+  });
 
   /* ── Tool side effects (clear, download, undo, redo, open) ── */
   useEffect(() => {
@@ -401,70 +164,8 @@ const Canvas = ({
     if (tool === "open") { handleOpenFile(); setTimeout(() => setTool("pencil"), 0); }
   }, [tool, canvasRef, ctxRef, setTool, snapshot, undo, redo, handleOpenFile]);
 
-  /* ── Touch zoom ── */
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    const initialDistanceRef = { current: 0 };
-    const initialZoomRef = { current: 1 };
-    const getDistance = (t1: Touch, t2: Touch) =>
-      Math.sqrt((t2.clientX - t1.clientX) ** 2 + (t2.clientY - t1.clientY) ** 2);
-    const handleTouchStart = (e: TouchEvent) => {
-      if (e.touches.length === 2) {
-        e.preventDefault();
-        initialDistanceRef.current = getDistance(e.touches[0], e.touches[1]);
-        setZoom((z) => { initialZoomRef.current = z; return z; });
-      }
-    };
-    const handleTouchMove = (e: TouchEvent) => {
-      if (e.touches.length === 2) {
-        e.preventDefault();
-        const scale = getDistance(e.touches[0], e.touches[1]) / initialDistanceRef.current;
-        setZoom(+Math.min(4, Math.max(0.25, initialZoomRef.current * scale)).toFixed(3));
-      }
-    };
-    canvas.addEventListener("touchstart", handleTouchStart, { passive: false });
-    canvas.addEventListener("touchmove", handleTouchMove, { passive: false });
-    return () => {
-      canvas.removeEventListener("touchstart", handleTouchStart);
-      canvas.removeEventListener("touchmove", handleTouchMove);
-    };
-  }, [canvasRef, setZoom]);
-
   /* ── Canvas panning (middle mouse + drag) ── */
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    const handlePanStart = (e: MouseEvent) => {
-      if (e.button === 1) {  // middle mouse
-        e.preventDefault();
-        isPanningRef.current = true;
-        panStartRef.current = { x: e.clientX - pan.x, y: e.clientY - pan.y };
-      }
-    };
-    const handlePanMove = (e: MouseEvent | TouchEvent) => {
-      if (!isPanningRef.current) return;
-      e.preventDefault();
-      const te = e as TouchEvent;
-      const me = e as MouseEvent;
-      const clientX = te.touches?.[0]?.clientX ?? me.clientX;
-      const clientY = te.touches?.[0]?.clientY ?? me.clientY;
-      setPan({ x: clientX - panStartRef.current.x, y: clientY - panStartRef.current.y });
-    };
-    const handlePanEnd = () => { isPanningRef.current = false; };
-    canvas.addEventListener("mousedown", handlePanStart);
-    window.addEventListener("mousemove", handlePanMove);
-    window.addEventListener("mouseup", handlePanEnd);
-    window.addEventListener("touchmove", handlePanMove, { passive: false });
-    window.addEventListener("touchend", handlePanEnd);
-    return () => {
-      canvas.removeEventListener("mousedown", handlePanStart);
-      window.removeEventListener("mousemove", handlePanMove);
-      window.removeEventListener("mouseup", handlePanEnd);
-      window.removeEventListener("touchmove", handlePanMove);
-      window.removeEventListener("touchend", handlePanEnd);
-    };
-  }, [pan, setPan, canvasRef]);
+  const { isPanningRef, panStartRef } = usePaintPanning(canvasRef, pan, setPan, setZoom);
 
   /* ── Pointer: Mouse Down ── */
   const handleMouseDown = (e: React.MouseEvent | React.TouchEvent) => {
@@ -495,7 +196,7 @@ const Canvas = ({
       return;
     }
 
-    // RECTANLE TOOL
+    // RECTANGLE TOOL
     if (tool === "rectangle") {
       snapshot();
       const { x, y } = getCanvasXY(e);
@@ -552,7 +253,7 @@ const Canvas = ({
     // RECT SELECT TOOL
     if (tool === "rectselect") {
       const { x, y } = getCanvasXY(e);
-      cleanCanvasRef.current = ctxRef.current!.getImageData(0, 0, canvasRef.current!.width, canvasRef.current!.height); // ← přidat
+      cleanCanvasRef.current = ctxRef.current!.getImageData(0, 0, canvasRef.current!.width, canvasRef.current!.height);
       previewRef.current = cleanCanvasRef.current;
 
       // If clicking inside existing selection — start drag
@@ -570,7 +271,7 @@ const Canvas = ({
       selStartRef.current = { x, y };
       setSelection(null);
       setSelectionData(null);
-      cleanCanvasRef.current = ctxRef.current!.getImageData(0, 0, canvasRef.current!.width, canvasRef.current!.height); // ← přidat
+      cleanCanvasRef.current = ctxRef.current!.getImageData(0, 0, canvasRef.current!.width, canvasRef.current!.height);
       previewRef.current = cleanCanvasRef.current;
       return;
     }
@@ -713,7 +414,7 @@ const Canvas = ({
     }
 
     // ROUNDED RECTANGLE PREVIEW
-     if (tool === "roundedRectangle" && rectStartRef.current && previewRef.current) {
+    if (tool === "roundedRectangle" && rectStartRef.current && previewRef.current) {
       const ctx = ctxRef.current;
       if (!ctx) return;
       ctx.putImageData(previewRef.current, 0, 0);
@@ -741,47 +442,36 @@ const Canvas = ({
       return;
     }
 
-    // RECT SELECT 
-    // Rect Select Preview
-      if (tool === "rectselect" && selStartRef.current && previewRef.current) {
-        const ctx = ctxRef.current;
-        if (!ctx) return;
+    // RECT SELECT PREVIEW
+    if (tool === "rectselect" && selStartRef.current && previewRef.current) {
+      const ctx = ctxRef.current;
+      if (!ctx) return;
+      ctx.putImageData(previewRef.current, 0, 0);
+      const w = x - selStartRef.current.x;
+      const h = y - selStartRef.current.y;
+      ctx.save();
+      ctx.lineWidth = 1;
+      ctx.globalAlpha = 1;
+      ctx.strokeStyle = '#ffffff';
+      ctx.setLineDash([]);
+      ctx.strokeRect(selStartRef.current.x, selStartRef.current.y, w, h);
+      ctx.strokeStyle = '#000000';
+      ctx.setLineDash([4, 4]);
+      ctx.strokeRect(selStartRef.current.x, selStartRef.current.y, w, h);
+      ctx.restore();
+      return;
+    }
 
-        // Restore canvas without selection overlay
-        ctx.putImageData(previewRef.current, 0, 0);
-
-        // Draw dashed selection rectangle
-        const w = x - selStartRef.current.x;
-        const h = y - selStartRef.current.y;
-        ctx.save();
-        ctx.lineWidth = 1;
-        ctx.globalAlpha = 1;
-        ctx.strokeStyle = '#ffffff';
-        ctx.setLineDash([]);
-        ctx.strokeRect(selStartRef.current.x, selStartRef.current.y, w, h);
-        ctx.strokeStyle = '#000000';
-        ctx.setLineDash([4, 4]);
-        ctx.strokeRect(selStartRef.current.x, selStartRef.current.y, w, h);
-        ctx.restore();
-        return;
-      }
-
-    // Rect Select drag
+    // RECT SELECT / FREE SELECT DRAG
     if ((tool === "rectselect" || tool === "freeselect") && isDraggingSelectionRef.current && selection && selectionData) {
       const ctx = ctxRef.current;
       if (!ctx) return;
-
       const newX = x - dragOffsetRef.current.x;
       const newY = y - dragOffsetRef.current.y;
-
-      // Restore base canvas
       ctx.putImageData(previewRef.current!, 0, 0);
-
-      // Fill original position with bgColor
       if (!transparentBg) {
         ctx.fillStyle = bgColor;
         if (tool === 'freeselect' && freeSelectClipPathRef.current.length > 0) {
-          // Fill only the free select path shape
           ctx.beginPath();
           ctx.moveTo(freeSelectClipPathRef.current[0].x, freeSelectClipPathRef.current[0].y);
           freeSelectClipPathRef.current.forEach(p => ctx.lineTo(p.x, p.y));
@@ -791,11 +481,7 @@ const Canvas = ({
           ctx.fillRect(selection.x, selection.y, selection.w, selection.h);
         }
       }
-
-      // Draw selection at new position
       ctx.putImageData(selectionData, newX, newY);
-
-      // Draw dashed border
       ctx.save();
       ctx.lineWidth = 1;
       ctx.globalAlpha = 1;
@@ -809,7 +495,7 @@ const Canvas = ({
       return;
     }
 
-    // Draw active selection border when hovering
+    // DRAW ACTIVE SELECTION BORDER WHEN HOVERING
     if ((tool === "rectselect" || tool === "freeselect") && selection && !selStartRef.current && !isDraggingSelectionRef.current) {
       const ctx = ctxRef.current;
       if (!ctx || !cleanCanvasRef.current) return;
@@ -826,8 +512,7 @@ const Canvas = ({
       ctx.restore();
     }
 
-    // FREE SELECT
-    // Free Select preview
+    // FREE SELECT PREVIEW
     if (tool === "freeselect" && freeSelectPathRef.current.length > 0 && previewRef.current) {
       const ctx = ctxRef.current;
       if (!ctx) return;
@@ -953,12 +638,10 @@ const Canvas = ({
       const ctx = ctxRef.current;
       if (!ctx) return;
       const { x, y } = getCanvasXY(e);
-
       const sx = Math.min(selStartRef.current.x, x);
       const sy = Math.min(selStartRef.current.y, y);
       const sw = Math.abs(x - selStartRef.current.x);
       const sh = Math.abs(y - selStartRef.current.y);
-
       if (sw > 0 && sh > 0) {
         const data = ctx.getImageData(sx, sy, sw, sh);
         setSelectionData(data);
@@ -967,25 +650,21 @@ const Canvas = ({
         cleanCanvasRef.current = ctx.getImageData(0, 0, canvasRef.current!.width, canvasRef.current!.height);
         previewRef.current = cleanCanvasRef.current;
       }
-
       selStartRef.current = null;
       return;
     }
 
-    // Select drag finalize (rect + free)
+    // SELECT DRAG FINALIZE (rect + free)
     if ((tool === "rectselect" || tool === "freeselect") && isDraggingSelectionRef.current && selection && selectionData) {
       const ctx = ctxRef.current;
       if (!ctx) return;
       const { x, y } = getCanvasXY(e);
-
       const newX = x - dragOffsetRef.current.x;
       const newY = y - dragOffsetRef.current.y;
-
       snapshot();
       if (!transparentBg) {
         ctx.fillStyle = bgColor;
         if (tool === 'freeselect' && freeSelectClipPathRef.current.length > 0) {
-          // Fill only the free select path shape
           ctx.beginPath();
           ctx.moveTo(freeSelectClipPathRef.current[0].x, freeSelectClipPathRef.current[0].y);
           freeSelectClipPathRef.current.forEach(p => ctx.lineTo(p.x, p.y));
@@ -1008,29 +687,24 @@ const Canvas = ({
       const ctx = ctxRef.current;
       if (!ctx) return;
       const path = freeSelectPathRef.current;
-
-      // Get bounding box
       const xs = path.map(p => p.x);
       const ys = path.map(p => p.y);
       const sx = Math.floor(Math.min(...xs));
       const sy = Math.floor(Math.min(...ys));
       const sw = Math.ceil(Math.max(...xs)) - sx;
       const sh = Math.ceil(Math.max(...ys)) - sy;
-
       if (sw > 0 && sh > 0) {
         // Create temp canvas with clipped path shape
         const tempCanvas = document.createElement('canvas');
         tempCanvas.width = sw;
         tempCanvas.height = sh;
         const tempCtx = tempCanvas.getContext('2d')!;
-
         // Draw clip path
         tempCtx.beginPath();
         tempCtx.moveTo(path[0].x - sx, path[0].y - sy);
         path.forEach(p => tempCtx.lineTo(p.x - sx, p.y - sy));
         tempCtx.closePath();
         tempCtx.clip();
-
         // Draw canvas content via drawImage (respects clip, unlike putImageData)
         const sourceCanvas = document.createElement('canvas');
         sourceCanvas.width = sw;
@@ -1038,17 +712,14 @@ const Canvas = ({
         const sourceCtx = sourceCanvas.getContext('2d')!;
         sourceCtx.putImageData(ctx.getImageData(sx, sy, sw, sh), 0, 0);
         tempCtx.drawImage(sourceCanvas, 0, 0);
-
         // Get result as ImageData
         const data = tempCtx.getImageData(0, 0, sw, sh);
-
         setSelectionData(data);
         setSelection({ x: sx, y: sy, w: sw, h: sh });
         ctx.putImageData(previewRef.current!, 0, 0);
         cleanCanvasRef.current = ctx.getImageData(0, 0, canvasRef.current!.width, canvasRef.current!.height);
         previewRef.current = cleanCanvasRef.current;
       }
-
       freeSelectClipPathRef.current = path;
       freeSelectPathRef.current = [];
       return;
@@ -1061,68 +732,11 @@ const Canvas = ({
     }
   };
 
-  /* ── Rect Select keyboard actions ── */
-  useEffect(() => {
-    const handleKey = (e: KeyboardEvent) => {
-      if ((tool !== 'rectselect' && tool !== 'freeselect') || !selection || !selectionData) return;
-      const ctx = ctxRef.current;
-      if (!ctx) return;
-
-      // Delete — fill selection with bgColor
-      if (e.key === 'Delete') {
-        snapshot();
-        ctx.fillStyle = bgColor;
-        ctx.fillRect(selection.x, selection.y, selection.w, selection.h);
-        setSelection(null);
-        setSelectionData(null);
-      }
-
-      // Ctrl+C — copy to clipboard
-      if (e.key === 'c' && e.ctrlKey) {
-        const tempCanvas = document.createElement('canvas');
-        tempCanvas.width = selection.w;
-        tempCanvas.height = selection.h;
-        const tempCtx = tempCanvas.getContext('2d')!;
-        tempCtx.putImageData(selectionData, 0, 0);
-        tempCanvas.toBlob((blob) => {
-          if (!blob) return;
-          navigator.clipboard.write([
-            new ClipboardItem({ 'image/png': blob })
-          ]);
-        });
-      }
-
-      // Ctrl+X — cut
-      if (e.key === 'x' && e.ctrlKey) {
-        snapshot();
-        const tempCanvas = document.createElement('canvas');
-        tempCanvas.width = selection.w;
-        tempCanvas.height = selection.h;
-        const tempCtx = tempCanvas.getContext('2d')!;
-        tempCtx.putImageData(selectionData, 0, 0);
-        tempCanvas.toBlob((blob) => {
-          if (!blob) return;
-          navigator.clipboard.write([
-            new ClipboardItem({ 'image/png': blob })
-          ]);
-        });
-        ctx.fillStyle = bgColor;
-        ctx.fillRect(selection.x, selection.y, selection.w, selection.h);
-        setSelection(null);
-        setSelectionData(null);
-      }
-    };
-
-    window.addEventListener('keydown', handleKey);
-    return () => window.removeEventListener('keydown', handleKey);
-  }, [tool, selection, selectionData, bgColor, ctxRef, snapshot, setSelection, setSelectionData]);
-
   /* ── Render ── */
   return (
     <div className={`draw-area-outer${zoom > 1 ? " is-zoomed" : ""}`}>
       <div className="draw-area-arrows-h" />
       <div className="draw-area-shadow" />
-
       <section
         className={`draw-area${zoom > 1 ? " is-zoomed" : ""}`}
         data-tool={tool}
