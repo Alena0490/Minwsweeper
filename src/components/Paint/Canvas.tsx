@@ -753,6 +753,7 @@ const Canvas = ({
           onMouseLeave={(e) => {
             handleMouseUp(e);
             onStatusChange(tool.charAt(0).toUpperCase() + tool.slice(1));
+            onStatusChange('__clear_coords__'); // signál pro reset
           }}
           onTouchStart={handleMouseDown}
           onTouchMove={handleMouseMove}

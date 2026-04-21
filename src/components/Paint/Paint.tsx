@@ -21,8 +21,12 @@ const Paint = ({ isFullscreen, setIsFullscreen, isMinimized, setIsMinimized, onC
   const [zoom, setZoom] = useState(1);
   const [pan, setPan] = useState({ x: 0, y: 0 });
   const [saveAsOpen, setSaveAsOpen] = useState(false);
+  const [statusTool, setStatusTool] = useState("For Help, click Help Topics on the Help Menu.");
+  const [statusCoords, setStatusCoords] = useState("");
 
   const { position, handleMouseDown } = useDraggable(400, 150);
+
+  
 
   const setZoomLevel = useCallback((value: number) => {
     setZoom(value);
@@ -39,7 +43,6 @@ const Paint = ({ isFullscreen, setIsFullscreen, isMinimized, setIsMinimized, onC
   const onDownloadRef = useRef<() => void>(() => {});
   const onOpendRef = useRef<() => void>(() => {});
   const onClearRef = useRef<() => void>(() => {});
-  const statusRef = useRef<HTMLSpanElement>(null);
 
   return (
     <div
@@ -108,13 +111,23 @@ const Paint = ({ isFullscreen, setIsFullscreen, isMinimized, setIsMinimized, onC
             pan={pan}
             setPan={setPan}
             zoomReset={zoomReset}
-            onStatusChange={(msg) => { if (statusRef.current) statusRef.current.textContent = msg; }}
+            onStatusChange={(msg) => {
+              if (msg === '__clear_coords__') {
+                setStatusCoords("");
+              } else if (msg.includes(',')) {
+                setStatusCoords(msg);
+              } else {
+                setStatusTool(msg);
+              }
+            }}
             saveAsOpen={saveAsOpen}
             setSaveAsOpen={setSaveAsOpen}
             />
       </div>
       <div className="helper">
-        <span ref={statusRef}>For Help, click Help Topics on the Help Menu.</span>
+        <span className="help helper__tool">{statusTool}</span>
+        <span className="help helper__coords">{statusCoords}</span>
+        <span className="help helper__info"></span>
       </div>
     </div>
   );
