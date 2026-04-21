@@ -87,6 +87,11 @@ const Canvas = ({
   const freeSelectPathRef = useRef<{ x: number; y: number }[]>([]);
   const freeSelectClipPathRef = useRef<{ x: number; y: number }[]>([]);
   const polygonPointsRef = useRef<{ x: number; y: number }[]>([]);
+  const curvePhaseRef = useRef(0);
+  const curveStartRef = useRef<{ x: number; y: number } | null>(null);
+  const curveEndRef = useRef<{ x: number; y: number } | null>(null);
+  const curveCtrl1Ref = useRef<{ x: number; y: number } | null>(null);
+  const curveCtrl2Ref = useRef<{ x: number; y: number } | null>(null);
 
   const transparentBg = BACKGROUND_PRESETS[selectedBgPreset].transparent;
 
@@ -306,6 +311,20 @@ const Canvas = ({
     }
   };
 
+   /* ── Curve drawing helper ── */
+  const drawCurve = (ctx: CanvasRenderingContext2D) => {
+    if (!curveStartRef.current || !curveEndRef.current) return;
+    const cp1 = curveCtrl1Ref.current ?? curveStartRef.current;
+    const cp2 = curveCtrl2Ref.current ?? curveEndRef.current;
+    ctx.lineWidth = lineWidth;
+    ctx.globalAlpha = lineOpacity;
+    ctx.strokeStyle = lineColor;
+    ctx.beginPath();
+    ctx.moveTo(curveStartRef.current.x, curveStartRef.current.y);
+    ctx.bezierCurveTo(cp1.x, cp1.y, cp2.x, cp2.y, curveEndRef.current.x, curveEndRef.current.y);
+    ctx.stroke();
+  };
+
   /* ── File actions ── */
   const handleSaveAsConfirm = useCallback(() => {
     const canvas = canvasRef.current;
@@ -461,6 +480,21 @@ const Canvas = ({
       return;
     }
 
+    // CURVE TOOL
+    if (tool === "curve") {
+      const { x, y } = getCanvasXY(e);
+      if (curvePhaseRef.current === 0) {
+        snapshot();
+        curveStartRef.current = { x, y };
+        previewRef.current = ctxRef.current!.getImageData(0, 0, canvasRef.current!.width, canvasRef.current!.height);
+      } else if (curvePhaseRef.current === 1) {
+        curveCtrl1Ref.current = { x, y };
+      } else if (curvePhaseRef.current === 2) {
+        curveCtrl2Ref.current = { x, y };
+      }
+      return;
+    }
+
     // RECTANLE TOOL
     if (tool === "rectangle") {
       snapshot();
@@ -542,28 +576,28 @@ const Canvas = ({
     }
 
     // FREE SELECT TOOL
-  if (tool === "freeselect") {
-    const { x, y } = getCanvasXY(e);
+    if (tool === "freeselect") {
+      const { x, y } = getCanvasXY(e);
 
-    // If clicking inside existing selection — start drag
-    if (selection &&
-      x >= selection.x && x <= selection.x + selection.w &&
-      y >= selection.y && y <= selection.y + selection.h
-    ) {
-      isDraggingSelectionRef.current = true;
-      dragOffsetRef.current = { x: x - selection.x, y: y - selection.y };
+      // If clicking inside existing selection — start drag
+      if (selection &&
+        x >= selection.x && x <= selection.x + selection.w &&
+        y >= selection.y && y <= selection.y + selection.h
+      ) {
+        isDraggingSelectionRef.current = true;
+        dragOffsetRef.current = { x: x - selection.x, y: y - selection.y };
+        return;
+      }
+
+      // Start new free selection
+      isDraggingSelectionRef.current = false;
+      freeSelectPathRef.current = [{ x, y }];
+      setSelection(null);
+      setSelectionData(null);
+      cleanCanvasRef.current = ctxRef.current!.getImageData(0, 0, canvasRef.current!.width, canvasRef.current!.height);
+      previewRef.current = cleanCanvasRef.current;
       return;
     }
-
-    // Start new free selection
-    isDraggingSelectionRef.current = false;
-    freeSelectPathRef.current = [{ x, y }];
-    setSelection(null);
-    setSelectionData(null);
-    cleanCanvasRef.current = ctxRef.current!.getImageData(0, 0, canvasRef.current!.width, canvasRef.current!.height);
-    previewRef.current = cleanCanvasRef.current;
-    return;
-  }
 
     if (!ctx) return;
 
@@ -640,6 +674,31 @@ const Canvas = ({
       ctx.globalAlpha = lineOpacity;
       ctx.strokeStyle = lineColor;
       ctx.stroke();
+      return;
+    }
+
+    // CURVE PREVIEW
+    if (tool === "curve" && previewRef.current) {
+      const ctx = ctxRef.current;
+      if (!ctx) return;
+      if (curvePhaseRef.current === 0 && curveStartRef.current) {
+        ctx.putImageData(previewRef.current, 0, 0);
+        ctx.lineWidth = lineWidth;
+        ctx.globalAlpha = lineOpacity;
+        ctx.strokeStyle = lineColor;
+        ctx.beginPath();
+        ctx.moveTo(curveStartRef.current.x, curveStartRef.current.y);
+        ctx.lineTo(x, y);
+        ctx.stroke();
+      } else if (curvePhaseRef.current === 1) {
+        curveCtrl1Ref.current = { x, y };
+        ctx.putImageData(previewRef.current, 0, 0);
+        drawCurve(ctx);
+      } else if (curvePhaseRef.current === 2) {
+        curveCtrl2Ref.current = { x, y };
+        ctx.putImageData(previewRef.current, 0, 0);
+        drawCurve(ctx);
+      }
       return;
     }
 
@@ -816,6 +875,37 @@ const Canvas = ({
       ctx.stroke();
       lineStartRef.current = null;
       previewRef.current = null;
+      return;
+    }
+
+    // CURVE FINALIZE
+    if (tool === "curve") {
+      const { x, y } = getCanvasXY(e);
+      const ctx = ctxRef.current;
+      if (!ctx) return;
+      if (curvePhaseRef.current === 0 && curveStartRef.current) {
+        curveEndRef.current = { x, y };
+        curveCtrl1Ref.current = { x, y };
+        curveCtrl2Ref.current = { x, y };
+        ctx.putImageData(previewRef.current!, 0, 0);
+        drawCurve(ctx);
+        previewRef.current = ctx.getImageData(0, 0, canvasRef.current!.width, canvasRef.current!.height);
+        curvePhaseRef.current = 1;
+      } else if (curvePhaseRef.current === 1) {
+        ctx.putImageData(previewRef.current!, 0, 0);
+        drawCurve(ctx);
+        previewRef.current = ctx.getImageData(0, 0, canvasRef.current!.width, canvasRef.current!.height);
+        curvePhaseRef.current = 2;
+      } else if (curvePhaseRef.current === 2) {
+        ctx.putImageData(previewRef.current!, 0, 0);
+        drawCurve(ctx);
+        curvePhaseRef.current = 0;
+        curveStartRef.current = null;
+        curveEndRef.current = null;
+        curveCtrl1Ref.current = null;
+        curveCtrl2Ref.current = null;
+        previewRef.current = null;
+      }
       return;
     }
 

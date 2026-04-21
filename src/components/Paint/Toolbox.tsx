@@ -214,8 +214,8 @@ const Toolbox = ({
         <button 
           type="button" 
           title="Curve"           
-          onClick={() => {}} 
-          className="xp-tool-btn xp-tool-btn--disabled"
+          className={`xp-tool-btn${tool==='curve' ?' active':''}`}
+          onClick={() => setTool('curve')}
         >
           <img 
             src={Curve} 
@@ -289,8 +289,8 @@ const Toolbox = ({
             </button>
           ))}
 
-          {/* LINE */}
-          {tool === 'line' && LINE_PRESETS.map((p, i) => (
+          {/* LINE & CURVW */}
+          {(tool === 'line' || tool === 'curve') && LINE_PRESETS.map((p, i) => (
             <button
               key={p.id}
               type="button"
