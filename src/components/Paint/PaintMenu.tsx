@@ -71,11 +71,37 @@ const PaintMenu = ({ setTool, onZoomIn, onZoomOut, isZoomed, onSaveAs, onClose }
         <li onClick={() => setOpenMenu(openMenu === 'edit' ? null : 'edit')}>
           Edit
           <ul className={`submenu ${openMenu === 'edit' ? 'open' : ''}`}>
-            <li className={itemClass(true)} aria-disabled="true">
+            <li onClick={() => { setTool('undo'); setOpenMenu(null) }}>
               Undo <span>Ctrl+Z</span>
             </li>
             <li className={itemClass(true)} aria-disabled="true">
-              Redo <span>Ctrl+Y</span>
+              Repeat <span>F4</span>
+            </li>
+            <li className={itemClass(true)} aria-disabled="true">
+              History <span>Ctrl+Shift+Y</span>
+            </li>
+            <li className="separator" aria-hidden="true" />
+            <li className={itemClass(true)} aria-disabled="true">
+              Cut <span>Ctrl+X</span>
+            </li>
+            <li className={itemClass(true)} aria-disabled="true">
+              Copy <span>Ctrl+C</span>
+            </li>
+            <li className={itemClass(true)} aria-disabled="true">
+              Paste <span>Ctrl+V</span>
+            </li>
+            <li className={itemClass(true)} aria-disabled="true">
+              Clear Selection <span>Del</span>
+            </li>
+            <li className={itemClass(true)} aria-disabled="true">
+              Select All <span>Ctrl+A</span>
+            </li>
+            <li className="separator" aria-hidden="true" />
+            <li className={itemClass(true)} aria-disabled="true">
+              Copy To...
+            </li>
+            <li className={itemClass(true)} aria-disabled="true">
+              Paste From...
             </li>
           </ul>
         </li>
@@ -83,44 +109,89 @@ const PaintMenu = ({ setTool, onZoomIn, onZoomOut, isZoomed, onSaveAs, onClose }
         <li onClick={() => setOpenMenu(openMenu === 'view' ? null : 'view')}>
           View
           <ul className={`submenu ${openMenu === 'view' ? 'open' : ''}`}>
-            <li
-              className={isZoomed ? 'checked' : ''}
-              onClick={() => {
-                if (isZoomed) {
-                  onZoomOut()
-                } else {
-                  onZoomIn()
-                }
-                setOpenMenu(null)
-              }}
-            >
+            <li className={itemClass(true)} aria-disabled="true">
+              Tool Box
+            </li>
+            <li className={itemClass(true)} aria-disabled="true">
+              Color Box <span>Ctrl+L</span>
+            </li>
+            <li className={itemClass(true)} aria-disabled="true">
+              Status Bar
+            </li>
+            <li className={itemClass(true)} aria-disabled="true">
+              Text Toolbar
+            </li>
+            <li className="separator" aria-hidden="true" />
+            <li onClick={() => { if (isZoomed) { onZoomOut() } else { onZoomIn() } setOpenMenu(null) }}>
               Zoom In
             </li>
-
             <li
               className={itemClass(!isZoomed)}
               aria-disabled={!isZoomed}
-              onClick={() => {
-                if (!isZoomed) return
-                onZoomOut()
-                setOpenMenu(null)
-              }}
+              onClick={() => { if (!isZoomed) return; onZoomOut(); setOpenMenu(null) }}
             >
               Zoom Out
+            </li>
+            <li className="separator" aria-hidden="true" />
+            <li className={itemClass(true)} aria-disabled="true">
+              View Bitmap <span>Ctrl+F</span>
+            </li>
+            <li className={itemClass(true)} aria-disabled="true">
+              Fullscreen <span>F11</span>
             </li>
           </ul>
         </li>
 
-        <li className="menu-top-level is-disabled" aria-disabled="true">
+        <li onClick={() => setOpenMenu(openMenu === 'image' ? null : 'image')}>
           Image
+          <ul className={`submenu ${openMenu === 'image' ? 'open' : ''}`}>
+            <li className={itemClass(true)} aria-disabled="true">
+              Flip/Rotate <span>Ctrl+Alt+R</span>
+            </li>
+            <li className={itemClass(true)} aria-disabled="true">
+              Stretch/Skew <span>Ctrl+Alt+W</span>
+            </li>
+            <li className={itemClass(true)} aria-disabled="true">
+              Invert Colors <span>Ctrl+I</span>
+            </li>
+            <li className={itemClass(true)} aria-disabled="true">
+              Attributes... <span>Ctrl+E</span>
+            </li>
+            <li className={itemClass(true)} aria-disabled="true">
+              Clear Image
+            </li>
+            <li className={itemClass(true)} aria-disabled="true">
+              Draw Opaque
+            </li>
+          </ul>
         </li>
 
-        <li className="menu-top-level is-disabled" aria-disabled="true">
+        <li onClick={() => setOpenMenu(openMenu === 'colors' ? null : 'colors')}>
           Colors
+          <ul className={`submenu ${openMenu === 'colors' ? 'open' : ''}`}>
+            <li className={itemClass(true)} aria-disabled="true">
+              Edit Colors...
+            </li>
+            <li className={itemClass(true)} aria-disabled="true">
+              Get Colors
+            </li>
+            <li className={itemClass(true)} aria-disabled="true">
+              Save Colors
+            </li>
+          </ul>
         </li>
 
-        <li className="menu-top-level is-disabled" aria-disabled="true">
+        <li onClick={() => setOpenMenu(openMenu === 'help' ? null : 'help')}>
           Help
+          <ul className={`submenu ${openMenu === 'help' ? 'open' : ''}`}>
+            <li className={itemClass(true)} aria-disabled="true">
+              Help Topics
+            </li>
+            <li className="separator" aria-hidden="true" />
+            <li className={itemClass(true)} aria-disabled="true">
+              About Paint
+            </li>
+          </ul>
         </li>
       </ul>
     </menu>
