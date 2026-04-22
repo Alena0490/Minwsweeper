@@ -50,6 +50,7 @@ const StretchSkew = ({ onClose, onConfirm, style }: StretchSkewProps) => {
                         value={stretchH}
                         min={1}
                         onChange={(e) => setStretchH(Number(e.target.value))}
+                        autoFocus
                     />
                     <span className="stretch-skew-unit">%</span>
                 </div>

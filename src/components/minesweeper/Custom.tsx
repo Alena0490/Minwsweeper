@@ -54,7 +54,11 @@ const Custom = ({ onClose, onReset, setLevel, style }: CustomProps) => {
         </ul>
         <div className="xp-dialog-actions">
           <button type="button" onClick={onClose}>Cancel</button>
-          <button type="button" onClick={handleOk}>OK</button>
+          <button 
+            type="button" 
+            onClick={handleOk}
+            autoFocus
+          >OK</button>
         </div>
       </div>
     </div>

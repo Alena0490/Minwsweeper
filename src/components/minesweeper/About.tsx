@@ -21,7 +21,11 @@ const About = ({ onClose, style }: AboutProps) => {
           <p>Copyright Alena Pumprová 2026</p>
         </div>
         <a href="https://alena-pumprova.cz/" target="_blank" rel="noopener noreferrer">About me</a>
-        <button type="button" onClick={onClose}>OK</button>
+        <button 
+            type="button" 
+            onClick={onClose}
+            autoFocus
+        >OK</button>
       </div>
     </div>
   )

@@ -40,10 +40,11 @@ const FlipRotate = ({ onClose, onConfirm, style }: FlipRotateProps) => {
 
           <label className="flip-rotate-option">
             <input
-              type="radio"
-              name="mode"
-              checked={mode === 'flipH'}
-              onChange={() => setMode('flipH')}
+                type="radio"
+                name="mode"
+                checked={mode === 'flipH'}
+                onChange={() => setMode('flipH')}
+                autoFocus
             />
             <span>Flip horizontal</span>
           </label>

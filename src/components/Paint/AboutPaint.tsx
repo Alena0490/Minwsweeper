@@ -24,7 +24,11 @@ const AboutPaint = ({ onClose, style }: AboutProps) => {
           target="_blank"
           rel="noopener noreferrer"
         >About me</a>
-        <button type="button" onClick={onClose}>OK</button>
+        <button 
+            type="button" 
+            onClick={onClose}
+            autoFocus
+        >OK</button>
       </div>
     </div>
   )

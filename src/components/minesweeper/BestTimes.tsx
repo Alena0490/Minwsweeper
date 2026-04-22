@@ -35,7 +35,11 @@ const BestTimes = ({ onClose, style }: BestTimesProps) => {
         </ul>
         <div className="xp-dialog-actions">
           <button type="button" onClick={handleReset}><span className="underline">R</span>eset</button>
-          <button type="button" onClick={onClose}>OK</button>
+          <button 
+            type="button" 
+            onClick={onClose}
+            autoFocus
+          >OK</button>
         </div>
       </div>
     </div>
