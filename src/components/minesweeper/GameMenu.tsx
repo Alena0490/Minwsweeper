@@ -21,8 +21,8 @@ interface GameMenuProps {
 
 const GameMenu = ({ onReset, onMarksChange, level, setLevel, setIsMinimized, windowPosition, soundEnabled, onSoundToggle }: GameMenuProps) => {
     const [openMenu, setOpenMenu] = useState<'game' | 'help' | null>(null)
-     const [openModal, setOpenModal] = useState<'about' | 'times' | 'custom' | null>(null)
-     const [marks, setMarks] = useState(true)
+    const [openModal, setOpenModal] = useState<'about' | 'times' | 'custom' | null>(null)
+    const [marks, setMarks] = useState(true)
 
     const menuRef = useRef<HTMLElement>(null);
 

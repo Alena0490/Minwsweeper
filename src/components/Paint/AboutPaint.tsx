@@ -1,4 +1,3 @@
-import './GameMiniModal.css'
 import '../ModalStyle.css'
 
 interface AboutProps {
@@ -6,11 +5,11 @@ interface AboutProps {
     style?: React.CSSProperties;
 }
 
-const About = ({ onClose, style }: AboutProps) => {
+const AboutPaint = ({ onClose, style }: AboutProps) => {
   return (
-    <div id="about" className="xp-dialog" style={style}>
+    <div className="xp-dialog" style={style}>
       <div className="title-bar">
-        <div className="title-bar-text">About Minesweeper</div>
+        <div className="title-bar-text">About Paint</div>
         <div className="title-bar-buttons">
           <button type="button" className="btn-close" onClick={onClose} aria-label="Close">×</button>
         </div>
@@ -20,11 +19,15 @@ const About = ({ onClose, style }: AboutProps) => {
           <p>Version 1.0</p>
           <p>Copyright Alena Pumprová 2026</p>
         </div>
-        <a href="https://alena-pumprova.cz/" target="_blank" rel="noopener noreferrer">About me</a>
+        <a 
+          href="https://alena-pumprova.cz/"
+          target="_blank"
+          rel="noopener noreferrer"
+        >About me</a>
         <button type="button" onClick={onClose}>OK</button>
       </div>
     </div>
   )
 }
 
-export default About
+export default AboutPaint

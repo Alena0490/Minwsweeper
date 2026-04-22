@@ -1,4 +1,6 @@
 import { useState, useEffect, useRef } from 'react'
+import { createPortal } from 'react-dom'
+import About from './AboutPaint'
 import './PaintMenu.css'
 
 interface PaintMenuProps {
@@ -8,10 +10,12 @@ interface PaintMenuProps {
   isZoomed: boolean;
   onSaveAs: () => void;
   onClose: () => void;
+  windowPosition: { x: number; y: number };
 }
 
-const PaintMenu = ({ setTool, onZoomIn, onZoomOut, isZoomed, onSaveAs, onClose }: PaintMenuProps) => {
+const PaintMenu = ({ setTool, onZoomIn, onZoomOut, isZoomed, onSaveAs, onClose, windowPosition }: PaintMenuProps) => {
   const [openMenu, setOpenMenu] = useState<'file' | 'edit' | 'view' | 'image' | 'colors' | 'help' | null>(null)
+       const [openModal, setOpenModal] = useState<'about' | 'times' | 'custom' | null>(null)
   const menuRef = useRef<HTMLElement>(null)
 
   const itemClass = (disabled = false, extra = '') =>
@@ -188,12 +192,23 @@ const PaintMenu = ({ setTool, onZoomIn, onZoomOut, isZoomed, onSaveAs, onClose }
               Help Topics
             </li>
             <li className="separator" aria-hidden="true" />
-            <li className={itemClass(true)} aria-disabled="true">
+            <li onClick={() => { setOpenModal('about'); setOpenMenu(null) }}>
               About Paint
             </li>
           </ul>
         </li>
       </ul>
+        {openModal === 'about' && createPortal(
+          <About 
+            onClose={() => setOpenModal(null)}
+            style={{
+              position: 'fixed',
+              top: windowPosition.y + 145,
+              left: windowPosition.x + 90,
+            }}
+          />,
+          document.body
+        )}
     </menu>
   )
 }
