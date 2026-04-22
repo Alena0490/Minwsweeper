@@ -38,10 +38,18 @@ export const usePaintSelection = ({
       if (e.key === 'Delete') {
         snapshot();
         ctx.fillStyle = bgColor;
-        ctx.fillRect(selection.x, selection.y, selection.w, selection.h);
+        if (tool === 'freeselect' && freeSelectClipPathRef.current.length > 0) {
+            ctx.beginPath();
+            ctx.moveTo(freeSelectClipPathRef.current[0].x, freeSelectClipPathRef.current[0].y);
+            freeSelectClipPathRef.current.forEach(p => ctx.lineTo(p.x, p.y));
+            ctx.closePath();
+            ctx.fill();
+        } else {
+            ctx.fillRect(selection.x, selection.y, selection.w, selection.h);
+        }
         setSelection(null);
         setSelectionData(null);
-      }
+        }
 
       if (e.key === 'c' && e.ctrlKey) {
         const tempCanvas = document.createElement('canvas');
@@ -60,17 +68,24 @@ export const usePaintSelection = ({
         const tempCanvas = document.createElement('canvas');
         tempCanvas.width = selection.w;
         tempCanvas.height = selection.h;
-        const tempCtx = tempCanvas.getContext('2d')!;
-        tempCtx.putImageData(selectionData, 0, 0);
+        tempCanvas.getContext('2d')!.putImageData(selectionData, 0, 0);
         tempCanvas.toBlob((blob) => {
-          if (!blob) return;
-          navigator.clipboard.write([new ClipboardItem({ 'image/png': blob })]);
+            if (!blob) return;
+            navigator.clipboard.write([new ClipboardItem({ 'image/png': blob })]);
         });
         ctx.fillStyle = bgColor;
-        ctx.fillRect(selection.x, selection.y, selection.w, selection.h);
+        if (tool === 'freeselect' && freeSelectClipPathRef.current.length > 0) {
+            ctx.beginPath();
+            ctx.moveTo(freeSelectClipPathRef.current[0].x, freeSelectClipPathRef.current[0].y);
+            freeSelectClipPathRef.current.forEach(p => ctx.lineTo(p.x, p.y));
+            ctx.closePath();
+            ctx.fill();
+        } else {
+            ctx.fillRect(selection.x, selection.y, selection.w, selection.h);
+        }
         setSelection(null);
         setSelectionData(null);
-      }
+        }
     };
 
     window.addEventListener('keydown', handleKey);

@@ -2,7 +2,6 @@ import { useState, useEffect, useRef } from 'react'
 import { createPortal } from 'react-dom'
 import About from './AboutPaint'
 import './PaintMenu.css'
-
 interface PaintMenuProps {
   setTool: React.Dispatch<React.SetStateAction<string>>;
   onZoomIn: () => void;
@@ -11,9 +10,12 @@ interface PaintMenuProps {
   onSaveAs: () => void;
   onClose: () => void;
   windowPosition: { x: number; y: number };
+  onCut: () => void;
+  onCopy: () => void;
+  onPaste: () => void;
 }
 
-const PaintMenu = ({ setTool, onZoomIn, onZoomOut, isZoomed, onSaveAs, onClose, windowPosition }: PaintMenuProps) => {
+const PaintMenu = ({ setTool, onZoomIn, onZoomOut, isZoomed, onSaveAs, onClose, windowPosition, onCut, onCopy, onPaste }: PaintMenuProps) => {
   const [openMenu, setOpenMenu] = useState<'file' | 'edit' | 'view' | 'image' | 'colors' | 'help' | null>(null)
        const [openModal, setOpenModal] = useState<'about' | 'times' | 'custom' | null>(null)
   const menuRef = useRef<HTMLElement>(null)
@@ -85,13 +87,13 @@ const PaintMenu = ({ setTool, onZoomIn, onZoomOut, isZoomed, onSaveAs, onClose, 
               History <span>Ctrl+Shift+Y</span>
             </li>
             <li className="separator" aria-hidden="true" />
-            <li className={itemClass(true)} aria-disabled="true">
+            <li onClick={() => { onCut(); setOpenMenu(null) }}>
               Cut <span>Ctrl+X</span>
             </li>
-            <li className={itemClass(true)} aria-disabled="true">
+            <li onClick={() => { onCopy(); setOpenMenu(null) }}>
               Copy <span>Ctrl+C</span>
             </li>
-            <li className={itemClass(true)} aria-disabled="true">
+            <li onClick={() => { onPaste(); setOpenMenu(null) }}>
               Paste <span>Ctrl+V</span>
             </li>
             <li className={itemClass(true)} aria-disabled="true">

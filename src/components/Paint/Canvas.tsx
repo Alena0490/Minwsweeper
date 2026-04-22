@@ -25,7 +25,7 @@ interface CanvasProps {
     x: number,
     y: number,
     fillRGBA: number[],
-    tolerance?: number
+    tolerance?: number,
   ) => void;
   zoom: number;
   setZoom: React.Dispatch<React.SetStateAction<number>>;
@@ -78,7 +78,7 @@ const Canvas = ({
 
   /* ── Refs ── */
   const previewRef = useRef<ImageData | null>(null);
- 
+
   const transparentBg = BACKGROUND_PRESETS[selectedBgPreset].transparent;
 
   /* ── Coordinate helpers ── */
@@ -179,7 +179,7 @@ const Canvas = ({
 
     // TEXT TOOL — MouseDown
     if (tool === "text") {
-      if (textBoxPos) return; // ← sem
+      if (textBoxPos) return;
       snapshot();
       const { x, y } = getCanvasXY(e);
       rectStartRef.current = { x, y };
@@ -806,7 +806,7 @@ const Canvas = ({
           onMouseLeave={(e) => {
             handleMouseUp(e);
             onStatusChange(tool.charAt(0).toUpperCase() + tool.slice(1));
-            onStatusChange('__clear_coords__'); // signál pro reset
+            onStatusChange('__clear_coords__'); // signal for reset
           }}
           onTouchStart={handleMouseDown}
           onTouchMove={handleMouseMove}

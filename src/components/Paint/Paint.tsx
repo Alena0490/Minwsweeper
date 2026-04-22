@@ -98,6 +98,9 @@ const Paint = ({ isFullscreen, setIsFullscreen, isMinimized, setIsMinimized, onC
         onSaveAs={() => setSaveAsOpen(true)}
         onClose={onClose}
         windowPosition={position}
+        onCut={() => document.dispatchEvent(new KeyboardEvent('keydown', { key: 'x', ctrlKey: true, bubbles: true }))}
+        onCopy={() => document.dispatchEvent(new KeyboardEvent('keydown', { key: 'c', ctrlKey: true, bubbles: true }))}
+        onPaste={() => document.dispatchEvent(new KeyboardEvent('keydown', { key: 'v', ctrlKey: true, bubbles: true }))}
       />
       <div className="paint-canvas-area">
           <PaintApp
