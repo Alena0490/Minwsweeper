@@ -78,6 +78,7 @@ const Canvas = ({
 
   /* ── Refs ── */
   const previewRef = useRef<ImageData | null>(null);
+  const invertedRef = useRef(false);
 
   const transparentBg = BACKGROUND_PRESETS[selectedBgPreset].transparent;
 
@@ -157,16 +158,29 @@ const Canvas = ({
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       setTimeout(() => setTool("pencil"), 0);
     }
-    if (tool === "download") {
+    else if (tool === "download") {
       const a = document.createElement("a");
       a.download = "drawing.png";
       a.href = canvas.toDataURL("image/png");
       a.click();
       setTimeout(() => setTool("pencil"), 0);
     }
-    if (tool === "undo") { undo(); setTimeout(() => setTool("pencil"), 0); }
-    if (tool === "redo") { redo(); setTimeout(() => setTool("pencil"), 0); }
-    if (tool === "open") { handleOpenFile(); setTimeout(() => setTool("pencil"), 0); }
+    else if (tool === "undo") { undo(); setTimeout(() => setTool("pencil"), 0); }
+    else if (tool === "redo") { redo(); setTimeout(() => setTool("pencil"), 0); }
+    else if (tool === "open") { handleOpenFile(); setTimeout(() => setTool("pencil"), 0); }
+    else if (tool === "invert") {
+      if (invertedRef.current) { invertedRef.current = false; return; }
+      invertedRef.current = true;
+      const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+      const data = imageData.data;
+      for (let i = 0; i < data.length; i += 4) {
+        data[i] = 255 - data[i];
+        data[i+1] = 255 - data[i+1];
+        data[i+2] = 255 - data[i+2];
+      }
+      ctx.putImageData(imageData, 0, 0);
+      setTimeout(() => setTool("pencil"), 0);
+    }
   }, [tool, canvasRef, ctxRef, setTool, snapshot, undo, redo, handleOpenFile]);
 
   /* ── Canvas panning (middle mouse + drag) ── */

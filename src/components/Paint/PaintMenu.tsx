@@ -14,6 +14,7 @@ interface PaintMenuProps {
   onCopy: () => void;
   onPaste: () => void;
   onFullscreen: () => void;
+  onInvertColors: () => void;
 }
 
 const PaintMenu = ({ 
@@ -27,7 +28,8 @@ const PaintMenu = ({
   onCut, 
   onCopy, 
   onPaste, 
-  onFullscreen 
+  onFullscreen ,
+  onInvertColors
 }: PaintMenuProps) => {
   const [openMenu, setOpenMenu] = useState<'file' | 'edit' | 'view' | 'image' | 'colors' | 'help' | null>(null)
        const [openModal, setOpenModal] = useState<'about' | 'times' | 'custom' | null>(null)
@@ -170,7 +172,7 @@ const PaintMenu = ({
             <li className={itemClass(true)} aria-disabled="true">
               Stretch/Skew <span>Ctrl+Alt+W</span>
             </li>
-            <li className={itemClass(true)} aria-disabled="true">
+            <li onClick={() => { onInvertColors(); setOpenMenu(null) }}>
               Invert Colors <span>Ctrl+I</span>
             </li>
             <li className={itemClass(true)} aria-disabled="true">
