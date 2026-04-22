@@ -1,6 +1,8 @@
 import { useState, useEffect, useRef } from 'react'
 import { createPortal } from 'react-dom'
 import About from './AboutPaint'
+import FlipRotate from './FlipRotate';
+import StretchSkew from './StretchSkew';
 import './PaintMenu.css'
 interface PaintMenuProps {
   setTool: React.Dispatch<React.SetStateAction<string>>;
@@ -21,6 +23,8 @@ interface PaintMenuProps {
   onToggleStatusBar: () => void;
   showColorBox: boolean;
   onToggleColorBox: () => void;
+  onFlipRotate: (action: 'flipH' | 'flipV' | 'rotate', angle?: number) => void;
+  onStretchSkew: (stretchH: number, stretchV: number, skewH: number, skewV: number) => void;
 }
 
 const PaintMenu = ({ 
@@ -41,10 +45,13 @@ const PaintMenu = ({
   showToolbox,
   onToggleColorBox,
   onToggleStatusBar,
-  onToggleToolbox
+  onToggleToolbox,
+  onFlipRotate,
+  onStretchSkew
 }: PaintMenuProps) => {
   const [openMenu, setOpenMenu] = useState<'file' | 'edit' | 'view' | 'image' | 'colors' | 'help' | null>(null)
-  const [openModal, setOpenModal] = useState<'about' | 'times' | 'custom' | null>(null)
+  const [openModal, setOpenModal] = useState<'about' | 'fliprotate' | 'stretchskew' | null>(null)
+  
 
   const menuRef = useRef<HTMLElement>(null)
 
@@ -161,7 +168,7 @@ const PaintMenu = ({
             >
               Status Bar
             </li>
-            <li className={itemClass(true)} aria-disabled="true">
+            <li className="is-disabled" aria-disabled="true">
               Text Toolbar
             </li>
             <li className="separator" aria-hidden="true" />
@@ -188,10 +195,10 @@ const PaintMenu = ({
         <li onClick={() => setOpenMenu(openMenu === 'image' ? null : 'image')}>
           Image
           <ul className={`submenu ${openMenu === 'image' ? 'open' : ''}`}>
-            <li className={itemClass(true)} aria-disabled="true">
+            <li onClick={() => { setOpenModal('fliprotate'); setOpenMenu(null) }}>
               Flip/Rotate <span>Ctrl+Alt+R</span>
             </li>
-            <li className={itemClass(true)} aria-disabled="true">
+            <li onClick={() => { setOpenModal('stretchskew'); setOpenMenu(null) }}>
               Stretch/Skew <span>Ctrl+Alt+W</span>
             </li>
             <li onClick={() => { onInvertColors(); setOpenMenu(null) }}>
@@ -240,6 +247,32 @@ const PaintMenu = ({
         {openModal === 'about' && createPortal(
           <About 
             onClose={() => setOpenModal(null)}
+            style={{
+              position: 'fixed',
+              top: windowPosition.y + 145,
+              left: windowPosition.x + 90,
+            }}
+          />,
+          document.body
+        )}
+
+        {openModal === 'fliprotate' && createPortal(
+          <FlipRotate
+            onClose={() => setOpenModal(null)}
+            onConfirm={(action, angle) => { onFlipRotate(action, angle); setOpenModal(null); }}
+            style={{
+              position: 'fixed',
+              top: windowPosition.y + 145,
+              left: windowPosition.x + 90,
+            }}
+          />,
+          document.body
+        )}
+
+        {openModal === 'stretchskew' && createPortal(
+          <StretchSkew
+            onClose={() => setOpenModal(null)}
+            onConfirm={(stretchH, stretchV, skewH, skewV) => { onStretchSkew(stretchH, stretchV, skewH, skewV); setOpenModal(null); }}
             style={{
               position: 'fixed',
               top: windowPosition.y + 145,

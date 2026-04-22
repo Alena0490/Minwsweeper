@@ -43,6 +43,7 @@ interface CanvasProps {
   selectedBgPreset: number;
   textBoxPos: { x: number; y: number; w: number; h: number } | null;
   setTextBoxPos: React.Dispatch<React.SetStateAction<{ x: number; y: number; w: number; h: number } | null>>;
+  snapshotRef: React.RefObject<() => void>;
 }
 
 const Canvas = ({
@@ -73,7 +74,8 @@ const Canvas = ({
   setSelectionData,
   selectedBgPreset,
   textBoxPos,
-  setTextBoxPos
+  setTextBoxPos,
+  snapshotRef
 }: CanvasProps) => {
 
   /* ── Refs ── */
@@ -102,6 +104,9 @@ const Canvas = ({
 
   /* ── History ── */
   const { snapshot, undo, redo } = usePaintHistory(canvasRef, ctxRef);
+  useEffect(() => {
+    snapshotRef.current = snapshot;
+  }, [snapshot, snapshotRef]);
 
   /* ── Drawing Shapes ── */
   const {

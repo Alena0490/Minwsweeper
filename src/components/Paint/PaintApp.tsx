@@ -22,6 +22,10 @@ interface PaintAppProps {
   setSaveAsOpen: React.Dispatch<React.SetStateAction<boolean>>;
   showToolbox: boolean;
   showColorBox: boolean;
+  flipRotateAction: { action: 'flipH' | 'flipV' | 'rotate'; angle?: number } | null;
+  setFlipRotateAction: React.Dispatch<React.SetStateAction<{ action: 'flipH' | 'flipV' | 'rotate'; angle?: number } | null>>;
+  stretchSkewAction: { stretchH: number; stretchV: number; skewH: number; skewV: number } | null;
+  setStretchSkewAction: React.Dispatch<React.SetStateAction<{ stretchH: number; stretchV: number; skewH: number; skewV: number } | null>>;
 }
 
 /* ── Constants ── */
@@ -83,12 +87,17 @@ const PaintApp = ({
   saveAsOpen,
   setSaveAsOpen,
   showColorBox,
-  showToolbox
+  showToolbox,
+  flipRotateAction,
+  setFlipRotateAction,
+  stretchSkewAction,
+  setStretchSkewAction,
 }: PaintAppProps) => {
 
   /* ── Refs ── */
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const ctxRef = useRef<CanvasRenderingContext2D | null>(null);
+  const snapshotRef = useRef<() => void>(() => {});
 
   /* ── State ── */
   const [isDrawing, setIsDrawing] = useState(false);
@@ -146,6 +155,72 @@ const PaintApp = ({
   useEffect(() => {
     onStatusChange(tool.charAt(0).toUpperCase() + tool.slice(1));
   }, [tool, onStatusChange]);
+
+  /* ── Flip / Rotate ── */
+  useEffect(() => {
+    if (!flipRotateAction || !canvasRef.current || !ctxRef.current) return;
+    const canvas = canvasRef.current;
+    const ctx = ctxRef.current;
+    snapshotRef.current();
+    const { action, angle } = flipRotateAction;
+    const w = canvas.width;
+    const h = canvas.height;
+    const imageData = ctx.getImageData(0, 0, w, h);
+    const tempCanvas = document.createElement('canvas');
+    tempCanvas.width = w;
+    tempCanvas.height = h;
+    const tempCtx = tempCanvas.getContext('2d')!;
+    tempCtx.putImageData(imageData, 0, 0);
+    ctx.clearRect(0, 0, w, h);
+    ctx.save();
+    if (action === 'flipH') {
+      ctx.translate(w, 0);
+      ctx.scale(-1, 1);
+    } else if (action === 'flipV') {
+      ctx.translate(0, h);
+      ctx.scale(1, -1);
+    } else if (action === 'rotate') {
+      const rad = ((angle ?? 90) * Math.PI) / 180;
+      ctx.translate(w / 2, h / 2);
+      ctx.rotate(rad);
+      ctx.translate(-w / 2, -h / 2);
+    }
+    ctx.drawImage(tempCanvas, 0, 0);
+    ctx.restore();
+    setFlipRotateAction(null);
+  }, [flipRotateAction, setFlipRotateAction]);
+
+  /* ── Stretch / Skew ── */
+  useEffect(() => {
+    console.log('stretchSkewAction', stretchSkewAction);
+    if (!stretchSkewAction || !canvasRef.current || !ctxRef.current) return;
+    console.log('applying stretch skew');
+    const canvas = canvasRef.current;
+    const ctx = ctxRef.current;
+    const { stretchH, stretchV, skewH, skewV } = stretchSkewAction;
+    const w = canvas.width;
+    const h = canvas.height;
+    const imageData = ctx.getImageData(0, 0, w, h);
+    const tempCanvas = document.createElement('canvas');
+    tempCanvas.width = w;
+    tempCanvas.height = h;
+    const tempCtx = tempCanvas.getContext('2d')!;
+    tempCtx.putImageData(imageData, 0, 0);
+    snapshotRef.current();
+    ctx.clearRect(0, 0, w, h);
+    ctx.save();
+    ctx.transform(
+      stretchH / 100,
+      Math.tan((skewV * Math.PI) / 180),
+      Math.tan((skewH * Math.PI) / 180),
+      stretchV / 100,
+      0,
+      0
+    );
+    ctx.drawImage(tempCanvas, 0, 0);
+    ctx.restore();
+    setStretchSkewAction(null);
+  }, [stretchSkewAction, setStretchSkewAction]);
 
   /* ── Coordinate helper ── */
   const getEventCoordinates = (e: React.MouseEvent | React.TouchEvent) => {
@@ -294,6 +369,7 @@ const PaintApp = ({
           selectedBgPreset={selectedBgPreset}
           textBoxPos={textBoxPos}
           setTextBoxPos={setTextBoxPos}
+          snapshotRef={snapshotRef}
         />
       </div>
 
