@@ -109,9 +109,9 @@ const GameMenu = ({ onReset, onMarksChange, level, setLevel, setIsMinimized, win
             <li onClick={() => setOpenMenu(openMenu === 'help' ? null : 'help')}>
                 Help
                 <ul className={`submenu help ${openMenu === 'help' ? 'open' : ''}`}>
-                    <li>Contents <span>F1</span></li>
-                    <li>Search for Help On...</li>
-                    <li>Using Help</li>
+                    <li className="is-disabled" aria-disabled="true">Contents <span>F1</span></li>
+                    <li className="is-disabled" aria-disabled="true">Search for Help On...</li>
+                    <li className="is-disabled" aria-disabled="true">Using Help</li>
                     <li className="separator" aria-hidden="true"></li>
                     <li onClick={() => { setOpenModal('about'); setOpenMenu(null) }}>About Minesweeper...</li>
                 </ul>
