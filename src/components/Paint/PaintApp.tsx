@@ -64,6 +64,7 @@ const PaintApp = ({
   const [selection, setSelection] = useState<{ x: number; y: number; w: number; h: number } | null>(null);
   const [selectionData, setSelectionData] = useState<ImageData | null>(null);
   const [selectedBgPreset, setSelectedBgPreset] = useState(0); // 0 = opaque, 1 = transparent
+  const [textBoxPos, setTextBoxPos] = useState<{ x: number; y: number; w: number; h: number } | null>(null);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -277,6 +278,8 @@ const PaintApp = ({
           selectionData={selectionData}
           setSelectionData={setSelectionData}
           selectedBgPreset={selectedBgPreset}
+          textBoxPos={textBoxPos}
+          setTextBoxPos={setTextBoxPos}
         />
       </div>
       <div className="colors">

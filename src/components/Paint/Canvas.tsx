@@ -5,6 +5,7 @@ import { usePaintShapeDrawing } from '../../hooks/usePaintShapeDrawing';
 import { usePaintSelection } from '../../hooks/usePaintSelection';
 import { usePaintPanning } from '../../hooks/usePaintPanning';
 import { BACKGROUND_PRESETS } from '../../data/paintToolPresets'
+import TextBox from './TextBox'
 import "./Canvas.css";
 
 interface CanvasProps {
@@ -40,6 +41,8 @@ interface CanvasProps {
   selectionData: ImageData | null;
   setSelectionData: React.Dispatch<React.SetStateAction<ImageData | null>>;
   selectedBgPreset: number;
+  textBoxPos: { x: number; y: number; w: number; h: number } | null;
+  setTextBoxPos: React.Dispatch<React.SetStateAction<{ x: number; y: number; w: number; h: number } | null>>;
 }
 
 const Canvas = ({
@@ -68,7 +71,9 @@ const Canvas = ({
   setSelection,
   selectionData,
   setSelectionData,
-  selectedBgPreset
+  selectedBgPreset,
+  textBoxPos,
+  setTextBoxPos
 }: CanvasProps) => {
 
   /* ── Refs ── */
@@ -171,6 +176,16 @@ const Canvas = ({
   const handleMouseDown = (e: React.MouseEvent | React.TouchEvent) => {
     if ((e as React.TouchEvent).touches?.length >= 2) return;
     const ctx = ctxRef.current;
+
+    // TEXT TOOL — MouseDown
+    if (tool === "text") {
+      if (textBoxPos) return; // ← sem
+      snapshot();
+      const { x, y } = getCanvasXY(e);
+      rectStartRef.current = { x, y };
+      previewRef.current = ctxRef.current!.getImageData(0, 0, canvasRef.current!.width, canvasRef.current!.height);
+      return;
+    }
 
     // LINE TOOL
     if (tool === "line") {
@@ -363,6 +378,26 @@ const Canvas = ({
     const { x, y } = getCanvasXY(e);
     onStatusChange(`${Math.round(x)}, ${Math.round(y)}`);
 
+    // TEXT TOOL — MouseMove preview
+    if (tool === "text" && rectStartRef.current && previewRef.current) {
+      const ctx = ctxRef.current;
+      if (!ctx) return;
+      ctx.putImageData(previewRef.current, 0, 0);
+      const w = x - rectStartRef.current.x;
+      const h = y - rectStartRef.current.y;
+      ctx.save();
+      ctx.lineWidth = 1;
+      ctx.globalAlpha = 1;
+      ctx.strokeStyle = '#ffffff';
+      ctx.setLineDash([]);
+      ctx.strokeRect(rectStartRef.current.x, rectStartRef.current.y, w, h);
+      ctx.strokeStyle = '#000000';
+      ctx.setLineDash([4, 4]);
+      ctx.strokeRect(rectStartRef.current.x, rectStartRef.current.y, w, h);
+      ctx.restore();
+      return;
+    }
+
     // LINE PREVIEW
     if (tool === "line" && lineStartRef.current && previewRef.current) {
       const ctx = ctxRef.current;
@@ -544,6 +579,24 @@ const Canvas = ({
   /* ── Pointer: Mouse Up ── */
   const handleMouseUp = (e: React.MouseEvent | React.TouchEvent) => {
     if ((e as React.TouchEvent).touches?.length >= 2) return;
+
+    // TEXT TOOL — MouseUp finalize
+    if (tool === "text" && rectStartRef.current && previewRef.current) {
+      const ctx = ctxRef.current;
+      if (!ctx) return;
+      const { x, y } = getCanvasXY(e);
+      const sx = Math.min(rectStartRef.current.x, x);
+      const sy = Math.min(rectStartRef.current.y, y);
+      const sw = Math.abs(x - rectStartRef.current.x);
+      const sh = Math.abs(y - rectStartRef.current.y);
+      ctx.putImageData(previewRef.current, 0, 0);
+      if (sw > 5 && sh > 5) {
+        setTextBoxPos({ x: sx, y: sy, w: sw, h: sh });
+      }
+      rectStartRef.current = null;
+      previewRef.current = null;
+      return;
+    }
 
     // LINE FINALIZE
     if (tool === "line" && lineStartRef.current && previewRef.current) {
@@ -766,6 +819,56 @@ const Canvas = ({
             }
           }}
         />
+        {textBoxPos && (
+          <TextBox
+            x={textBoxPos.x}
+            y={textBoxPos.y}
+            w={textBoxPos.w}
+            h={textBoxPos.h}
+            zoom={zoom}
+            pan={pan}
+            canvasRef={canvasRef}
+            lineColor={lineColor}
+            transparentBg={transparentBg}
+            bgColor={bgColor}
+            onCommit={(text, fontFamily, fontSize, bold, italic, underline) => {
+              const ctx = ctxRef.current;
+              const pos = textBoxPos;
+              if (!ctx || !text.trim() || !pos) {
+                setTextBoxPos(null);
+                return;
+              }
+              snapshot();
+              ctx.save();
+              ctx.globalAlpha = 1;
+              if (!transparentBg) {
+                ctx.fillStyle = bgColor;
+                ctx.fillRect(pos.x, pos.y, pos.w, pos.h);
+              }
+              ctx.fillStyle = lineColor;
+              ctx.font = `${bold ? 'bold ' : ''}${italic ? 'italic ' : ''}${fontSize}px ${fontFamily}`;
+              const lines = text.split('\n');
+              lines.forEach((line, i) => {
+                ctx.fillText(line, pos.x, pos.y + fontSize + (i * fontSize * 1.2));
+              });
+              // Canvas API does not support underline natively — draw line manually
+              if (underline) {
+                lines.forEach((line, i) => {
+                  const textWidth = ctx.measureText(line).width;
+                  ctx.strokeStyle = lineColor;
+                  ctx.lineWidth = 1;
+                  ctx.beginPath();
+                  ctx.moveTo(pos.x, pos.y + fontSize + (i * fontSize * 1.2) + 2);
+                  ctx.lineTo(pos.x + textWidth, pos.y + fontSize + (i * fontSize * 1.2) + 2);
+                  ctx.stroke();
+                });
+              }
+              ctx.restore();
+              setTextBoxPos(null);
+            }}
+            onCancel={() => setTextBoxPos(null)}
+          />
+        )}
       </section>
 
       {/* Save As Dialog */}

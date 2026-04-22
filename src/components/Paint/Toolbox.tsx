@@ -190,8 +190,8 @@ const Toolbox = ({
         <button 
           type="button" 
           title="Text"            
-          onClick={() => {}} 
-          className="xp-tool-btn xp-tool-btn--disabled"
+          className={`xp-tool-btn${tool === 'text' ? ' active' : ''}`}
+          onClick={() => setTool('text')}
         >
           <img 
             src={Text} 

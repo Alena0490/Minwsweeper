@@ -1,0 +1,184 @@
+/* ── Text Overlay ── */
+.text-overlay {
+    position: absolute;
+    z-index: 9999;
+    user-select: none;
+}
+
+/* ── Font Toolbar ── */
+.font-toolbar {
+    position: absolute;
+    left: 0;
+    width: auto;
+    min-width: 280px;
+    background: var(--xp-surface);
+    border: 2px solid;
+    border-color:
+        var(--xp-line-light)
+        var(--xp-line-dark)
+        var(--xp-line-dark)
+        var(--xp-line-light);
+    box-shadow: 1px 1px 0 var(--xp-line-deep);
+    font: 11px Tahoma, sans-serif;
+    color: var(--text);
+    overflow: hidden;
+}
+
+.font-toolbar.is-above {
+    bottom: calc(100% + 0.1875rem);
+}
+
+.font-toolbar.is-below {
+    top: calc(100% + 0.1875rem);
+}
+
+/* ── Font Toolbar Title Bar ── */
+.font-toolbar .title-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-width: 0;
+    padding: 0 0.1875rem 0 0.375rem;
+    min-height: 1.5625rem;
+    color: var(--xp-title-text);
+    background: linear-gradient(
+        to right,
+        var(--xp-title-start) 0%,
+        var(--xp-title-mid) 55%,
+        var(--xp-title-end) 100%
+    );
+    cursor: default;
+    border-bottom: 1px solid color-mix(in srgb, var(--xp-line-dark) 70%, transparent);
+}
+
+.font-toolbar .title-bar-text {
+    display: inline-flex;
+    align-items: center;
+    min-width: 0;
+    color: var(--xp-title-text);
+    font: 700 0.6875rem/1 Tahoma, sans-serif;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-shadow: 1px 1px 0 rgb(0 0 0 / 0.35);
+}
+
+.font-toolbar .title-bar-buttons {
+    display: flex;
+    gap: 0.125rem;
+    margin-left: 0.375rem;
+}
+
+.font-toolbar .title-bar-buttons button {
+    width: 1.3125rem;
+    height: 1.3125rem;
+    padding: 0;
+    border: 1px solid var(--background);
+    border-radius: 0.1875rem;
+    color: var(--xp-title-text);
+    font: bold 0.6875rem Tahoma, sans-serif;
+    line-height: 1;
+    background: linear-gradient(to bottom, #9CC2FF, #2B74E3);
+    box-shadow: inset -1px -1px 0 rgb(0 0 0 / 0.25);
+}
+
+.font-toolbar .title-bar-buttons button:hover {
+    filter: brightness(1.05);
+}
+
+.font-toolbar .title-bar-buttons button:active {
+    background: linear-gradient(to bottom, #2B74E3, #9CC2FF);
+    box-shadow:
+        inset 1px 1px 0 rgb(0 0 0 / 0.4),
+        inset -1px -1px 0 rgb(255 255 255 / 0.6);
+    transform: translate(1px, 1px);
+}
+
+.font-toolbar .title-bar-buttons .btn-close {
+    background: linear-gradient(to bottom, #FFB1A6, #D94B31);
+}
+
+.font-toolbar .title-bar-buttons .btn-close:active {
+    background: linear-gradient(to bottom, #D94B31, #FFB1A6);
+}
+
+/* ── Font Toolbar Body ── */
+.font-toolbar-body {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.4rem 0.5rem;
+}
+
+.font-toolbar select {
+    min-width: 120px;
+    min-height: 1.5rem;
+    padding: 0.1rem 0.25rem;
+    border: 1px solid var(--xp-line-dark);
+    background: var(--xp-line-light);
+    box-shadow: inset 1px 1px 0 var(--xp-line-mid);
+    font: inherit;
+}
+
+.font-toolbar input[type="number"] {
+    width: 40px;
+    min-height: 1.5rem;
+    padding: 0.1rem 0.25rem;
+    border: 1px solid var(--xp-line-dark);
+    background: var(--xp-line-light);
+    box-shadow: inset 1px 1px 0 var(--xp-line-mid);
+    font: inherit;
+}
+
+/* ── Font Buttons ── */
+.font-btns {
+    display: flex;
+    gap: 2px;
+}
+
+.font-btns button {
+    width: 1.5rem;
+    height: 1.5rem;
+    padding: 1px;
+    border: 1px solid var(--xp-line-dark);
+    background: var(--xp-surface);
+    box-shadow:
+        inset 1px 1px 0 var(--xp-line-light),
+        inset -1px -1px 0 var(--xp-line-dark);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.font-btns button:hover {
+    background: var(--xp-surface-2);
+}
+
+.font-btns button.active {
+    box-shadow:
+        inset -1px -1px 0 var(--xp-line-light),
+        inset 1px 1px 0 var(--xp-line-dark);
+}
+
+.font-btns button img {
+    width: 14px;
+    height: 14px;
+}
+
+/* ── Text area ── */
+.paint-textarea {
+    display: block;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+   border:
+        1px dashed #fff;
+    outline: 1px dashed #000;
+    outline-offset: 0;
+    resize: none;
+    overflow: hidden;
+    box-shadow: none;
+    appearance: none;
+    -webkit-appearance: none;
+}
