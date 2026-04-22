@@ -4,6 +4,7 @@ import Toolbox from './Toolbox'
 import Canvas from './Canvas'
 import './PaintApp.css'
 
+/* ── Types ── */
 interface PaintAppProps {
   tool: string;
   setTool: React.Dispatch<React.SetStateAction<string>>;
@@ -12,15 +13,16 @@ interface PaintAppProps {
   zoomReset: () => void;
   setZoomLevel: (value: number) => void;
   pan: { x: number; y: number };
-  setPan: React.Dispatch<React.SetStateAction<{ x: number; y: number }>>
+  setPan: React.Dispatch<React.SetStateAction<{ x: number; y: number }>>;
   onDownloadRef: React.RefObject<() => void>;
   onClearRef: React.RefObject<() => void>;
-  onOpenRef:  React.RefObject<() => void>;
+  onOpenRef: React.RefObject<() => void>;
   onStatusChange: (message: string) => void;
   saveAsOpen: boolean;
   setSaveAsOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
+/* ── Constants ── */
 const XP_PALETTE = [
   '#000000','#808080','#800000','#FF0000','#FF8040','#FFFF00',
   '#808000','#008000','#008080','#00FFFF','#000080','#0000FF',
@@ -32,40 +34,81 @@ const XP_PALETTE = [
   '#C0FFC0','#008040',
 ];
 
-const PaintApp = ({ 
-  onDownloadRef, 
-  onClearRef, 
-  onOpenRef, 
-  tool, 
-  setTool, 
-  zoom, 
-  setZoom, 
+/* ── Flood fill helpers ── */
+const idx = (x: number, y: number, w: number) => (y * w + x) * 4;
+
+const colorMatch = (data: Uint8ClampedArray, i: number, target: number[], tol: number) =>
+  (Math.abs(data[i]-target[0]) + Math.abs(data[i+1]-target[1]) +
+   Math.abs(data[i+2]-target[2]) + Math.abs(data[i+3]-target[3])) <= tol;
+
+function floodFill(ctx: CanvasRenderingContext2D, x: number, y: number, fillRGBA: number[], tolerance = 0) {
+  const { width: w, height: h } = ctx.canvas;
+  if (x < 0 || x >= w || y < 0 || y >= h) return;
+  const img = ctx.getImageData(0, 0, w, h);
+  const data = img.data;
+  const i0 = idx(x, y, w);
+  const target = [data[i0], data[i0+1], data[i0+2], data[i0+3]];
+  if (target.every((v, i) => v === fillRGBA[i])) return;
+  const visited = new Uint8Array(w * h);
+  const stack: [number, number][] = [[x, y]];
+  visited[y * w + x] = 1;
+  while (stack.length) {
+    const [cx, cy] = stack.pop()!;
+    const i = idx(cx, cy, w);
+    if (!colorMatch(data, i, target, tolerance)) continue;
+    data[i]=fillRGBA[0]; data[i+1]=fillRGBA[1]; data[i+2]=fillRGBA[2]; data[i+3]=fillRGBA[3];
+    if (cx>0   && !visited[cy*w+(cx-1)]) { visited[cy*w+(cx-1)]=1; stack.push([cx-1,cy]); }
+    if (cx<w-1 && !visited[cy*w+(cx+1)]) { visited[cy*w+(cx+1)]=1; stack.push([cx+1,cy]); }
+    if (cy>0   && !visited[(cy-1)*w+cx]) { visited[(cy-1)*w+cx]=1; stack.push([cx,cy-1]); }
+    if (cy<h-1 && !visited[(cy+1)*w+cx]) { visited[(cy+1)*w+cx]=1; stack.push([cx,cy+1]); }
+  }
+  ctx.putImageData(img, 0, 0);
+}
+
+const PaintApp = ({
+  onDownloadRef,
+  onClearRef,
+  onOpenRef,
+  tool,
+  setTool,
+  zoom,
+  setZoom,
   zoomReset,
-  setZoomLevel, 
-  pan, 
-  setPan, 
-  onStatusChange, 
-  saveAsOpen, 
-  setSaveAsOpen 
+  setZoomLevel,
+  pan,
+  setPan,
+  onStatusChange,
+  saveAsOpen,
+  setSaveAsOpen
 }: PaintAppProps) => {
+
+  /* ── Refs ── */
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const ctxRef = useRef<CanvasRenderingContext2D | null>(null);
 
+  /* ── State ── */
   const [isDrawing, setIsDrawing] = useState(false);
   const [lineColor, setLineColor] = useState("#000000");
   const [lineWidth, setLineWidth] = useState(5);
-  const [lineOpacity, ] = useState(1);
+  const [lineOpacity] = useState(1);
+  const [bgColor, setBgColor] = useState("#ffffff");
+
+  // Presets
   const [selectedLinePreset, setSelectedLinePreset] = useState(0);
   const [selectedBrushPreset, setSelectedBrushPreset] = useState(0);
   const [selectedSprayPreset, setSelectedSprayPreset] = useState(0);
   const [selectedEraserPreset, setSelectedEraserPreset] = useState(0);
   const [selectedShapePreset, setSelectedShapePreset] = useState(0);
-  const [bgColor, setBgColor] = useState("#ffffff");
+  const [selectedBgPreset, setSelectedBgPreset] = useState(0);
+
+  // Selection
   const [selection, setSelection] = useState<{ x: number; y: number; w: number; h: number } | null>(null);
   const [selectionData, setSelectionData] = useState<ImageData | null>(null);
-  const [selectedBgPreset, setSelectedBgPreset] = useState(0); // 0 = opaque, 1 = transparent
+
+  // Text tool
   const [textBoxPos, setTextBoxPos] = useState<{ x: number; y: number; w: number; h: number } | null>(null);
 
+  /* ── Canvas init ── */
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -76,13 +119,14 @@ const PaintApp = ({
     ctx.lineWidth = lineWidth;
     ctx.globalAlpha = lineOpacity;
     ctx.strokeStyle = lineColor;
-    ctxRef.current = ctx;
     ctx.filter = 'none';
     const brushShape = BRUSH_PRESETS[selectedBrushPreset].shape;
     ctx.lineCap = brushShape === 'square' ? 'square' : 'round';
     ctx.lineJoin = brushShape === 'square' ? 'miter' : 'round';
+    ctxRef.current = ctx;
   }, [lineColor, lineWidth, lineOpacity, selectedBrushPreset]);
 
+  /* ── Toolbar action refs ── */
   useEffect(() => {
     onDownloadRef.current = () => setTool('download');
     onClearRef.current = () => {
@@ -92,12 +136,14 @@ const PaintApp = ({
       }
     };
     onOpenRef.current = () => setTool('open');
-  }, [onClearRef, onDownloadRef, onOpenRef, setTool, zoomReset ]);
+  }, [onClearRef, onDownloadRef, onOpenRef, setTool, zoomReset]);
 
+  /* ── Status bar sync ── */
   useEffect(() => {
     onStatusChange(tool.charAt(0).toUpperCase() + tool.slice(1));
   }, [tool, onStatusChange]);
 
+  /* ── Coordinate helper ── */
   const getEventCoordinates = (e: React.MouseEvent | React.TouchEvent) => {
     const canvas = canvasRef.current;
     if (!canvas) return { x: 0, y: 0 };
@@ -117,6 +163,7 @@ const PaintApp = ({
     return { x: ((clientX - rect.left) / zoom) * scaleX, y: ((clientY - rect.top) / zoom) * scaleY };
   };
 
+  /* ── Drawing handlers ── */
   const startDrawing = (e: React.MouseEvent | React.TouchEvent) => {
     if (e.type === 'touchstart') e.preventDefault();
     const { x, y } = getEventCoordinates(e);
@@ -141,16 +188,16 @@ const PaintApp = ({
     if (!ctx) return;
     ctx.lineTo(x, y);
     onStatusChange(`${Math.round(x)}, ${Math.round(y)}`);
+
     if (tool === 'pencil') {
       const prev = ctx.filter;
       ctx.filter = `blur(${Math.min(1.0, lineWidth * 0.06)}px)`;
       ctx.stroke();
       ctx.filter = prev;
     } else if (tool === 'brush') {
-      const { shape, size } = BRUSH_PRESETS[selectedBrushPreset]; // ← tvar z presetu
+      const { shape, size } = BRUSH_PRESETS[selectedBrushPreset];
       const prev = ctx.filter;
       ctx.filter = `blur(${Math.min(3.0, size * 0.3)}px)`;
-
       if (shape === 'round' || shape === 'square') {
         ctx.stroke();
       } else if (shape === 'diag-right') {
@@ -166,88 +213,49 @@ const PaintApp = ({
         ctx.fillRect(-size / 2, -size * 2, size, size * 4);
         ctx.restore();
       }
-
       ctx.filter = prev;
-      } else if (tool === 'spray') {
-        const { density, radius } = SPRAY_PRESETS[selectedSprayPreset]; // ← místo hardcoded hodnot
-        for (let i = 0; i < density; i++) {
-          const angle = Math.random() * Math.PI * 2;
-          const r = Math.random() * radius;
-          const sx = x + r * Math.cos(angle);
-          const sy = y + r * Math.sin(angle);
-          ctx.fillStyle = lineColor;
-          ctx.globalAlpha = lineOpacity * 0.3;
-          ctx.fillRect(sx, sy, 1, 1);
-        }
-        } else if (tool === 'eraser') {
-          const prevComposite = ctx.globalCompositeOperation;
-          ctx.globalCompositeOperation = 'destination-out';
-          ctx.lineWidth = ERASER_PRESETS[selectedEraserPreset].size;
-          ctx.stroke();
-          ctx.globalCompositeOperation = prevComposite;
-          ctx.lineWidth = lineWidth;
-      } else {
+    } else if (tool === 'spray') {
+      const { density, radius } = SPRAY_PRESETS[selectedSprayPreset];
+      for (let i = 0; i < density; i++) {
+        const angle = Math.random() * Math.PI * 2;
+        const r = Math.random() * radius;
+        ctx.fillStyle = lineColor;
+        ctx.globalAlpha = lineOpacity * 0.3;
+        ctx.fillRect(x + r * Math.cos(angle), y + r * Math.sin(angle), 1, 1);
+      }
+    } else if (tool === 'eraser') {
+      const prevComposite = ctx.globalCompositeOperation;
+      ctx.globalCompositeOperation = 'destination-out';
+      ctx.lineWidth = ERASER_PRESETS[selectedEraserPreset].size;
+      ctx.stroke();
+      ctx.globalCompositeOperation = prevComposite;
+      ctx.lineWidth = lineWidth;
+    } else {
       ctx.stroke();
     }
   };
 
-  const idx = (x: number, y: number, w: number) => (y * w + x) * 4;
-
-  const colorMatch = (data: Uint8ClampedArray, i: number, target: number[], tol: number) =>
-    (Math.abs(data[i]-target[0]) + Math.abs(data[i+1]-target[1]) +
-     Math.abs(data[i+2]-target[2]) + Math.abs(data[i+3]-target[3])) <= tol;
-
-  function floodFill(ctx: CanvasRenderingContext2D, x: number, y: number, fillRGBA: number[], tolerance = 0) {
-    const { width: w, height: h } = ctx.canvas;
-    if (x < 0 || x >= w || y < 0 || y >= h) return;
-    const img = ctx.getImageData(0, 0, w, h);
-    const data = img.data;
-    const i0 = idx(x, y, w);
-    const target = [data[i0], data[i0+1], data[i0+2], data[i0+3]];
-    if (target.every((v, i) => v === fillRGBA[i])) return;
-    const visited = new Uint8Array(w * h);
-    const stack: [number, number][] = [[x, y]];
-    visited[y * w + x] = 1;
-    while (stack.length) {
-      const [cx, cy] = stack.pop()!;
-      const i = idx(cx, cy, w);
-      if (!colorMatch(data, i, target, tolerance)) continue;
-      data[i]=fillRGBA[0]; data[i+1]=fillRGBA[1]; data[i+2]=fillRGBA[2]; data[i+3]=fillRGBA[3];
-      if (cx>0   && !visited[cy*w+(cx-1)]) { visited[cy*w+(cx-1)]=1; stack.push([cx-1,cy]); }
-      if (cx<w-1 && !visited[cy*w+(cx+1)]) { visited[cy*w+(cx+1)]=1; stack.push([cx+1,cy]); }
-      if (cy>0   && !visited[(cy-1)*w+cx]) { visited[(cy-1)*w+cx]=1; stack.push([cx,cy-1]); }
-      if (cy<h-1 && !visited[(cy+1)*w+cx]) { visited[(cy+1)*w+cx]=1; stack.push([cx,cy+1]); }
-    }
-    ctx.putImageData(img, 0, 0);
-  }
-
+  /* ── Render ── */
   return (
     <div className="app-wrap">
       <div className="top-part">
         <Toolbox
           tool={tool}
           setTool={setTool}
-          lineWidth={lineWidth}        // ← chybělo
-          setLineWidth={setLineWidth} 
-
+          lineWidth={lineWidth}
+          setLineWidth={setLineWidth}
           selectedLinePreset={selectedLinePreset}
           setSelectedLinePreset={setSelectedLinePreset}
-
           selectedBrushPreset={selectedBrushPreset}
           setSelectedBrushPreset={setSelectedBrushPreset}
-
           selectedSprayPreset={selectedSprayPreset}
           setSelectedSprayPreset={setSelectedSprayPreset}
-
           selectedEraserPreset={selectedEraserPreset}
           setSelectedEraserPreset={setSelectedEraserPreset}
-
           selectedShapePreset={selectedShapePreset}
           setSelectedShapePreset={setSelectedShapePreset}
-
           selectedBgPreset={selectedBgPreset}
           setSelectedBgPreset={setSelectedBgPreset}
-
           setZoomLevel={setZoomLevel}
           zoom={zoom}
         />
@@ -282,33 +290,37 @@ const PaintApp = ({
           setTextBoxPos={setTextBoxPos}
         />
       </div>
+
+      {/* ── Color palette ── */}
       <div className="colors">
-        <div className="colors__swatches" onClick={() => {
+        <div
+          className="colors__swatches"
+          onClick={() => {
             const tmp = lineColor;
             setLineColor(bgColor);
             setBgColor(tmp);
-          }}>
-            <div className="colors__bg" style={{ background: bgColor }} />
-            <div className="colors__fg" style={{ background: lineColor }} />
-          </div>
+          }}
+        >
+          <div className="colors__bg" style={{ background: bgColor }} />
+          <div className="colors__fg" style={{ background: lineColor }} />
+        </div>
         <div className="colors__sep" />
         <div className="colors__grid">
           {XP_PALETTE.map(color => (
             <button
-              key={color} type="button"
+              key={color}
+              type="button"
               className={`colors__chip${lineColor === color ? ' colors__chip--active' : ''}`}
-              style={{ background: color }} title={color}
+              style={{ background: color }}
+              title={color}
               onClick={() => setLineColor(color)}
-              onContextMenu={(e) => {
-                e.preventDefault();
-                setBgColor(color);
-              }}
+              onContextMenu={(e) => { e.preventDefault(); setBgColor(color); }}
             />
           ))}
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default PaintApp
+export default PaintApp;

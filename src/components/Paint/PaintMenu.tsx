@@ -13,9 +13,22 @@ interface PaintMenuProps {
   onCut: () => void;
   onCopy: () => void;
   onPaste: () => void;
+  onFullscreen: () => void;
 }
 
-const PaintMenu = ({ setTool, onZoomIn, onZoomOut, isZoomed, onSaveAs, onClose, windowPosition, onCut, onCopy, onPaste }: PaintMenuProps) => {
+const PaintMenu = ({ 
+  setTool, 
+  onZoomIn, 
+  onZoomOut, 
+  isZoomed, 
+  onSaveAs, 
+  onClose, 
+  windowPosition, 
+  onCut, 
+  onCopy, 
+  onPaste, 
+  onFullscreen 
+}: PaintMenuProps) => {
   const [openMenu, setOpenMenu] = useState<'file' | 'edit' | 'view' | 'image' | 'colors' | 'help' | null>(null)
        const [openModal, setOpenModal] = useState<'about' | 'times' | 'custom' | null>(null)
   const menuRef = useRef<HTMLElement>(null)
@@ -142,7 +155,7 @@ const PaintMenu = ({ setTool, onZoomIn, onZoomOut, isZoomed, onSaveAs, onClose, 
             <li className={itemClass(true)} aria-disabled="true">
               View Bitmap <span>Ctrl+F</span>
             </li>
-            <li className={itemClass(true)} aria-disabled="true">
+            <li onClick={() => { onFullscreen(); setOpenMenu(null) }}>
               Fullscreen <span>F11</span>
             </li>
           </ul>
@@ -163,7 +176,7 @@ const PaintMenu = ({ setTool, onZoomIn, onZoomOut, isZoomed, onSaveAs, onClose, 
             <li className={itemClass(true)} aria-disabled="true">
               Attributes... <span>Ctrl+E</span>
             </li>
-            <li className={itemClass(true)} aria-disabled="true">
+            <li onClick={() => { setTool('clear'); setOpenMenu(null) }}>
               Clear Image
             </li>
             <li className={itemClass(true)} aria-disabled="true">
