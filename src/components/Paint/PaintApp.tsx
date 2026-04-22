@@ -20,6 +20,8 @@ interface PaintAppProps {
   onStatusChange: (message: string) => void;
   saveAsOpen: boolean;
   setSaveAsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  showToolbox: boolean;
+  showColorBox: boolean;
 }
 
 /* ── Constants ── */
@@ -79,7 +81,9 @@ const PaintApp = ({
   setPan,
   onStatusChange,
   saveAsOpen,
-  setSaveAsOpen
+  setSaveAsOpen,
+  showColorBox,
+  showToolbox
 }: PaintAppProps) => {
 
   /* ── Refs ── */
@@ -239,26 +243,28 @@ const PaintApp = ({
   return (
     <div className="app-wrap">
       <div className="top-part">
-        <Toolbox
-          tool={tool}
-          setTool={setTool}
-          lineWidth={lineWidth}
-          setLineWidth={setLineWidth}
-          selectedLinePreset={selectedLinePreset}
-          setSelectedLinePreset={setSelectedLinePreset}
-          selectedBrushPreset={selectedBrushPreset}
-          setSelectedBrushPreset={setSelectedBrushPreset}
-          selectedSprayPreset={selectedSprayPreset}
-          setSelectedSprayPreset={setSelectedSprayPreset}
-          selectedEraserPreset={selectedEraserPreset}
-          setSelectedEraserPreset={setSelectedEraserPreset}
-          selectedShapePreset={selectedShapePreset}
-          setSelectedShapePreset={setSelectedShapePreset}
-          selectedBgPreset={selectedBgPreset}
-          setSelectedBgPreset={setSelectedBgPreset}
-          setZoomLevel={setZoomLevel}
-          zoom={zoom}
-        />
+        {showToolbox &&
+          <Toolbox
+            tool={tool}
+            setTool={setTool}
+            lineWidth={lineWidth}
+            setLineWidth={setLineWidth}
+            selectedLinePreset={selectedLinePreset}
+            setSelectedLinePreset={setSelectedLinePreset}
+            selectedBrushPreset={selectedBrushPreset}
+            setSelectedBrushPreset={setSelectedBrushPreset}
+            selectedSprayPreset={selectedSprayPreset}
+            setSelectedSprayPreset={setSelectedSprayPreset}
+            selectedEraserPreset={selectedEraserPreset}
+            setSelectedEraserPreset={setSelectedEraserPreset}
+            selectedShapePreset={selectedShapePreset}
+            setSelectedShapePreset={setSelectedShapePreset}
+            selectedBgPreset={selectedBgPreset}
+            setSelectedBgPreset={setSelectedBgPreset}
+            setZoomLevel={setZoomLevel}
+            zoom={zoom}
+          />
+        }
         <Canvas
           canvasRef={canvasRef}
           ctxRef={ctxRef}
@@ -292,33 +298,35 @@ const PaintApp = ({
       </div>
 
       {/* ── Color palette ── */}
-      <div className="colors">
-        <div
-          className="colors__swatches"
-          onClick={() => {
-            const tmp = lineColor;
-            setLineColor(bgColor);
-            setBgColor(tmp);
-          }}
-        >
-          <div className="colors__bg" style={{ background: bgColor }} />
-          <div className="colors__fg" style={{ background: lineColor }} />
+      {showColorBox &&
+        <div className="colors">
+          <div
+            className="colors__swatches"
+            onClick={() => {
+              const tmp = lineColor;
+              setLineColor(bgColor);
+              setBgColor(tmp);
+            }}
+          >
+            <div className="colors__bg" style={{ background: bgColor }} />
+            <div className="colors__fg" style={{ background: lineColor }} />
+          </div>
+          <div className="colors__sep" />
+          <div className="colors__grid">
+            {XP_PALETTE.map(color => (
+              <button
+                key={color}
+                type="button"
+                className={`colors__chip${lineColor === color ? ' colors__chip--active' : ''}`}
+                style={{ background: color }}
+                title={color}
+                onClick={() => setLineColor(color)}
+                onContextMenu={(e) => { e.preventDefault(); setBgColor(color); }}
+              />
+            ))}
+          </div>
         </div>
-        <div className="colors__sep" />
-        <div className="colors__grid">
-          {XP_PALETTE.map(color => (
-            <button
-              key={color}
-              type="button"
-              className={`colors__chip${lineColor === color ? ' colors__chip--active' : ''}`}
-              style={{ background: color }}
-              title={color}
-              onClick={() => setLineColor(color)}
-              onContextMenu={(e) => { e.preventDefault(); setBgColor(color); }}
-            />
-          ))}
-        </div>
-      </div>
+      }
     </div>
   );
 };

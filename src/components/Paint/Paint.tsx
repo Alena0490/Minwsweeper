@@ -23,6 +23,9 @@ const Paint = ({ isFullscreen, setIsFullscreen, isMinimized, setIsMinimized, onC
   const [saveAsOpen, setSaveAsOpen] = useState(false);
   const [statusTool, setStatusTool] = useState("For Help, click Help Topics on the Help Menu.");
   const [statusCoords, setStatusCoords] = useState("");
+  const [showToolbox, setShowToolbox] = useState(true);
+  const [showStatusBar, setShowStatusBar] = useState(true);
+  const [showColorBox, setShowColorBox] = useState(true);
 
   const { position, handleMouseDown } = useDraggable(400, 150);
 
@@ -103,6 +106,13 @@ const Paint = ({ isFullscreen, setIsFullscreen, isMinimized, setIsMinimized, onC
         onCut={() => document.dispatchEvent(new KeyboardEvent('keydown', { key: 'x', ctrlKey: true, bubbles: true }))}
         onCopy={() => document.dispatchEvent(new KeyboardEvent('keydown', { key: 'c', ctrlKey: true, bubbles: true }))}
         onPaste={() => document.dispatchEvent(new KeyboardEvent('keydown', { key: 'v', ctrlKey: true, bubbles: true }))}
+        showToolbox={showToolbox}
+        onToggleToolbox={() => setShowToolbox(prev => !prev)}
+        showStatusBar={showStatusBar}
+        onToggleStatusBar={() => setShowStatusBar(prev => !prev)}
+        showColorBox={showColorBox}
+        onToggleColorBox={() => setShowColorBox(prev => !prev)}
+
       />
       <div className="paint-canvas-area">
           <PaintApp
@@ -128,13 +138,17 @@ const Paint = ({ isFullscreen, setIsFullscreen, isMinimized, setIsMinimized, onC
             }}
             saveAsOpen={saveAsOpen}
             setSaveAsOpen={setSaveAsOpen}
+            showColorBox={showColorBox}
+            showToolbox={showToolbox}
             />
       </div>
-      <div className="helper">
-        <span className="help helper__tool">{statusTool}</span>
-        <span className="help helper__coords">{statusCoords}</span>
-        <span className="help helper__info"></span>
-      </div>
+      {showStatusBar &&  
+        <div className="helper">
+          <span className="help helper__tool">{statusTool}</span>
+          <span className="help helper__coords">{statusCoords}</span>
+          <span className="help helper__info"></span>
+        </div> 
+      }
     </div>
   );
 };

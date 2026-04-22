@@ -15,6 +15,12 @@ interface PaintMenuProps {
   onPaste: () => void;
   onFullscreen: () => void;
   onInvertColors: () => void;
+  showToolbox: boolean;
+  onToggleToolbox: () => void;
+  showStatusBar: boolean;
+  onToggleStatusBar: () => void;
+  showColorBox: boolean;
+  onToggleColorBox: () => void;
 }
 
 const PaintMenu = ({ 
@@ -29,10 +35,17 @@ const PaintMenu = ({
   onCopy, 
   onPaste, 
   onFullscreen ,
-  onInvertColors
+  onInvertColors,
+  showColorBox,
+  showStatusBar,
+  showToolbox,
+  onToggleColorBox,
+  onToggleStatusBar,
+  onToggleToolbox
 }: PaintMenuProps) => {
   const [openMenu, setOpenMenu] = useState<'file' | 'edit' | 'view' | 'image' | 'colors' | 'help' | null>(null)
-       const [openModal, setOpenModal] = useState<'about' | 'times' | 'custom' | null>(null)
+  const [openModal, setOpenModal] = useState<'about' | 'times' | 'custom' | null>(null)
+
   const menuRef = useRef<HTMLElement>(null)
 
   const itemClass = (disabled = false, extra = '') =>
@@ -130,13 +143,22 @@ const PaintMenu = ({
         <li onClick={() => setOpenMenu(openMenu === 'view' ? null : 'view')}>
           View
           <ul className={`submenu ${openMenu === 'view' ? 'open' : ''}`}>
-            <li className={itemClass(true)} aria-disabled="true">
+            <li 
+              className={showToolbox ? 'checked' : ''}
+              onClick={() => { onToggleToolbox(); setOpenMenu(null) }}
+            >
               Tool Box
             </li>
-            <li className={itemClass(true)} aria-disabled="true">
+            <li 
+              className={showColorBox ? 'checked' : ''}
+              onClick={() => { onToggleColorBox(); setOpenMenu(null) }}
+            >
               Color Box <span>Ctrl+L</span>
             </li>
-            <li className={itemClass(true)} aria-disabled="true">
+            <li 
+              className={showStatusBar ? 'checked' : ''}
+              onClick={() => { onToggleStatusBar(); setOpenMenu(null) }}
+            >
               Status Bar
             </li>
             <li className={itemClass(true)} aria-disabled="true">
