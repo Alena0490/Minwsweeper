@@ -28,6 +28,7 @@ const Paint = ({ isFullscreen, setIsFullscreen, isMinimized, setIsMinimized, onC
   const [showColorBox, setShowColorBox] = useState(true);
   const [flipRotateAction, setFlipRotateAction] = useState<{action: 'flipH' | 'flipV' | 'rotate', angle?: number} | null>(null);
   const [stretchSkewAction, setStretchSkewAction] = useState<{ stretchH: number; stretchV: number; skewH: number; skewV: number } | null>(null);
+  const [selectedBgPreset, setSelectedBgPreset] = useState(0);
 
   const { position, handleMouseDown } = useDraggable(400, 150);
 
@@ -116,6 +117,8 @@ const Paint = ({ isFullscreen, setIsFullscreen, isMinimized, setIsMinimized, onC
         onToggleColorBox={() => setShowColorBox(prev => !prev)}
         onFlipRotate={(action, angle) => { setFlipRotateAction({ action, angle }); }}
         onStretchSkew={(stretchH, stretchV, skewH, skewV) => setStretchSkewAction({ stretchH, stretchV, skewH, skewV })}
+        isDrawOpaque={selectedBgPreset === 0}
+        onDrawOpaque={() => setSelectedBgPreset(prev => prev === 0 ? 1 : 0)}
       />
       <div className="paint-canvas-area">
           <PaintApp
@@ -147,6 +150,8 @@ const Paint = ({ isFullscreen, setIsFullscreen, isMinimized, setIsMinimized, onC
             setFlipRotateAction={setFlipRotateAction}
             stretchSkewAction={stretchSkewAction}
             setStretchSkewAction={setStretchSkewAction}
+            selectedBgPreset={selectedBgPreset}
+            setSelectedBgPreset={setSelectedBgPreset}
             />
       </div>
       {showStatusBar &&  

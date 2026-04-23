@@ -25,6 +25,8 @@ interface PaintMenuProps {
   onToggleColorBox: () => void;
   onFlipRotate: (action: 'flipH' | 'flipV' | 'rotate', angle?: number) => void;
   onStretchSkew: (stretchH: number, stretchV: number, skewH: number, skewV: number) => void;
+  onDrawOpaque: () => void;
+  isDrawOpaque: boolean;
 }
 
 const PaintMenu = ({ 
@@ -47,7 +49,9 @@ const PaintMenu = ({
   onToggleStatusBar,
   onToggleToolbox,
   onFlipRotate,
-  onStretchSkew
+  onStretchSkew,
+  onDrawOpaque,
+  isDrawOpaque
 }: PaintMenuProps) => {
   const [openMenu, setOpenMenu] = useState<'file' | 'edit' | 'view' | 'image' | 'colors' | 'help' | null>(null)
   const [openModal, setOpenModal] = useState<'about' | 'fliprotate' | 'stretchskew' | null>(null)
@@ -210,7 +214,10 @@ const PaintMenu = ({
             <li onClick={() => { setTool('clear'); setOpenMenu(null) }}>
               Clear Image
             </li>
-            <li className={itemClass(true)} aria-disabled="true">
+            <li 
+              className={isDrawOpaque ? 'checked' : ''}
+              onClick={() => { onDrawOpaque(); setOpenMenu(null) }}
+            >
               Draw Opaque
             </li>
           </ul>

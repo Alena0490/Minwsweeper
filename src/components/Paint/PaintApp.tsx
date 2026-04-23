@@ -26,6 +26,8 @@ interface PaintAppProps {
   setFlipRotateAction: React.Dispatch<React.SetStateAction<{ action: 'flipH' | 'flipV' | 'rotate'; angle?: number } | null>>;
   stretchSkewAction: { stretchH: number; stretchV: number; skewH: number; skewV: number } | null;
   setStretchSkewAction: React.Dispatch<React.SetStateAction<{ stretchH: number; stretchV: number; skewH: number; skewV: number } | null>>;
+  selectedBgPreset: number;
+  setSelectedBgPreset: React.Dispatch<React.SetStateAction<number>>;
 }
 
 /* ── Constants ── */
@@ -92,6 +94,8 @@ const PaintApp = ({
   setFlipRotateAction,
   stretchSkewAction,
   setStretchSkewAction,
+  selectedBgPreset,
+  setSelectedBgPreset
 }: PaintAppProps) => {
 
   /* ── Refs ── */
@@ -112,7 +116,6 @@ const PaintApp = ({
   const [selectedSprayPreset, setSelectedSprayPreset] = useState(0);
   const [selectedEraserPreset, setSelectedEraserPreset] = useState(0);
   const [selectedShapePreset, setSelectedShapePreset] = useState(0);
-  const [selectedBgPreset, setSelectedBgPreset] = useState(0);
 
   // Selection
   const [selection, setSelection] = useState<{ x: number; y: number; w: number; h: number } | null>(null);
