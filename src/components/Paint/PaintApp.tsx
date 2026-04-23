@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from "react"
 import { SPRAY_PRESETS, BRUSH_PRESETS, ERASER_PRESETS } from '../../data/paintToolPresets'
 import Toolbox from './Toolbox'
 import Canvas from './Canvas'
+import Thumbnail from './Thumbnail'
 import './PaintApp.css'
 
 /* ── Types ── */
@@ -31,6 +32,8 @@ interface PaintAppProps {
   canvasWidth: number;
   canvasHeight: number;
   showGrid: boolean;
+  showThumbnail: boolean;
+  setShowThumbnail: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 /* ── Constants ── */
@@ -101,7 +104,9 @@ const PaintApp = ({
   setSelectedBgPreset,
   canvasWidth,
   canvasHeight,
-  showGrid
+  showGrid,
+  showThumbnail,
+  setShowThumbnail
 }: PaintAppProps) => {
 
   /* ── Refs ── */
@@ -396,6 +401,11 @@ const PaintApp = ({
           showGrid={showGrid}
         />
       </div>
+
+      {/* ── Thumbnail ── */}
+      {showThumbnail && (
+        <Thumbnail canvasRef={canvasRef} onClose={() => setShowThumbnail(false)} />
+      )}
 
       {/* ── Color palette ── */}
       {showColorBox &&

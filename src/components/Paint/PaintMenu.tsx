@@ -35,6 +35,8 @@ interface PaintMenuProps {
   onZoomToWindow: () => void;
   showGrid: boolean;
   onToggleGrid: () => void;
+  showThumbnail: boolean;
+  onToggleThumbnail: () => void;
 }
 
 const PaintMenu = ({ 
@@ -65,7 +67,9 @@ const PaintMenu = ({
   canvasWidth,
   onViewBitmap,
   showGrid,
-  onToggleGrid
+  onToggleGrid,
+  showThumbnail,
+  onToggleThumbnail
 }: PaintMenuProps) => {
   const [openMenu, setOpenMenu] = useState<'file' | 'edit' | 'view' | 'image' | 'colors' | 'help' | null>(null)
   const [openModal, setOpenModal] = useState<'about' | 'fliprotate' | 'stretchskew' | 'attributes' | 'customzoom' | null>(null)
@@ -204,7 +208,10 @@ const PaintMenu = ({
                 >
                   Show Grid <span>Ctrl+G</span>
                 </li>
-                <li className="is-disabled" aria-disabled="true">
+                <li
+                  className={showThumbnail ? 'checked' : ''}
+                  onClick={() => { onToggleThumbnail(); setOpenMenu(null) }}
+                >
                   Show Thumbnail
                 </li>
               </ul>

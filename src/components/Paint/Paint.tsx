@@ -31,6 +31,7 @@ const Paint = ({ isFullscreen, setIsFullscreen, isMinimized, setIsMinimized, onC
   const [selectedBgPreset, setSelectedBgPreset] = useState(0);
   const [canvasSize, setCanvasSize] = useState({ w: 700, h: 400 });
   const [showGrid, setShowGrid] = useState(false);
+  const [showThumbnail, setShowThumbnail] = useState(false);
 
   const { position, handleMouseDown } = useDraggable(400, 150);
 
@@ -135,6 +136,8 @@ const Paint = ({ isFullscreen, setIsFullscreen, isMinimized, setIsMinimized, onC
         onToggleColorBox={() => setShowColorBox(prev => !prev)}
         showGrid={showGrid}
         onToggleGrid={() => setShowGrid(prev => !prev)}
+        showThumbnail={showThumbnail}
+        onToggleThumbnail={() => setShowThumbnail(prev => !prev)}
         onZoomLevel={setZoomLevel}
         currentZoom={zoom}
         onZoomToWindow={() => {
@@ -195,6 +198,8 @@ const Paint = ({ isFullscreen, setIsFullscreen, isMinimized, setIsMinimized, onC
             showColorBox={showColorBox}
             showToolbox={showToolbox}
             showGrid={showGrid}
+            showThumbnail={showThumbnail}
+            setShowThumbnail={setShowThumbnail}
 
             // Image actions
             flipRotateAction={flipRotateAction}
