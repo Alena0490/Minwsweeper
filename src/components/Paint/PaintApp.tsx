@@ -148,9 +148,7 @@ const PaintApp = ({
 
   /* ── Canvas resize ── */
   useEffect(() => {
-    console.log('resize effect', canvasWidth, canvasHeight);
     const canvas = canvasRef.current;
-    console.log('canvas', canvas?.width, canvas?.height);
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
@@ -215,9 +213,7 @@ const PaintApp = ({
 
   /* ── Stretch / Skew ── */
   useEffect(() => {
-    console.log('stretchSkewAction', stretchSkewAction);
     if (!stretchSkewAction || !canvasRef.current || !ctxRef.current) return;
-    console.log('applying stretch skew');
     const canvas = canvasRef.current;
     const ctx = ctxRef.current;
     const { stretchH, stretchV, skewH, skewV } = stretchSkewAction;

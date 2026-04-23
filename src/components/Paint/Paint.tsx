@@ -1,4 +1,4 @@
-import {useState, useRef, useCallback } from 'react';
+import {useState, useEffect, useRef, useCallback } from 'react';
 import useDraggable from '../../hooks/useDraggable';
 import PaintIcon from '../../img/Paint.webp'
 import '../../App.css'
@@ -50,6 +50,17 @@ const Paint = ({ isFullscreen, setIsFullscreen, isMinimized, setIsMinimized, onC
   const onDownloadRef = useRef<() => void>(() => {});
   const onOpendRef = useRef<() => void>(() => {});
   const onClearRef = useRef<() => void>(() => {});
+
+  useEffect(() => {
+    const handleKey = (e: KeyboardEvent) => {
+      if (e.key === 'l' && e.ctrlKey) {
+        e.preventDefault();
+        setShowColorBox(prev => !prev);
+      }
+    };
+    window.addEventListener('keydown', handleKey);
+    return () => window.removeEventListener('keydown', handleKey);
+  }, []);
 
   return (
     <div
