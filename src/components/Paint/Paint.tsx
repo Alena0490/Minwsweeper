@@ -57,10 +57,16 @@ const Paint = ({ isFullscreen, setIsFullscreen, isMinimized, setIsMinimized, onC
         e.preventDefault();
         setShowColorBox(prev => !prev);
       }
+      if (e.key === 'Escape' && isFullscreen) {
+        setIsFullscreen(false);
+        setShowToolbox(true);
+        setShowColorBox(true);
+        setShowStatusBar(true);
+      }
     };
     window.addEventListener('keydown', handleKey);
     return () => window.removeEventListener('keydown', handleKey);
-  }, []);
+  }, [isFullscreen, setIsFullscreen]);
 
   return (
     <div
@@ -134,6 +140,12 @@ const Paint = ({ isFullscreen, setIsFullscreen, isMinimized, setIsMinimized, onC
         canvasWidth={700}
         canvasHeight={400}
         onAttributes={(w, h) => setCanvasSize({ w, h })}
+        onViewBitmap={() => {
+          setIsFullscreen(true);
+          setShowToolbox(false);
+          setShowColorBox(false);
+          setShowStatusBar(false);
+        }}
       />
       <div className="paint-canvas-area">
           <PaintApp

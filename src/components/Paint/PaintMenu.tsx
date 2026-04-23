@@ -31,6 +31,7 @@ interface PaintMenuProps {
   onAttributes: (width: number, height: number) => void;
   canvasWidth: number;
   canvasHeight: number;
+  onViewBitmap: () => void;
 }
 
 const PaintMenu = ({ 
@@ -58,7 +59,8 @@ const PaintMenu = ({
   isDrawOpaque,
   onAttributes,
   canvasHeight,
-  canvasWidth
+  canvasWidth,
+  onViewBitmap
 }: PaintMenuProps) => {
   const [openMenu, setOpenMenu] = useState<'file' | 'edit' | 'view' | 'image' | 'colors' | 'help' | null>(null)
   const [openModal, setOpenModal] = useState<'about' | 'fliprotate' | 'stretchskew' | 'attributes' | null>(null)
@@ -194,7 +196,7 @@ const PaintMenu = ({
               Zoom Out
             </li>
             <li className="separator" aria-hidden="true" />
-            <li className={itemClass(true)} aria-disabled="true">
+            <li onClick={() => { onViewBitmap(); setOpenMenu(null) }}>
               View Bitmap <span>Ctrl+F</span>
             </li>
             <li onClick={() => { onFullscreen(); setOpenMenu(null) }}>
