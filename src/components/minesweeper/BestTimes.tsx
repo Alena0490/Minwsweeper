@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useDraggableDialog } from '../../hooks/useDraggableDialog';
 import './GameMiniModal.css'
 import '../ModalStyle.css'
 
@@ -8,19 +9,27 @@ interface BestTimesProps {
 }
 
 const BestTimes = ({ onClose, style }: BestTimesProps) => {
-    const defaultTimes = { easy: 999, intermediate: 999, expert: 999 };
-    const loadTimes = () => {
-        const saved = localStorage.getItem('minesweeper-times');
-        return saved ? JSON.parse(saved) : defaultTimes;
-    };
-    const [times, setTimes] = useState(loadTimes);
-    const handleReset = () => {
-        localStorage.setItem('minesweeper-times', JSON.stringify(defaultTimes));
-        setTimes(defaultTimes);
-    };
+  const { dialogRef, onMouseDown, draggableStyle } = useDraggableDialog();
+  const defaultTimes = { easy: 999, intermediate: 999, expert: 999 };
+  const loadTimes = () => {
+      const saved = localStorage.getItem('minesweeper-times');
+      return saved ? JSON.parse(saved) : defaultTimes;
+  };
+  const [times, setTimes] = useState(loadTimes);
+  const handleReset = () => {
+      localStorage.setItem('minesweeper-times', JSON.stringify(defaultTimes));
+      setTimes(defaultTimes);
+  };
 
   return (
-    <div id="times" className="xp-dialog" style={style}>
+    <div 
+      id="times" 
+      className="xp-dialog" 
+      style={{ ...style, ...draggableStyle }}
+      ref={dialogRef}
+      tabIndex={-1}
+      onMouseDown={onMouseDown}
+    >
       <div className="title-bar">
         <div className="title-bar-text">Fastest Mine Sweepers</div>
         <div className="title-bar-buttons">

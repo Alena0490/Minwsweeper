@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useDraggableDialog } from '../../hooks/useDraggableDialog';  
 import '../../components/ModalStyle.css';
 
 interface FlipRotateProps {
@@ -12,6 +13,8 @@ const FlipRotate = ({ onClose, onConfirm, style }: FlipRotateProps) => {
   const [angle, setAngle] = useState<90 | 180 | 270 | 'custom'>(90);
   const [customAngle, setCustomAngle] = useState(0);
 
+  const { dialogRef, onMouseDown, draggableStyle } = useDraggableDialog();
+
   const handleOk = () => {
     if (mode === 'rotate') {
       onConfirm('rotate', angle === 'custom' ? customAngle : angle);
@@ -24,7 +27,13 @@ const FlipRotate = ({ onClose, onConfirm, style }: FlipRotateProps) => {
   const rotateDisabled = mode !== 'rotate';
 
   return (
-    <div className="xp-dialog xp-dialog--flip-rotate" style={style}>
+    <div 
+      className="xp-dialog xp-dialog--flip-rotate" 
+      style={{ ...style, ...draggableStyle }}
+      ref={dialogRef}
+      tabIndex={-1}
+      onMouseDown={onMouseDown}
+    >
       <div className="title-bar">
         <div className="title-bar-text">Flip and Rotate</div>
         <div className="title-bar-buttons">

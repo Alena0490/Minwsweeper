@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useDraggableDialog } from '../../hooks/useDraggableDialog';  
 import '../../components/ModalStyle.css';
 
 interface AttributesProps {
@@ -13,13 +14,21 @@ const Attributes = ({ onClose, onConfirm, currentWidth, currentHeight, style }: 
   const [width, setWidth] = useState(currentWidth);
   const [height, setHeight] = useState(currentHeight);
 
+  const { dialogRef, onMouseDown, draggableStyle } = useDraggableDialog();
+
   const handleOk = () => {
     onConfirm(width, height);
     onClose();
   };
 
   return (
-    <div className="xp-dialog xp-dialog--attributes" style={style}>
+    <div 
+      className="xp-dialog xp-dialog--attributes" 
+      style={{ ...style, ...draggableStyle }}
+      ref={dialogRef}
+      tabIndex={-1}
+      onMouseDown={onMouseDown}
+    >
       <div className="title-bar">
         <div className="title-bar-text">Attributes</div>
         <div className="title-bar-buttons">

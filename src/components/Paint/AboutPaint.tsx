@@ -1,3 +1,4 @@
+import { useDraggableDialog } from '../../hooks/useDraggableDialog';  
 import '../ModalStyle.css'
 
 interface AboutProps {
@@ -6,8 +7,16 @@ interface AboutProps {
 }
 
 const AboutPaint = ({ onClose, style }: AboutProps) => {
+  const { dialogRef, onMouseDown, draggableStyle } = useDraggableDialog();
+
   return (
-    <div className="xp-dialog" style={style}>
+    <div 
+      className="xp-dialog" 
+      style={{ ...style, ...draggableStyle }}
+      ref={dialogRef} 
+      tabIndex={-1}
+      onMouseDown={onMouseDown}
+    >
       <div className="title-bar">
         <div className="title-bar-text">About Paint</div>
         <div className="title-bar-buttons">

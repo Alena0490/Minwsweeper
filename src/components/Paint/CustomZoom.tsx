@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useDraggableDialog } from '../../hooks/useDraggableDialog';  
 import '../../components/ModalStyle.css';
 
 interface CustomZoomProps {
@@ -16,6 +17,8 @@ const CustomZoom = ({ onClose, onConfirm, currentZoom, style }: CustomZoomProps)
   );
   const [customValue, setCustomValue] = useState(currentPercent);
 
+  const { dialogRef, onMouseDown, draggableStyle } = useDraggableDialog();
+
   const handleOk = () => {
     const value = selected === 'custom' ? customValue : selected;
     onConfirm(value / 100);
@@ -23,7 +26,13 @@ const CustomZoom = ({ onClose, onConfirm, currentZoom, style }: CustomZoomProps)
   };
 
   return (
-    <div className="xp-dialog xp-dialog--custom-zoom" style={style}>
+    <div 
+        className="xp-dialog xp-dialog--custom-zoom" 
+        style={{ ...style, ...draggableStyle }}
+        ref={dialogRef}
+        tabIndex={-1}
+        onMouseDown={onMouseDown}
+    >
       <div className="title-bar">
         <div className="title-bar-text">Custom Zoom</div>
         <div className="title-bar-buttons">

@@ -1,3 +1,4 @@
+import { useDraggableDialog } from '../../hooks/useDraggableDialog';
 import './GameMiniModal.css'
 import '../ModalStyle.css'
 
@@ -7,8 +8,17 @@ interface AboutProps {
 }
 
 const About = ({ onClose, style }: AboutProps) => {
+  const { dialogRef, onMouseDown, draggableStyle } = useDraggableDialog();
+
   return (
-    <div id="about" className="xp-dialog" style={style}>
+    <div 
+      id="about" 
+      className="xp-dialog" 
+      style={{ ...style, ...draggableStyle }}
+      ref={dialogRef}
+      tabIndex={-1}
+      onMouseDown={onMouseDown}
+    >
       <div className="title-bar">
         <div className="title-bar-text">About Minesweeper</div>
         <div className="title-bar-buttons">

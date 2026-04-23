@@ -3,6 +3,7 @@ import SkewX from '../../img/Paint/skew-x.png';
 import SkewY from '../../img/Paint/skew-y.png';
 import StretchX from '../../img/Paint/stretch-x.png';
 import StretchY from '../../img/Paint/stretch-y.png';
+import { useDraggableDialog } from '../../hooks/useDraggableDialog';  
 import '../../components/ModalStyle.css';
 
 interface StretchSkewProps {
@@ -17,13 +18,21 @@ const StretchSkew = ({ onClose, onConfirm, style }: StretchSkewProps) => {
   const [skewH, setSkewH] = useState(0);
   const [skewV, setSkewV] = useState(0);
 
+  const { dialogRef, onMouseDown, draggableStyle } = useDraggableDialog();
+
   const handleOk = () => {
     onConfirm(stretchH, stretchV, skewH, skewV);
     onClose();
   };
 
   return (
-    <div className="xp-dialog xp-dialog--stretch-skew" style={style}>
+    <div 
+        className="xp-dialog xp-dialog--stretch-skew" 
+        style={{ ...style, ...draggableStyle }} 
+        ref={dialogRef}
+        tabIndex={-1}
+        onMouseDown={onMouseDown}
+    >
         <div className="title-bar">
             <div className="title-bar-text">Stretch and Skew</div>
             <div className="title-bar-buttons">

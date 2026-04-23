@@ -20,7 +20,7 @@
     font: 11px Tahoma, sans-serif;
 }
 
-.title-bar {
+.game-container .title-bar {
   height: 26px;
   font-size: 14px;
 }

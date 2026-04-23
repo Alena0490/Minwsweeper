@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react';
+import { useDraggableDialog } from '../../hooks/useDraggableDialog';
 import '../../components/ModalStyle.css';
 
 interface ThumbnailProps {
@@ -8,11 +9,10 @@ interface ThumbnailProps {
 
 const Thumbnail = ({ canvasRef, onClose }: ThumbnailProps) => {
   const thumbRef = useRef<HTMLCanvasElement>(null);
-  const dialogRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    dialogRef.current?.focus();
-  }, []);
+  const { dialogRef, onMouseDown, draggableStyle } = useDraggableDialog({
+    initialPosition: { left: 980, top: 520 },
+  });
 
   useEffect(() => {
     const update = () => {
@@ -36,6 +36,8 @@ const Thumbnail = ({ canvasRef, onClose }: ThumbnailProps) => {
       ref={dialogRef}
       className="xp-dialog thumbnail-dialog"
       tabIndex={-1}
+      onMouseDown={onMouseDown}
+      style={draggableStyle}
     >
       <div className="title-bar">
         <div className="title-bar-text">Thumbnail</div>
@@ -47,12 +49,7 @@ const Thumbnail = ({ canvasRef, onClose }: ThumbnailProps) => {
       </div>
 
       <div className="thumbnail-body">
-        <canvas
-          ref={thumbRef}
-          width={150}
-          height={100}
-          className="thumbnail-canvas"
-        />
+        <canvas ref={thumbRef} width={150} height={100} className="thumbnail-canvas" />
       </div>
     </div>
   );

@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useDraggableDialog } from '../../hooks/useDraggableDialog';
 import './GameMiniModal.css'
 import '../ModalStyle.css'
 import type { BoardConfig } from '../../data/game'
@@ -11,23 +12,32 @@ interface CustomProps {
 }
 
 const Custom = ({ onClose, onReset, setLevel, style }: CustomProps) => {
-    const [height, setHeight] = useState(9);
-    const [width, setWidth] = useState(9);
-    const [mines, setMines] = useState(10);
+  const [height, setHeight] = useState(9);
+  const [width, setWidth] = useState(9);
+  const [mines, setMines] = useState(10);
 
-    const handleOk = () => {
-        const rows = Math.min(24, Math.max(9, height));
-        const cols = Math.min(30, Math.max(9, width));
-        const maxMines = rows * cols - 1;
-        const safeMines = Math.min(maxMines, Math.max(10, mines));
-        const newLevel: BoardConfig = { rows, cols, mines: safeMines };
-        setLevel(newLevel);
-        onReset(newLevel);
-        onClose();
-    };
+  const { dialogRef, onMouseDown, draggableStyle } = useDraggableDialog();
+
+  const handleOk = () => {
+      const rows = Math.min(24, Math.max(9, height));
+      const cols = Math.min(30, Math.max(9, width));
+      const maxMines = rows * cols - 1;
+      const safeMines = Math.min(maxMines, Math.max(10, mines));
+      const newLevel: BoardConfig = { rows, cols, mines: safeMines };
+      setLevel(newLevel);
+      onReset(newLevel);
+      onClose();
+  };
 
   return (
-    <div id="custom" className="xp-dialog" style={style}>
+    <div 
+      id="custom" 
+      className="xp-dialog" 
+      style={{ ...style, ...draggableStyle }}
+      ref={dialogRef}
+      tabIndex={-1}
+      onMouseDown={onMouseDown}
+    >
       <div className="title-bar">
         <div className="title-bar-text">Custom Field</div>
         <div className="title-bar-buttons">

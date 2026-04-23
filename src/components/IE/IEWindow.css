@@ -4,17 +4,17 @@
     z-index: 10;
 }
 
-.title-bar {
-    gap: 8px;
-    min-height: 30px;
-    user-select: none;
+.ie-window > .title-bar {
+  gap: 8px;
+  min-height: 30px;
+  user-select: none;
 }
 
-.title {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    min-width: 0;
+.ie-window > .title-bar .title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
 }
 
 .browser-icon {
