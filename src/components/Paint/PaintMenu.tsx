@@ -135,7 +135,7 @@ const PaintMenu = ({
             <li onClick={() => { onPaste(); setOpenMenu(null) }}>
               Paste <span>Ctrl+V</span>
             </li>
-            <li className={itemClass(true)} aria-disabled="true">
+            <li onClick={() => { document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Delete', bubbles: true })); setOpenMenu(null) }}>
               Clear Selection <span>Del</span>
             </li>
             <li className={itemClass(true)} aria-disabled="true">
