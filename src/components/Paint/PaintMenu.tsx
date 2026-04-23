@@ -32,12 +32,16 @@ interface PaintMenuProps {
   onViewBitmap: () => void;
   onZoomLevel: (value: number) => void;
   currentZoom: number;
+  onZoomToWindow: () => void;
+  showGrid: boolean;
+  onToggleGrid: () => void;
 }
 
 const PaintMenu = ({ 
   setTool, 
   onZoomLevel,
   currentZoom,
+  onZoomToWindow,
   onSaveAs, 
   onClose, 
   windowPosition, 
@@ -59,7 +63,9 @@ const PaintMenu = ({
   onAttributes,
   canvasHeight,
   canvasWidth,
-  onViewBitmap
+  onViewBitmap,
+  showGrid,
+  onToggleGrid
 }: PaintMenuProps) => {
   const [openMenu, setOpenMenu] = useState<'file' | 'edit' | 'view' | 'image' | 'colors' | 'help' | null>(null)
   const [openModal, setOpenModal] = useState<'about' | 'fliprotate' | 'stretchskew' | 'attributes' | 'customzoom' | null>(null)
@@ -189,7 +195,18 @@ const PaintMenu = ({
               <ul className="submenu">
                 <li onClick={() => { onZoomLevel(1); setOpenMenu(null) }}>Normal Size</li>
                 <li onClick={() => { onZoomLevel(2); setOpenMenu(null) }}>Large Size</li>
+                <li onClick={() => { onZoomToWindow(); setOpenMenu(null) }}>Zoom To Window</li>
                 <li onClick={() => { setOpenModal('customzoom'); setOpenMenu(null) }}>Custom...</li>
+                <li className="separator" aria-hidden="true" />
+                <li 
+                  className={showGrid ? 'checked' : ''}
+                  onClick={() => { onToggleGrid(); setOpenMenu(null) }}
+                >
+                  Show Grid <span>Ctrl+G</span>
+                </li>
+                <li className="is-disabled" aria-disabled="true">
+                  Show Thumbnail
+                </li>
               </ul>
             </li>   
             <li onClick={() => { onViewBitmap(); setOpenMenu(null) }}>

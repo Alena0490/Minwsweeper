@@ -30,6 +30,7 @@ interface PaintAppProps {
   setSelectedBgPreset: React.Dispatch<React.SetStateAction<number>>;
   canvasWidth: number;
   canvasHeight: number;
+  showGrid: boolean;
 }
 
 /* ── Constants ── */
@@ -99,7 +100,8 @@ const PaintApp = ({
   selectedBgPreset,
   setSelectedBgPreset,
   canvasWidth,
-  canvasHeight
+  canvasHeight,
+  showGrid
 }: PaintAppProps) => {
 
   /* ── Refs ── */
@@ -391,6 +393,7 @@ const PaintApp = ({
           snapshotRef={snapshotRef}
           canvasWidth={canvasWidth}
           canvasHeight={canvasHeight}
+          showGrid={showGrid}
         />
       </div>
 

@@ -30,6 +30,7 @@ const Paint = ({ isFullscreen, setIsFullscreen, isMinimized, setIsMinimized, onC
   const [stretchSkewAction, setStretchSkewAction] = useState<{ stretchH: number; stretchV: number; skewH: number; skewV: number } | null>(null);
   const [selectedBgPreset, setSelectedBgPreset] = useState(0);
   const [canvasSize, setCanvasSize] = useState({ w: 700, h: 400 });
+  const [showGrid, setShowGrid] = useState(false);
 
   const { position, handleMouseDown } = useDraggable(400, 150);
 
@@ -40,13 +41,12 @@ const Paint = ({ isFullscreen, setIsFullscreen, isMinimized, setIsMinimized, onC
     setPan({ x: 0, y: 0 });
   }, [setZoom, setPan]);
 
-    // const zoomOut = () => setZoom(z => Math.max(0.25, +(z * 0.9).toFixed(3)));
-    // const zoomIn  = () => setZoom(z => Math.min(8, +(z * 1.1).toFixed(3)));
     const zoomReset = useCallback(() => {
       setZoom(1);
       setPan({ x: 0, y: 0 });
   }, [setZoom, setPan]);
 
+  
   const onDownloadRef = useRef<() => void>(() => {});
   const onOpendRef = useRef<() => void>(() => {});
   const onClearRef = useRef<() => void>(() => {});
@@ -115,72 +115,99 @@ const Paint = ({ isFullscreen, setIsFullscreen, isMinimized, setIsMinimized, onC
         </div>
       </div>
       <PaintMenu
+        // File
         setTool={setTool}
-        onZoomLevel={setZoomLevel}
-        currentZoom={zoom}
         onSaveAs={() => setSaveAsOpen(true)}
         onClose={onClose}
         windowPosition={position}
-        onFullscreen={() => setIsFullscreen(prev => !prev)}
-        onInvertColors={() => setTool('invert')}
+
+        // Edit
         onCut={() => document.dispatchEvent(new KeyboardEvent('keydown', { key: 'x', ctrlKey: true, bubbles: true }))}
         onCopy={() => document.dispatchEvent(new KeyboardEvent('keydown', { key: 'c', ctrlKey: true, bubbles: true }))}
         onPaste={() => document.dispatchEvent(new KeyboardEvent('keydown', { key: 'v', ctrlKey: true, bubbles: true }))}
+
+        // View
         showToolbox={showToolbox}
         onToggleToolbox={() => setShowToolbox(prev => !prev)}
         showStatusBar={showStatusBar}
         onToggleStatusBar={() => setShowStatusBar(prev => !prev)}
         showColorBox={showColorBox}
         onToggleColorBox={() => setShowColorBox(prev => !prev)}
-        onFlipRotate={(action, angle) => { setFlipRotateAction({ action, angle }); }}
-        onStretchSkew={(stretchH, stretchV, skewH, skewV) => setStretchSkewAction({ stretchH, stretchV, skewH, skewV })}
-        isDrawOpaque={selectedBgPreset === 0}
-        onDrawOpaque={() => setSelectedBgPreset(prev => prev === 0 ? 1 : 0)}
-        canvasWidth={700}
-        canvasHeight={400}
-        onAttributes={(w, h) => setCanvasSize({ w, h })}
+        showGrid={showGrid}
+        onToggleGrid={() => setShowGrid(prev => !prev)}
+        onZoomLevel={setZoomLevel}
+        currentZoom={zoom}
+        onZoomToWindow={() => {
+          const area = document.querySelector('.draw-area');
+          if (!area) return;
+          const rect = area.getBoundingClientRect();
+          setZoomLevel(Math.min(rect.width / canvasSize.w, rect.height / canvasSize.h));
+        }}
+        onFullscreen={() => setIsFullscreen(prev => !prev)}
         onViewBitmap={() => {
           setIsFullscreen(true);
           setShowToolbox(false);
           setShowColorBox(false);
           setShowStatusBar(false);
         }}
+
+        // Image
+        onFlipRotate={(action, angle) => setFlipRotateAction({ action, angle })}
+        onStretchSkew={(stretchH, stretchV, skewH, skewV) => setStretchSkewAction({ stretchH, stretchV, skewH, skewV })}
+        onInvertColors={() => setTool('invert')}
+        onAttributes={(w, h) => setCanvasSize({ w, h })}
+        canvasWidth={700}
+        canvasHeight={400}
+        isDrawOpaque={selectedBgPreset === 0}
+        onDrawOpaque={() => setSelectedBgPreset(prev => prev === 0 ? 1 : 0)}
       />
       <div className="paint-canvas-area">
           <PaintApp
+            // Refs
             onDownloadRef={onDownloadRef}
             onOpenRef={onOpendRef}
             onClearRef={onClearRef}
+
+            // Tool
             tool={tool}
             setTool={setTool}
+
+            // Zoom & Pan
             zoom={zoom}
             setZoom={setZoom}
             setZoomLevel={setZoomLevel}
             pan={pan}
             setPan={setPan}
             zoomReset={zoomReset}
+
+            // Status
             onStatusChange={(msg) => {
-              if (msg === '__clear_coords__') {
-                setStatusCoords("");
-              } else if (msg.includes(',')) {
-                setStatusCoords(msg);
-              } else {
-                setStatusTool(msg);
-              }
+              if (msg === '__clear_coords__') setStatusCoords("");
+              else if (msg.includes(',')) setStatusCoords(msg);
+              else setStatusTool(msg);
             }}
+
+            // Save
             saveAsOpen={saveAsOpen}
             setSaveAsOpen={setSaveAsOpen}
+
+            // Visibility
             showColorBox={showColorBox}
             showToolbox={showToolbox}
+            showGrid={showGrid}
+
+            // Image actions
             flipRotateAction={flipRotateAction}
             setFlipRotateAction={setFlipRotateAction}
             stretchSkewAction={stretchSkewAction}
             setStretchSkewAction={setStretchSkewAction}
+
+            // Background & Canvas
             selectedBgPreset={selectedBgPreset}
             setSelectedBgPreset={setSelectedBgPreset}
             canvasWidth={canvasSize.w}
             canvasHeight={canvasSize.h}
-            />
+          />
       </div>
       {showStatusBar &&  
         <div className="helper">

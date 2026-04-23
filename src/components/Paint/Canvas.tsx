@@ -46,6 +46,7 @@ interface CanvasProps {
   snapshotRef: React.RefObject<() => void>;
   canvasWidth: number;
   canvasHeight: number;
+  showGrid: boolean;
 }
 
 const Canvas = ({
@@ -79,7 +80,8 @@ const Canvas = ({
   setTextBoxPos,
   snapshotRef,
   canvasWidth,
-  canvasHeight
+  canvasHeight,
+  showGrid
 }: CanvasProps) => {
 
   /* ── Refs ── */
@@ -843,6 +845,14 @@ const Canvas = ({
             }
           }}
         />
+        
+        {showGrid && (
+          <div className="canvas-grid" style={{
+            width: canvasWidth * zoom,
+            height: canvasHeight * zoom,
+          }} />
+        )}
+
         {textBoxPos && (
           <TextBox
             x={textBoxPos.x}
