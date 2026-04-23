@@ -56,8 +56,15 @@ const Attributes = ({ onClose, onConfirm, currentWidth, currentHeight, style }: 
           </fieldset>
         </div>
         <div className="attributes-actions">
-          <button type="button" onClick={handleOk}>OK</button>
-          <button type="button" onClick={onClose}>Cancel</button>
+          <button 
+            type="button" 
+            id="xp-default-btn"
+            onClick={handleOk}
+          >OK</button>
+          <button 
+            type="button" 
+            onClick={onClose}
+          >Cancel</button>
         </div>
       </div>
     </div>

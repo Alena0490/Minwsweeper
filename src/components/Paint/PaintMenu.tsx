@@ -145,7 +145,7 @@ const PaintMenu = ({
             <li onClick={() => { document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Delete', bubbles: true })); setOpenMenu(null) }}>
               Clear Selection <span>Del</span>
             </li>
-            <li className={itemClass(true)} aria-disabled="true">
+            <li onClick={() => { document.dispatchEvent(new KeyboardEvent('keydown', { key: 'a', ctrlKey: true, bubbles: true })); setOpenMenu(null) }}>
               Select All <span>Ctrl+A</span>
             </li>
             <li className="separator" aria-hidden="true" />

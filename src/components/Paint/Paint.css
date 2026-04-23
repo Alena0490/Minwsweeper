@@ -2,10 +2,10 @@
   width: 100vw;
 }
 
-.paint-window:not(.paint--fullscreen) {
-  /* min-width: 700px; */
-  /* height: 450px; */
-}
+/* .paint-window:not(.paint--fullscreen) {
+  min-width: 700px;
+  height: 450px;
+} */
 
 .paint-icon {
   width: 20px;

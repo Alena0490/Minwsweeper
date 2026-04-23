@@ -1,14 +1,15 @@
 import { useRef, useEffect } from "react";
 
 interface SelectionParams {
-  tool: string;
-  bgColor: string;
-  ctxRef: React.RefObject<CanvasRenderingContext2D | null>;
-  selection: { x: number; y: number; w: number; h: number } | null;
-  setSelection: React.Dispatch<React.SetStateAction<{ x: number; y: number; w: number; h: number } | null>>;
-  selectionData: ImageData | null;
-  setSelectionData: React.Dispatch<React.SetStateAction<ImageData | null>>;
-  snapshot: () => void;
+    tool: string;
+    bgColor: string;
+    ctxRef: React.RefObject<CanvasRenderingContext2D | null>;
+    selection: { x: number; y: number; w: number; h: number } | null;
+    setSelection: React.Dispatch<React.SetStateAction<{ x: number; y: number; w: number; h: number } | null>>;
+    selectionData: ImageData | null;
+    setSelectionData: React.Dispatch<React.SetStateAction<ImageData | null>>;
+    snapshot: () => void;
+    setTool: (tool: string) => void;
 }
 
 export const usePaintSelection = ({
@@ -20,6 +21,7 @@ export const usePaintSelection = ({
   selectionData,
   setSelectionData,
   snapshot,
+  setTool
 }: SelectionParams) => {
   const selStartRef = useRef<{ x: number; y: number } | null>(null);
   const isDraggingSelectionRef = useRef(false);
@@ -31,37 +33,48 @@ export const usePaintSelection = ({
   /* ── Keyboard actions ── */
   useEffect(() => {
     const handleKey = (e: KeyboardEvent) => {
-      if ((tool !== 'rectselect' && tool !== 'freeselect') || !selection || !selectionData) return;
-      const ctx = ctxRef.current;
-      if (!ctx) return;
-
-      if (e.key === 'Delete') {
-        snapshot();
-        ctx.fillStyle = bgColor;
-        if (tool === 'freeselect' && freeSelectClipPathRef.current.length > 0) {
-            ctx.beginPath();
-            ctx.moveTo(freeSelectClipPathRef.current[0].x, freeSelectClipPathRef.current[0].y);
-            freeSelectClipPathRef.current.forEach(p => ctx.lineTo(p.x, p.y));
-            ctx.closePath();
-            ctx.fill();
-        } else {
-            ctx.fillRect(selection.x, selection.y, selection.w, selection.h);
+        if (e.key === 'a' && e.ctrlKey) {
+            e.preventDefault();
+            const ctx = ctxRef.current;
+            if (!ctx) return;
+            const canvas = ctx.canvas;
+            const data = ctx.getImageData(0, 0, canvas.width, canvas.height);
+            setSelectionData(data);
+            setSelection({ x: 0, y: 0, w: canvas.width, h: canvas.height });
+            setTool('rectselect');
+            return;
         }
-        setSelection(null);
-        setSelectionData(null);
-        }
+        if ((tool !== 'rectselect' && tool !== 'freeselect') || !selection || !selectionData) return;
+        const ctx = ctxRef.current;
+        if (!ctx) return;
 
-      if (e.key === 'c' && e.ctrlKey) {
-        const tempCanvas = document.createElement('canvas');
-        tempCanvas.width = selection.w;
-        tempCanvas.height = selection.h;
-        const tempCtx = tempCanvas.getContext('2d')!;
-        tempCtx.putImageData(selectionData, 0, 0);
-        tempCanvas.toBlob((blob) => {
-          if (!blob) return;
-          navigator.clipboard.write([new ClipboardItem({ 'image/png': blob })]);
-        });
-      }
+        if (e.key === 'Delete') {
+            snapshot();
+            ctx.fillStyle = bgColor;
+            if (tool === 'freeselect' && freeSelectClipPathRef.current.length > 0) {
+                ctx.beginPath();
+                ctx.moveTo(freeSelectClipPathRef.current[0].x, freeSelectClipPathRef.current[0].y);
+                freeSelectClipPathRef.current.forEach(p => ctx.lineTo(p.x, p.y));
+                ctx.closePath();
+                ctx.fill();
+            } else {
+                ctx.fillRect(selection.x, selection.y, selection.w, selection.h);
+            }
+            setSelection(null);
+            setSelectionData(null);
+            }
+
+        if (e.key === 'c' && e.ctrlKey) {
+            const tempCanvas = document.createElement('canvas');
+            tempCanvas.width = selection.w;
+            tempCanvas.height = selection.h;
+            const tempCtx = tempCanvas.getContext('2d')!;
+            tempCtx.putImageData(selectionData, 0, 0);
+            tempCanvas.toBlob((blob) => {
+            if (!blob) return;
+            navigator.clipboard.write([new ClipboardItem({ 'image/png': blob })]);
+            });
+        }
 
       if (e.key === 'x' && e.ctrlKey) {
         snapshot();
@@ -90,7 +103,7 @@ export const usePaintSelection = ({
 
     window.addEventListener('keydown', handleKey);
     return () => window.removeEventListener('keydown', handleKey);
-  }, [tool, selection, selectionData, bgColor, ctxRef, snapshot, setSelection, setSelectionData]);
+  }, [tool, selection, selectionData, bgColor, ctxRef, snapshot, setSelection, setSelectionData, setTool]);
 
   return {
     selStartRef,

@@ -155,6 +155,7 @@ const Canvas = ({
     selectionData,
     setSelectionData,
     snapshot,
+    setTool,
   });
 
   /* ── Tool side effects (clear, download, undo, redo, open) ── */
