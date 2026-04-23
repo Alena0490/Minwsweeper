@@ -40,8 +40,8 @@ const Paint = ({ isFullscreen, setIsFullscreen, isMinimized, setIsMinimized, onC
     setPan({ x: 0, y: 0 });
   }, [setZoom, setPan]);
 
-  const zoomOut = () => setZoom(z => Math.max(0.25, +(z * 0.9).toFixed(3)));
-    const zoomIn  = () => setZoom(z => Math.min(8, +(z * 1.1).toFixed(3)));
+    // const zoomOut = () => setZoom(z => Math.max(0.25, +(z * 0.9).toFixed(3)));
+    // const zoomIn  = () => setZoom(z => Math.min(8, +(z * 1.1).toFixed(3)));
     const zoomReset = useCallback(() => {
       setZoom(1);
       setPan({ x: 0, y: 0 });
@@ -116,9 +116,7 @@ const Paint = ({ isFullscreen, setIsFullscreen, isMinimized, setIsMinimized, onC
       </div>
       <PaintMenu
         setTool={setTool}
-        isZoomed={zoom > 1}
-        onZoomIn={zoomIn}
-        onZoomOut={zoomOut}
+        onZoomLevel={setZoomLevel}
         onSaveAs={() => setSaveAsOpen(true)}
         onClose={onClose}
         windowPosition={position}

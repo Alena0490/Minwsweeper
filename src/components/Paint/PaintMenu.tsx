@@ -7,9 +7,6 @@ import Attributes from './Attributes';
 import './PaintMenu.css'
 interface PaintMenuProps {
   setTool: React.Dispatch<React.SetStateAction<string>>;
-  onZoomIn: () => void;
-  onZoomOut: () => void;
-  isZoomed: boolean;
   onSaveAs: () => void;
   onClose: () => void;
   windowPosition: { x: number; y: number };
@@ -32,13 +29,12 @@ interface PaintMenuProps {
   canvasWidth: number;
   canvasHeight: number;
   onViewBitmap: () => void;
+  onZoomLevel: (value: number) => void;
 }
 
 const PaintMenu = ({ 
   setTool, 
-  onZoomIn, 
-  onZoomOut, 
-  isZoomed, 
+  onZoomLevel,
   onSaveAs, 
   onClose, 
   windowPosition, 
@@ -185,20 +181,18 @@ const PaintMenu = ({
               Text Toolbar
             </li>
             <li className="separator" aria-hidden="true" />
-            <li onClick={() => { if (isZoomed) { onZoomOut() } else { onZoomIn() } setOpenMenu(null) }}>
-              Zoom In
-            </li>
-            <li
-              className={itemClass(!isZoomed)}
-              aria-disabled={!isZoomed}
-              onClick={() => { if (!isZoomed) return; onZoomOut(); setOpenMenu(null) }}
-            >
-              Zoom Out
-            </li>
-            <li className="separator" aria-hidden="true" />
+            <li className="has-submenu">
+              Zoom
+              <ul className="submenu">
+                <li onClick={() => { onZoomLevel(1); setOpenMenu(null) }}>Normal Size</li>
+                <li onClick={() => { onZoomLevel(2); setOpenMenu(null) }}>Large Size</li>
+                <li onClick={() => { onZoomLevel(4); setOpenMenu(null) }}>Custom...</li>
+              </ul>
+            </li>   
             <li onClick={() => { onViewBitmap(); setOpenMenu(null) }}>
               View Bitmap <span>Ctrl+F</span>
             </li>
+             <li className="separator" aria-hidden="true" />
             <li onClick={() => { onFullscreen(); setOpenMenu(null) }}>
               Fullscreen <span>F11</span>
             </li>

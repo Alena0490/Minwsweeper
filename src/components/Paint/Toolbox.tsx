@@ -52,6 +52,7 @@ interface ToolboxProps {
 const Toolbox = ({
   tool,
   setTool,
+
   zoom,
   setLineWidth,
   setZoomLevel,

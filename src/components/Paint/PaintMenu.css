@@ -119,3 +119,33 @@
 .paint-menu .submenu li.separator::before {
   content: none;
 }
+
+.paint-menu .submenu li.has-submenu::after {
+  content: '▶';
+  position: absolute;
+  right: 6px;
+  font-size: 8px;
+}
+
+.paint-menu .submenu li .submenu {
+  display: none;
+  position: absolute;
+  top: -2px;
+  left: 100%;
+  z-index: 21;
+  margin: 0;
+  padding: 2px 0;
+  list-style: none;
+  background: var(--xp-surface);
+  color: #000;
+  border-top: 1px solid #ffffff;
+  border-left: 1px solid #ffffff;
+  border-right: 1px solid #404040;
+  border-bottom: 1px solid #404040;
+  box-shadow: 1px 1px 0 #808080;
+  width: max-content;
+}
+
+.paint-menu .submenu li:hover > .submenu {
+  display: block;
+}
