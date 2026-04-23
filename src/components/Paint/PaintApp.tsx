@@ -28,6 +28,8 @@ interface PaintAppProps {
   setStretchSkewAction: React.Dispatch<React.SetStateAction<{ stretchH: number; stretchV: number; skewH: number; skewV: number } | null>>;
   selectedBgPreset: number;
   setSelectedBgPreset: React.Dispatch<React.SetStateAction<number>>;
+  canvasWidth: number;
+  canvasHeight: number;
 }
 
 /* ── Constants ── */
@@ -95,7 +97,9 @@ const PaintApp = ({
   stretchSkewAction,
   setStretchSkewAction,
   selectedBgPreset,
-  setSelectedBgPreset
+  setSelectedBgPreset,
+  canvasWidth,
+  canvasHeight
 }: PaintAppProps) => {
 
   /* ── Refs ── */
@@ -141,6 +145,22 @@ const PaintApp = ({
     ctx.lineJoin = brushShape === 'square' ? 'miter' : 'round';
     ctxRef.current = ctx;
   }, [lineColor, lineWidth, lineOpacity, selectedBrushPreset]);
+
+  /* ── Canvas resize ── */
+  useEffect(() => {
+    console.log('resize effect', canvasWidth, canvasHeight);
+    const canvas = canvasRef.current;
+    console.log('canvas', canvas?.width, canvas?.height);
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+    if (canvas.width === canvasWidth && canvas.height === canvasHeight) return;
+    const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+    canvas.width = canvasWidth;
+    canvas.height = canvasHeight;
+    ctx.putImageData(imageData, 0, 0);
+    ctxRef.current = ctx;
+  }, [canvasWidth, canvasHeight]);
 
   /* ── Toolbar action refs ── */
   useEffect(() => {
@@ -373,6 +393,8 @@ const PaintApp = ({
           textBoxPos={textBoxPos}
           setTextBoxPos={setTextBoxPos}
           snapshotRef={snapshotRef}
+          canvasWidth={canvasWidth}
+          canvasHeight={canvasHeight}
         />
       </div>
 

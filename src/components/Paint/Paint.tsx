@@ -29,6 +29,7 @@ const Paint = ({ isFullscreen, setIsFullscreen, isMinimized, setIsMinimized, onC
   const [flipRotateAction, setFlipRotateAction] = useState<{action: 'flipH' | 'flipV' | 'rotate', angle?: number} | null>(null);
   const [stretchSkewAction, setStretchSkewAction] = useState<{ stretchH: number; stretchV: number; skewH: number; skewV: number } | null>(null);
   const [selectedBgPreset, setSelectedBgPreset] = useState(0);
+  const [canvasSize, setCanvasSize] = useState({ w: 700, h: 400 });
 
   const { position, handleMouseDown } = useDraggable(400, 150);
 
@@ -119,6 +120,9 @@ const Paint = ({ isFullscreen, setIsFullscreen, isMinimized, setIsMinimized, onC
         onStretchSkew={(stretchH, stretchV, skewH, skewV) => setStretchSkewAction({ stretchH, stretchV, skewH, skewV })}
         isDrawOpaque={selectedBgPreset === 0}
         onDrawOpaque={() => setSelectedBgPreset(prev => prev === 0 ? 1 : 0)}
+        canvasWidth={700}
+        canvasHeight={400}
+        onAttributes={(w, h) => setCanvasSize({ w, h })}
       />
       <div className="paint-canvas-area">
           <PaintApp
@@ -152,6 +156,8 @@ const Paint = ({ isFullscreen, setIsFullscreen, isMinimized, setIsMinimized, onC
             setStretchSkewAction={setStretchSkewAction}
             selectedBgPreset={selectedBgPreset}
             setSelectedBgPreset={setSelectedBgPreset}
+            canvasWidth={canvasSize.w}
+            canvasHeight={canvasSize.h}
             />
       </div>
       {showStatusBar &&  

@@ -44,6 +44,8 @@ interface CanvasProps {
   textBoxPos: { x: number; y: number; w: number; h: number } | null;
   setTextBoxPos: React.Dispatch<React.SetStateAction<{ x: number; y: number; w: number; h: number } | null>>;
   snapshotRef: React.RefObject<() => void>;
+  canvasWidth: number;
+  canvasHeight: number;
 }
 
 const Canvas = ({
@@ -75,7 +77,9 @@ const Canvas = ({
   selectedBgPreset,
   textBoxPos,
   setTextBoxPos,
-  snapshotRef
+  snapshotRef,
+  canvasWidth,
+  canvasHeight
 }: CanvasProps) => {
 
   /* ── Refs ── */
@@ -817,8 +821,8 @@ const Canvas = ({
         <canvas
           id="draw-canvas"
           ref={canvasRef}
-          width={800}
-          height={600}
+          width={canvasWidth}
+          height={canvasHeight}
           onMouseDown={handleMouseDown}
           onMouseMove={handleMouseMove}
           onMouseUp={handleMouseUp}

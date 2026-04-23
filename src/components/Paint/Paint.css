@@ -3,8 +3,8 @@
 }
 
 .paint-window:not(.paint--fullscreen) {
-  width: 700px;
-  height: 450px;
+  /* min-width: 700px; */
+  /* height: 450px; */
 }
 
 .paint-icon {
@@ -43,8 +43,8 @@
 .paint-canvas-area {
   display: flex;
   flex: 1;
+  background-color: var(--background);
   min-height: 0;
   overflow: hidden;
-  /* ⚠ stacking context fix for menu overlap */
   z-index: 0;
 }

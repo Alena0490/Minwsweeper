@@ -49,6 +49,8 @@
 
 .draw-area {
     position: relative;
+    width: 550px;
+    height: 450px;
     flex: 1;
     overflow: auto;
     min-height: 0;

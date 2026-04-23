@@ -3,6 +3,7 @@ import { createPortal } from 'react-dom'
 import About from './AboutPaint'
 import FlipRotate from './FlipRotate';
 import StretchSkew from './StretchSkew';
+import Attributes from './Attributes';
 import './PaintMenu.css'
 interface PaintMenuProps {
   setTool: React.Dispatch<React.SetStateAction<string>>;
@@ -27,6 +28,9 @@ interface PaintMenuProps {
   onStretchSkew: (stretchH: number, stretchV: number, skewH: number, skewV: number) => void;
   onDrawOpaque: () => void;
   isDrawOpaque: boolean;
+  onAttributes: (width: number, height: number) => void;
+  canvasWidth: number;
+  canvasHeight: number;
 }
 
 const PaintMenu = ({ 
@@ -51,10 +55,13 @@ const PaintMenu = ({
   onFlipRotate,
   onStretchSkew,
   onDrawOpaque,
-  isDrawOpaque
+  isDrawOpaque,
+  onAttributes,
+  canvasHeight,
+  canvasWidth
 }: PaintMenuProps) => {
   const [openMenu, setOpenMenu] = useState<'file' | 'edit' | 'view' | 'image' | 'colors' | 'help' | null>(null)
-  const [openModal, setOpenModal] = useState<'about' | 'fliprotate' | 'stretchskew' | null>(null)
+  const [openModal, setOpenModal] = useState<'about' | 'fliprotate' | 'stretchskew' | 'attributes' | null>(null)
   
 
   const menuRef = useRef<HTMLElement>(null)
@@ -208,7 +215,7 @@ const PaintMenu = ({
             <li onClick={() => { onInvertColors(); setOpenMenu(null) }}>
               Invert Colors <span>Ctrl+I</span>
             </li>
-            <li className={itemClass(true)} aria-disabled="true">
+            <li onClick={() => { setOpenModal('attributes'); setOpenMenu(null) }}>
               Attributes... <span>Ctrl+E</span>
             </li>
             <li onClick={() => { setTool('clear'); setOpenMenu(null) }}>
@@ -280,6 +287,21 @@ const PaintMenu = ({
           <StretchSkew
             onClose={() => setOpenModal(null)}
             onConfirm={(stretchH, stretchV, skewH, skewV) => { onStretchSkew(stretchH, stretchV, skewH, skewV); setOpenModal(null); }}
+            style={{
+              position: 'fixed',
+              top: windowPosition.y + 145,
+              left: windowPosition.x + 90,
+            }}
+          />,
+          document.body
+        )}
+
+        {openModal === 'attributes' && createPortal(
+          <Attributes
+            onClose={() => setOpenModal(null)}
+            onConfirm={(w, h) => { onAttributes(w, h); setOpenModal(null); }}
+            currentWidth={canvasWidth}
+            currentHeight={canvasHeight}
             style={{
               position: 'fixed',
               top: windowPosition.y + 145,
