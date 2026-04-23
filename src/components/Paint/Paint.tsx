@@ -117,6 +117,7 @@ const Paint = ({ isFullscreen, setIsFullscreen, isMinimized, setIsMinimized, onC
       <PaintMenu
         setTool={setTool}
         onZoomLevel={setZoomLevel}
+        currentZoom={zoom}
         onSaveAs={() => setSaveAsOpen(true)}
         onClose={onClose}
         windowPosition={position}

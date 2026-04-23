@@ -4,6 +4,7 @@ import About from './AboutPaint'
 import FlipRotate from './FlipRotate';
 import StretchSkew from './StretchSkew';
 import Attributes from './Attributes';
+import CustomZoom from './CustomZoom';
 import './PaintMenu.css'
 interface PaintMenuProps {
   setTool: React.Dispatch<React.SetStateAction<string>>;
@@ -30,11 +31,13 @@ interface PaintMenuProps {
   canvasHeight: number;
   onViewBitmap: () => void;
   onZoomLevel: (value: number) => void;
+  currentZoom: number;
 }
 
 const PaintMenu = ({ 
   setTool, 
   onZoomLevel,
+  currentZoom,
   onSaveAs, 
   onClose, 
   windowPosition, 
@@ -59,7 +62,7 @@ const PaintMenu = ({
   onViewBitmap
 }: PaintMenuProps) => {
   const [openMenu, setOpenMenu] = useState<'file' | 'edit' | 'view' | 'image' | 'colors' | 'help' | null>(null)
-  const [openModal, setOpenModal] = useState<'about' | 'fliprotate' | 'stretchskew' | 'attributes' | null>(null)
+  const [openModal, setOpenModal] = useState<'about' | 'fliprotate' | 'stretchskew' | 'attributes' | 'customzoom' | null>(null)
   
 
   const menuRef = useRef<HTMLElement>(null)
@@ -186,7 +189,7 @@ const PaintMenu = ({
               <ul className="submenu">
                 <li onClick={() => { onZoomLevel(1); setOpenMenu(null) }}>Normal Size</li>
                 <li onClick={() => { onZoomLevel(2); setOpenMenu(null) }}>Large Size</li>
-                <li onClick={() => { onZoomLevel(4); setOpenMenu(null) }}>Custom...</li>
+                <li onClick={() => { setOpenModal('customzoom'); setOpenMenu(null) }}>Custom...</li>
               </ul>
             </li>   
             <li onClick={() => { onViewBitmap(); setOpenMenu(null) }}>
@@ -298,6 +301,20 @@ const PaintMenu = ({
             onConfirm={(w, h) => { onAttributes(w, h); setOpenModal(null); }}
             currentWidth={canvasWidth}
             currentHeight={canvasHeight}
+            style={{
+              position: 'fixed',
+              top: windowPosition.y + 145,
+              left: windowPosition.x + 90,
+            }}
+          />,
+          document.body
+        )}
+
+        {openModal === 'customzoom' && createPortal(
+          <CustomZoom
+            onClose={() => setOpenModal(null)}
+            onConfirm={(zoom) => { onZoomLevel(zoom); setOpenModal(null); }}
+            currentZoom={currentZoom}
             style={{
               position: 'fixed',
               top: windowPosition.y + 145,

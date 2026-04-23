@@ -125,7 +125,8 @@
 .xp-dialog-body > button,
 .xp-dialog--flip-rotate .flip-rotate-actions button,
 .xp-dialog--stretch-skew .stretch-skew-actions button,
-.xp-dialog--attributes .attributes-actions button {
+.xp-dialog--attributes .attributes-actions button,
+.xp-dialog--custom-zoom .custom-zoom-actions button {
   position: relative;
   min-width: 4.75rem;
   min-height: 1.5rem;
@@ -158,7 +159,8 @@
 .xp-dialog-body > button:hover,
 .xp-dialog--flip-rotate .flip-rotate-actions button:hover,
 .xp-dialog--stretch-skew .stretch-skew-actions button:hover,
-.xp-dialog--attributes .attributes-actions button:hover {
+.xp-dialog--attributes .attributes-actions button:hover,
+.xp-dialog--custom-zoom .custom-zoom-actions button:hover {
   background: var(--xp-surface);
 }
 
@@ -166,7 +168,8 @@
 .xp-dialog-body > button:active,
 .xp-dialog--flip-rotate .flip-rotate-actions button:active,
 .xp-dialog--stretch-skew .stretch-skew-actions button:active,
-.xp-dialog--attributes .attributes-actions button:active {
+.xp-dialog--attributes .attributes-actions button:active,
+.xp-dialog--custom-zoom .custom-zoom-actions button:active {
   padding-top: 1px;
   padding-left: calc(0.75rem + 1px);
   box-shadow:
@@ -180,7 +183,8 @@
 .xp-dialog-body > button:focus,
 .xp-dialog--flip-rotate .flip-rotate-actions button:focus,
 .xp-dialog--stretch-skew .stretch-skew-actions button:focus,
-.xp-dialog--attributes .attributes-actions button:focus {
+.xp-dialog--attributes .attributes-actions button:focus,
+.xp-dialog--custom-zoom .custom-zoom-actions button:focus {
   outline: none;
 }
 
@@ -189,11 +193,13 @@
 .xp-dialog--flip-rotate .flip-rotate-actions button:focus-visible::after,
 .xp-dialog--stretch-skew .stretch-skew-actions button:focus-visible::after,
 .xp-dialog--attributes .attributes-actions button:focus-visible::after,
+.xp-dialog--custom-zoom .custom-zoom-actions button:focus-visible::after,
 .xp-dialog-actions button:active::after,
 .xp-dialog-body > button:active::after,
 .xp-dialog--flip-rotate .flip-rotate-actions button:active::after,
 .xp-dialog--stretch-skew .stretch-skew-actions button:active::after,
-.xp-dialog--attributes .attributes-actions button:active::after {
+.xp-dialog--attributes .attributes-actions button:active::after,
+.xp-dialog--custom-zoom .custom-zoom-actions button:active::after {
   content: "";
   position: absolute;
   inset: 2px;
@@ -204,7 +210,8 @@
 .xp-dialog-actions button:focus,
 .xp-dialog-body > button:focus,
 .xp-dialog--flip-rotate .flip-rotate-actions button:focus,
-.xp-dialog--stretch-skew .stretch-skew-actions button:focus {
+.xp-dialog--stretch-skew .stretch-skew-actions button:focus,
+.xp-dialog--custom-zoom .custom-zoom-actions button:focus {
   outline: none;
 }
 
@@ -423,6 +430,84 @@
 }
 
 .xp-dialog--attributes .attributes-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+}
+
+/* ─────────────────────────────────────────
+   Custom Zoom
+───────────────────────────────────────── */
+.xp-dialog--custom-zoom .custom-zoom-layout {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  padding: 0.625rem;
+}
+
+.xp-dialog--custom-zoom .custom-zoom-main {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.xp-dialog--custom-zoom .custom-zoom-current {
+  padding-left: 0.125rem;
+  white-space: nowrap;
+}
+
+.xp-dialog--custom-zoom .custom-zoom-group {
+  margin: 0;
+  padding: 0.5rem 0.625rem 0.75rem;
+  border: 1px solid var(--xp-line-dark);
+  box-shadow: inset 1px 1px 0 var(--xp-line-light);
+}
+
+.xp-dialog--custom-zoom .custom-zoom-group legend {
+  padding: 0 0.25rem;
+}
+
+.xp-dialog--custom-zoom .custom-zoom-grid {
+  display: grid;
+  grid-template-columns: repeat(2, max-content);
+  column-gap: 2.25rem;
+  row-gap: 0.375rem;
+  align-items: center;
+}
+
+.xp-dialog--custom-zoom .custom-zoom-option {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  white-space: nowrap;
+}
+
+.xp-dialog--custom-zoom input[type="radio"] {
+  width: 0.8125rem;
+  height: 0.8125rem;
+  margin: 0;
+  accent-color: #0a67d8;
+}
+
+.xp-dialog--custom-zoom .custom-zoom-input {
+  width: 3.25rem;
+  min-height: 1.5rem;
+  padding: 0.0625rem 0.25rem;
+  border: 1px solid;
+  border-color:
+    #7f7f7f
+    #ffffff
+    #ffffff
+    #7f7f7f;
+  background: #ffffff;
+  box-shadow:
+    inset 1px 1px 0 #404040,
+    inset -1px -1px 0 #d4d0c8;
+  color: #000;
+  font: inherit;
+}
+
+.xp-dialog--custom-zoom .custom-zoom-actions {
   display: flex;
   flex-direction: column;
   gap: 0.375rem;
