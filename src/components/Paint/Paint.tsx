@@ -32,6 +32,7 @@ const Paint = ({ isFullscreen, setIsFullscreen, isMinimized, setIsMinimized, onC
   const [canvasSize, setCanvasSize] = useState({ w: 700, h: 400 });
   const [showGrid, setShowGrid] = useState(false);
   const [showThumbnail, setShowThumbnail] = useState(false);
+  const [openModal, setOpenModal] = useState<'about' | 'fliprotate' | 'stretchskew' | 'attributes' | 'customzoom' | null>(null);
 
   const { position, handleMouseDown } = useDraggable(400, 150);
 
@@ -63,6 +64,23 @@ const Paint = ({ isFullscreen, setIsFullscreen, isMinimized, setIsMinimized, onC
         setShowToolbox(true);
         setShowColorBox(true);
         setShowStatusBar(true);
+      }
+      if (e.key === 'g' && e.ctrlKey) {
+        e.preventDefault();
+        setShowGrid(prev => !prev);
+      }
+      if (e.key === 'f' && e.ctrlKey) {
+        e.preventDefault();
+        setIsFullscreen(true);
+        setShowToolbox(false);
+        setShowColorBox(false);
+        setShowStatusBar(false);
+      }
+      if (e.ctrlKey && !e.altKey && e.key === 'e') { e.preventDefault(); setOpenModal('attributes'); }
+      if (e.ctrlKey && e.altKey && e.key === 'r') { e.preventDefault(); setOpenModal('fliprotate'); }
+      if (e.ctrlKey && e.shiftKey && e.code === 'KeyK') { e.preventDefault(); setOpenModal('stretchskew'); }
+      if (e.ctrlKey && e.altKey) {
+        console.log('ctrl+alt', e.key, e.code);
       }
     };
     window.addEventListener('keydown', handleKey);
@@ -121,6 +139,8 @@ const Paint = ({ isFullscreen, setIsFullscreen, isMinimized, setIsMinimized, onC
         onSaveAs={() => setSaveAsOpen(true)}
         onClose={onClose}
         windowPosition={position}
+        openModal={openModal}
+        setOpenModal={setOpenModal}
 
         // Edit
         onCut={() => document.dispatchEvent(new KeyboardEvent('keydown', { key: 'x', ctrlKey: true, bubbles: true }))}

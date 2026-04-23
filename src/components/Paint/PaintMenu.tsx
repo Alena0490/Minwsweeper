@@ -36,6 +36,8 @@ interface PaintMenuProps {
   showGrid: boolean;
   onToggleGrid: () => void;
   showThumbnail: boolean;
+  openModal: 'about' | 'fliprotate' | 'stretchskew' | 'attributes' | 'customzoom' | null;
+  setOpenModal: React.Dispatch<React.SetStateAction<'about' | 'fliprotate' | 'stretchskew' | 'attributes' | 'customzoom' | null>>;
   onToggleThumbnail: () => void;
 }
 
@@ -69,11 +71,11 @@ const PaintMenu = ({
   showGrid,
   onToggleGrid,
   showThumbnail,
-  onToggleThumbnail
+  onToggleThumbnail,
+  openModal,
+  setOpenModal,
 }: PaintMenuProps) => {
   const [openMenu, setOpenMenu] = useState<'file' | 'edit' | 'view' | 'image' | 'colors' | 'help' | null>(null)
-  const [openModal, setOpenModal] = useState<'about' | 'fliprotate' | 'stretchskew' | 'attributes' | 'customzoom' | null>(null)
-  
 
   const menuRef = useRef<HTMLElement>(null)
 
@@ -233,7 +235,7 @@ const PaintMenu = ({
               Flip/Rotate <span>Ctrl+Alt+R</span>
             </li>
             <li onClick={() => { setOpenModal('stretchskew'); setOpenMenu(null) }}>
-              Stretch/Skew <span>Ctrl+Alt+W</span>
+              Stretch/Skew <span>Ctrl+Shift+K</span>
             </li>
             <li onClick={() => { onInvertColors(); setOpenMenu(null) }}>
               Invert Colors <span>Ctrl+I</span>
