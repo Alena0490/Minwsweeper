@@ -1,10 +1,13 @@
 import './Calculator.css'
-
 import { useState } from "react";
 import Button from "./Button";
 
-const CalculatorApp = () => {
-    const [display, setDisplay] = useState("0");
+interface CalculatorAppProps {
+    display: string;
+    setDisplay: React.Dispatch<React.SetStateAction<string>>;
+}
+
+const CalculatorApp = ({display, setDisplay}:CalculatorAppProps) => {
     const [stored, setStored] = useState<number | null>(null);
     const [operator, setOperator] = useState<string | null>(null);
     const [waitingForOperand, setWaitingForOperand] = useState(false);

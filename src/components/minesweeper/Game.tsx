@@ -28,13 +28,14 @@ const createEmptyBoard = (rows: number, cols: number): CellData[][] => {
 };
 
 interface GameProps {
-   isFullscreen: boolean;
+    onClose: () => void;
+    isFullscreen: boolean;
     setIsFullscreen: (value: boolean | ((prev: boolean) => boolean)) => void;
     isMinimized: boolean;
     setIsMinimized: (value: boolean | ((prev: boolean) => boolean)) => void;
 }
 
-const Game = ({isFullscreen, setIsFullscreen, isMinimized, setIsMinimized}:GameProps) => {
+const Game = ({onClose, isFullscreen, setIsFullscreen, isMinimized, setIsMinimized}:GameProps) => {
     const [gameState, setGameState] = useState<GameState>('playing');
     const [level, setLevel] = useState(beginnerConfig);
     const [board, setBoard] = useState(() =>
@@ -197,7 +198,7 @@ const Game = ({isFullscreen, setIsFullscreen, isMinimized, setIsMinimized}:GameP
 
           <button
             className='btn-close'
-            onClick={() => setIsMinimized(true)}
+            onClick={onClose}
             type="button"
             aria-label="Close"
           >

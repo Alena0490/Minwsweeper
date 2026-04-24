@@ -3,11 +3,13 @@ import { createPortal } from 'react-dom'
 import AboutCalculator from './AboutCalculator'
 import './Calculator.css'
 
-interface CalculatorProps {
+interface CalculatorMenuProps {
     windowPosition: { x: number, y: number };
+    display: string;
+    onPaste: (value: string) => void;
 }
 
-const CalculatorMenu = ({windowPosition}:CalculatorProps) => {
+const CalculatorMenu = ({windowPosition, display, onPaste}:CalculatorMenuProps) => {
     const [openMenu, setOpenMenu] = useState< 'edit' | 'view' |  'help' | null>(null)
     const [openModal, setOpenModal] = useState<'about' | 'times' | 'custom' | null>(null)
     
@@ -33,8 +35,18 @@ const CalculatorMenu = ({windowPosition}:CalculatorProps) => {
                 <li onClick={() => setOpenMenu(openMenu === 'edit' ? null : 'edit')}>
                     Edit
                     <ul className={`submenu ${openMenu === 'edit' ? 'open' : ''}`}>
-                        <li className="is-disabled">Copy <span>Ctrl+C</span></li>
-                        <li className="is-disabled">Paste <span>Ctrl+V</span></li>
+                        <li onClick={() => { navigator.clipboard.writeText(display); setOpenMenu(null); }}>
+                            Copy <span>Ctrl+C</span>
+                        </li>
+                        <li onClick={() => { 
+                            navigator.clipboard.readText().then(text => {
+                                const num = parseFloat(text);
+                                if (!isNaN(num)) onPaste(String(num));
+                            });
+                            setOpenMenu(null); 
+                            }}>
+                            Paste <span>Ctrl+V</span>
+                        </li>
                     </ul>
                 </li>
 

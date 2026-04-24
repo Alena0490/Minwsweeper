@@ -54,5 +54,73 @@ export const allowedDomains = [
     'alena-pumprova.cz',
     'web.archive.org',
     'theoldnet.com',
-    'web.archive.org/web/20031024040025if_/http://www.google.com'
+    'web.archive.org/web/20031024040025if_/http://www.google.com',
+    'https://web.archive.org/web/20001019060154if_/http://www.nintendo.com/',
+    'https://web.archive.org/web/20000229081845if_/http://www.nintendo.com/',
+    'https://theoldnet.com/get?year=1996&scripts=false&decode=false&url=http://geocities.com/Area51/5466',
+    'https://theoldnet.com/get?decode=false&scripts=false&year=current&url=http://en.wikipedia.org/wiki/Main_Page',
+    'https://web.archive.org/web/19961022175643if_/http://www10.yahoo.com/',
+    'https://web.archive.org/web/19961022174810if_/http://www.altavista.com/',
+    'https://web.archive.org/web/19961023234707if_/http://www.webcrawler.com/',
+    'https://web.archive.org/web/20031020191920if_/http://myspace.com/',
+    'https://web.archive.org/web/20031027083658if_/http://www.lide.cz/',
+    'https://web.archive.org/web/20020813101805if_/http://spoluzaci.atlas.cz/index2.php?lang=&vahaj=1.01',
+    'https://web.archive.org/web/20031010022438if_/http://www.libimseti.cz/',
+    'https://web.archive.org/web/20031018001301if_/http://seznam.cz/',
+    'https://web.archive.org/web/20031020124856if_/http://www.atlas.cz/',
+    'https://web.archive.org/web/20040414061334if_/http://www.superhry.cz/',
+    'https://web.archive.org/web/20031025155050if_/http://www.ceskehry.cz/',
+    'https://web.archive.org/web/20031021230519if_/http://web.volny.cz/',
+    'https://web.archive.org/web/20051111002036if_/http://www.wikipedie.cz/',
+    'https://web.archive.org/web/20031022181753if_/http://www.lupa.cz/',
+    'https://web.archive.org/web/20031226142612if_/http://mobil.idnes.cz/',
+    'https://web.archive.org/web/20091204150650if_/http://www.diit.cz/',
+    'https://web.archive.org/web/20031025145757if_/http://www.games.cz/',
+    'https://web.archive.org/web/20031021235808if_/http://email.cz/',
+    'https://web.archive.org/web/20031022033617if_/http://mapy.cz/',
+    'https://web.archive.org/web/20031020075942if_/http://icq.com/',
+    'https://web.archive.org/web/20040921010226if_/http://www.jamba.de/',
+    'https://web.archive.org/web/20031020113114if_/http://mobilmania.cz/', //retro mobily
+    'https://web.archive.org/web/20031015084801if_/http://www.ocko.tv/',
+    'https://web.archive.org/web/20031026034022if_/http://www.newgrounds.com/',
+    'https://web.archive.org/web/20031026163410if_/http://www.miniclip.com/',
+    'https://web.archive.org/web/20031012093609if_/http://www.lamer.cz/',
+    'https://web.archive.org/web/20031025190325if_/http://www.homestarrunner.com/',
+    'https://web.archive.org/web/20031021112125if_/http://albinoblacksheep.com/',
+    'https://web.archive.org/web/20031012093609if_/http://www.lamer.cz/',
+    'https://web.archive.org/web/20031024124249if_/http://xchat.centrum.cz/',
+    'https://web.archive.org/web/20031022070309if_/http://www.kompost.cz/',
+    'https://web.archive.org/web/20051224153255if_/http://www.mobilhry.cz/',
+    'https://web.archive.org/web/20031018002806if_/http://www.nova.cz/', //TV
+    'https://web.archive.org/web/20031006082704if_/http://www.redboss.cz/cz/',
+    'https://web.archive.org/web/20031027085512if_/http://www.nyx.cz/',
+    'https://web.archive.org/web/20031204121747if_/http://www.osud.cz/cs/index.php',
+    'https://web.archive.org/web/20030804125204if_/http://www.ufo.cz/data/design/',
+    'https://web.archive.org/web/20031018023816if_/http://www.zahady.cz/',
+    'https://web.archive.org/web/20031021002619if_/http://www.rotten.com/',
+    'https://web.archive.org/web/20031204222054if_/http://liquidgeneration.com/home.asp',
+    'https://web.archive.org/web/20040301083337if_/http://www.okoun.cz/',
+    'https://web.archive.org/web/20031020224816if_/http://zpovednice.cz/',
+    'https://web.archive.org/web/20031021180752if_/http://www.dracidoupe.cz/',
+    'https://web.archive.org/web/20031020081938if_/http://happytreefriends.com/', //Happy Tree Friends
+    'https://web.archive.org/web/20031013015309if_/http://chcipni.cz/',
+    'https://web.archive.org/web/20010516030624if_/http://www.jizdnirady.cz/',
+    'https://web.archive.org/web/20071018024711if_/http://oznamkujucitele.cz/',
+    'https://web.archive.org/web/20050220040514if_/http://www.vesmirni-lide.cz/default_c.htm',
+    'https://web.archive.org/web/20031001074906if_/http://email.seznam.cz/index.py/login',
+    'https://web.archive.org/web/20060226023427if_/http://www.bandatrotlu.com/',
+    'https://web.archive.org/web/20031023150518if_/http://www.doupe.cz/',
+    'https://web.archive.org/web/20031016005103if_/http://www.kinobox.cz/',  //Filmy
+    'https://web.archive.org/web/20031030193256if_/http://www.microsoft.com/',
+    'https://web.archive.org/web/20031001073027if_/http://www.europress.cz/cz/profil_cas.php3?id_casopis=2'
+
+
+
+
+
+
+
+
+
+
 ];

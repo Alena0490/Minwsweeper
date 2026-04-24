@@ -24,6 +24,8 @@ interface FooterProps {
     paintMinimized: boolean; 
     setPaintMinimized: (value: boolean | ((prev: boolean) => boolean)) => void;
     onCalculatorOpen: () => void;
+    isMinesweeperOpen: boolean;
+    onMinesweeperOpen: () => void;
     isCalculatorOpen: boolean;
     calculatorMinimized: boolean;
     setCalculatorMinimized: (value: boolean | ((prev: boolean) => boolean)) => void;
@@ -32,11 +34,13 @@ interface FooterProps {
 const Footer = ({ 
     handleFullscreen, 
     onIEOpen, 
-    onPaintOpen,  
+    onPaintOpen,
+    onMinesweeperOpen,  
     minesweeperMinimized, 
     setMinesweeperMinimized, 
     ieMinimized, 
     setIeMinimized, 
+    isMinesweeperOpen,
     isIEOpen,
     isPaintOpen,
     paintMinimized,
@@ -88,6 +92,8 @@ const Footer = ({
                         onIEOpen={onIEOpen}
                         onPaintOpen={onPaintOpen}
                         onCalculatorOpen={onCalculatorOpen}
+                        onMinesweeperOpen={onMinesweeperOpen}
+
                     />
                     <img src={windowsLogo} alt='Windows XP Logo' />
                     <span>Start</span>
@@ -95,20 +101,24 @@ const Footer = ({
                 <div className="menu-item">
                     <img src={InternetShortcut} alt="Internet Shortcut Icon" />
                 </div>
-                <div 
-                    className={`game-bar taskbar-item ${!minesweeperMinimized ? 'taskbar-item--active' : ''}`}
-                    onClick={() => {
-                        if (minesweeperMinimized) {
-                            playStart(); 
-                        } else {
-                            playMinimize();
-                        }
-                        setMinesweeperMinimized(prev => !prev);
-                    }}
-                >
-                    <img src={gameIcon} alt="Game Icon" />
-                    <span>Minesweeper</span>
-                </div>
+
+                {isMinesweeperOpen && (
+                    <div 
+                        className={`game-bar taskbar-item ${!minesweeperMinimized ? 'taskbar-item--active' : ''}`}
+                        onClick={() => {
+                            if (minesweeperMinimized) {
+                                playStart(); 
+                            } else {
+                                playMinimize();
+                            }
+                            setMinesweeperMinimized(prev => !prev);
+                        }}
+                    >
+                        <img src={gameIcon} alt="Game Icon" />
+                        <span>Minesweeper</span>
+                    </div>
+                )}
+                
                 {isIEOpen && (
                         <div 
                             className={`game-bar taskbar-item ${!ieMinimized ? 'taskbar-item--active' : ''}`}

@@ -9,6 +9,7 @@ import Footer from "./components/Footer"
 import MyComputer from './img/MyComputer.webp'
 import IntertExplorer from './img/InternetExplorer6.webp'
 import Bin from './img/RecycleBinEmpty.webp'
+import MinesweeperIcon from './img/Minesweeper.webp'
 import PaintIcon from './img/Paint.webp'
 import CalculatorIcon from './img/Calculator.webp'
 import './App.css'
@@ -29,6 +30,7 @@ const App = () => {
   const [isIEOpen, setIsIEOpen] = useState(false);
   const [isPaintOpen, setIsPaintOpen] = useState(false);
   const [isCalculatorOpen, setIsCalculatorOpen] = useState(false)
+  const [isMinesweeperOpen, setIsMinesweeperOpen] = useState(true)
 
   const handleFullscreen = () => {
     const elem = document.documentElement as FullscreenHTMLElement;
@@ -79,6 +81,16 @@ const App = () => {
     }
   };
 
+  // Open Minesweeper
+  const openMinesweeper = () => {
+    if (!isMinesweeperOpen) {
+      playStart();
+      setIsMinesweeperOpen(true);
+    } else if (minesweeper.isMinimized) {
+      handleMinesweeperMinimize(false);
+    }
+  };
+
   // Open Paint
   const openPaint = () => {
     if (!isPaintOpen) {
@@ -110,6 +122,13 @@ const App = () => {
           <img className="app-icon ie" src={IntertExplorer} alt="Internet Explorer" />
           <span className="desktop-item-label">Internet Explorer</span>
         </div>
+
+        {/* Minesweeper Desktop Icon*/}
+        <div className="desktop-item" onDoubleClick={openMinesweeper}>
+          <img className="app-icon paint" src={MinesweeperIcon} alt="Minesweeper" />
+          <span className="desktop-item-label">Minesweeper</span>
+        </div>
+
         {/* Paint Desktop Icon*/}
         <div className="desktop-item" onDoubleClick={openPaint}>
           <img className="app-icon paint" src={PaintIcon} alt="Paint" />
@@ -129,12 +148,15 @@ const App = () => {
       </div>
 
        {/* Game window */}
-      <Game
-        isMinimized={minesweeper.isMinimized}
-        isFullscreen={minesweeper.isFullscreen}
-        setIsMinimized={handleMinesweeperMinimize}
-        setIsFullscreen={() => minesweeper.toggleFullscreen()}
-      />
+      {isMinesweeperOpen && (
+        <Game
+          onClose={() => { playMinimize(); setIsMinesweeperOpen(false); }}
+          isMinimized={minesweeper.isMinimized}
+          isFullscreen={minesweeper.isFullscreen}
+          setIsMinimized={handleMinesweeperMinimize}
+          setIsFullscreen={() => minesweeper.toggleFullscreen()}
+        />
+      )}
 
       {/* IE window */}
       {isIEOpen && (
@@ -173,10 +195,12 @@ const App = () => {
         handleFullscreen={handleFullscreen}
         onIEOpen={openIE}
         onPaintOpen={openPaint}
+        onMinesweeperOpen={openMinesweeper}
         minesweeperMinimized={minesweeper.isMinimized}
         setMinesweeperMinimized={handleMinesweeperMinimize}
         ieMinimized={ie.isMinimized}
         setIeMinimized={handleIEMinimize}
+        isMinesweeperOpen={isMinesweeperOpen}
         isIEOpen={isIEOpen}
         isPaintOpen={isPaintOpen}
         paintMinimized={paint.isMinimized}

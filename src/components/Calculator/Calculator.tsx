@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import useDraggable from '../../hooks/useDraggable';
 import CalculatorMenu from './CalculatorMenu'
 import CalculatorApp from './CalculatorApp'
@@ -21,6 +22,8 @@ const Calculator = ({
     toggleFullscreen 
 }: CalculatorProps) => {
     const { position, handleMouseDown } = useDraggable(400, 150);
+
+    const [display, setDisplay] = useState("0");
 
   return (
       <div
@@ -70,8 +73,14 @@ const Calculator = ({
             </div>
         <CalculatorMenu
             windowPosition={position}
+            display={display}
+            onPaste={(value) => setDisplay(value)}
+            
         />
-        <CalculatorApp/>
+        <CalculatorApp
+            display={display} 
+            setDisplay={setDisplay} 
+        />
     </div>
   )
 }
