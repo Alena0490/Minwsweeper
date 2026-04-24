@@ -7,9 +7,17 @@ interface CalculatorMenuProps {
     windowPosition: { x: number, y: number };
     display: string;
     onPaste: (value: string) => void;
+    digitGrouping: boolean;
+    onToggleDigitGrouping: () => void;
 }
 
-const CalculatorMenu = ({windowPosition, display, onPaste}:CalculatorMenuProps) => {
+const CalculatorMenu = ({
+    windowPosition, 
+    display, 
+    onPaste, 
+    digitGrouping, 
+    onToggleDigitGrouping
+}:CalculatorMenuProps) => {
     const [openMenu, setOpenMenu] = useState< 'edit' | 'view' |  'help' | null>(null)
     const [openModal, setOpenModal] = useState<'about' | 'times' | 'custom' | null>(null)
     
@@ -58,7 +66,12 @@ const CalculatorMenu = ({windowPosition, display, onPaste}:CalculatorMenuProps) 
                         <li className="checked">Standard</li>
                         <li className="is-disabled">Scientific</li>
                         <li className="separator" />
-                        <li className="is-disabled">Digit grouping</li>
+                        <li 
+                            className={digitGrouping ? 'checked' : ''}
+                            onClick={() => { onToggleDigitGrouping(); setOpenMenu(null); }}
+                        >
+                            Digit grouping
+                        </li>
                     </ul>
                 </li>
 

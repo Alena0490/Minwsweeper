@@ -24,6 +24,7 @@ const Calculator = ({
     const { position, handleMouseDown } = useDraggable(400, 150);
 
     const [display, setDisplay] = useState("0");
+    const [digitGrouping, setDigitGrouping] = useState(false);
 
   return (
       <div
@@ -75,11 +76,14 @@ const Calculator = ({
             windowPosition={position}
             display={display}
             onPaste={(value) => setDisplay(value)}
+            digitGrouping={digitGrouping}
+            onToggleDigitGrouping={() => setDigitGrouping(prev => !prev)}
             
         />
         <CalculatorApp
             display={display} 
             setDisplay={setDisplay} 
+            digitGrouping={digitGrouping}
         />
     </div>
   )
