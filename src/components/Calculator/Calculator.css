@@ -264,9 +264,9 @@
   display: none;
 }
 
-.calculator-frame button:hover {
+/* .calculator-frame button:hover {
   background: var(--xp-line-light);
-}
+} */
 
 .calculator-frame button:active {
   transform: translate(1px, 1px);

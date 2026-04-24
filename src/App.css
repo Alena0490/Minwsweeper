@@ -64,6 +64,11 @@
     cursor: move;
 }
 
+.calculator-window .title-bar {
+  height: 26px;
+  font-size: 14px;
+}
+
 .title-bar-text {
     color: #fff;
     white-space: nowrap;

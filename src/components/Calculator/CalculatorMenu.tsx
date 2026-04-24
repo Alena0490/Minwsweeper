@@ -1,8 +1,15 @@
 import { useState, useEffect, useRef } from 'react'
+import { createPortal } from 'react-dom'
+import AboutCalculator from './AboutCalculator'
 import './Calculator.css'
 
-const CalculatorMenu = () => {
+interface CalculatorProps {
+    windowPosition: { x: number, y: number };
+}
+
+const CalculatorMenu = ({windowPosition}:CalculatorProps) => {
     const [openMenu, setOpenMenu] = useState< 'edit' | 'view' |  'help' | null>(null)
+    const [openModal, setOpenModal] = useState<'about' | 'times' | 'custom' | null>(null)
     
     const menuRef = useRef<HTMLElement>(null)
     
@@ -48,10 +55,22 @@ const CalculatorMenu = () => {
                     <ul className={`submenu ${openMenu === 'help' ? 'open' : ''}`}>
                         <li className="is-disabled">Help Topics</li>
                         <li className="separator" />
-                        <li className="is-disabled">About Calculator</li>
+                        <li onClick={() => { setOpenModal('about'); setOpenMenu(null) }}>About Calculator</li>
                     </ul>
                 </li>
             </ul>
+
+             {openModal === 'about' && createPortal(
+                <AboutCalculator 
+                    onClose={() => setOpenModal(null)} 
+                    style={{ 
+                        position: 'fixed',
+                        top: windowPosition.y + 145,
+                        left: windowPosition.x + 90,
+                    }}
+                />,
+                document.body
+            )}
         </menu>
     )
 }

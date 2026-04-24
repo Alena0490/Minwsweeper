@@ -68,7 +68,9 @@ const Calculator = ({
                     </button>
                 </div>
             </div>
-        <CalculatorMenu/>
+        <CalculatorMenu
+            windowPosition={position}
+        />
         <CalculatorApp/>
     </div>
   )

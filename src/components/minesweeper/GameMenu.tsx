@@ -128,6 +128,7 @@ const GameMenu = ({ onReset, onMarksChange, level, setLevel, setIsMinimized, win
             />,
             document.body
         )}
+        
         {openModal === 'times' && createPortal(
             <BestTimes 
                 onClose={() => setOpenModal(null)} 
@@ -138,7 +139,8 @@ const GameMenu = ({ onReset, onMarksChange, level, setLevel, setIsMinimized, win
                 }}
             />,
             document.body
-            )}
+        )}
+
        {openModal === 'custom' && createPortal(
         <Custom 
             onClose={() => setOpenModal(null)} 
