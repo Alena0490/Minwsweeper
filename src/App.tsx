@@ -4,11 +4,13 @@ import useWindowState from './hooks/useWindowState';
 import Game from "./components/minesweeper/Game"
 import Paint from './components/Paint/Paint'
 import IEWindow from "./components/IE/IEWindow"
+import Calculator from "./components/Calculator/Calculator"
 import Footer from "./components/Footer"
 import MyComputer from './img/MyComputer.webp'
 import IntertExplorer from './img/InternetExplorer6.webp'
 import Bin from './img/RecycleBinEmpty.webp'
 import PaintIcon from './img/Paint.webp'
+import CalculatorIcon from './img/Calculator.webp'
 import './App.css'
 
 interface FullscreenHTMLElement extends HTMLElement {
@@ -22,9 +24,11 @@ const App = () => {
   const minesweeper = useWindowState();
   const ie = useWindowState();
   const paint = useWindowState();
+  const calculator = useWindowState();
 
   const [isIEOpen, setIsIEOpen] = useState(false);
   const [isPaintOpen, setIsPaintOpen] = useState(false);
+  const [isCalculatorOpen, setIsCalculatorOpen] = useState(false)
 
   const handleFullscreen = () => {
     const elem = document.documentElement as FullscreenHTMLElement;
@@ -57,6 +61,14 @@ const App = () => {
     paint.setIsMinimized(nextValue);
   };
 
+  // Minimize Calculator
+  const handleCalculatorMinimize = (value: boolean | ((prev: boolean) => boolean)) => {
+    const nextValue = typeof value === 'function' ? value(calculator.isMinimized) : value;
+    if (nextValue) playMinimize();
+    else playStart();
+    calculator.setIsMinimized(nextValue);
+  };
+
   // Open IE
   const openIE = () => {
     if (!isIEOpen) {
@@ -77,6 +89,16 @@ const App = () => {
     }
   };
 
+  // Open Calculator
+  const openCalculator = () => {
+    if (!isCalculatorOpen) {
+      playStart();
+      setIsCalculatorOpen(true);
+    } else if (calculator.isMinimized) {
+      handleCalculatorMinimize(false);
+    }
+  };
+
   return (
     <div className="app">
       <div className="app-wrapper">
@@ -88,17 +110,25 @@ const App = () => {
           <img className="app-icon ie" src={IntertExplorer} alt="Internet Explorer" />
           <span className="desktop-item-label">Internet Explorer</span>
         </div>
-        {/* Ikona Paint na ploše */}
+        {/* Paint Desktop Icon*/}
         <div className="desktop-item" onDoubleClick={openPaint}>
           <img className="app-icon paint" src={PaintIcon} alt="Paint" />
           <span className="desktop-item-label">Paint</span>
         </div>
+
+        {/* Calculator Desktop Icon*/}
+        <div className="desktop-item" onDoubleClick={openCalculator}>
+          <img className="app-icon paint" src={CalculatorIcon} alt="Calculator" />
+          <span className="desktop-item-label">Calculator</span>
+        </div>
+
         <a href="#" className="desktop-item">
           <img className="app-icon bin" src={Bin} alt="Recycle Bin" />
           <span className="desktop-item-label">Recycle Bin</span>
         </a>
       </div>
 
+       {/* Game window */}
       <Game
         isMinimized={minesweeper.isMinimized}
         isFullscreen={minesweeper.isFullscreen}
@@ -106,6 +136,7 @@ const App = () => {
         setIsFullscreen={() => minesweeper.toggleFullscreen()}
       />
 
+      {/* IE window */}
       {isIEOpen && (
         <IEWindow
           onClose={() => { playMinimize(); setIsIEOpen(false); }}
@@ -127,6 +158,17 @@ const App = () => {
         />
       )}
 
+      {/* Calculator window */}
+      {isCalculatorOpen && (
+        <Calculator
+          onClose={() => { playMinimize(); setIsCalculatorOpen(false); }}
+          isMinimized={calculator.isMinimized}
+          setIsMinimized={handleCalculatorMinimize}
+          isFullscreen={calculator.isFullscreen}
+          toggleFullscreen={calculator.toggleFullscreen}
+        />
+      )}
+
       <Footer
         handleFullscreen={handleFullscreen}
         onIEOpen={openIE}
@@ -139,6 +181,10 @@ const App = () => {
         isPaintOpen={isPaintOpen}
         paintMinimized={paint.isMinimized}
         setPaintMinimized={handlePaintMinimize}
+        onCalculatorOpen={openCalculator}
+        calculatorMinimized={calculator.isMinimized}
+        setCalculatorMinimized={handleCalculatorMinimize}
+        isCalculatorOpen={isCalculatorOpen}
       />
     </div>
   );

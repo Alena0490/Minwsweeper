@@ -24,9 +24,10 @@ interface ModalProps {
   className?: string;
   onIEOpen: () => void;
   onPaintOpen: () => void;
+  onCalculatorOpen: () => void;
 }
 
-const MenuModal = ({ className, onIEOpen, onPaintOpen }: ModalProps) => { 
+const MenuModal = ({ className, onIEOpen, onPaintOpen, onCalculatorOpen }: ModalProps) => { 
     const {playStart } = useSound();
 
     return (
@@ -64,7 +65,7 @@ const MenuModal = ({ className, onIEOpen, onPaintOpen }: ModalProps) => {
                         Minesweeper
                     </div>
 
-                    <div className="menu-item">
+                    <div className="menu-item" onClick={() => { onCalculatorOpen(); playStart(); }}>
                         <img src={Calculator} alt="Calculator Icon" />
                         Calculator
                     </div>

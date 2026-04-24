@@ -6,6 +6,7 @@ import windowsLogo from '../img/logo.webp'
 import InternetShortcut from '../img/InternetShortcut.webp'
 import IEIcon from '../img/InternetExplorer6.webp'
 import PaintIcon from '../img/Paint.webp'
+import CalculatorIcon from '../img/Calculator.webp'
 import volume from '../img/Volume.webp'
 import gameIcon from '../img/minesweeperIcon.webp'
 import securityError from '../img/SecurityError.webp'
@@ -22,6 +23,10 @@ interface FooterProps {
     isPaintOpen: boolean;
     paintMinimized: boolean; 
     setPaintMinimized: (value: boolean | ((prev: boolean) => boolean)) => void;
+    onCalculatorOpen: () => void;
+    isCalculatorOpen: boolean;
+    calculatorMinimized: boolean;
+    setCalculatorMinimized: (value: boolean | ((prev: boolean) => boolean)) => void;
 }
 
 const Footer = ({ 
@@ -36,6 +41,10 @@ const Footer = ({
     isPaintOpen,
     paintMinimized,
     setPaintMinimized,  
+    onCalculatorOpen,
+    isCalculatorOpen,
+    calculatorMinimized,
+    setCalculatorMinimized
 }: FooterProps) => {
     const [time, setTime] = useState(new Date());
     const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -78,6 +87,7 @@ const Footer = ({
                         className={`start-menu ${isMenuOpen ? 'open' : ''}`} 
                         onIEOpen={onIEOpen}
                         onPaintOpen={onPaintOpen}
+                        onCalculatorOpen={onCalculatorOpen}
                     />
                     <img src={windowsLogo} alt='Windows XP Logo' />
                     <span>Start</span>
@@ -132,6 +142,21 @@ const Footer = ({
                         <span>untitled - Paint</span>
                     </div>
                  )}
+
+                 {isCalculatorOpen && (
+                    <div 
+                        className={`taskbar-item ${!calculatorMinimized ? 'taskbar-item--active' : ''}`}
+                        onClick={() => {
+                        if (calculatorMinimized) playStart();
+                        else playMinimize();
+                        setCalculatorMinimized(prev => !prev);
+                        }}
+                    >
+                        <img src={CalculatorIcon} alt="Calculator Icon" />
+                        <span>Calculator</span>
+                    </div>
+                    )}
+
             </div>
             <div className="right-panel taskbar-item">
                 <img src={securityError} alt="Security Error Icon" />
