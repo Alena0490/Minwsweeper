@@ -1,5 +1,5 @@
 import './Calculator.css'
-import { useState } from "react";
+import { useState, useEffect, useCallback } from "react";
 import Button from "./Button";
 
 interface CalculatorAppProps {
@@ -17,6 +17,69 @@ const CalculatorApp = ({display, setDisplay, digitGrouping}:CalculatorAppProps) 
     const formattedDisplay = digitGrouping 
         ? parseFloat(display).toLocaleString('cs-CZ')
         : display;
+
+    const performCalculation = useCallback(() => {
+        if (stored !== null && operator) {
+            const current = parseFloat(display);
+            let result = stored;
+            if (operator === '+') result = stored + current;
+            if (operator === '-') result = stored - current;
+            if (operator === '*') result = stored * current;
+            if (operator === '/') result = current === 0 ? NaN : stored / current;
+            setDisplay(isNaN(result) ? 'Cannot divide by zero' : String(result));
+            setStored(null);
+            setOperator(null);
+            setWaitingForOperand(true);
+        }
+    }, [display, operator, stored, setDisplay]);
+
+    useEffect(() => {
+        const handleKey = (e: KeyboardEvent) => {
+            if (e.key >= '0' && e.key <= '9') {
+                if (waitingForOperand) { 
+                    setDisplay(e.key); 
+                    setWaitingForOperand(false); 
+                }
+                else setDisplay(prev => prev === '0' ? e.key : prev + e.key);
+            }
+            else if (e.key === '+') { 
+                setStored(parseFloat(display)); 
+                setOperator('+'); 
+                setWaitingForOperand(true); 
+            }
+            else if (e.key === '-') { 
+                setStored(parseFloat(display)); 
+                setOperator('-'); 
+                setWaitingForOperand(true); 
+            }
+            else if (e.key === '*') { 
+                setStored(parseFloat(display)); 
+                setOperator('*'); 
+                setWaitingForOperand(true); 
+            }
+            else if (e.key === '/') { 
+                e.preventDefault(); 
+                setStored(parseFloat(display)); 
+                setOperator('/'); 
+                setWaitingForOperand(true); 
+            }
+            else if (e.key === 'Enter' || e.key === '=') { performCalculation() }
+            else if (e.key === 'Backspace') setDisplay(prev => prev.length > 1 ? prev.slice(0, -1) : '0');
+            else if (e.key === 'Escape') { 
+                setDisplay('0'); 
+                setStored(null); 
+                setOperator(null); 
+                setWaitingForOperand(false); 
+            }
+            else if (e.key === '.') setDisplay(prev => prev.includes('.') ? prev : prev + '.');
+            else if (e.key === '%') { 
+                setDisplay(prev => String(parseFloat(prev) / 100)); 
+                setWaitingForOperand(true); 
+            }
+        };
+        window.addEventListener('keydown', handleKey);
+        return () => window.removeEventListener('keydown', handleKey);
+    }, [display, operator, stored, waitingForOperand,setDisplay, performCalculation]);
 
     const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
         const value = event.currentTarget.value;
@@ -85,18 +148,7 @@ const CalculatorApp = ({display, setDisplay, digitGrouping}:CalculatorAppProps) 
             }
 
             case '=': {
-                if (stored !== null && operator) {
-                const current = parseFloat(display);
-                let result = stored;
-                if (operator === '+') result = stored + current;
-                if (operator === '-') result = stored - current;
-                if (operator === '*') result = stored * current;
-                if (operator === '/') result = current === 0 ? NaN : stored / current;
-                setDisplay(isNaN(result) ? 'Cannot divide by zero' : String(result));
-                setStored(null);
-                setOperator(null);
-                setWaitingForOperand(true);
-                }
+                performCalculation()
                 break;
             }
 
