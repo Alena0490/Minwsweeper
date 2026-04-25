@@ -11,14 +11,21 @@
   overflow: hidden;
 }
 
+.xp-loading.fade-out {
+  animation: fadeOut 1s ease-out forwards;
+}
+
 /* ─────────────────────────────────────────
    Centered Window 
 ───────────────────────────────────────── */
 .xp-loading .window {
+  width: 220px; 
   position: absolute;
   top: 42%;
   left: 50%;
-  transform: translate(-50%, -50%) scale(1.35);
+  transform: translate(-50%, -50%) scale(1.5);
+  webkit-font-smoothing: none;
+  font-smooth: never;
 }
 
 /* ─────────────────────────────────────────
@@ -40,10 +47,11 @@
 ───────────────────────────────────────── */
 .xp-logo {
   position: absolute;
-  width: 92px;
+  width: 110px;
   height: auto;
-  top: -62px;
+  top: -80px;
   left: 96px;
+  image-rendering: pixelated;
   pointer-events: none;
 }
 
@@ -57,11 +65,12 @@
 }
 
 .top::after {
-  content: "\00a9";
-  font-size: 10px;
+  content: "\00AE"; /* ® */
+  font-size: 9px;
   position: relative;
   top: -5px;
   margin-left: 2px;
+  font-family: inherit;
 }
 
 .mid {
@@ -71,11 +80,12 @@
 }
 
 .mid span {
-  font-size: 22px;
+  font-size: 26px;
   display: inline-block;
   vertical-align: top;
   color: #FF6821;
-  margin-top: -8px;
+  font-weight: 400;
+  margin-top: -12px;
 }
 
 .logo .bottom {
@@ -85,14 +95,30 @@
   margin-left: 5px;
 }
 
+.tm {
+  position: absolute;
+  font-size: 9px;
+  top: 7px;
+  left: 186px;
+}
+
+.reg-mark {
+  font-size: 9px;
+  font-weight: 300;
+  vertical-align: super;
+  color: #fff;
+  position: relative;
+  top: -8px; 
+}
+
 /* ─────────────────────────────────────────
    Loader
 ───────────────────────────────────────── */
 .container {
-  width: 150px;
-  height: 10px;
+  width: 160px;
+  height: 18px;
   border: 2px solid #b2b2b2;
-  border-radius: 7px;
+  border-radius: 4px;
   margin: 0 auto;
   padding: 2px 1px;
   overflow: hidden;
@@ -100,19 +126,12 @@
 }
 
 .box {
-  width: 9px;
+  width: 11px;
   height: 100%;
-  background: linear-gradient(
-    to bottom,
-    #2838c7 0%,
-    #5979ef 17%,
-    #869ef3 32%,
-    #869ef3 45%,
-    #5979ef 59%,
-    #2838c7 100%
-  );
-  display: inline-block;
   margin-right: 2px;
+  border-radius: 2px;
+  background: linear-gradient(to bottom, #2838c7 0%, #5979ef 17%, #869ef3 32%, #869ef3 45%, #5979ef 59%, #2838c7 100%);
+  display: inline-block;
   animation: loader 2s infinite linear;
 }
 
@@ -126,4 +145,10 @@
   100% {
     transform: translate(150px);
   }
+}
+
+@keyframes fadeOut {
+  0% { opacity: 1; }
+  50% { opacity: 1; }
+  100% { opacity: 0; }
 }

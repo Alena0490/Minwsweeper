@@ -1,6 +1,7 @@
 import { useState } from "react"
 import useSound from './hooks/useSound'
 import useWindowState from './hooks/useWindowState';
+import LoadingScreen from './components/XPLoading'
 import Game from "./components/minesweeper/Game"
 import Paint from './components/Paint/Paint'
 import IEWindow from "./components/IE/IEWindow"
@@ -31,6 +32,7 @@ const App = () => {
   const [isPaintOpen, setIsPaintOpen] = useState(false);
   const [isCalculatorOpen, setIsCalculatorOpen] = useState(false)
   const [isMinesweeperOpen, setIsMinesweeperOpen] = useState(true)
+  const [loading, setLoading] = useState(true)
 
   const handleFullscreen = () => {
     const elem = document.documentElement as FullscreenHTMLElement;
@@ -111,7 +113,9 @@ const App = () => {
     }
   };
 
-  return (
+  return loading ? (
+    <LoadingScreen onFinish={() => setLoading(false)} />
+  ) : (
     <div className="app">
       <div className="app-wrapper">
         <a href="#" className="desktop-item">
