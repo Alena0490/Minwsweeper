@@ -31,8 +31,8 @@ const CalculatorScientific = ({ display, setDisplay, digitGrouping }: Calculator
             case 'tan': setDisplay(String(inv ? Math.atan(num) : hyp ? Math.tanh(toAngle(num)) : Math.tan(toAngle(num)))); return true;
             case 'log': setDisplay(String(inv ? Math.pow(10, num) : Math.log10(num))); return true;
             case 'ln': setDisplay(String(inv ? Math.exp(num) : Math.log(num))); return true;
-            case 'x^2': setDisplay(String(Math.pow(num, 2))); return true;
-            case 'x^3': setDisplay(String(Math.pow(num, 3))); return true;
+            case 'x^2': setDisplay(String(inv ? Math.sqrt(num) : Math.pow(num, 2))); return true;
+            case 'x^3': setDisplay(String(inv ? Math.cbrt(num) : Math.pow(num, 3))); return true;
             case 'n!': {
                 const n = parseInt(display);
                 let result = 1;
