@@ -1,0 +1,69 @@
+.ie-favourites {
+  width: 200px;
+  min-width: 200px;
+  border-right: 1px solid #a0a0a0;
+  background: #fff;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.ie-favourites-header {
+  background: #f0f0f0;
+  border-bottom: 1px solid #a0a0a0;
+  padding: 4px 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: bold;
+  font-size: 12px;
+}
+
+.ie-favourites-close {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 11px;
+}
+
+.ie-favourites-list {
+  overflow-y: auto;
+  flex: 1;
+}
+
+.ie-favourites-folder {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 8px;
+  font-size: 12px;
+  font-weight: bold;
+  cursor: default;
+}
+
+.ie-favourites-items {
+  padding-left: 16px;
+}
+
+.ie-favourites-item {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 8px;
+  font-size: 12px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  text-align: left;
+}
+
+.ie-favourites-item:hover {
+  background: #316ac5;
+  color: #fff;
+}
+
+.ie-favourites-icon {
+  width: 16px;
+  height: 16px;
+}

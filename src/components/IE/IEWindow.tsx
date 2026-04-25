@@ -1,7 +1,13 @@
+// STATES
 import { useState } from 'react'
 import useDraggable from '../../hooks/useDraggable'
 import { blockedDomains } from '../../data/blockedDomains'
+
+// COMPONENTS
 import IEMenu from './IEMenu'
+import IEFavourites from './IEFavourites'
+
+// IMAGES
 import Logo from '../../img/logo2.webp'
 import InternetIcon from '../../img/InternetShortcut.webp'
 import URL from '../../img/URL.webp'
@@ -19,6 +25,8 @@ import Edit from '../../img/IEEdit.webp'
 import Discuss from '../../img/IEDiscuss.webp'
 import Go from '../../img/Go.webp'
 import NetworkError from '../../img/netError.webp'
+
+//STYLES
 import '../../App.css'
 import './IEWindow.css'
 
@@ -37,6 +45,7 @@ const IEWindow = ({ onClose, isMinimized, setIsMinimized, isFullscreen, toggleFu
     const [historyIndex, setHistoryIndex] = useState(1);
     const [inputUrl, setInputUrl] = useState("https://alena-pumprova.cz/");
     const [hasError, setHasError] = useState(false);
+    const [showFavourites, setShowFavourites] = useState(false)
     // const [openMenu, setOpenMenu] = useState<string | null>(null);
 
     const currentUrl = history[historyIndex];
@@ -159,7 +168,7 @@ const IEWindow = ({ onClose, isMinimized, setIsMinimized, isFullscreen, toggleFu
                             <img className='toolbar-img' src={Search} alt="Search" />
                             Search
                         </button>
-                        <button className='toolbar-btn' aria-label='favourites'>
+                        <button className='toolbar-btn' onClick={() => setShowFavourites(prev => !prev)}>
                             <img className='toolbar-img' src={Favourites} alt="Favourites" />
                             Favourites
                         </button>
@@ -211,6 +220,12 @@ const IEWindow = ({ onClose, isMinimized, setIsMinimized, isFullscreen, toggleFu
                 </div>
             </div>
             <div className="page-window-outer">
+                  {showFavourites && (
+                        <IEFavourites 
+                        onNavigate={(url) => { navigateTo(url); setShowFavourites(false) }}
+                        onClose={() => setShowFavourites(false)}
+                        />
+                    )}
                 <div className="page-window-wrap">
                     {hasError && (
                         <div className="ie-error">

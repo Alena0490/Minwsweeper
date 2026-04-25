@@ -1,7 +1,5 @@
 export const blockedDomains = [
-    'seznam.cz', 
     'centrum.cz',
-    'szn.cz',
     'mail.google.com',
     'google.com', 
     'google.com/maps',
