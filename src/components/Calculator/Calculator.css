@@ -329,3 +329,215 @@
     inset -1px -1px 0 var(--xp-line-light);
   border-radius: 0;
 }
+
+/* ─────────────────────────────────────────
+
+    === SCIENTIFIC CALCULATOR === 
+
+───────────────────────────────────────── */
+
+/* ─────────────────────────────────────────
+   Scientific calculator layout
+───────────────────────────────────────── */
+.calculator-frame--scientific {
+    --calc-btn-w: 2rem;
+    --calc-btn-h: 1.625rem;
+    --calc-gap: 0.25rem;
+    --calc-group-gap: 0.75rem;
+
+    --calc-grid-w: calc(
+        (11 * var(--calc-btn-w)) +
+        (7 * var(--calc-gap)) +
+        (3 * var(--calc-group-gap))
+    );
+
+    padding: 0.375rem;
+}
+
+.calculator-frame--scientific .mainCalc,
+.calculator-frame--scientific .screen {
+  width: var(--calc-grid-w);
+}
+
+.calculator-frame--scientific .calc-scientific-layout {
+  display: grid;
+  grid-template-columns:
+    var(--calc-btn-w)
+    calc((3 * var(--calc-btn-w)) + (2 * var(--calc-gap)))
+   calc((7 * var(--calc-btn-w)) + (4 * var(--calc-gap)) + var(--calc-group-gap));
+  column-gap: var(--calc-group-gap);
+  align-items: start;
+}
+
+/* ─────────────────────────────────────────
+   Scientific calculator options
+───────────────────────────────────────── */
+.calculator-frame--scientific .calc-scientific-options {
+  display: grid;
+  grid-template-columns:
+    calc((5 * var(--calc-btn-w)) + (4 * var(--calc-gap)))
+    1fr;
+  gap: var(--calc-gap);
+  margin-bottom: var(--calc-gap);
+}
+
+.calculator-frame--scientific .calc-radios {
+    display: flex;
+    align-items: center;
+    gap: 0.625rem;
+    height: 1.5rem;
+    padding: 0 0.25rem;
+    border-radius: 0.1875rem;
+    border: 1px solid var(--xp-line-dark);
+    box-shadow: 
+        inset 1px 1px 0 var(--xp-line-light),
+        1px 1px 0 var(--xp-line-light);
+    font: 11px Tahoma, sans-serif;
+}
+
+.calculator-frame--scientific .calc-radios label,
+.calculator-frame--scientific .calc-scientific-top label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.1875rem;
+  white-space: nowrap;
+}
+
+.calculator-frame--scientific .calc-radios input,
+.calculator-frame--scientific .calc-scientific-top input {
+  width: 0.8125rem;
+  height: 0.8125rem;
+  margin: 0;
+}
+
+/* ─────────────────────────────────────────
+   Scientific top row
+───────────────────────────────────────── */
+.calculator-frame--scientific .calc-scientific-top {
+    display: grid;
+    grid-template-columns:
+        var(--calc-btn-w)                                   /* 1:  stat */
+        calc(var(--calc-group-gap) - 2 * var(--calc-gap))  /* 2:  spacer stat→fn */
+        var(--calc-btn-w)                                   /* 3:  fn col 1 (F-E) */
+        var(--calc-btn-w)                                   /* 4:  fn col 2 (() */
+        var(--calc-btn-w)                                   /* 5:  placeholder--one (nad ")") */
+        calc(var(--calc-group-gap) - 2 * var(--calc-gap))  /* 6:  spacer fn→main */
+        var(--calc-btn-w)                                   /* 7:  placeholder--two (nad MC) */
+        calc(var(--calc-group-gap) - 2 * var(--calc-gap))  /* 8:  spacer mem→num */
+        var(--calc-btn-w)                                   /* 9:  nad 7 */
+        var(--calc-btn-w)                                   /* 10: nad 8 */
+        var(--calc-btn-w)                                   /* 11: nad 9 */
+        var(--calc-btn-w)                                   /* 12: nad / */
+        var(--calc-btn-w)                                   /* 13: nad Mod */
+        var(--calc-btn-w);                                  /* 14: nad And */
+    column-gap: var(--calc-gap);
+    align-items: center;
+    margin-bottom: var(--calc-gap);
+}
+
+.calculator-frame--scientific .calc-top-inv-hyp {
+    height: 1.5rem;
+    grid-column: 1 / 5;
+    display: flex;
+    align-items: center;
+    gap: 0.625rem;
+    padding: 0 0.25rem;
+    border-radius: 0.1875rem;
+    border: 1px solid var(--xp-line-dark);
+    box-shadow: 
+        inset 1px 1px 0 var(--xp-line-light),
+        1px 1px 0 var(--xp-line-light);
+}
+
+.calculator-frame--scientific .calc-placeholder--one { grid-column: 5; }
+.calculator-frame--scientific .calc-placeholder--two { grid-column: 7; }
+.calculator-frame--scientific .calc-top-backspace    { grid-column: 9 / span 2; }
+.calculator-frame--scientific .calc-top-ce           { grid-column: 11 / span 2; }
+.calculator-frame--scientific .calc-top-c            { grid-column: 13 / span 2; }
+
+/* ─────────────────────────────────────────
+   Scientific button grids
+───────────────────────────────────────── */
+.calculator-frame--scientific .calc-stat-grid,
+.calculator-frame--scientific .calc-function-grid,
+.calculator-frame--scientific .calc-main-grid,
+.calculator-frame--scientific .calc-memory-grid,
+.calculator-frame--scientific .calc-number-grid,
+.calculator-frame--scientific .calc-side-grid {
+  display: grid;
+  gap: var(--calc-gap);
+}
+
+.calculator-frame--scientific .calc-stat-grid {
+  grid-template-columns: var(--calc-btn-w);
+}
+
+.calculator-frame--scientific .calc-function-grid {
+  grid-template-columns: repeat(3, var(--calc-btn-w));
+}
+
+.calculator-frame--scientific .calc-main-grid {
+  grid-template-columns:
+    var(--calc-btn-w)
+    calc((4 * var(--calc-btn-w)) + (2 * var(--calc-gap)) + var(--calc-group-gap))
+    calc((2 * var(--calc-btn-w)) + var(--calc-gap));
+  column-gap: var(--calc-gap);
+  align-items: start;
+}
+
+.calculator-frame--scientific .calc-memory-grid {
+  grid-template-columns: var(--calc-btn-w);
+}
+
+.calculator-frame--scientific .calc-number-grid {
+  grid-template-columns: repeat(4, var(--calc-btn-w));
+  justify-self: end;
+}
+
+.calculator-frame--scientific .calc-side-grid {
+  grid-template-columns: repeat(2, var(--calc-btn-w));
+}
+
+/* ─────────────────────────────────────────
+   Scientific calculator colors
+───────────────────────────────────────── */
+.calculator-frame--scientific button.op,
+.calculator-frame--scientific button.delete,
+.calculator-frame--scientific button.clear,
+.calculator-frame--scientific button.equals {
+  color: var(--ms-3);
+}
+
+.calculator-frame--scientific .calc-function-grid button.op:not(.is-disabled) {
+  color: #ff00ff;
+}
+
+.calculator-frame--scientific button.is-disabled {
+  color: var(--xp-disabled);
+  opacity: 1;
+  filter: none;
+  pointer-events: none;
+}
+
+/* ─────────────────────────────────────────
+   Scientific placeholders
+───────────────────────────────────────── */
+.calculator-frame--scientific .calc-placeholder {
+  width: 1.5rem;
+  height: 1.5rem;
+  justify-self: center;
+  align-self: center;
+
+  border: 1px solid;
+  border-color:
+    var(--xp-line-dark)
+    var(--xp-line-light)
+    var(--xp-line-light)
+    var(--xp-line-dark);
+
+  background: var(--xp-surface);
+  box-shadow:
+    inset 1px 1px 0 var(--xp-line-deep),
+    inset -1px -1px 0 var(--xp-line-light);
+  border-radius: 0;
+}

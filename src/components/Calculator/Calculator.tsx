@@ -3,6 +3,7 @@ import useDraggable from '../../hooks/useDraggable';
 import CalculatorMenu from './CalculatorMenu'
 import CalculatorApp from './CalculatorApp'
 import CalculatorIcon from '../../img/Calculator.webp'
+import CalculatorScientific from './CalculatorScientific'
 import '../../App.css'
 import './Calculator.css'
 
@@ -25,6 +26,7 @@ const Calculator = ({
 
     const [display, setDisplay] = useState("0");
     const [digitGrouping, setDigitGrouping] = useState(false);
+    const [isScientific, setIsScientific] = useState(false);
 
   return (
       <div
@@ -78,13 +80,24 @@ const Calculator = ({
             onPaste={(value) => setDisplay(value)}
             digitGrouping={digitGrouping}
             onToggleDigitGrouping={() => setDigitGrouping(prev => !prev)}
+            isScientific={isScientific}
+            onToggleScientific={() => setIsScientific(prev => !prev)}
             
         />
-        <CalculatorApp
-            display={display} 
-            setDisplay={setDisplay} 
-            digitGrouping={digitGrouping}
-        />
+        
+
+        {isScientific 
+            ? <CalculatorScientific 
+                display={display} 
+                setDisplay={setDisplay} 
+                digitGrouping={digitGrouping} 
+            />
+            : <CalculatorApp
+                    display={display} 
+                    setDisplay={setDisplay} 
+                    digitGrouping={digitGrouping}
+                />
+        }
     </div>
   )
 }

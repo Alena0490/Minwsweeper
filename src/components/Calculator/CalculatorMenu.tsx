@@ -9,6 +9,8 @@ interface CalculatorMenuProps {
     onPaste: (value: string) => void;
     digitGrouping: boolean;
     onToggleDigitGrouping: () => void;
+    isScientific: boolean;
+    onToggleScientific: () => void;
 }
 
 const CalculatorMenu = ({
@@ -16,7 +18,9 @@ const CalculatorMenu = ({
     display, 
     onPaste, 
     digitGrouping, 
-    onToggleDigitGrouping
+    onToggleDigitGrouping,
+    isScientific,
+    onToggleScientific
 }:CalculatorMenuProps) => {
     const [openMenu, setOpenMenu] = useState< 'edit' | 'view' |  'help' | null>(null)
     const [openModal, setOpenModal] = useState<'about' | 'times' | 'custom' | null>(null)
@@ -63,8 +67,8 @@ const CalculatorMenu = ({
                 >
                     View
                     <ul className={`submenu ${openMenu === 'view' ? 'open' : ''}`}>
-                        <li className="checked">Standard</li>
-                        <li className="is-disabled">Scientific</li>
+                        <li className={isScientific ? 'checked' : ''} onClick={() => { onToggleScientific(); setOpenMenu(null); }}>Scientific</li>
+                        <li className={!isScientific ? 'checked' : ''} onClick={() => { onToggleScientific(); setOpenMenu(null); }}>Standard</li>
                         <li className="separator" />
                         <li 
                             className={digitGrouping ? 'checked' : ''}
