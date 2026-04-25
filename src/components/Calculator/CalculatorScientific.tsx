@@ -120,8 +120,8 @@ const CalculatorScientific = ({ display, setDisplay, digitGrouping }: Calculator
 
                     <div className="calc-function-grid">
                         <Button label="F-E" handleClick={handleClick} className="op" />
-                        <Button label="(" handleClick={handleClick} className="op is-disabled" />
-                        <Button label=")" handleClick={handleClick} className="op is-disabled" />
+                        <Button label="(" handleClick={handleClick} className="op" />
+                        <Button label=")" handleClick={handleClick} className="op" />
 
                         <Button label="dms" handleClick={handleClick} className="op" />
                         <Button label="Exp" handleClick={handleClick} className="op" />
@@ -146,7 +146,7 @@ const CalculatorScientific = ({ display, setDisplay, digitGrouping }: Calculator
                             <Button label="MR" handleClick={handleClick} className="op" />
                             <Button label="MS" handleClick={handleClick} className="op" />
                             <Button label="M+" handleClick={handleClick} className="op" />
-                            <Button label="pi" handleClick={handleClick} className="op" />
+                            <Button label="pi" handleClick={handleClick}/>
                         </div>
 
                         <div className="calc-number-grid">
