@@ -13,10 +13,21 @@ const CalculatorScientific = ({ display, setDisplay, digitGrouping }: Calculator
     const [inv, setInv] = useState(false);
     const [hyp, setHyp] = useState(false);
     const [angleMode, setAngleMode] = useState<'deg' | 'rad' | 'grad'>('deg');
+    const [baseMode, setBaseMode] = useState<'hex' | 'dec' | 'oct' | 'bin'>('dec');
 
-    const formattedDisplay = digitGrouping
-        ? parseFloat(display).toLocaleString('cs-CZ')
-        : display;
+    const formattedDisplay = (() => {
+    const num = parseInt(display);
+        if (baseMode === 'hex') return isNaN(num) ? display : num.toString(16).toUpperCase();
+        if (baseMode === 'oct') return isNaN(num) ? display : num.toString(8);
+        if (baseMode === 'bin') return isNaN(num) ? display : num.toString(2);
+        return digitGrouping ? parseFloat(display).toLocaleString('cs-CZ') : display;
+    })();
+
+    const isDigitEnabled = (digit: string): boolean => {
+        if (baseMode === 'bin') return ['0', '1'].includes(digit);
+        if (baseMode === 'oct') return !['8', '9'].includes(digit);
+        return true;
+    };
 
     const handleScientific = (value: string): boolean => {
         const num = parseFloat(display);
@@ -67,7 +78,8 @@ const CalculatorScientific = ({ display, setDisplay, digitGrouping }: Calculator
                                 <input
                                     type="radio"
                                     name="base"
-                                    defaultChecked={mode === 'dec'}
+                                    checked={baseMode === mode}
+                                    onChange={() => setBaseMode(mode)}
                                 />
                                 {mode.charAt(0).toUpperCase() + mode.slice(1)}
                             </label>
@@ -150,30 +162,30 @@ const CalculatorScientific = ({ display, setDisplay, digitGrouping }: Calculator
                         </div>
 
                         <div className="calc-number-grid">
-                            <Button label="7" handleClick={handleClick} />
-                            <Button label="8" handleClick={handleClick} />
-                            <Button label="9" handleClick={handleClick} />
+                            <Button label="7" handleClick={handleClick} className={isDigitEnabled('7') ? '' : 'is-disabled'} />
+                            <Button label="8" handleClick={handleClick} className={isDigitEnabled('8') ? '' : 'is-disabled'} />
+                            <Button label="9" handleClick={handleClick} className={isDigitEnabled('9') ? '' : 'is-disabled'} />
                             <Button label="/" handleClick={handleClick} className="op" />
 
-                            <Button label="4" handleClick={handleClick} />
-                            <Button label="5" handleClick={handleClick} />
-                            <Button label="6" handleClick={handleClick} />
+                            <Button label="4" handleClick={handleClick} className={isDigitEnabled('4') ? '' : 'is-disabled'}/>
+                            <Button label="5" handleClick={handleClick} className={isDigitEnabled('5') ? '' : 'is-disabled'}/>
+                            <Button label="6" handleClick={handleClick} className={isDigitEnabled('6') ? '' : 'is-disabled'}/>
                             <Button label="*" handleClick={handleClick} className="op" />
 
-                            <Button label="1" handleClick={handleClick} />
-                            <Button label="2" handleClick={handleClick} />
-                            <Button label="3" handleClick={handleClick} />
+                            <Button label="1" handleClick={handleClick} className={isDigitEnabled('1') ? '' : 'is-disabled'}/>
+                            <Button label="2" handleClick={handleClick} className={isDigitEnabled('2') ? '' : 'is-disabled'}/>
+                            <Button label="3" handleClick={handleClick} className={isDigitEnabled('3') ? '' : 'is-disabled'}/>
                             <Button label="-" handleClick={handleClick} className="op" />
 
-                            <Button label="0" handleClick={handleClick} />
+                            <Button label="0" handleClick={handleClick} className={isDigitEnabled('0') ? '' : 'is-disabled'}/>
                             <Button label="+/-" handleClick={handleClick} className="op" />
                             <Button label="." handleClick={handleClick} />
                             <Button label="+" handleClick={handleClick} className="op" />
 
-                            <Button label="A" handleClick={handleClick} className="is-disabled" />
-                            <Button label="B" handleClick={handleClick} className="is-disabled" />
-                            <Button label="C" handleClick={handleClick} className="is-disabled" />
-                            <Button label="D" handleClick={handleClick} className="is-disabled" />
+                            <Button label="A" handleClick={handleClick} className={baseMode === 'hex' ? '' : 'is-disabled'} />
+                            <Button label="B" handleClick={handleClick} className={baseMode === 'hex' ? '' : 'is-disabled'} />
+                            <Button label="C" handleClick={handleClick} className={baseMode === 'hex' ? '' : 'is-disabled'} />
+                            <Button label="D" handleClick={handleClick} className={baseMode === 'hex' ? '' : 'is-disabled'} />
                         </div>
 
                         <div className="calc-side-grid">
@@ -189,8 +201,8 @@ const CalculatorScientific = ({ display, setDisplay, digitGrouping }: Calculator
                             <Button label="=" handleClick={handleClick} className="equals" />
                             <Button label="Int" handleClick={handleClick} className="op" />
 
-                            <Button label="E" handleClick={handleClick} className="is-disabled" />
-                            <Button label="F" handleClick={handleClick} className="is-disabled" />
+                            <Button label="E" handleClick={handleClick} className={baseMode === 'hex' ? '' : 'is-disabled'} />
+                            <Button label="F" handleClick={handleClick} className={baseMode === 'hex' ? '' : 'is-disabled'} />
                         </div>
                     </div>
                 </div>
