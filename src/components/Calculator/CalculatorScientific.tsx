@@ -119,16 +119,16 @@ const CalculatorScientific = ({ display, setDisplay, digitGrouping }: Calculator
                     </div>
 
                     <div className="calc-function-grid">
-                        <Button label="F-E" handleClick={handleClick} className="op is-disabled" />
+                        <Button label="F-E" handleClick={handleClick} className="op" />
                         <Button label="(" handleClick={handleClick} className="op is-disabled" />
                         <Button label=")" handleClick={handleClick} className="op is-disabled" />
 
-                        <Button label="dms" handleClick={handleClick} className="op is-disabled" />
-                        <Button label="Exp" handleClick={handleClick} className="op is-disabled" />
+                        <Button label="dms" handleClick={handleClick} className="op" />
+                        <Button label="Exp" handleClick={handleClick} className="op" />
                         <Button label="ln" handleClick={handleClick} className="op" />
 
                         <Button label="sin" handleClick={handleClick} className="op" />
-                        <Button label="x^y" handleClick={handleClick} className="op is-disabled" />
+                        <Button label="x^y" handleClick={handleClick} className="op" />
                         <Button label="log" handleClick={handleClick} className="op" />
 
                         <Button label="cos" handleClick={handleClick} className="op" />
@@ -177,7 +177,7 @@ const CalculatorScientific = ({ display, setDisplay, digitGrouping }: Calculator
                         </div>
 
                         <div className="calc-side-grid">
-                            <Button label="Mod" handleClick={handleClick} className="op is-disabled" />
+                            <Button label="Mod" handleClick={handleClick} className="op" />
                             <Button label="And" handleClick={handleClick} className="op is-disabled" />
 
                             <Button label="Or" handleClick={handleClick} className="op is-disabled" />
@@ -187,7 +187,7 @@ const CalculatorScientific = ({ display, setDisplay, digitGrouping }: Calculator
                             <Button label="Not" handleClick={handleClick} className="op is-disabled" />
 
                             <Button label="=" handleClick={handleClick} className="equals" />
-                            <Button label="Int" handleClick={handleClick} className="op is-disabled" />
+                            <Button label="Int" handleClick={handleClick} className="op" />
 
                             <Button label="E" handleClick={handleClick} className="is-disabled" />
                             <Button label="F" handleClick={handleClick} className="is-disabled" />

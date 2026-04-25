@@ -14,16 +14,18 @@ export const useCalculatorLogic = ({ display, setDisplay, onExtraClick }: UseCal
 
   const performCalculation = useCallback(() => {
     if (stored !== null && operator) {
-      const current = parseFloat(display);
-      let result = stored;
-      if (operator === '+') result = stored + current;
-      if (operator === '-') result = stored - current;
-      if (operator === '*') result = stored * current;
-      if (operator === '/') result = current === 0 ? NaN : stored / current;
-      setDisplay(isNaN(result) ? 'Cannot divide by zero' : String(result));
-      setStored(null);
-      setOperator(null);
-      setWaitingForOperand(true);
+        const current = parseFloat(display);
+        let result = stored;
+        if (operator === '+') result = stored + current;
+        if (operator === '-') result = stored - current;
+        if (operator === '*') result = stored * current;
+        if (operator === '/') result = current === 0 ? NaN : stored / current;
+        if (operator === 'x^y') result = Math.pow(stored, current);
+            if (operator === 'Mod') result = stored % current;
+        setDisplay(isNaN(result) ? 'Cannot divide by zero' : String(result));
+        setStored(null);
+        setOperator(null);
+        setWaitingForOperand(true);
     }
   }, [display, operator, stored, setDisplay]);
 
@@ -141,6 +143,47 @@ export const useCalculatorLogic = ({ display, setDisplay, onExtraClick }: UseCal
             setWaitingForOperand(true);
             break;
         }
+
+        case 'x^y': { 
+            setStored(parseFloat(display)); 
+            setOperator('x^y'); 
+            setWaitingForOperand(true); 
+            break; 
+        }
+
+        case 'Mod': { 
+            setStored(parseFloat(display)); 
+            setOperator('Mod'); 
+            setWaitingForOperand(true); 
+            break; 
+        }
+
+        case 'Int': { 
+            setDisplay(String(Math.trunc(parseFloat(display)))); 
+            setWaitingForOperand(true); 
+            break; 
+        }
+
+        case 'F-E': { 
+            const n = parseFloat(display); 
+            setDisplay(display.includes('e') ? String(n) : n.toExponential());
+             break; 
+        }
+
+        case 'Exp': { 
+            setDisplay(prev => prev.includes('e') ? prev : prev + 'e+'); 
+            break; 
+        }
+
+        case 'dms': {
+            const deg = Math.floor(parseFloat(display));
+            const minFull = (parseFloat(display) - deg) * 60;
+            const min = Math.floor(minFull);
+            const sec = Math.round((minFull - min) * 60);
+            setDisplay(`${deg}°${min}'${sec}"`);
+            break;
+        }
+
         case '=': { 
             performCalculation(); 
             break; 
