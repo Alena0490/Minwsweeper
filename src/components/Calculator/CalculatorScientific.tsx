@@ -93,7 +93,7 @@ const CalculatorScientific = ({ display, setDisplay, digitGrouping }: Calculator
                                     type="radio"
                                     name="angle"
                                     checked={angleMode === mode}
-                                    onChange={() => setAngleMode(mode)}
+                                    onChange={() => { setAngleMode(mode); }}
                                 />
                                 {mode === 'deg' ? 'Degrees' : mode === 'rad' ? 'Radians' : 'Grads'}
                             </label>
