@@ -178,13 +178,13 @@ const CalculatorScientific = ({ display, setDisplay, digitGrouping }: Calculator
 
                         <div className="calc-side-grid">
                             <Button label="Mod" handleClick={handleClick} className="op" />
-                            <Button label="And" handleClick={handleClick} className="op is-disabled" />
+                            <Button label="And" handleClick={handleClick} className="op" />
 
-                            <Button label="Or" handleClick={handleClick} className="op is-disabled" />
-                            <Button label="Xor" handleClick={handleClick} className="op is-disabled" />
+                            <Button label="Or" handleClick={handleClick} className="op" />
+                            <Button label="Xor" handleClick={handleClick} className="op" />
 
-                            <Button label="Lsh" handleClick={handleClick} className="op is-disabled" />
-                            <Button label="Not" handleClick={handleClick} className="op is-disabled" />
+                            <Button label="Lsh" handleClick={handleClick} className="op" />
+                            <Button label="Not" handleClick={handleClick} className="op" />
 
                             <Button label="=" handleClick={handleClick} className="equals" />
                             <Button label="Int" handleClick={handleClick} className="op" />

@@ -21,7 +21,11 @@ export const useCalculatorLogic = ({ display, setDisplay, onExtraClick }: UseCal
         if (operator === '*') result = stored * current;
         if (operator === '/') result = current === 0 ? NaN : stored / current;
         if (operator === 'x^y') result = Math.pow(stored, current);
-            if (operator === 'Mod') result = stored % current;
+        if (operator === 'Mod') result = stored % current;
+        if (operator === 'And') result = Math.trunc(stored) & Math.trunc(current);
+        if (operator === 'Or') result = Math.trunc(stored) | Math.trunc(current);
+        if (operator === 'Xor') result = Math.trunc(stored) ^ Math.trunc(current);
+        if (operator === 'Lsh') result = Math.trunc(stored) << Math.trunc(current);
         setDisplay(isNaN(result) ? 'Cannot divide by zero' : String(result));
         setStored(null);
         setOperator(null);
@@ -181,6 +185,18 @@ export const useCalculatorLogic = ({ display, setDisplay, onExtraClick }: UseCal
             const min = Math.floor(minFull);
             const sec = Math.round((minFull - min) * 60);
             setDisplay(`${deg}°${min}'${sec}"`);
+            break;
+        }
+
+        case 'And': case 'Or': case 'Xor': case 'Lsh': {
+            setStored(parseFloat(display));
+            setOperator(value);
+            setWaitingForOperand(true);
+            break;
+        }
+        case 'Not': {
+            setDisplay(String(~Math.trunc(parseFloat(display))));
+            setWaitingForOperand(true);
             break;
         }
 
