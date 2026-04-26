@@ -5,7 +5,7 @@ import Seznam from '../img/Favicons/faviconSeznam.ico'
 import ICQ from '../img/Favicons/faviconICQ.ico'
 import XChat from '../img/Favicons/faviconXChat.ico'
 import Lide from '../img/Favicons/faviconLide.ico'
-import Spoluuzaci from '../img/Favicons/faviconSpoluzaci.ico'
+import Spoluzaci from '../img/Favicons/faviconSpoluzaci.ico'
 import LibimSeTi from '../img/Favicons/faviconLibimseti.ico'
 import LinkedIn from '../img/Favicons/faviconLinkedIn.ico'
 import Zpovednice from '../img/Favicons/faviconZpovednice.ico'
@@ -17,6 +17,8 @@ import Nova from '../img/Favicons/faviconNova.png'
 import Kinobox from '../img/Favicons/faviconKinobox.ico'
 import Lamar from '../img/Favicons/faviconLamar.ico'
 import Microsoft from '../img/Favicons/faviconMS06.ico'
+import Portfolio from '../img/Favicons/faviconPortfolio.ico'
+import Google from '../img/Favicons/faviconGoogle.ico'
 
 interface MenuItem {
     label?: ReactNode;
@@ -40,44 +42,146 @@ export const favourites = [
   {
     folder: 'Search & Mail',
     items: [
-      { label: 'Seznam.cz', url: 'https://web.archive.org/web/20031018001301if_/http://seznam.cz/', icon: Seznam },
-      { label: 'Seznam Email', url: 'https://web.archive.org/web/20031001074906if_/http://email.seznam.cz/index.py/login', icon: Seznam },
-      { label: 'ICQ', url: 'https://web.archive.org/web/20031020075942if_/http://icq.com/', icon: ICQ },
-      { label: 'xChat', url: 'https://web.archive.org/web/20031024124249if_/http://xchat.centrum.cz/', icon: XChat },
+        { 
+            label: 'Google', 
+            url: 'https://web.archive.org/web/20031024040025if_/http://www.google.com/', 
+            icon: Google, 
+            title: 'Google' 
+        },
+        { 
+            label: 'Seznam.cz', 
+            url: 'https://web.archive.org/web/20031018001301if_/http://seznam.cz/', 
+            icon: Seznam,
+            title: 'Seznam'
+        },
+        { 
+            label: 'Seznam E-mail', 
+            url: 'https://web.archive.org/web/20031001074906if_/http://email.seznam.cz/index.py/login', 
+            icon: Seznam ,
+            title: 'Seznam E-mail'
+        },
+        { 
+            label: 'ICQ', 
+            url: 'https://web.archive.org/web/20031020075942if_/http://icq.com/', 
+            icon: ICQ,
+            title: 'ICQ.com - Get ICQ instant messenger, chat, people search and messaging...'
+        },
+        { 
+            label: 'xChat', 
+            url: 'https://web.archive.org/web/20031024124249if_/http://xchat.centrum.cz/', 
+            icon: XChat,
+            title: 'Xchat.cz' 
+        },
     ]
   },
   {
     folder: 'Social',
     items: [
-      { label: 'Lide.cz', url: 'https://web.archive.org/web/20031027083658if_/http://www.lide.cz/', icon: Lide },
-      { label: 'Spolužáci', url: 'https://web.archive.org/web/20020813101805if_/http://spoluzaci.atlas.cz/index2.php?lang=&vahaj=1.01', icon: Spoluuzaci },
-      { label: 'Libimseti.cz', url: 'https://web.archive.org/web/20031010022438if_/http://www.libimseti.cz/', icon: LibimSeTi },
-      { label: 'LinkedIn', url: 'https://web.archive.org/web/20051015052818/https://www.linkedin.com/', icon: LinkedIn },
-      { label: 'Zpovědnice', url: 'https://web.archive.org/web/20031020224816if_/http://zpovednice.cz/', icon: Zpovednice },
+        { 
+            label: 'Lide.cz', 
+            url: 'https://web.archive.org/web/20031027083658if_/http://www.lide.cz/', 
+            icon: Lide,
+            title: 'Lidé.cz - nejen chat'              
+        },
+        { 
+            label: 'Spolužáci', 
+            url: 'https://web.archive.org/web/20020813101805if_/http://spoluzaci.atlas.cz/index2.php?lang=&vahaj=1.01', 
+            icon: Spoluzaci,
+            title: 'Spolužáci - místo všech spolužáků a spolužaček' 
+        },
+        { 
+            label: 'Libimseti.cz', 
+            url: 'https://web.archive.org/web/20031010022438if_/http://www.libimseti.cz/', 
+            icon: LibimSeTi,
+            title: 'WWW.LIBIMSETI.CZ -- hodnoťte fotografie ostatních a nechte posoudit...'  
+        },
+        { 
+            label: 'LinkedIn', 
+            url: 'https://web.archive.org/web/20051015052818/https://www.linkedin.com/', 
+            icon: LinkedIn,
+            title: 'Welcome to LinkedIn'  
+        },
+        { 
+            label: 'Zpovědnice', 
+            url: 'https://web.archive.org/web/20031020224816if_/http://zpovednice.cz/', 
+            icon: Zpovednice,
+            title: '...:::::::www.zpovědnice.cz:::::::...' 
+        },
     ]
   },
   {
     folder: 'Games',
     items: [
-      { label: 'Superhry.cz', url: 'https://web.archive.org/web/20040414061334if_/http://www.superhry.cz/', icon: Superhry },
-      { label: 'Českéhry.cz', url: 'https://web.archive.org/web/20031025155050if_/http://www.ceskehry.net/', icon: CeskeHry },
-      { label: 'Happy Tree Friends', url: 'https://web.archive.org/web/20031020081938if_/http://happytreefriends.com/', icon: HappyTreeFriends },
-      { label: 'Miniclip', url: 'https://web.archive.org/web/20031026163410if_/http://www.miniclip.com/', icon: Miniclip },
+        { 
+            label: 'Superhry.cz', 
+            url: 'https://web.archive.org/web/20040414061334if_/http://www.superhry.cz/', 
+            icon: Superhry,
+            title: 'superhry.cz - počítačové hry zdarma' 
+        },
+        { 
+            label: 'Českéhry.cz', 
+            url: 'https://web.archive.org/web/20031025155050if_/http://www.ceskehry.net/', 
+            icon: CeskeHry,
+            title: 'Pokladnice českých her' 
+        },
+        { 
+            label: 'Happy Tree Friends', 
+            url: 'https://web.archive.org/web/20031020081938if_/http://happytreefriends.com/', 
+            icon: HappyTreeFriends,
+            title: 'Happy Tree Friends'  
+        },
+        { 
+            label: 'Miniclip', 
+            url: 'https://web.archive.org/web/20031026163410if_/http://www.miniclip.com/', 
+            icon: Miniclip,
+            title: 'Miniclip.com - Free Games and Shows' 
+        },
     ]
   },
   {
     folder: 'Entertainment',
     items: [
-      { label: 'Nova.cz', url: 'https://web.archive.org/web/20031018002806if_/http://www.nova.cz/', icon: Nova },
-      { label: 'Kinobox.cz', url: 'https://web.archive.org/web/20031016005103if_/http://www.kinobox.cz/', icon: Kinobox },
-      { label: 'Lamer.cz', url: 'https://web.archive.org/web/20031012093609if_/http://www.lamer.cz/', icon: Lamar },
+        { 
+            label: 'Alena Pumprová', 
+            url: 'https://alena-pumprova.cz/', 
+            icon: Portfolio, 
+            title: 'Alena Pumprová' 
+        },
+        { 
+            label: 'Nova.cz', 
+            url: 'https://web.archive.org/web/20031018002806if_/http://www.nova.cz/', 
+            icon: Nova,
+            title: 'n@va vás baví'  
+        },
+        { 
+            label: 'Kinobox.cz', 
+            url: 'https://web.archive.org/web/20031016005103if_/http://www.kinobox.cz/', 
+            icon: Kinobox,
+            title: '..::www.kinobox.cz::..' 
+        },
+        { 
+            label: 'Lamer.cz', 
+            url: 'https://web.archive.org/web/20031012093609if_/http://www.lamer.cz/', 
+            icon: Lamar,
+            title: 'lamer.cz' 
+        },
     ]
   },
   {
     folder: 'Tech',
     items: [
-      { label: 'Microsoft.com', url: 'https://web.archive.org/web/20031030193256if_/http://www.microsoft.com/', icon: Microsoft },
-      { label: 'Mobilmania', url: 'https://web.archive.org/web/20031020113114if_/http://mobilmania.cz/', icon: IEFile },
+        { 
+            label: 'Microsoft.com', 
+            url: 'https://web.archive.org/web/20031030193256if_/http://www.microsoft.com/', 
+            icon: Microsoft,
+            title: 'Microsoft Corporation' 
+        },
+        { 
+            label: 'Mobilmania', 
+            url: 'https://web.archive.org/web/20031020113114if_/http://mobilmania.cz/', 
+            icon: IEFile,
+            title: 'MobilMania.cz - internetový časopis o mobilech' 
+        },
     ]
   },
 ]

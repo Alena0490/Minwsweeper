@@ -54,12 +54,26 @@ const IEWindow = ({ onClose, isMinimized, setIsMinimized, isFullscreen, toggleFu
 
     // Show current Favicon
     const getFavicon = (url: string): string => {
+        for (const group of favourites) {
+            const item = group.items.find(i => i.url === url)
+            if (item) return item.icon
+        }
+        return URL 
+    }
+
+    // Show Page Title
+    const getPageTitle = (url: string): string => {
     for (const group of favourites) {
         const item = group.items.find(i => i.url === url)
-        if (item) return item.icon
+        if (item && item.title) {
+            const title = item.title.length > 45 
+                ? item.title.slice(0, 45) + '...' 
+                : item.title
+            return `${title} – Microsoft Internet Explorer`
+        }
     }
-    return URL // výchozí ikonka
-}
+        return 'Alena Pumprová – Microsoft Internet Explorer'
+    }
 
     // Navigate to a new URL, updating history and resetting error state
 
@@ -108,7 +122,7 @@ const IEWindow = ({ onClose, isMinimized, setIsMinimized, isFullscreen, toggleFu
             <div className='title-bar' onMouseDown={handleMouseDown}>
                 <div className="title">
                     <img  className="browser-icon" src={URL} alt="Internet Link Icon" />
-                    <span className='title-bar-text'>Alena Pumprová – Microsoft Internet Explorer</span>
+                    <span className='title-bar-text'>{getPageTitle(currentUrl)}</span>
                 </div>
                  <div className='title-bar-buttons'>
                     <button

@@ -22,6 +22,12 @@
   min-width: 0;
 }
 
+.title-bar-text {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
 .browser-icon {
     width: 22px;
     height: 22px;
