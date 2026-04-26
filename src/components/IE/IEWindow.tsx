@@ -129,7 +129,7 @@ const IEWindow = ({ onClose, isMinimized, setIsMinimized, isFullscreen, toggleFu
             </div>
             <div className="ie-toolbars">
                 <div className='ie-menu'>
-                    <IEMenu />
+                    <IEMenu onNavigate={navigateTo} />
                     <div className='windows-corner-panel'>
                         <img className='windows-corner-icon' src={Logo} alt="Internet Explorer Logo" />
                     </div>

@@ -1,15 +1,21 @@
 import { useState, useEffect, useRef } from 'react'
-import menuData from '../../data/menuData'
+import menuData from '../../data/IEData'
 import './IEMenu.css'
 
-const IEMenu = () => {
+interface IEMenuProps {
+    onNavigate?: (url: string) => void
+}
+
+const IEMenu = ({ onNavigate }: IEMenuProps) => {
     const [openMenu, setOpenMenu] = useState<string | null>(null)
+    const [hoveredItem, setHoveredItem] = useState<number | null>(null)
     const menuRef = useRef<HTMLDivElement>(null)
 
     useEffect(() => {
         const handleClickOutside = (e: MouseEvent) => {
             if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
                 setOpenMenu(null)
+                setHoveredItem(null)
             }
         }
 
@@ -28,7 +34,10 @@ const IEMenu = () => {
                         <button
                             type="button"
                             className="ie-menu-trigger"
-                            onClick={() => setOpenMenu(openMenu === menu.id ? null : menu.id)}
+                            onClick={() => {
+                                setOpenMenu(openMenu === menu.id ? null : menu.id)
+                                setHoveredItem(null)
+                            }}
                         >
                             {menu.label}
                         </button>
@@ -42,16 +51,43 @@ const IEMenu = () => {
                                         <li
                                             key={i}
                                             className={`ie-submenu-item ${item.disabled ? 'disabled' : ''} ${item.icon ? 'has-icon' : ''}`}
+                                            onMouseEnter={() => setHoveredItem(i)}
+                                            onMouseLeave={() => setHoveredItem(null)}
+                                            onClick={() => {
+                                                if (item.url && onNavigate) {
+                                                    onNavigate(item.url)
+                                                    setOpenMenu(null)
+                                                    setHoveredItem(null)
+                                                }
+                                            }}
                                         >
                                             {item.icon && <img src={item.icon} alt="" className="menu-item-icon" />}
                                             <span className="ie-submenu-label">{item.label}</span>
-                                            {item.shortcut && (
-                                                <span className="ie-submenu-shortcut">{item.shortcut}</span>
-                                            )}
-                                            {item.arrow && (
-                                                <span className="ie-submenu-arrow">▸</span>
-                                            )}
+                                            {item.shortcut && <span className="ie-submenu-shortcut">{item.shortcut}</span>}
+                                            {item.arrow && <span className="ie-submenu-arrow">▸</span>}
                                             {item.checked && <span className="ie-submenu-check">✓</span>}
+
+                                            {item.children && hoveredItem === i && (
+                                                <ul className="ie-submenu--nested">
+                                                    {item.children.map((child, j) => (
+                                                        <li
+                                                            key={j}
+                                                            className={`ie-submenu-item ${child.icon ? 'has-icon' : ''}`}
+                                                            onClick={(e) => {
+                                                                e.stopPropagation()
+                                                                if (child.url && onNavigate) {
+                                                                    onNavigate(child.url)
+                                                                    setOpenMenu(null)
+                                                                    setHoveredItem(null)
+                                                                }
+                                                            }}
+                                                        >
+                                                            {child.icon && <img src={child.icon} alt="" className="menu-item-icon" />}
+                                                            <span className="ie-submenu-label">{child.label}</span>
+                                                        </li>
+                                                    ))}
+                                                </ul>
+                                            )}
                                         </li>
                                     )
                                 )}

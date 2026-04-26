@@ -182,3 +182,42 @@
     line-height: 1;
     transform: scaleY(1.7);
 }
+
+/* SUBMENU INNER */
+.ie-submenu--nested {
+    display: none;
+    position: absolute;
+    gap: 3px;
+    left: 100%;
+    top: -2px;
+    z-index: 1001;
+    background: var(--xp-surface);
+    border-top: 1px solid var(--xp-line-light);
+    border-left: 1px solid var(--xp-line-light);
+    border-right: 1px solid var(--xp-line-dark);
+    border-bottom: 1px solid var(--xp-line-dark);
+    box-shadow: 1px 1px 0 var(--xp-line-dark);
+    padding: 2px 0;
+    min-width: 150px;
+    list-style: none;
+    flex-direction: column;
+}
+
+.ie-submenu-item:hover > .ie-submenu--nested {
+    display: flex;
+}
+
+.ie-submenu-item:has(.ie-submenu--nested) {
+    position: relative;
+}
+
+.ie-submenu-item:hover .ie-submenu--nested .ie-submenu-label {
+    color: var(--text);
+    position: relative;
+    left: 12px;
+}
+
+.ie-submenu-item:hover .ie-submenu--nested .ie-submenu-item:hover > .ie-submenu-label,
+.ie-submenu-item:hover .ie-submenu--nested .ie-submenu-item:active > .ie-submenu-label {
+    color: var(--xp-line-light);
+}

@@ -8,7 +8,6 @@ export const blockedDomains = [
     'twitter.com',
     'x.com',
     'twitch.tv',
-    'linkedin.com',
     'youtube.com',
     'discord.com',
     'spotify.com',
@@ -43,7 +42,7 @@ export const blockedDomains = [
     'candy.ai',
     'chatgpt.com',
     'claude.ai',
-    'gemini.google.com'
+    'gemini.google.com',
 ]; 
 
 export const allowedDomains = [
@@ -108,7 +107,8 @@ export const allowedDomains = [
     'https://web.archive.org/web/20031023150518if_/http://www.doupe.cz/',
     'https://web.archive.org/web/20031016005103if_/http://www.kinobox.cz/',  //Filmy
     'https://web.archive.org/web/20031030193256if_/http://www.microsoft.com/',
-    'https://web.archive.org/web/20031001073027if_/http://www.europress.cz/cz/profil_cas.php3?id_casopis=2'
+    'https://web.archive.org/web/20031001073027if_/http://www.europress.cz/cz/profil_cas.php3?id_casopis=2',
+    'https://web.archive.org/web/20051015052818/https://www.linkedin.com/' //LinkedIn
 
 
 

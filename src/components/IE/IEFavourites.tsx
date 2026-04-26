@@ -6,6 +6,7 @@ import XChat from '../../img/Favicons/faviconXChat.ico'
 import Lide from '../../img/Favicons/faviconLide.ico'
 import Spoluuzaci from '../../img/Favicons/faviconSpoluzaci.ico'
 import LibimSeTi from '../../img/Favicons/faviconLibimseti.ico'
+import LinkedIn from '../../img/Favicons/faviconLinkedIn.ico'
 import Zpovednice from '../../img/Favicons/faviconZpovednice.ico'
 import Superhry from '../../img/Favicons/faviconSuperhry.ico'
 import CeskeHry from '../../img/Favicons/faviconCaskeHry.ico'
@@ -34,6 +35,7 @@ const favourites = [
       { label: 'Lide.cz', url: 'https://web.archive.org/web/20031027083658if_/http://www.lide.cz/', icon: Lide },
       { label: 'Spolužáci', url: 'https://web.archive.org/web/20020813101805if_/http://spoluzaci.atlas.cz/index2.php?lang=&vahaj=1.01', icon: Spoluuzaci },
       { label: 'Libimseti.cz', url: 'https://web.archive.org/web/20031010022438if_/http://www.libimseti.cz/', icon: LibimSeTi },
+      { label: 'LinkedIn', url: 'https://web.archive.org/web/20051015052818/https://www.linkedin.com/', icon: LinkedIn },
       { label: 'Zpovědnice', url: 'https://web.archive.org/web/20031020224816if_/http://zpovednice.cz/', icon: Zpovednice },
     ]
   },
