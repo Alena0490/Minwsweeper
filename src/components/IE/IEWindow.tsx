@@ -1,6 +1,7 @@
 // STATES
 import { useState } from 'react'
 import useDraggable from '../../hooks/useDraggable'
+import { favourites } from '../../data/IEData'
 import { blockedDomains } from '../../data/blockedDomains'
 
 // COMPONENTS
@@ -50,6 +51,15 @@ const IEWindow = ({ onClose, isMinimized, setIsMinimized, isFullscreen, toggleFu
 
     const currentUrl = history[historyIndex];
     const { position, handleMouseDown } = useDraggable(200, 100);
+
+    // Show current Favicon
+    const getFavicon = (url: string): string => {
+    for (const group of favourites) {
+        const item = group.items.find(i => i.url === url)
+        if (item) return item.icon
+    }
+    return URL // výchozí ikonka
+}
 
     // Navigate to a new URL, updating history and resetting error state
 
@@ -193,7 +203,7 @@ const IEWindow = ({ onClose, isMinimized, setIsMinimized, isFullscreen, toggleFu
                         <div className="left">
                             <span>A<span className="mnemonic">d</span>dress</span>
                             <div className="input-wrapper">
-                                <img className='toolbar-img-small absolute' src={URL} alt="URL Icon" />
+                                <img className='toolbar-img-xs absolute' src={getFavicon(currentUrl)} alt="URL Icon" />
                                 <input 
                                     type="text" 
                                     className='address-bar' 
@@ -277,7 +287,7 @@ const IEWindow = ({ onClose, isMinimized, setIsMinimized, isFullscreen, toggleFu
                 </div>    
             </div>    
             <div className='ie-statusbar'>
-                <img src={URL} alt="URL Icon" />
+                <img src={getFavicon(currentUrl)} alt="URL Icon" />
                 <span className='status-text'>
                     <img src={InternetIcon} alt="Internet Icon" />
                     Internet

@@ -169,6 +169,11 @@ button.disabled {
     z-index: 10;
 }
 
+.toolbar-img-xs {
+    width: 16px;
+    height: auto;
+}
+
 .ie-toolbar-bottom {
     width: 100%;
     display: flex;
@@ -202,7 +207,7 @@ button.disabled {
 .absolute {
     position: absolute;
     left: 6px;
-    top: 50%;
+    top: 53%;
     transform: translateY(-50%);
     pointer-events: none;
 }
