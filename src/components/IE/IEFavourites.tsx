@@ -9,6 +9,7 @@ const favourites = [
       { label: 'Seznam.cz', url: 'https://web.archive.org/web/20031018001301if_/http://seznam.cz/' },
       { label: 'Seznam Email', url: 'https://web.archive.org/web/20031001074906if_/http://email.seznam.cz/index.py/login' },
       { label: 'ICQ', url: 'https://web.archive.org/web/20031020075942if_/http://icq.com/' },
+      { label: 'xChat', url: 'https://web.archive.org/web/20031024124249if_/http://xchat.centrum.cz/' },
     ]
   },
   {
@@ -25,14 +26,25 @@ const favourites = [
     items: [
       { label: 'Superhry.cz', url: 'https://web.archive.org/web/20040414061334if_/http://www.superhry.cz/' },
       { label: 'Českéhry.cz', url: 'https://web.archive.org/web/20031025155050if_/http://www.ceskehry.cz/' },
+      { label: 'Happy Tree Friends', url: 'https://web.archive.org/web/20031020081938if_/http://happytreefriends.com/' },
+      { label: 'Miniclip', url: 'https://web.archive.org/web/20031026163410if_/http://www.miniclip.com/' },
     ]
   },
   {
     folder: 'Entertainment',
     items: [
       { label: 'Nova.cz', url: 'https://web.archive.org/web/20031018002806if_/http://www.nova.cz/' },
+      { label: 'Kinobox.cz', url: 'https://web.archive.org/web/20031016005103if_/http://www.kinobox.cz/' },
+      { label: 'Lamer.cz', url: 'https://web.archive.org/web/20031012093609if_/http://www.lamer.cz/' },
     ]
   },
+    {
+        folder: 'Tech',
+        items: [
+        { label: 'Microsoft.com', url: 'https://web.archive.org/web/20031030193256if_/http://www.microsoft.com/' },
+        { label: 'Mobilmania', url: 'https://web.archive.org/web/20031020113114if_/http://mobilmania.cz/' },
+        ]
+    },
 ]
 
 interface IEFavouritesProps {

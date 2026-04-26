@@ -1,5 +1,4 @@
 export const blockedDomains = [
-    'centrum.cz',
     'mail.google.com',
     'google.com', 
     'google.com/maps',
@@ -14,7 +13,6 @@ export const blockedDomains = [
     'discord.com',
     'spotify.com',
     'vk.com',
-    'microsoft.com',
     'msn.com',
     'bing.com',
     'csfd.cz',
