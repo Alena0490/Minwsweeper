@@ -54,7 +54,10 @@ const IEWindow = ({ onClose, isMinimized, setIsMinimized, isFullscreen, toggleFu
 
     const currentUrl = history[historyIndex];
     const { position, handleMouseDown } = useDraggable(200, 100);
-    const handleRefresh = () => setIframeKey(prev => prev + 1);
+    const handleRefresh = () => {
+        setIsStopped(false)
+        setIframeKey(prev => prev + 1)
+    }
     const handleStop = () => setIsStopped(true);
 
     // Show current Favicon
@@ -169,6 +172,7 @@ const IEWindow = ({ onClose, isMinimized, setIsMinimized, isFullscreen, toggleFu
                         onToggleFullscreen={toggleFullscreen}
                         onRefresh={handleRefresh}
                         onStop={handleStop}
+                        onPrint={() => window.print()}
                     />
                     <div className='windows-corner-panel'>
                         <img className='windows-corner-icon' src={Logo} alt="Internet Explorer Logo" />
@@ -212,7 +216,7 @@ const IEWindow = ({ onClose, isMinimized, setIsMinimized, isFullscreen, toggleFu
                             <img className='toolbar-img' src={Home} alt="Home" />
                             Home
                         </button>
-                        <button className='toolbar-btn' aria-label='search'>
+                        <button className='toolbar-btn' onClick={() => navigateTo('https://web.archive.org/web/20031024040025if_/http://www.google.com/')} aria-label='search'>
                             <img className='toolbar-img' src={Search} alt="Search" />
                             Search
                         </button>
@@ -227,7 +231,7 @@ const IEWindow = ({ onClose, isMinimized, setIsMinimized, isFullscreen, toggleFu
                         <button className='toolbar-btn' aria-label='mail'>
                             <img className='toolbar-img' src={Mail} alt="Mail" />
                         </button>
-                        <button className='toolbar-btn' aria-label='print'>
+                        <button className='toolbar-btn' onClick={() => window.print()} aria-label='print'>
                             <img className='toolbar-img' src={Printer} alt="Print" />
                         </button>
                         <button className='toolbar-btn' aria-label='edit page'>
@@ -270,8 +274,8 @@ const IEWindow = ({ onClose, isMinimized, setIsMinimized, isFullscreen, toggleFu
             <div className="page-window-outer">
                   {showFavourites && (
                         <IEFavourites 
-                        onNavigate={(url) => { navigateTo(url); setShowFavourites(false) }}
-                        onClose={() => setShowFavourites(false)}
+                            onNavigate={(url) => { navigateTo(url); setShowFavourites(false) }}
+                            onClose={() => setShowFavourites(false)}
                         />
                     )}
                 <div className="page-window-wrap">

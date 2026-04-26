@@ -1,6 +1,5 @@
 export const blockedDomains = [
     'mail.google.com',
-    'google.com', 
     'google.com/maps',
     'facebook.com', 
     'instagram.com', 

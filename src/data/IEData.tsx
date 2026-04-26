@@ -200,8 +200,8 @@ const menuData: Menu[] = [
             { label: <>Save <span className="mnemonic">A</span>s...</>, disabled: true },
             { separator: true },
             { label: <>Page Se<span className="mnemonic">t</span>up...</> },
-            { label: <><span className="mnemonic">P</span>rint...</>, shortcut: 'Ctrl+P' },
-            { label: <>Print Pre<span className="mnemonic">v</span>iew...</> },
+            { label: <><span className="mnemonic">P</span>rint...</>, shortcut: 'Ctrl+P', action: 'print' },
+            { label: <>Print Pre<span className="mnemonic">v</span>iew...</>, disabled: true  },
             { separator: true },
             { label: <>S<span className="mnemonic">e</span>nd</>, arrow: true },
             { label: <>Import and <span className="mnemonic">E</span>xport...</> },
@@ -240,7 +240,6 @@ const menuData: Menu[] = [
                     { label: 'Home Page', action: 'home' },
                 ]
             },
-            { label: <>Sto<span className="mnemonic">p</span></>, shortcut: 'Esc' },
             { label: <>Sto<span className="mnemonic">p</span></>, shortcut: 'Esc', action: 'stop' },
             { label: <><span className="mnemonic">R</span>efresh</>, shortcut: 'F5', action: 'refresh' },
             { separator: true },

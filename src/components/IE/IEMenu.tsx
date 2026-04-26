@@ -12,6 +12,7 @@ interface IEMenuProps {
     onToggleFavourites?: () => void
     onRefresh?: () => void
     onStop?: () => void
+    onPrint?: () => void
 }
 
 const IEMenu = ({ 
@@ -23,6 +24,7 @@ const IEMenu = ({
     onToggleFullscreen,
     onToggleFavourites,
     onRefresh,
+    onPrint,
     onStop
 }: IEMenuProps) => {
     const [openMenu, setOpenMenu] = useState<string | null>(null)
@@ -85,6 +87,7 @@ const IEMenu = ({
                                                 if (item.action === 'favourites') { onToggleFavourites?.(); setOpenMenu(null) }
                                                 if (item.action === 'refresh') { onRefresh?.(); setOpenMenu(null) }
                                                 if (item.action === 'stop') { onStop?.(); setOpenMenu(null) }
+                                                if (item.action === 'print') { onPrint?.(); setOpenMenu(null) }
                                             }}
                                         >
                                             {item.icon && <img src={item.icon} alt="" className="menu-item-icon" />}
@@ -106,6 +109,9 @@ const IEMenu = ({
                                                                     setOpenMenu(null)
                                                                     setHoveredItem(null)
                                                                 }
+                                                                if (child.action === 'back') { onBack?.(); setOpenMenu(null) }
+                                                                if (child.action === 'forward') { onForward?.(); setOpenMenu(null) }
+                                                                if (child.action === 'home') { onHome?.(); setOpenMenu(null) }
                                                             }}
                                                         >
                                                             {child.icon && <img src={child.icon} alt="" className="menu-item-icon" />}
