@@ -23,7 +23,7 @@ const CalculatorMenu = ({
     onToggleScientific
 }:CalculatorMenuProps) => {
     const [openMenu, setOpenMenu] = useState< 'edit' | 'view' |  'help' | null>(null)
-    const [openModal, setOpenModal] = useState<'about' | 'times' | 'custom' | null>(null)
+    const [openModal, setOpenModal] = useState<'about' | null>(null)
     
     const menuRef = useRef<HTMLElement>(null)
     

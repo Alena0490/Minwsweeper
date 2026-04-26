@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react'
+import IEModal from './AboutIE'
 import menuData from '../../data/IEData'
 import './IEMenu.css'
 
@@ -29,6 +30,8 @@ const IEMenu = ({
 }: IEMenuProps) => {
     const [openMenu, setOpenMenu] = useState<string | null>(null)
     const [hoveredItem, setHoveredItem] = useState<number | null>(null)
+    const [openModal, setOpenModal] = useState<'about' | null>(null)
+
     const menuRef = useRef<HTMLDivElement>(null)
 
     useEffect(() => {
@@ -88,6 +91,7 @@ const IEMenu = ({
                                                 if (item.action === 'refresh') { onRefresh?.(); setOpenMenu(null) }
                                                 if (item.action === 'stop') { onStop?.(); setOpenMenu(null) }
                                                 if (item.action === 'print') { onPrint?.(); setOpenMenu(null) }
+                                                if (item.action === 'about') { setOpenModal('about'); setOpenMenu(null) }
                                             }}
                                         >
                                             {item.icon && <img src={item.icon} alt="" className="menu-item-icon" />}
@@ -128,6 +132,7 @@ const IEMenu = ({
                     </li>
                 ))}
             </ul>
+            {openModal === 'about' && <IEModal onClose={() => setOpenModal(null)} />}
         </div>
     )
 }
