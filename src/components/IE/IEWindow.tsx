@@ -46,11 +46,16 @@ const IEWindow = ({ onClose, isMinimized, setIsMinimized, isFullscreen, toggleFu
     const [historyIndex, setHistoryIndex] = useState(1);
     const [inputUrl, setInputUrl] = useState("https://alena-pumprova.cz/");
     const [hasError, setHasError] = useState(false);
-    const [showFavourites, setShowFavourites] = useState(false)
+    const [showFavourites, setShowFavourites] = useState(false);
+    const [iframeKey, setIframeKey] = useState(0);
+    const [isStopped, setIsStopped] = useState(false);
+
     // const [openMenu, setOpenMenu] = useState<string | null>(null);
 
     const currentUrl = history[historyIndex];
     const { position, handleMouseDown } = useDraggable(200, 100);
+    const handleRefresh = () => setIframeKey(prev => prev + 1);
+    const handleStop = () => setIsStopped(true);
 
     // Show current Favicon
     const getFavicon = (url: string): string => {
@@ -79,6 +84,7 @@ const IEWindow = ({ onClose, isMinimized, setIsMinimized, isFullscreen, toggleFu
 
     const navigateTo = (url: string) => {
         setHasError(false);
+        setIsStopped(false)
         const isBlocked = blockedDomains.some(domain => url.includes(domain));
         
         const newHistory = history.slice(0, historyIndex + 1);
@@ -161,6 +167,8 @@ const IEWindow = ({ onClose, isMinimized, setIsMinimized, isFullscreen, toggleFu
                         onClose={onClose}
                         onToggleFavourites={() => setShowFavourites(prev => !prev)}
                         onToggleFullscreen={toggleFullscreen}
+                        onRefresh={handleRefresh}
+                        onStop={handleStop}
                     />
                     <div className='windows-corner-panel'>
                         <img className='windows-corner-icon' src={Logo} alt="Internet Explorer Logo" />
@@ -186,10 +194,18 @@ const IEWindow = ({ onClose, isMinimized, setIsMinimized, isFullscreen, toggleFu
                             Forward
                         </button>
                         <button className={`toolbar-dropdown-arrow toolbar-btn ${historyIndex === history.length - 1 ? 'disabled' : ''}`} onClick={() => {}}>▾</button>
-                        <button className='toolbar-btn' aria-label='refresh'>
+                        <button 
+                            className='toolbar-btn' 
+                            aria-label='refresh'
+                            onClick={handleRefresh}
+                            >
                             <img className='toolbar-img' src={Refresh} alt="Refresh" />
                         </button>
-                        <button className='toolbar-btn' aria-label='stop'>
+                        <button 
+                            className='toolbar-btn' 
+                            aria-label='stop'
+                            onClick={handleStop}
+                            >
                             <img className='toolbar-img' src={Stop} alt="Stop" />
                         </button>
                         <button className='toolbar-btn border-right' onClick={() => navigateTo("https://alena-pumprova.cz/")} aria-label='go home'>
@@ -299,9 +315,9 @@ const IEWindow = ({ onClose, isMinimized, setIsMinimized, isFullscreen, toggleFu
                         </div>
                     )}
                     <iframe
-                        key={currentUrl}
+                        key={`${currentUrl}-${iframeKey}`}
                         className="page-window"
-                        src={hasError ? 'about:blank' : currentUrl}
+                        src={hasError ? 'about:blank' : isStopped ? 'about:blank' : currentUrl}
                         title="Internet Explorer"
                         scrolling="no"
                         style={{ display: hasError ? 'none' : 'block' }}

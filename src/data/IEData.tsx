@@ -241,7 +241,8 @@ const menuData: Menu[] = [
                 ]
             },
             { label: <>Sto<span className="mnemonic">p</span></>, shortcut: 'Esc' },
-            { label: <><span className="mnemonic">R</span>efresh</>, shortcut: 'F5' },
+            { label: <>Sto<span className="mnemonic">p</span></>, shortcut: 'Esc', action: 'stop' },
+            { label: <><span className="mnemonic">R</span>efresh</>, shortcut: 'F5', action: 'refresh' },
             { separator: true },
             { label: <>Te<span className="mnemonic">x</span>t Size</>, arrow: true },
             { label: <>Enco<span className="mnemonic">d</span>ing</>, arrow: true },

@@ -10,6 +10,8 @@ interface IEMenuProps {
     onClose?: () => void
     onToggleFullscreen?: () => void
     onToggleFavourites?: () => void
+    onRefresh?: () => void
+    onStop?: () => void
 }
 
 const IEMenu = ({ 
@@ -19,7 +21,9 @@ const IEMenu = ({
     onHome,
     onClose,
     onToggleFullscreen,
-    onToggleFavourites 
+    onToggleFavourites,
+    onRefresh,
+    onStop
 }: IEMenuProps) => {
     const [openMenu, setOpenMenu] = useState<string | null>(null)
     const [hoveredItem, setHoveredItem] = useState<number | null>(null)
@@ -79,6 +83,8 @@ const IEMenu = ({
                                                 if (item.action === 'close') { onClose?.(); setOpenMenu(null) }
                                                 if (item.action === 'fullscreen') { onToggleFullscreen?.(); setOpenMenu(null) }
                                                 if (item.action === 'favourites') { onToggleFavourites?.(); setOpenMenu(null) }
+                                                if (item.action === 'refresh') { onRefresh?.(); setOpenMenu(null) }
+                                                if (item.action === 'stop') { onStop?.(); setOpenMenu(null) }
                                             }}
                                         >
                                             {item.icon && <img src={item.icon} alt="" className="menu-item-icon" />}
