@@ -8,6 +8,7 @@ interface IEMenuProps {
     onBack?: () => void
     onForward?: () => void
     onHome?: () => void
+    onOpen?: () => void
     onClose?: () => void
     onToggleFullscreen?: () => void
     onToggleFavourites?: () => void
@@ -24,6 +25,7 @@ const IEMenu = ({
     onBack,
     onForward,
     onHome,
+    onOpen,
     onClose,
     onToggleFullscreen,
     onToggleFavourites,
@@ -91,6 +93,7 @@ const IEMenu = ({
                                                 if (item.action === 'back') { onBack?.(); setOpenMenu(null) }
                                                 if (item.action === 'forward') { onForward?.(); setOpenMenu(null) }
                                                 if (item.action === 'home') { onHome?.(); setOpenMenu(null) }
+                                                if (item.action === 'open') { onOpen?.(); setOpenMenu(null) }
                                                 if (item.action === 'close') { onClose?.(); setOpenMenu(null) }
                                                 if (item.action === 'fullscreen') { onToggleFullscreen?.(); setOpenMenu(null) }
                                                 if (item.action === 'favourites') { onToggleFavourites?.(); setOpenMenu(null) }

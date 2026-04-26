@@ -193,7 +193,7 @@ const menuData: Menu[] = [
         label: <><span className="mnemonic">F</span>ile</>,
         items: [
             { label: <><span className="mnemonic">N</span>ew</>, disabled: true  },
-            { label: <><span className="mnemonic">O</span>pen...</>, shortcut: 'Ctrl+O', disabled: true  },
+            { label: <><span className="mnemonic">O</span>pen...</>, shortcut: 'Ctrl+O', action: 'open' },
             { label: <>E<span className="mnemonic">d</span>it with Windows Notepad</>, disabled: true  },
             { separator: true },
             { label: <><span className="mnemonic">S</span>ave</>, shortcut: 'Ctrl+S', disabled: true },

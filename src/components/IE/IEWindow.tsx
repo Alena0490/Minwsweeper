@@ -52,6 +52,11 @@ const IEWindow = ({ onClose, isMinimized, setIsMinimized, isFullscreen, toggleFu
 
     // const [openMenu, setOpenMenu] = useState<string | null>(null);
 
+    const handleOpen = () => {
+        const url = prompt('Open:')
+        if (url) navigateTo(url)
+    }
+
     const currentUrl = history[historyIndex];
     const { position, handleMouseDown } = useDraggable(200, 100);
     const handleRefresh = () => {
@@ -182,6 +187,7 @@ const IEWindow = ({ onClose, isMinimized, setIsMinimized, isFullscreen, toggleFu
                         onForward={goForward}
                         onBack={goBack}
                         onHome={() => navigateTo("https://alena-pumprova.cz/")}
+                        onOpen={handleOpen}
                         onClose={onClose}
                         onToggleFavourites={() => setShowFavourites(prev => !prev)}
                         onToggleFullscreen={toggleFullscreen}
