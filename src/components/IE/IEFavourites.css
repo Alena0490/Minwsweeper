@@ -143,6 +143,14 @@
   image-rendering: auto;
 }
 
+.ie-favourites-item .ie-favourites-icon {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+  object-fit: contain;
+  opacity: 0.85;
+}
+
 .ie-favourites-list::-webkit-scrollbar {
   width: 13px; /* místo 16px */
 }

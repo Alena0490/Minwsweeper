@@ -4,6 +4,11 @@
     z-index: 10;
 }
 
+.app-window.app-window--fullscreen.ie-window {
+    width: 100vw;
+    height: calc(100vh - 30px);
+}
+
 .ie-window > .title-bar {
   gap: 8px;
   min-height: 30px;

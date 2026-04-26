@@ -33,9 +33,9 @@ const Calculator = ({
         className={[
             'app-window',
             'calculator-window',
-            isMinimized && 'paint--minimized', 
+            isMinimized && 'calculator--minimized', 
             isMinimized && 'app-window--minimized',
-            isFullscreen && 'paint--fullscreen',
+            isFullscreen && 'calculator--fullscreen',
             isFullscreen && 'app-window--fullscreen',
         ].filter(Boolean).join(' ')}
         style={isFullscreen ? {} : { left: position.x, top: position.y }}
