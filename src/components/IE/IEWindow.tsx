@@ -116,7 +116,12 @@ const IEWindow = ({ onClose, isMinimized, setIsMinimized, isFullscreen, toggleFu
         }
     };
 
-    // Copy & Paste
+    // Cut, Copy & Paste
+    const handleCut = async () => {
+        await navigator.clipboard.writeText(inputUrl)
+        setInputUrl('')
+    }
+
    const handleCopy = async () => {
         await navigator.clipboard.writeText(inputUrl)
     }
@@ -183,6 +188,7 @@ const IEWindow = ({ onClose, isMinimized, setIsMinimized, isFullscreen, toggleFu
                         onRefresh={handleRefresh}
                         onStop={handleStop}
                         onPrint={() => window.print()}
+                        onCut={handleCut}
                         onCopy={handleCopy}
                         onPaste={handlePaste}
                     />

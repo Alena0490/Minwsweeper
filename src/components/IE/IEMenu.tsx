@@ -14,6 +14,7 @@ interface IEMenuProps {
     onRefresh?: () => void
     onStop?: () => void
     onPrint?: () => void
+    onCut?: () => void
     onCopy?: () => void
     onPaste?: () => void
 }
@@ -29,6 +30,7 @@ const IEMenu = ({
     onRefresh,
     onPrint,
     onStop,
+    onCut,
     onCopy,
     onPaste
 }: IEMenuProps) => {
@@ -96,6 +98,7 @@ const IEMenu = ({
                                                 if (item.action === 'stop') { onStop?.(); setOpenMenu(null) }
                                                 if (item.action === 'print') { onPrint?.(); setOpenMenu(null) }
                                                 if (item.action === 'about') { setOpenModal('about'); setOpenMenu(null) }
+                                                 if (item.action === 'cut') { onCut?.(); setOpenMenu(null) }
                                                 if (item.action === 'copy') { onCopy?.(); setOpenMenu(null) }
                                                 if (item.action === 'paste') { onPaste?.(); setOpenMenu(null) }
                                             }}
