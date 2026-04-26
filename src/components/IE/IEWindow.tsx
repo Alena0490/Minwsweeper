@@ -153,7 +153,15 @@ const IEWindow = ({ onClose, isMinimized, setIsMinimized, isFullscreen, toggleFu
             </div>
             <div className="ie-toolbars">
                 <div className='ie-menu'>
-                    <IEMenu onNavigate={navigateTo} />
+                    <IEMenu 
+                        onNavigate={navigateTo}
+                        onForward={goForward}
+                        onBack={goBack}
+                        onHome={() => navigateTo("https://alena-pumprova.cz/")}
+                        onClose={onClose}
+                        onToggleFavourites={() => setShowFavourites(prev => !prev)}
+                        onToggleFullscreen={toggleFullscreen}
+                    />
                     <div className='windows-corner-panel'>
                         <img className='windows-corner-icon' src={Logo} alt="Internet Explorer Logo" />
                     </div>

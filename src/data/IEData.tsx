@@ -30,6 +30,7 @@ interface MenuItem {
     icon?: string;
     url?: string;
     children?: MenuItem[];
+    action?: string //  'back', 'forward', 'home', 'close', 'fullscreen', 'favourites'
 }
 
 interface Menu {
@@ -207,7 +208,7 @@ const menuData: Menu[] = [
             { separator: true },
             { label: <>P<span className="mnemonic">r</span>operties</> },
             { label: <><span className="mnemonic">W</span>ork Offline</> },
-            { label: <><span className="mnemonic">C</span>lose</> },
+            { label: <><span className="mnemonic">C</span>lose</>, action: 'close' },
         ]
     },
     {
@@ -230,7 +231,15 @@ const menuData: Menu[] = [
             { label: <>Status <span className="mnemonic">B</span>ar</>, checked: true },
             { label: <><span className="mnemonic">E</span>xplorer Bar</>, arrow: true },
             { separator: true },
-            { label: <>G<span className="mnemonic">o</span> To</>, arrow: true },
+            { 
+                label: <>G<span className="mnemonic">o</span> To</>, 
+                arrow: true,
+                children: [
+                    { label: 'Back', action: 'back' },
+                    { label: 'Forward', action: 'forward' },
+                    { label: 'Home Page', action: 'home' },
+                ]
+            },
             { label: <>Sto<span className="mnemonic">p</span></>, shortcut: 'Esc' },
             { label: <><span className="mnemonic">R</span>efresh</>, shortcut: 'F5' },
             { separator: true },
@@ -239,14 +248,14 @@ const menuData: Menu[] = [
             { separator: true },
             { label: <>Sour<span className="mnemonic">c</span>e</> },
             { label: <>Pri<span className="mnemonic">v</span>acy Report...</> },
-            { label: <><span className="mnemonic">F</span>ull Screen</>, shortcut: 'F11' },
+            { label: <><span className="mnemonic">F</span>ull Screen</>, shortcut: 'F11', action: 'fullscreen' },
         ]
     },
     {
         id: 'favourites',
         label: <>F<span className="mnemonic">a</span>vourites</>,
         items: [
-            { label: <><span className="mnemonic">A</span>dd to Favorites...</> },
+            { label: <><span className="mnemonic">A</span>dd to Favorites...</>, action: 'favourites' },
             { label: <><span className="mnemonic">O</span>rganize Favorites...</> },
             { separator: true },
             ...favourites.flatMap(group => [

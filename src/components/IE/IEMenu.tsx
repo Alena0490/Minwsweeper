@@ -4,9 +4,23 @@ import './IEMenu.css'
 
 interface IEMenuProps {
     onNavigate?: (url: string) => void
+    onBack?: () => void
+    onForward?: () => void
+    onHome?: () => void
+    onClose?: () => void
+    onToggleFullscreen?: () => void
+    onToggleFavourites?: () => void
 }
 
-const IEMenu = ({ onNavigate }: IEMenuProps) => {
+const IEMenu = ({ 
+    onNavigate,
+    onBack,
+    onForward,
+    onHome,
+    onClose,
+    onToggleFullscreen,
+    onToggleFavourites 
+}: IEMenuProps) => {
     const [openMenu, setOpenMenu] = useState<string | null>(null)
     const [hoveredItem, setHoveredItem] = useState<number | null>(null)
     const menuRef = useRef<HTMLDivElement>(null)
@@ -59,6 +73,12 @@ const IEMenu = ({ onNavigate }: IEMenuProps) => {
                                                     setOpenMenu(null)
                                                     setHoveredItem(null)
                                                 }
+                                                if (item.action === 'back') { onBack?.(); setOpenMenu(null) }
+                                                if (item.action === 'forward') { onForward?.(); setOpenMenu(null) }
+                                                if (item.action === 'home') { onHome?.(); setOpenMenu(null) }
+                                                if (item.action === 'close') { onClose?.(); setOpenMenu(null) }
+                                                if (item.action === 'fullscreen') { onToggleFullscreen?.(); setOpenMenu(null) }
+                                                if (item.action === 'favourites') { onToggleFavourites?.(); setOpenMenu(null) }
                                             }}
                                         >
                                             {item.icon && <img src={item.icon} alt="" className="menu-item-icon" />}
