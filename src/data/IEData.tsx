@@ -216,8 +216,8 @@ const menuData: Menu[] = [
         label: <><span className="mnemonic">E</span>dit</>,
         items: [
             { label: <>Cu<span className="mnemonic">t</span></>, shortcut: 'Ctrl+X', disabled: true },
-            { label: <><span className="mnemonic">C</span>opy</>, shortcut: 'Ctrl+C', disabled: true },
-            { label: <><span className="mnemonic">P</span>aste</>, shortcut: 'Ctrl+V', disabled: true },
+            { label: <><span className="mnemonic">C</span>opy</>, shortcut: 'Ctrl+C', action: 'copy' },
+            { label: <><span className="mnemonic">P</span>aste</>, shortcut: 'Ctrl+V', action: 'paste' },
             { separator: true },
             { label: <>Select <span className="mnemonic">A</span>ll</>, shortcut: 'Ctrl+A', disabled: true  },
             { label: <><span className="mnemonic">F</span>ind (on This Page)...</>, shortcut: 'Ctrl+F', disabled: true  },

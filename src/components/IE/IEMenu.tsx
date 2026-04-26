@@ -14,6 +14,8 @@ interface IEMenuProps {
     onRefresh?: () => void
     onStop?: () => void
     onPrint?: () => void
+    onCopy?: () => void
+    onPaste?: () => void
 }
 
 const IEMenu = ({ 
@@ -26,7 +28,9 @@ const IEMenu = ({
     onToggleFavourites,
     onRefresh,
     onPrint,
-    onStop
+    onStop,
+    onCopy,
+    onPaste
 }: IEMenuProps) => {
     const [openMenu, setOpenMenu] = useState<string | null>(null)
     const [hoveredItem, setHoveredItem] = useState<number | null>(null)
@@ -92,6 +96,8 @@ const IEMenu = ({
                                                 if (item.action === 'stop') { onStop?.(); setOpenMenu(null) }
                                                 if (item.action === 'print') { onPrint?.(); setOpenMenu(null) }
                                                 if (item.action === 'about') { setOpenModal('about'); setOpenMenu(null) }
+                                                if (item.action === 'copy') { onCopy?.(); setOpenMenu(null) }
+                                                if (item.action === 'paste') { onPaste?.(); setOpenMenu(null) }
                                             }}
                                         >
                                             {item.icon && <img src={item.icon} alt="" className="menu-item-icon" />}

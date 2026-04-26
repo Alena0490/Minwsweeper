@@ -116,6 +116,16 @@ const IEWindow = ({ onClose, isMinimized, setIsMinimized, isFullscreen, toggleFu
         }
     };
 
+    // Copy & Paste
+   const handleCopy = async () => {
+        await navigator.clipboard.writeText(inputUrl)
+    }
+
+    const handlePaste = async () => {
+        const text = await navigator.clipboard.readText()
+        setInputUrl(prev => prev + text)
+    }
+
     return (
         <div 
             className={[
@@ -173,6 +183,8 @@ const IEWindow = ({ onClose, isMinimized, setIsMinimized, isFullscreen, toggleFu
                         onRefresh={handleRefresh}
                         onStop={handleStop}
                         onPrint={() => window.print()}
+                        onCopy={handleCopy}
+                        onPaste={handlePaste}
                     />
                     <div className='windows-corner-panel'>
                         <img className='windows-corner-icon' src={Logo} alt="Internet Explorer Logo" />
