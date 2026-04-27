@@ -192,7 +192,13 @@ const menuData: Menu[] = [
         id: 'file',
         label: <><span className="mnemonic">F</span>ile</>,
         items: [
-            { label: <><span className="mnemonic">N</span>ew</>, disabled: true  },
+            { label: <><span className="mnemonic">N</span>ew</>, arrow: true, children: [
+                { label: 'Window', disabled: true },
+                { label: 'Message', disabled: true },
+                { label: 'Post', disabled: true },
+                { label: 'Contact', disabled: true },
+                { label: 'Internet Call', disabled: true },
+            ]},
             { label: <><span className="mnemonic">O</span>pen...</>, shortcut: 'Ctrl+O', action: 'open' },
             { label: <>E<span className="mnemonic">d</span>it with Windows Notepad</>, disabled: true  },
             { separator: true },
@@ -203,7 +209,11 @@ const menuData: Menu[] = [
             { label: <><span className="mnemonic">P</span>rint...</>, shortcut: 'Ctrl+P', action: 'print' },
             { label: <>Print Pre<span className="mnemonic">v</span>iew...</>, disabled: true  },
             { separator: true },
-            { label: <>S<span className="mnemonic">e</span>nd</>, arrow: true, disabled: true  },
+            { label: <>S<span className="mnemonic">e</span>nd</>, arrow: true, children: [
+                { label: 'Page by E-mail...', disabled: true },
+                { label: 'Link by E-mail...', disabled: true },
+                { label: 'Shortcut to Desktop', disabled: true },
+            ]},
             { label: <>Import and <span className="mnemonic">E</span>xport...</>, disabled: true  },
             { separator: true },
             { label: <>P<span className="mnemonic">r</span>operties</>, disabled: true  },
@@ -260,8 +270,27 @@ const menuData: Menu[] = [
             { label: <>Sto<span className="mnemonic">p</span></>, shortcut: 'Esc', action: 'stop' },
             { label: <><span className="mnemonic">R</span>efresh</>, shortcut: 'F5', action: 'refresh' },
             { separator: true },
-            { label: <>Te<span className="mnemonic">x</span>t Size</>, arrow: true, disabled: true  },
-            { label: <>Enco<span className="mnemonic">d</span>ing</>, arrow: true, disabled: true  },
+            { 
+                label: <>Te<span className="mnemonic">x</span>t Size</>, 
+                arrow: true,
+                children: [
+                    { label: 'Largest', disabled: true },
+                    { label: 'Larger', disabled: true },
+                    { label: 'Medium', disabled: true },
+                    { label: 'Smaller', disabled: true },
+                    { label: 'Smallest', disabled: true },
+                ]
+            },
+            { 
+                label: <>Enco<span className="mnemonic">d</span>ing</>, 
+                arrow: true,
+                children: [
+                    { label: 'Auto-Select', disabled: true },
+                    { label: 'Unicode (UTF-8)', disabled: true },
+                    { label: 'Western European (Windows)', disabled: true },
+                    { label: 'Central European (Windows)', disabled: true },
+                ]
+            },
             { separator: true },
             { label: <>Sour<span className="mnemonic">c</span>e</>, disabled: true  },
             { label: <>Pri<span className="mnemonic">v</span>acy Report...</>, disabled: true  },
@@ -293,8 +322,18 @@ const menuData: Menu[] = [
         id: 'tools',
         label: <><span className="mnemonic">T</span>ools</>,
         items: [
-            { label: <><span className="mnemonic">M</span>ail and News</>, arrow: true, disabled: true  },
-            { label: <><span className="mnemonic">P</span>op-up Blocker</>, arrow: true, disabled: true  },
+            { label: <><span className="mnemonic">M</span>ail and News</>, arrow: true, children: [
+                { label: 'Read Mail', disabled: true },
+                { label: 'New Message...', disabled: true },
+                { label: 'Send a Link...', disabled: true },
+                { label: 'Send Page...', disabled: true },
+                { separator: true },
+                { label: 'Read News', disabled: true },
+            ]},
+            { label: <><span className="mnemonic">P</span>op-up Blocker</>, arrow: true, children: [
+                { label: 'Turn Off Pop-up Blocker', disabled: true },
+                { label: 'Pop-up Blocker Settings...', disabled: true },
+            ]},
             { separator: true },
             { label: <>Mana<span className="mnemonic">g</span>e Add-ons...</>, disabled: true  },
             { separator: true },

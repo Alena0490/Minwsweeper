@@ -91,7 +91,7 @@ const IEMenu = ({
                             <ul className="ie-submenu">
                                 {menu.items.map((item, i) =>
                                     item.separator ? (
-                                        <li key={i} className="separator" />
+                                        <li key={i} className="separator" id='separator'/>
                                     ) : (
                                         <li
                                             key={i}
@@ -132,8 +132,11 @@ const IEMenu = ({
 
                                             {item.children && hoveredItem === i && (
                                                 <ul className="ie-submenu--nested">
-                                                    {item.children.map((child, j) => (
-                                                        <li
+                                                    {item.children.map((child, j) => 
+                                                        child.separator ? (
+                                                            <li key={j} className="separator"/>
+                                                        ) : (
+                                                            <li
                                                             key={j}
                                                             className={`ie-submenu-item 
                                                                 ${child.disabled ? 'disabled' : ''} 
