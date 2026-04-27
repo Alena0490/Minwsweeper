@@ -59,6 +59,8 @@ const TerminalWindow = ({ onClose, apps }: TerminalWindowProps) => {
                 `${apps.length} Dir(s)  ${apps.reduce((sum, app) => sum + parseInt(app.size.replace(/,/g, '')), 0).toLocaleString('en-US')} bytes free`,
                 ''
             )
+        } else if (trimmed === 'echo') {
+            newLines.push('ECHO is on.', '')
         } else if (trimmed.startsWith('echo ')) {
             newLines.push(cmd.slice(5), '')
         } else if (trimmed === '') {
