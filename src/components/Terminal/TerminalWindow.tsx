@@ -2,7 +2,8 @@ import { useState, useRef, useEffect } from 'react'
 import './Terminal.css'
 
 interface TerminalWindowProps {
-    onClose: () => void
+    onClose: () => void;
+    apps: string[];
 }
 
 const WELCOME = [
@@ -11,7 +12,7 @@ const WELCOME = [
     '',
 ]
 
-const TerminalWindow = ({ onClose }: TerminalWindowProps) => {
+const TerminalWindow = ({ onClose, apps }: TerminalWindowProps) => {
     const [lines, setLines] = useState<string[]>(WELCOME)
     const [input, setInput] = useState('')
     const bottomRef = useRef<HTMLDivElement>(null)
@@ -53,11 +54,9 @@ const TerminalWindow = ({ onClose }: TerminalWindowProps) => {
                 ' Volume in drive C has no label.',
                 ' Directory of C:\\',
                 '',
-                '28/04/2003  09:00    <DIR>          Documents and Settings',
-                '28/04/2003  09:00    <DIR>          Program Files',
-                '28/04/2003  09:00    <DIR>          WINDOWS',
-                '               0 File(s)              0 bytes',
-                '               3 Dir(s)   4,096,000 bytes free',
+                ...apps.map(app => `28/04/2003  09:00    <DIR>          ${app}`),
+                `               0 File(s)              0 bytes`,
+                `               ${apps.length} Dir(s)   4,096,000 bytes free`,
                 ''
             )
         } else if (trimmed.startsWith('echo ')) {

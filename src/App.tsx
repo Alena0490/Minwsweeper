@@ -236,6 +236,7 @@ const App = () => {
           setIsMinimized={handleTerminalMinimize}
           isFullscreen={terminal.isFullscreen}
           toggleFullscreen={terminal.toggleFullscreen}
+          apps={['Minesweeper', 'Internet Explorer', 'Paint', 'Calculator', 'Command Prompt']}
         />
       )}
 

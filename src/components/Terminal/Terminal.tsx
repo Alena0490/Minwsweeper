@@ -11,6 +11,7 @@ interface TerminalProps {
     setIsMinimized: (value: boolean | ((prev: boolean) => boolean)) => void;
     isFullscreen: boolean;
     toggleFullscreen: () => void;
+    apps: string[];
 }
 
 const Terminal = ({
@@ -18,7 +19,8 @@ const Terminal = ({
     isMinimized, 
     setIsMinimized, 
     isFullscreen, 
-    toggleFullscreen
+    toggleFullscreen,
+    apps
 }: TerminalProps) => {
 
     const { position, handleMouseDown } = useDraggable(400, 150);
@@ -69,7 +71,10 @@ const Terminal = ({
                     </button>
                 </div>
             </div>
-        <TerminalWindow onClose={onClose} />
+        <TerminalWindow 
+            onClose={onClose} 
+            apps={apps} 
+        />
     </div>
   )
 }
