@@ -11,7 +11,9 @@
 
 .terminal-body {
     height: 100%;
+    min-height: 40vh;
     max-height: 70vh;
+    min-width: 24rem;
     overflow-y: auto;
     background-color: var(--ms-display-bg);
     color: var(--text-inverted);
@@ -20,7 +22,6 @@
     padding: 4px 8px;
     flex: 1;
     overflow-y: auto;
-    min-height: 0;
 }
 
 .terminal-output {

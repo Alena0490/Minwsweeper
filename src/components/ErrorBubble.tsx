@@ -6,6 +6,7 @@ interface ErrorBubbleProps {
 }
 
 const ErrorBubble = ({ onClose }: ErrorBubbleProps) => {
+
   return (
     <div className='balloon'>
       <div className='balloon-header'>

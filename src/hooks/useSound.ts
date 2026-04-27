@@ -6,6 +6,7 @@ import startApp from '../sounds/Windows XP Start.wav'
 import stratAppShort from '../sounds/Windows Navigation Start.wav'
 import minimize from '../sounds/Windows XP Minimize.wav'
 import startXP from '../sounds/Windows XP Startup.wav'
+import balloon from '../sounds/Windows XP Balloon.wav'
 
 const useSound = () => {
     const [enabled, setEnabled] = useState(true);
@@ -24,11 +25,10 @@ const useSound = () => {
         playNavStart: () => playSound(stratAppShort),
         playMinimize: () => playSound(minimize),
         playStartXP: () => playSound(startXP),
+        playBalloon: () => playSound(balloon),
         enabled,
         toggleSound: () => setEnabled(prev => !prev),
     };
 }
 
 export default useSound
-
-

@@ -73,7 +73,7 @@ const Footer = ({
     const [showBubble, setShowBubble] = useState(false);
 
     // XP Sounds
-    const { playStart, playMinimize } = useSound();
+    const { playStart, playMinimize, playBalloon } = useSound();
 
     // Closing the start menu on outside click
     const menuRef = useRef<HTMLDivElement>(null);
@@ -94,13 +94,22 @@ const Footer = ({
     }, []);
 
     useEffect(() => {
-        const timer = setTimeout(() => setShowBubble(true), 5000)
-        const hideTimer = setTimeout(() => setShowBubble(false), 15000)
+        const timer = setTimeout(() => {
+            playBalloon(); 
+            setShowBubble(true);
+        }, 5000);
+
+        const hideTimer = setTimeout(() => {
+            setShowBubble(false);
+        }, 15000);
+
         return () => {
-            clearTimeout(timer)
-            clearTimeout(hideTimer)
-        }
-    }, [])
+            clearTimeout(timer);
+            clearTimeout(hideTimer);
+        };
+
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     return (
         <footer>

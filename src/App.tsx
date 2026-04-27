@@ -36,8 +36,8 @@ const App = () => {
   const [isIEOpen, setIsIEOpen] = useState(false);
   const [isPaintOpen, setIsPaintOpen] = useState(false);
   const [isCalculatorOpen, setIsCalculatorOpen] = useState(false)
-  const [isMinesweeperOpen, setIsMinesweeperOpen] = useState(true)
-  const [isTerminalOpen, setIsTerminalOpen] = useState(true)
+  const [isMinesweeperOpen, setIsMinesweeperOpen] = useState(false)
+  const [isTerminalOpen, setIsTerminalOpen] = useState(false)
   const [loading, setLoading] = useState(true)
 
   const handleFullscreen = () => {

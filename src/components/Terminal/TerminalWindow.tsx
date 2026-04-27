@@ -38,8 +38,8 @@ const TerminalWindow = ({ onClose, apps }: TerminalWindowProps) => {
                 '  dir      - List files', // working
                 '  echo     - Print text', // working
                 '  ver      - Show version', // working
-                '  date     - Show date',
-                '  time     - Show time',
+                '  date     - Show date',   // working
+                '  time     - Show time',   // working
                 '  exit     - Close window', // working
                 ''
             )
