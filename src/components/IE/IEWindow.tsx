@@ -48,6 +48,8 @@ const IEWindow = ({ onClose, isMinimized, setIsMinimized, isFullscreen, toggleFu
     const [hasError, setHasError] = useState(false);
     const [showFavourites, setShowFavourites] = useState(false);
     const [showStatusBar, setShowStatusBar] = useState(true)
+    const [showStandardToolbar, setShowStandardToolbar] = useState(true)
+    const [showAddressBar, setShowAddressBar] = useState(true)
     const [iframeKey, setIframeKey] = useState(0);
     const [isStopped, setIsStopped] = useState(false);
 
@@ -194,6 +196,10 @@ const IEWindow = ({ onClose, isMinimized, setIsMinimized, isFullscreen, toggleFu
                         statusBarVisible={showStatusBar}
                         onToggleStatusBar={() => setShowStatusBar(prev => !prev)}
                         onToggleFavourites={() => setShowFavourites(prev => !prev)}
+                        onToggleStandardToolbar={() => setShowStandardToolbar(prev => !prev)}
+                        onToggleAddressBar={() => setShowAddressBar(prev => !prev)}
+                        standardToolbarVisible={showStandardToolbar}
+                        addressBarVisible={showAddressBar}
                         onToggleFullscreen={toggleFullscreen}
                         onRefresh={handleRefresh}
                         onStop={handleStop}
@@ -207,96 +213,100 @@ const IEWindow = ({ onClose, isMinimized, setIsMinimized, isFullscreen, toggleFu
                     </div>
                 </div>
                 <div className='ie-toolbar'>
-                    <div className="ie-toolbar-top">
-                        <button 
-                            className={`toolbar-btn ${historyIndex === 0 ? 'disabled' : ''}`}
-                            onClick={goBack}
-                            aria-label='go back'
-                        >
-                            <img className='toolbar-img' src={Back} alt="Back" />
-                            Back
-                        </button>
-                        <button className={`toolbar-dropdown-arrow toolbar-btn ${historyIndex === 0 ? 'disabled' : ''}`} onClick={() => {}}>▾</button>
-                        <button 
-                            className={`toolbar-btn ${historyIndex === history.length - 1 ? 'disabled' : ''}`}
-                            onClick={goForward} 
-                            aria-label='go forward'
-                        >
-                            <img className='toolbar-img' src={Forward} alt="Forward" />
-                            Forward
-                        </button>
-                        <button className={`toolbar-dropdown-arrow toolbar-btn ${historyIndex === history.length - 1 ? 'disabled' : ''}`} onClick={() => {}}>▾</button>
-                        <button 
-                            className='toolbar-btn' 
-                            aria-label='refresh'
-                            onClick={handleRefresh}
+                    {showStandardToolbar &&
+                        <div className="ie-toolbar-top">
+                            <button 
+                                className={`toolbar-btn ${historyIndex === 0 ? 'disabled' : ''}`}
+                                onClick={goBack}
+                                aria-label='go back'
                             >
-                            <img className='toolbar-img' src={Refresh} alt="Refresh" />
-                        </button>
-                        <button 
-                            className='toolbar-btn' 
-                            aria-label='stop'
-                            onClick={handleStop}
+                                <img className='toolbar-img' src={Back} alt="Back" />
+                                Back
+                            </button>
+                            <button className={`toolbar-dropdown-arrow toolbar-btn ${historyIndex === 0 ? 'disabled' : ''}`} onClick={() => {}}>▾</button>
+                            <button 
+                                className={`toolbar-btn ${historyIndex === history.length - 1 ? 'disabled' : ''}`}
+                                onClick={goForward} 
+                                aria-label='go forward'
                             >
-                            <img className='toolbar-img' src={Stop} alt="Stop" />
-                        </button>
-                        <button className='toolbar-btn border-right' onClick={() => navigateTo("https://alena-pumprova.cz/")} aria-label='go home'>
-                            <img className='toolbar-img' src={Home} alt="Home" />
-                            Home
-                        </button>
-                        <button className='toolbar-btn' onClick={() => navigateTo('https://web.archive.org/web/20031024040025if_/http://www.google.com/')} aria-label='search'>
-                            <img className='toolbar-img' src={Search} alt="Search" />
-                            Search
-                        </button>
-                        <button className='toolbar-btn' onClick={() => setShowFavourites(prev => !prev)}>
-                            <img className='toolbar-img' src={Favourites} alt="Favourites" />
-                            Favourites
-                        </button>
-                        <button className='toolbar-btn border-right' aria-label='view history'>
-                            <img className='toolbar-img' src={History} alt="History" />
-                            History
-                        </button>
-                        <button className='toolbar-btn' aria-label='mail'>
-                            <img className='toolbar-img' src={Mail} alt="Mail" />
-                        </button>
-                        <button className='toolbar-btn' onClick={() => window.print()} aria-label='print'>
-                            <img className='toolbar-img' src={Printer} alt="Print" />
-                        </button>
-                        <button className='toolbar-btn' aria-label='edit page'>
-                            <img className='toolbar-img' src={Edit} alt="Edit" />
-                        </button>
-                        <button className='toolbar-btn' aria-label='discuss'>
-                            <img className='toolbar-img' src={Discuss} alt="Discuss" />
-                        </button>
-                    </div>
-                    <div className="ie-toolbar-bottom">
-                        <div className="left">
-                            <span>A<span className="mnemonic">d</span>dress</span>
-                            <div className="input-wrapper">
-                                <img className='toolbar-img-xs absolute' src={getFavicon(currentUrl)} alt="URL Icon" />
-                                <input 
-                                    type="text" 
-                                    className='address-bar' 
-                                    value={inputUrl}
-                                    onChange={(e) => setInputUrl(e.target.value)}
-                                    onKeyDown={(e) => e.key === 'Enter' && navigateTo(inputUrl)}
-                                />
+                                <img className='toolbar-img' src={Forward} alt="Forward" />
+                                Forward
+                            </button>
+                            <button className={`toolbar-dropdown-arrow toolbar-btn ${historyIndex === history.length - 1 ? 'disabled' : ''}`} onClick={() => {}}>▾</button>
+                            <button 
+                                className='toolbar-btn' 
+                                aria-label='refresh'
+                                onClick={handleRefresh}
+                                >
+                                <img className='toolbar-img' src={Refresh} alt="Refresh" />
+                            </button>
+                            <button 
+                                className='toolbar-btn' 
+                                aria-label='stop'
+                                onClick={handleStop}
+                                >
+                                <img className='toolbar-img' src={Stop} alt="Stop" />
+                            </button>
+                            <button className='toolbar-btn border-right' onClick={() => navigateTo("https://alena-pumprova.cz/")} aria-label='go home'>
+                                <img className='toolbar-img' src={Home} alt="Home" />
+                                Home
+                            </button>
+                            <button className='toolbar-btn' onClick={() => navigateTo('https://web.archive.org/web/20031024040025if_/http://www.google.com/')} aria-label='search'>
+                                <img className='toolbar-img' src={Search} alt="Search" />
+                                Search
+                            </button>
+                            <button className='toolbar-btn' onClick={() => setShowFavourites(prev => !prev)}>
+                                <img className='toolbar-img' src={Favourites} alt="Favourites" />
+                                Favourites
+                            </button>
+                            <button className='toolbar-btn border-right' aria-label='view history'>
+                                <img className='toolbar-img' src={History} alt="History" />
+                                History
+                            </button>
+                            <button className='toolbar-btn' aria-label='mail'>
+                                <img className='toolbar-img' src={Mail} alt="Mail" />
+                            </button>
+                            <button className='toolbar-btn' onClick={() => window.print()} aria-label='print'>
+                                <img className='toolbar-img' src={Printer} alt="Print" />
+                            </button>
+                            <button className='toolbar-btn' aria-label='edit page'>
+                                <img className='toolbar-img' src={Edit} alt="Edit" />
+                            </button>
+                            <button className='toolbar-btn' aria-label='discuss'>
+                                <img className='toolbar-img' src={Discuss} alt="Discuss" />
+                            </button>
+                        </div>
+                    }
+                    {showAddressBar &&
+                        <div className="ie-toolbar-bottom">
+                            <div className="left">
+                                <span>A<span className="mnemonic">d</span>dress</span>
+                                <div className="input-wrapper">
+                                    <img className='toolbar-img-xs absolute' src={getFavicon(currentUrl)} alt="URL Icon" />
+                                    <input 
+                                        type="text" 
+                                        className='address-bar' 
+                                        value={inputUrl}
+                                        onChange={(e) => setInputUrl(e.target.value)}
+                                        onKeyDown={(e) => e.key === 'Enter' && navigateTo(inputUrl)}
+                                    />
+                                </div>
+                            </div>
+                            <div className="right">
+                                <button 
+                                className='toolbar-btn'
+                                onClick={() => navigateTo(inputUrl)} 
+                                aria-label='go to address'
+                                >
+                                    <img className='toolbar-img-small' src={Go} alt="Go" />
+                                    Go
+                                </button>
+                                <button className='toolbar-btn' aria-label='view links'>
+                                    Links »
+                                </button>
                             </div>
                         </div>
-                        <div className="right">
-                            <button 
-                            className='toolbar-btn'
-                            onClick={() => navigateTo(inputUrl)} 
-                            aria-label='go to address'
-                            >
-                                <img className='toolbar-img-small' src={Go} alt="Go" />
-                                Go
-                            </button>
-                            <button className='toolbar-btn' aria-label='view links'>
-                                Links »
-                            </button>
-                        </div>
-                    </div>
+                    }
                 </div>
             </div>
             <div className="page-window-outer">

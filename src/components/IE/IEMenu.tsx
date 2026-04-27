@@ -15,6 +15,10 @@ interface IEMenuProps {
     favouritesVisible?: boolean
     onToggleStatusBar?: () => void
     statusBarVisible?: boolean
+    onToggleStandardToolbar?: () => void
+    onToggleAddressBar?: () => void
+    standardToolbarVisible?: boolean
+    addressBarVisible?: boolean
     onRefresh?: () => void
     onStop?: () => void
     onPrint?: () => void
@@ -35,6 +39,10 @@ const IEMenu = ({
     favouritesVisible,
     onToggleStatusBar,
     statusBarVisible,
+    onToggleAddressBar,
+    onToggleStandardToolbar,
+    addressBarVisible,
+    standardToolbarVisible,
     onRefresh,
     onPrint,
     onStop,
@@ -129,7 +137,8 @@ const IEMenu = ({
                                                             key={j}
                                                             className={`ie-submenu-item 
                                                                 ${child.disabled ? 'disabled' : ''} 
-                                                                ${child.icon ? 'has-icon' : ''} 
+                                                                ${child.action === 'toolbar-standard' && standardToolbarVisible ? 'checked' : ''} 
+                                                                ${child.action === 'toolbar-address' && addressBarVisible ? 'checked' : ''}
                                                                 ${child.action === 'favourites' && favouritesVisible ? 'checked' : ''}`}
                                                             onClick={(e) => {
                                                                 e.stopPropagation()
@@ -142,6 +151,8 @@ const IEMenu = ({
                                                                 if (child.action === 'forward') { onForward?.(); setOpenMenu(null) }
                                                                 if (child.action === 'home') { onHome?.(); setOpenMenu(null) }
                                                                 if (child.action === 'favourites') { onToggleFavourites?.(); setOpenMenu(null) }
+                                                                if (child.action === 'toolbar-standard') { onToggleStandardToolbar?.(); setOpenMenu(null) }
+                                                                if (child.action === 'toolbar-address') { onToggleAddressBar?.(); setOpenMenu(null) }
                                                             }}
                                                         >
                                                             {child.icon && <img src={child.icon} alt="" className="menu-item-icon" />}

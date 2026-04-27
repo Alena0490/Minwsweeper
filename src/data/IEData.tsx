@@ -227,7 +227,15 @@ const menuData: Menu[] = [
         id: 'view',
         label: <><span className="mnemonic">V</span>iew</>,
         items: [
-            { label: <><span className="mnemonic">T</span>oolbars</>, arrow: true, disabled: true  },
+            { 
+                label: <><span className="mnemonic">T</span>oolbars</>, 
+                arrow: true,
+                children: [
+                    { label: 'Standard Buttons', action: 'toolbar-standard' },
+                    { label: 'Address Bar', action: 'toolbar-address' },
+                    { label: 'Links', disabled: true },
+                ]
+            },
             { label: <>Status <span className="mnemonic">B</span>ar</>, action: 'statusbar' },
             { 
                 label: <><span className="mnemonic">E</span>xplorer Bar</>, 
