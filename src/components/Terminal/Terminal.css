@@ -10,6 +10,9 @@
 }
 
 .terminal-body {
+    height: 100%;
+    max-height: 70vh;
+    overflow-y: auto;
     background-color: var(--ms-display-bg);
     color: var(--text-inverted);
     font-family: 'Lucida Console', monospace;
@@ -21,8 +24,13 @@
 }
 
 .terminal-output {
+    min-height: 100%;
     display: flex;
     flex-direction: column;
+}
+
+.terminal-output div {
+    white-space: pre;
 }
 
 .terminal-input-row {

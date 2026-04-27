@@ -11,7 +11,7 @@ interface TerminalProps {
     setIsMinimized: (value: boolean | ((prev: boolean) => boolean)) => void;
     isFullscreen: boolean;
     toggleFullscreen: () => void;
-    apps: string[];
+    apps: { name: string; size: string }[];
 }
 
 const Terminal = ({

@@ -3,7 +3,7 @@ import './Terminal.css'
 
 interface TerminalWindowProps {
     onClose: () => void;
-    apps: string[];
+    apps: { name: string; size: string }[];
 }
 
 const WELCOME = [
@@ -54,9 +54,9 @@ const TerminalWindow = ({ onClose, apps }: TerminalWindowProps) => {
                 ' Volume in drive C has no label.',
                 ' Directory of C:\\',
                 '',
-                ...apps.map(app => `28/04/2003  09:00    <DIR>          ${app}`),
-                `               0 File(s)              0 bytes`,
-                `               ${apps.length} Dir(s)   4,096,000 bytes free`,
+                ...apps.map(app => `28/04/2003  09:00    <DIR>          ${app.name.padEnd(25)} ${app.size.padStart(10)} bytes`),
+                `0 File(s)              ${'0 bytes'.padStart(20)}`,
+                `${apps.length} Dir(s)  ${apps.reduce((sum, app) => sum + parseInt(app.size.replace(/,/g, '')), 0).toLocaleString('en-US')} bytes free`,
                 ''
             )
         } else if (trimmed.startsWith('echo ')) {

@@ -236,7 +236,17 @@ const App = () => {
           setIsMinimized={handleTerminalMinimize}
           isFullscreen={terminal.isFullscreen}
           toggleFullscreen={terminal.toggleFullscreen}
-          apps={['Minesweeper', 'Internet Explorer', 'Paint', 'Calculator', 'Command Prompt']}
+          apps={[
+            { name: 'Minesweeper', size: '42,200' },
+            { name: 'Internet Explorer', size: '101,880' },
+            { name: 'Paint', size: '99,040' },
+            { name: 'Calculator', size: '26,130' },
+            { name: 'Command Prompt', size: '3,550' },
+            { name: 'Loading Screen', size: '17,140' },
+            { name: 'Start Menu', size: '22,900' },
+            { name: 'Taskbar', size: '5,220' },
+            { name: 'Error Bubble', size: '1,730' },
+        ]}
         />
       )}
 
