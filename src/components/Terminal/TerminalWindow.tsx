@@ -33,22 +33,37 @@ const TerminalWindow = ({ onClose, apps }: TerminalWindowProps) => {
         if (trimmed === 'help') {
             newLines.push(
                 'Available commands:',
-                '  help     - Show this help',
-                '  cls      - Clear screen',
-                '  dir      - List files',
-                '  echo     - Print text',
-                '  ver      - Show version',
+                '  help     - Show this help', // working
+                '  cls      - Clear screen', // working
+                '  dir      - List files', // working
+                '  echo     - Print text', // working
+                '  ver      - Show version', // working
                 '  date     - Show date',
                 '  time     - Show time',
-                '  exit     - Close window',
+                '  exit     - Close window', // working
                 ''
             )
         } else if (trimmed === 'ver') {
             newLines.push('Microsoft Windows XP [Version 5.1.2600]', '')
         } else if (trimmed === 'date') {
-            newLines.push(new Date().toLocaleDateString(), '')
+            const now = new Date()
+            const day = now.toLocaleDateString('en-US', { weekday: 'short' })
+            const date = now.toLocaleDateString('en-GB')
+            newLines.push(
+                `The current date is: ${day} ${date}`,
+                'Enter the new date: (mm-dd-yy)',
+                ''
+            )
         } else if (trimmed === 'time') {
-            newLines.push(new Date().toLocaleTimeString(), '')
+            const now = new Date()
+            const time = now.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit', second: '2-digit' }) + '.00'
+            newLines.push(
+                `The current time is: ${time}`,
+                'Enter the new time:',
+                ''
+            )
+        } else if (trimmed.match(/^\d{2}-\d{2}-\d{2}$/) || trimmed.match(/^\d{2}:\d{2}(:\d{2})?$/)) {
+            newLines.push('')
         } else if (trimmed === 'dir') {
             newLines.push(
                 ' Volume in drive C has no label.',
