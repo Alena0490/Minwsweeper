@@ -69,7 +69,7 @@ const Terminal = ({
                     </button>
                 </div>
             </div>
-        <TerminalWindow/>
+        <TerminalWindow onClose={onClose} />
     </div>
   )
 }

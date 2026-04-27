@@ -1,0 +1,43 @@
+@font-face {
+    font-family: 'Lucida Console';
+    src: url('../../fonts/lucon.ttf') format('truetype');
+}
+
+.terminal-window .title-bar {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.terminal-body {
+    background-color: var(--ms-display-bg);
+    color: var(--text-inverted);
+    font-family: 'Lucida Console', monospace;
+    font-size: 13px;
+    padding: 4px 8px;
+    flex: 1;
+    overflow-y: auto;
+    min-height: 0;
+}
+
+.terminal-output {
+    display: flex;
+    flex-direction: column;
+}
+
+.terminal-input-row {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.terminal-input {
+    background: transparent;
+    border: none;
+    outline: none;
+    color: var(--ms-panel);
+    font-family: 'Lucida Console', monospace;
+    font-size: 13px;
+    flex: 1;
+    caret-color: var(--ms-panel);
+}
