@@ -8,48 +8,65 @@ import InternetShortcut from '../img/InternetShortcut.webp'
 import IEIcon from '../img/InternetExplorer6.webp'
 import PaintIcon from '../img/Paint.webp'
 import CalculatorIcon from '../img/Calculator.webp'
+import TerminalIcon from '../img/CommandPrompt.webp'
 import volume from '../img/Volume.webp'
 import gameIcon from '../img/minesweeperIcon.webp'
 import securityError from '../img/SecurityError.webp'
 
 interface FooterProps {
     handleFullscreen: () => void;
+    
     onIEOpen: () => void;
     onPaintOpen: () => void; 
-    minesweeperMinimized: boolean;
-    setMinesweeperMinimized: (value: boolean | ((prev: boolean) => boolean)) => void;
-    ieMinimized: boolean;
-    setIeMinimized: (value: boolean | ((prev: boolean) => boolean)) => void;
+    onMinesweeperOpen: () => void;
+    onCalculatorOpen: () => void;
+    onTerminalOpen: () => void;
+   
     isIEOpen: boolean;
     isPaintOpen: boolean;
-    paintMinimized: boolean; 
-    setPaintMinimized: (value: boolean | ((prev: boolean) => boolean)) => void;
-    onCalculatorOpen: () => void;
     isMinesweeperOpen: boolean;
-    onMinesweeperOpen: () => void;
     isCalculatorOpen: boolean;
+    isTerminalOpen: boolean;
+
+    ieMinimized: boolean;
+    paintMinimized: boolean; 
+    minesweeperMinimized: boolean;
     calculatorMinimized: boolean;
+    terminalMinimized:boolean;
+    
+    setIeMinimized: (value: boolean | ((prev: boolean) => boolean)) => void;
+    setPaintMinimized: (value: boolean | ((prev: boolean) => boolean)) => void;
+    setMinesweeperMinimized: (value: boolean | ((prev: boolean) => boolean)) => void;  
     setCalculatorMinimized: (value: boolean | ((prev: boolean) => boolean)) => void;
+    setTerminalMinimized: (value: boolean | ((prev: boolean) => boolean)) => void;
 }
 
 const Footer = ({ 
     handleFullscreen, 
+
     onIEOpen, 
     onPaintOpen,
-    onMinesweeperOpen,  
-    minesweeperMinimized, 
-    setMinesweeperMinimized, 
+    onMinesweeperOpen, 
+    onCalculatorOpen,
+    onTerminalOpen, 
+
     ieMinimized, 
+    paintMinimized,
+    minesweeperMinimized, 
+    calculatorMinimized,
+    terminalMinimized,
+
     setIeMinimized, 
-    isMinesweeperOpen,
+    setPaintMinimized, 
+    setMinesweeperMinimized, 
+    setCalculatorMinimized,
+    setTerminalMinimized,
+    
     isIEOpen,
     isPaintOpen,
-    paintMinimized,
-    setPaintMinimized,  
-    onCalculatorOpen,
+    isMinesweeperOpen,
     isCalculatorOpen,
-    calculatorMinimized,
-    setCalculatorMinimized
+    isTerminalOpen 
 }: FooterProps) => {
     const [time, setTime] = useState(new Date());
     const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -104,6 +121,7 @@ const Footer = ({
                         onPaintOpen={onPaintOpen}
                         onCalculatorOpen={onCalculatorOpen}
                         onMinesweeperOpen={onMinesweeperOpen}
+                        onTerminalOpen={onTerminalOpen}
 
                     />
                     <img src={windowsLogo} alt='Windows XP Logo' />
@@ -176,6 +194,20 @@ const Footer = ({
                         <img src={CalculatorIcon} alt="Calculator Icon" />
                         <span>Calculator</span>
                     </div>
+                    )}
+
+                     {isTerminalOpen && (
+                        <div 
+                            className={`taskbar-item ${!terminalMinimized ? 'taskbar-item--active' : ''}`}
+                            onClick={() => {
+                            if (terminalMinimized) playStart();
+                            else playMinimize();
+                            setTerminalMinimized(prev => !prev);
+                            }}
+                        >
+                            <img src={TerminalIcon} alt="Windows Command Prompt Icon" />
+                            <span>C:\WINDOWS\system32\cmd.exe</span>
+                        </div>
                     )}
 
             </div>

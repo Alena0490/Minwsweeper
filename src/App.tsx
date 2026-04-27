@@ -1,18 +1,22 @@
 import { useState } from "react"
 import useSound from './hooks/useSound'
 import useWindowState from './hooks/useWindowState';
+
 import LoadingScreen from './components/XPLoading'
 import Game from "./components/minesweeper/Game"
 import Paint from './components/Paint/Paint'
 import IEWindow from "./components/IE/IEWindow"
 import Calculator from "./components/Calculator/Calculator"
 import Footer from "./components/Footer"
+import Terminal from "./components/Terminal/Terminal";
+
 import MyComputer from './img/MyComputer.webp'
 import IntertExplorer from './img/InternetExplorer6.webp'
 import Bin from './img/RecycleBinEmpty.webp'
 import MinesweeperIcon from './img/Minesweeper.webp'
 import PaintIcon from './img/Paint.webp'
 import CalculatorIcon from './img/Calculator.webp'
+import TerminalIcon from './img/CommandPrompt.webp'
 import './App.css'
 
 interface FullscreenHTMLElement extends HTMLElement {
@@ -27,11 +31,13 @@ const App = () => {
   const ie = useWindowState();
   const paint = useWindowState();
   const calculator = useWindowState();
+  const terminal = useWindowState();
 
   const [isIEOpen, setIsIEOpen] = useState(false);
   const [isPaintOpen, setIsPaintOpen] = useState(false);
   const [isCalculatorOpen, setIsCalculatorOpen] = useState(false)
   const [isMinesweeperOpen, setIsMinesweeperOpen] = useState(true)
+  const [isTerminalOpen, setIsTerminalOpen] = useState(true)
   const [loading, setLoading] = useState(true)
 
   const handleFullscreen = () => {
@@ -40,6 +46,8 @@ const App = () => {
     else if (elem.webkitRequestFullscreen) elem.webkitRequestFullscreen();
     else if (elem.msRequestFullscreen) elem.msRequestFullscreen();
   };
+
+  /*** MINIMIZE APPS */
 
   // Minimize Minesweeper
   const handleMinesweeperMinimize = (value: boolean | ((prev: boolean) => boolean)) => {
@@ -73,6 +81,15 @@ const App = () => {
     calculator.setIsMinimized(nextValue);
   };
 
+   // Minimize Terminal
+  const handleTerminalMinimize = (value: boolean | ((prev: boolean) => boolean)) => {
+    const nextValue = typeof value === 'function' ? value(terminal.isMinimized) : value;
+    if (nextValue) playMinimize();
+    else playStart();
+    terminal.setIsMinimized(nextValue);
+  };
+
+  /*** OPEN APPS */
   // Open IE
   const openIE = () => {
     if (!isIEOpen) {
@@ -113,6 +130,16 @@ const App = () => {
     }
   };
 
+  // Open Terminal
+  const openTerminal = () => {
+    if (!isTerminalOpen) {
+      playStart();
+      setIsTerminalOpen(true);
+    } else if (terminal.isMinimized) {
+      handleTerminalMinimize(false);
+    }
+  };
+
   return loading ? (
     <LoadingScreen onFinish={() => setLoading(false)} />
   ) : (
@@ -143,6 +170,12 @@ const App = () => {
         <div className="desktop-item" onDoubleClick={openCalculator}>
           <img className="app-icon paint" src={CalculatorIcon} alt="Calculator" />
           <span className="desktop-item-label">Calculator</span>
+        </div>
+
+        {/* Terminal Desktop Icon*/}
+        <div className="desktop-item" onDoubleClick={openTerminal}>
+          <img className="app-icon paint" src={TerminalIcon} alt="Windows CMD" />
+          <span className="desktop-item-label">Terminal</span>
         </div>
 
         <a href="#" className="desktop-item">
@@ -195,24 +228,42 @@ const App = () => {
         />
       )}
 
+      {/* Terminal window */}
+      {isTerminalOpen && (
+        <Terminal
+          onClose={() => { playMinimize(); setIsTerminalOpen(false); }}
+          isMinimized={terminal.isMinimized}
+          setIsMinimized={handleTerminalMinimize}
+          isFullscreen={terminal.isFullscreen}
+          toggleFullscreen={terminal.toggleFullscreen}
+        />
+      )}
+
       <Footer
         handleFullscreen={handleFullscreen}
+
         onIEOpen={openIE}
         onPaintOpen={openPaint}
         onMinesweeperOpen={openMinesweeper}
+        onTerminalOpen={openTerminal}
+        onCalculatorOpen={openCalculator}
+
         minesweeperMinimized={minesweeper.isMinimized}
         setMinesweeperMinimized={handleMinesweeperMinimize}
         ieMinimized={ie.isMinimized}
         setIeMinimized={handleIEMinimize}
+        terminalMinimized={terminal.isMinimized}
+        setTerminalMinimized={handleTerminalMinimize}
+        paintMinimized={paint.isMinimized}
+        setPaintMinimized={handlePaintMinimize}
+        calculatorMinimized={calculator.isMinimized}
+        setCalculatorMinimized={handleCalculatorMinimize}
+
         isMinesweeperOpen={isMinesweeperOpen}
         isIEOpen={isIEOpen}
         isPaintOpen={isPaintOpen}
-        paintMinimized={paint.isMinimized}
-        setPaintMinimized={handlePaintMinimize}
-        onCalculatorOpen={openCalculator}
-        calculatorMinimized={calculator.isMinimized}
-        setCalculatorMinimized={handleCalculatorMinimize}
         isCalculatorOpen={isCalculatorOpen}
+        isTerminalOpen={isTerminalOpen}
       />
     </div>
   );

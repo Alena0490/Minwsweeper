@@ -1,5 +1,6 @@
 import useSound from '../hooks/useSound'
 import UserCat from '../img/user-cat.webp'
+
 import Internet from '../img/InternetExplorer6.webp'
 import OutlookExpress from '../img/OutlookExpress.webp'
 import Calculator from '../img/Calculator.webp'
@@ -18,6 +19,7 @@ import Help from '../img/HelpAndSupport.webp'
 import LogOff from '../img/Logout.webp'
 import TurnOff from '../img/Power.webp'
 import PaintIcon from '../img/Paint.webp'
+import TerminalIcon from '../img/CommandPrompt.webp'
 import './MenuModal.css'
 
 interface ModalProps {
@@ -26,6 +28,7 @@ interface ModalProps {
   onPaintOpen: () => void;
   onCalculatorOpen: () => void;
   onMinesweeperOpen: () => void;
+  onTerminalOpen: () => void;
 }
 
 const MenuModal = ({ 
@@ -33,7 +36,8 @@ const MenuModal = ({
     onIEOpen, 
     onPaintOpen, 
     onCalculatorOpen, 
-    onMinesweeperOpen
+    onMinesweeperOpen,
+    onTerminalOpen
 }: ModalProps) => { 
     const {playStart } = useSound();
 
@@ -75,6 +79,11 @@ const MenuModal = ({
                     <div className="menu-item" onClick={() => { onCalculatorOpen(); playStart(); }}>
                         <img src={Calculator} alt="Calculator Icon" />
                         Calculator
+                    </div>
+
+                    <div className="menu-item" onClick={() => { onTerminalOpen(); playStart(); }}>
+                        <img src={TerminalIcon} alt="Command Prompt Icon" />
+                        Command Prompt
                     </div>
 
                     <div className="menu-item" onClick={() => { onPaintOpen(); playStart(); }}>
