@@ -47,6 +47,7 @@ const IEWindow = ({ onClose, isMinimized, setIsMinimized, isFullscreen, toggleFu
     const [inputUrl, setInputUrl] = useState("https://alena-pumprova.cz/");
     const [hasError, setHasError] = useState(false);
     const [showFavourites, setShowFavourites] = useState(false);
+    const [showStatusBar, setShowStatusBar] = useState(true)
     const [iframeKey, setIframeKey] = useState(0);
     const [isStopped, setIsStopped] = useState(false);
 
@@ -189,6 +190,9 @@ const IEWindow = ({ onClose, isMinimized, setIsMinimized, isFullscreen, toggleFu
                         onHome={() => navigateTo("https://alena-pumprova.cz/")}
                         onOpen={handleOpen}
                         onClose={onClose}
+                        favouritesVisible={showFavourites}
+                        statusBarVisible={showStatusBar}
+                        onToggleStatusBar={() => setShowStatusBar(prev => !prev)}
                         onToggleFavourites={() => setShowFavourites(prev => !prev)}
                         onToggleFullscreen={toggleFullscreen}
                         onRefresh={handleRefresh}
@@ -351,14 +355,16 @@ const IEWindow = ({ onClose, isMinimized, setIsMinimized, isFullscreen, toggleFu
                         style={{ display: hasError ? 'none' : 'block' }}
                     />
                 </div>    
-            </div>    
-            <div className='ie-statusbar'>
-                <img src={getFavicon(currentUrl)} alt="URL Icon" />
-                <span className='status-text'>
-                    <img src={InternetIcon} alt="Internet Icon" />
-                    Internet
-                </span>
             </div>
+            {showStatusBar &&     
+                <div className='ie-statusbar'>
+                    <img src={getFavicon(currentUrl)} alt="URL Icon" />
+                    <span className='status-text'>
+                        <img src={InternetIcon} alt="Internet Icon" />
+                        Internet
+                    </span>
+                </div>
+            }
         </div>
     )
 }

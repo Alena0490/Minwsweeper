@@ -12,6 +12,9 @@ interface IEMenuProps {
     onClose?: () => void
     onToggleFullscreen?: () => void
     onToggleFavourites?: () => void
+    favouritesVisible?: boolean
+    onToggleStatusBar?: () => void
+    statusBarVisible?: boolean
     onRefresh?: () => void
     onStop?: () => void
     onPrint?: () => void
@@ -29,6 +32,9 @@ const IEMenu = ({
     onClose,
     onToggleFullscreen,
     onToggleFavourites,
+    favouritesVisible,
+    onToggleStatusBar,
+    statusBarVisible,
     onRefresh,
     onPrint,
     onStop,
@@ -81,7 +87,10 @@ const IEMenu = ({
                                     ) : (
                                         <li
                                             key={i}
-                                            className={`ie-submenu-item ${item.disabled ? 'disabled' : ''} ${item.icon ? 'has-icon' : ''}`}
+                                           className={`ie-submenu-item 
+                                                ${item.disabled ? 'disabled' : ''} 
+                                                ${item.icon ? 'has-icon' : ''} ${item.action === 'statusbar' && statusBarVisible ? 'checked' : ''} 
+                                                ${item.action === 'favourites' && favouritesVisible ? 'checked' : ''}`}
                                             onMouseEnter={() => setHoveredItem(i)}
                                             onMouseLeave={() => setHoveredItem(null)}
                                             onClick={() => {
@@ -95,6 +104,7 @@ const IEMenu = ({
                                                 if (item.action === 'home') { onHome?.(); setOpenMenu(null) }
                                                 if (item.action === 'open') { onOpen?.(); setOpenMenu(null) }
                                                 if (item.action === 'close') { onClose?.(); setOpenMenu(null) }
+                                                if (item.action === 'statusbar') { onToggleStatusBar?.(); setOpenMenu(null) }
                                                 if (item.action === 'fullscreen') { onToggleFullscreen?.(); setOpenMenu(null) }
                                                 if (item.action === 'favourites') { onToggleFavourites?.(); setOpenMenu(null) }
                                                 if (item.action === 'refresh') { onRefresh?.(); setOpenMenu(null) }
@@ -117,7 +127,10 @@ const IEMenu = ({
                                                     {item.children.map((child, j) => (
                                                         <li
                                                             key={j}
-                                                            className={`ie-submenu-item ${child.icon ? 'has-icon' : ''}`}
+                                                            className={`ie-submenu-item 
+                                                                ${child.disabled ? 'disabled' : ''} 
+                                                                ${child.icon ? 'has-icon' : ''} 
+                                                                ${child.action === 'favourites' && favouritesVisible ? 'checked' : ''}`}
                                                             onClick={(e) => {
                                                                 e.stopPropagation()
                                                                 if (child.url && onNavigate) {
@@ -128,6 +141,7 @@ const IEMenu = ({
                                                                 if (child.action === 'back') { onBack?.(); setOpenMenu(null) }
                                                                 if (child.action === 'forward') { onForward?.(); setOpenMenu(null) }
                                                                 if (child.action === 'home') { onHome?.(); setOpenMenu(null) }
+                                                                if (child.action === 'favourites') { onToggleFavourites?.(); setOpenMenu(null) }
                                                             }}
                                                         >
                                                             {child.icon && <img src={child.icon} alt="" className="menu-item-icon" />}

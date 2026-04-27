@@ -228,8 +228,17 @@ const menuData: Menu[] = [
         label: <><span className="mnemonic">V</span>iew</>,
         items: [
             { label: <><span className="mnemonic">T</span>oolbars</>, arrow: true, disabled: true  },
-            { label: <>Status <span className="mnemonic">B</span>ar</>, checked: true, disabled: true  },
-            { label: <><span className="mnemonic">E</span>xplorer Bar</>, arrow: true, disabled: true  },
+            { label: <>Status <span className="mnemonic">B</span>ar</>, action: 'statusbar' },
+            { 
+                label: <><span className="mnemonic">E</span>xplorer Bar</>, 
+                arrow: true,
+                children: [
+                    { label: 'Search', disabled: true },
+                    { label: 'Favorites', action: 'favourites' },
+                    { label: 'History', disabled: true },
+                    { label: 'Media', disabled: true },
+                ]
+            },
             { separator: true },
             { 
                 label: <>G<span className="mnemonic">o</span> To</>, 
