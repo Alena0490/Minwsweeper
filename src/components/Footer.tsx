@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import useSound from '../hooks/useSound'
 import MenuModal from './MenuModal';
+import ErrorBubble from './ErrorBubble';
 import './Footer.css'
 import windowsLogo from '../img/logo.webp'
 import InternetShortcut from '../img/InternetShortcut.webp'
@@ -52,6 +53,7 @@ const Footer = ({
 }: FooterProps) => {
     const [time, setTime] = useState(new Date());
     const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const [showBubble, setShowBubble] = useState(false);
 
     // XP Sounds
     const { playStart, playMinimize } = useSound();
@@ -73,6 +75,15 @@ const Footer = ({
         const timer = setInterval(() => setTime(new Date()), 1000);
         return () => clearInterval(timer); // cleanup on unmount
     }, []);
+
+    useEffect(() => {
+        const timer = setTimeout(() => setShowBubble(true), 5000)
+        const hideTimer = setTimeout(() => setShowBubble(false), 15000)
+        return () => {
+            clearTimeout(timer)
+            clearTimeout(hideTimer)
+        }
+    }, [])
 
     return (
         <footer>
@@ -168,6 +179,11 @@ const Footer = ({
                     )}
 
             </div>
+            {showBubble && (
+                <ErrorBubble 
+                    onClose={() => setShowBubble(false)}
+                />
+            )}
             <div className="right-panel taskbar-item">
                 <img src={securityError} alt="Security Error Icon" />
                 <img src={volume} alt="Volume Icon" />

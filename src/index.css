@@ -35,6 +35,7 @@
   --tooltip-bg: #FFFFE2;
 
   --window-radius: 3px;
+  --window-radius-md: 6px;
   --window-radius-lg: 10px;
   --window-radius-top-x: var(--window-radius-lg);
   --window-radius-top-y: calc(var(--window-radius-lg) / 2);
