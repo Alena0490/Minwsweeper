@@ -20,6 +20,7 @@ import LogOff from '../img/Logout.webp'
 import TurnOff from '../img/Power.webp'
 import PaintIcon from '../img/Paint.webp'
 import TerminalIcon from '../img/CommandPrompt.webp'
+import AllProgramsIcon from '../img/AllPrograms.webp'
 import './MenuModal.css'
 
 interface ModalProps {
@@ -89,6 +90,11 @@ const MenuModal = ({
                     <div className="menu-item" onClick={() => { onPaintOpen(); playStart(); }}>
                         <img src={PaintIcon} alt="Paint Icon" />
                         Paint
+                    </div>
+
+                      <div className="menu-item bottom">
+                        All Programs
+                        <img src={AllProgramsIcon} alt=" All Programs Icon" />
                     </div>
                 </div>
 

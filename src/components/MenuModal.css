@@ -27,6 +27,7 @@
             inset -1px -1px 0 rgba(0,0,0,0.25),
             0 3px 3px rgba(0,0,0,0.35);
     isolation: isolate;
+    letter-spacing: 0.1px;
     z-index: 200;
 }
 
@@ -129,7 +130,7 @@
     display: flex;
     flex-direction: column;
     gap: 0;
-    padding: 6px;
+    padding: 6px 6px 0;
     background: var(--xp-line-light);
 }
 
@@ -168,6 +169,21 @@
 .menu-left .menu-item img {
     width: 32px;
     height: auto;
+    flex-shrink: 0;
+}
+
+.menu-left .menu-item.bottom {
+    margin-block: auto 0;
+    padding: 12px 8px 6px 44px;
+    gap: 6px;
+    align-items: center;
+    font-weight: 600;
+    border-top: 1px solid var(--xp-separator);
+}
+
+.menu-left .menu-item.bottom img {
+    width: 18px;
+    height: 18px;
     flex-shrink: 0;
 }
 
