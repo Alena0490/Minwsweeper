@@ -44,9 +44,9 @@
     background: transparent;
     border: none;
     outline: none;
-    color: var(--ms-panel);
+     color: color-mix(in srgb, var(--terminal-text) 75%, black);
     font-family: 'Lucida Console', monospace;
     font-size: 13px;
     flex: 1;
-    caret-color: var(--ms-panel);
+    color: color-mix(in srgb, var(--terminal-text) 75%, black);
 }
