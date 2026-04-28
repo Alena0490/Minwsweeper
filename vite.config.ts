@@ -12,7 +12,7 @@ export default defineConfig({
                     ie: ['./src/components/IE/IEWindow.tsx'],
                     paint: ['./src/components/Paint/Paint.tsx'],
                     calculator: ['./src/components/Calculator/Calculator.tsx'],
-                    terminal: ['./src/components/Terminal/Terminal.tsx'],
+                    terminal: ['./src/components/terminal/Terminal.tsx'],
                     loading: ['./src/components/XPLoading.tsx'],
                     footer: ['./src/components/Footer.tsx'],
                     startmenu: ['./src/components/MenuModal.tsx'],

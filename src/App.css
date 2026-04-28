@@ -133,3 +133,22 @@
 
   transform: translate(1px, 1px);
 }
+
+.app-wrapper {
+  position: absolute;
+  left: 24px;
+  top: 28px;
+  bottom: 42px;
+
+  width: auto;
+  height: auto;
+
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  align-content: flex-start;
+  align-items: center;
+
+  column-gap: 10px;
+  row-gap: 18px;
+}

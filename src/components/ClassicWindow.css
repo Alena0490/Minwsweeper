@@ -1,0 +1,106 @@
+/* ─────────────────────────────────────────
+   Classic XP Window Shell
+   Reusable base for Win32-style windows
+───────────────────────────────────────── */
+
+.xp-classic-window {
+  overflow: hidden;
+  background: var(--xp-surface);
+  border-radius: 0;
+
+  /* outer frame */
+  border: 1px solid var(--xp-line-dark);
+
+  /* classic double bevel */
+  box-shadow:
+    inset 1px 1px 0 var(--xp-line-light),
+    inset -1px -1px 0 var(--xp-line-deep),
+    inset 2px 2px 0 var(--xp-surface-2),
+    inset -2px -2px 0 var(--xp-line-dark);
+}
+
+
+/* ─────────────────────────────────────────
+   Title Bar
+───────────────────────────────────────── */
+
+.xp-classic-window .title-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  min-width: 0;
+  min-height: 1.3rem;
+  padding: 0 0.25rem;
+
+  border-bottom: 1px solid var(--xp-line-deep);
+
+  background: linear-gradient(
+    to right,
+    var(--xp-title-start),
+    var(--xp-title-mid) 55%,
+    var(--xp-title-end)
+  );
+
+  color: var(--xp-title-text);
+  cursor: move;
+}
+
+.xp-classic-window .title-bar-text {
+  display: inline-flex;
+  align-items: center;
+  min-width: 0;
+  overflow: hidden;
+
+  font: 700 11px/1 Tahoma, sans-serif;
+  color: var(--xp-title-text);
+
+  white-space: nowrap;
+  text-overflow: ellipsis;
+
+  text-shadow: 1px 1px 0 var(--xp-line-deep);
+}
+
+
+/* ─────────────────────────────────────────
+   Title Bar Buttons (Classic Win32)
+───────────────────────────────────────── */
+
+.xp-classic-window .title-bar-buttons {
+  display: flex;
+  gap: 2px;
+  margin-left: 6px;
+}
+
+.xp-classic-window .title-bar-buttons button {
+  width: 17px;
+  height: 17px;
+  padding: 0;
+
+  border: 1px solid var(--xp-line-dark);
+  border-radius: 0;
+
+  background: var(--xp-surface);
+  color: var(--text);
+
+  font: 700 11px/1 Tahoma, sans-serif;
+
+  /* reuse existing bevel system */
+  box-shadow:
+    inset 1px 1px 0 var(--xp-line-light),
+    inset -1px -1px 0 var(--xp-line-deep);
+}
+
+/* no hover effect in classic XP */
+.xp-classic-window .title-bar-buttons button:hover {
+  background: var(--xp-surface);
+}
+
+/* pressed (sunken) state */
+.xp-classic-window .title-bar-buttons button:active {
+  box-shadow:
+    inset 1px 1px 0 var(--xp-line-deep),
+    inset -1px -1px 0 var(--xp-line-light);
+
+  transform: translate(1px, 1px);
+}

@@ -3,6 +3,7 @@ import useSound from '../hooks/useSound'
 import MenuModal from './MenuModal';
 import ErrorBubble from './ErrorBubble';
 import './Footer.css'
+
 import windowsLogo from '../img/logo.webp'
 import InternetShortcut from '../img/InternetShortcut.webp'
 import IEIcon from '../img/InternetExplorer6.webp'

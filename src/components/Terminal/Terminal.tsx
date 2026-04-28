@@ -2,7 +2,7 @@
 import useDraggable from '../../hooks/useDraggable';
 import TerminalWindow from './TerminalWindow';
 import TerminalIcon from '../../img/CommandPrompt.webp'
-import '../../App.css'
+import '../ClassicWindow.css'
 import './Terminal.css'
 
 interface TerminalProps {
@@ -29,6 +29,7 @@ const Terminal = ({
     <div
     className={[
         'app-window',
+        'xp-classic-window',
         'terminal-window',
         isMinimized && 'terminal--minimized', 
         isMinimized && 'app-window--minimized',
@@ -39,7 +40,7 @@ const Terminal = ({
     >
          <div className='title-bar' onMouseDown={handleMouseDown}>
                 <span className='title-bar-text'>
-                <img className='paint-icon' src={TerminalIcon} alt="MS Windows Terminal Icon" />
+                <img className='terminal-icon' src={TerminalIcon} alt="MS Windows Terminal Icon" />
                 C:\WINDOWS\system32\cmd.exe
                 </span>
                 <div className='title-bar-buttons'>

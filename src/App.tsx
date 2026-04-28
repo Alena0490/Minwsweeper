@@ -8,7 +8,7 @@ import Paint from './components/Paint/Paint'
 import IEWindow from "./components/IE/IEWindow"
 import Calculator from "./components/Calculator/Calculator"
 import Footer from "./components/Footer"
-import Terminal from "./components/Terminal/Terminal";
+import Terminal from "./components/terminal/Terminal";
 
 import MyComputer from './img/MyComputer.webp'
 import IntertExplorer from './img/InternetExplorer6.webp'

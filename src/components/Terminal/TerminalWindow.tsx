@@ -159,35 +159,37 @@ const TerminalWindow = ({ onClose, apps }: TerminalWindowProps) => {
     }
 
     return (
-        <div 
-            className='terminal-body' 
-            style={{ 
-                backgroundColor: bgColor, 
-                color: textColor,
-                ['--terminal-text' as string]: textColor 
-        }}
-        >
-            <div className='terminal-output'>
-                {lines.map((line, i) => (
-                    <div key={i}>{line || '\u00A0'}</div>
-                ))}
-                <div className='terminal-input-row'>
-                    <span>C:\&gt;</span>
-                    <input
-                        className='terminal-input'
-                        value={input}
-                        onChange={e => setInput(e.target.value)}
-                        onKeyDown={e => {
-                            if (e.key === 'Enter') {
-                                handleCommand(input)
-                                setInput('')
-                            }
-                        }}
-                        autoFocus
-                        spellCheck={false}
-                    />
+        <div className="terminal-body-outer">
+            <div 
+                className='terminal-body' 
+                style={{ 
+                    backgroundColor: bgColor, 
+                    color: textColor,
+                    ['--terminal-text' as string]: textColor 
+            }}
+            >
+                <div className='terminal-output'>
+                    {lines.map((line, i) => (
+                        <div key={i}>{line || '\u00A0'}</div>
+                    ))}
+                    <div className='terminal-input-row'>
+                        <span>C:\&gt;</span>
+                        <input
+                            className='terminal-input'
+                            value={input}
+                            onChange={e => setInput(e.target.value)}
+                            onKeyDown={e => {
+                                if (e.key === 'Enter') {
+                                    handleCommand(input)
+                                    setInput('')
+                                }
+                            }}
+                            autoFocus
+                            spellCheck={false}
+                        />
+                    </div>
+                    <div ref={bottomRef} />
                 </div>
-                <div ref={bottomRef} />
             </div>
         </div>
     )

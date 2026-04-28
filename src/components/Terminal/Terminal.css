@@ -3,25 +3,39 @@
     src: url('../../fonts/lucon.ttf') format('truetype');
 }
 
+.terminal-window {
+    width: auto;
+    height: auto;
+    transform: scale(0.95);
+}
+
 .terminal-window .title-bar {
     white-space: nowrap;
     overflow: hidden;
-    text-overflow: ellipsis;
+    text-overflow: clip;
 }
 
 .terminal-body {
-    height: 100%;
-    min-height: 40vh;
-    max-height: 70vh;
-    min-width: 24rem;
+    flex: none;
+    width: 80ch;
+    height: calc(25 * 1.15em);
+
     overflow-y: auto;
+    padding: 4px 6px;
+
     background-color: var(--ms-display-bg);
-    color: var(--text-inverted);
+    color: var(--terminal-text, var(--text-inverted));
+
     font-family: 'Lucida Console', monospace;
     font-size: 13px;
-    padding: 4px 8px;
-    flex: 1;
-    overflow-y: auto;
+    line-height: 1.18;
+}
+
+.terminal-icon {
+    width: 20px;
+    height: auto;
+    margin-right: 4px;
+    filter: contrast(1.2);
 }
 
 .terminal-output {
@@ -32,21 +46,111 @@
 
 .terminal-output div {
     white-space: pre;
+    font-variant-ligatures: none;
 }
 
 .terminal-input-row {
     display: flex;
-    align-items: center;
-    gap: 4px;
+    align-items: baseline;
+    gap: 0;
 }
 
 .terminal-input {
     background: transparent;
     border: none;
     outline: none;
-     color: color-mix(in srgb, var(--terminal-text) 75%, black);
+    color: color-mix(in srgb, var(--terminal-text) 70%, black);
     font-family: 'Lucida Console', monospace;
     font-size: 13px;
     flex: 1;
-    color: color-mix(in srgb, var(--terminal-text) 75%, black);
+    caret-color: currentColor;
+}
+
+/* ─────────────────────────────────────────
+   Console Scrollbar
+───────────────────────────────────────── */
+
+.terminal-body::-webkit-scrollbar {
+    width: 16px;
+    height: 16px;
+}
+
+.terminal-body::-webkit-scrollbar-track {
+    background: var(--xp-surface);
+    border-left: 1px solid var(--xp-line-dark);
+}
+
+.terminal-body::-webkit-scrollbar-thumb {
+    background: var(--xp-surface-2);
+    border: 1px solid;
+    border-color:
+        var(--xp-line-light)
+        var(--xp-line-dark)
+        var(--xp-line-dark)
+        var(--xp-line-light);
+    box-shadow:
+        inset 1px 1px 0 var(--xp-line-light),
+        inset -1px -1px 0 var(--xp-line-dark);
+}
+
+.terminal-body::-webkit-scrollbar-thumb:active {
+    border-color:
+        var(--xp-line-dark)
+        var(--xp-line-light)
+        var(--xp-line-light)
+        var(--xp-line-dark);
+    box-shadow:
+        inset 1px 1px 0 var(--xp-line-dark),
+        inset -1px -1px 0 var(--xp-line-light);
+}
+
+.terminal-body::-webkit-scrollbar-button {
+    height: 16px;
+    background: var(--xp-surface-2);
+    box-shadow:
+        inset 1px 1px 0 var(--xp-line-light),
+        inset -1px -1px 0 var(--xp-line-dark);
+}
+
+.terminal-body::-webkit-scrollbar-corner {
+    background: var(--xp-surface);
+}
+
+/* Scrollbar Arrows */
+.terminal-body-outer {
+    position: relative;
+    flex: 1;
+    min-height: 0;
+}
+
+.terminal-body-outer::before {
+    content: '▲';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 16px;
+    height: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    color: var(--xp-line-deep);
+    z-index: 100;
+    pointer-events: none;
+}
+
+.terminal-body-outer::after {
+    content: '▼';
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 16px;
+    height: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    color: var(--xp-line-deep);
+    z-index: 100;
+    pointer-events: none;
 }
