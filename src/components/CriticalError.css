@@ -1,0 +1,151 @@
+/* ================================
+   ERROR WINDOW – FULL XP STYLE
+================================ */
+
+.error-window {
+  width: 380px;
+  font: 11px Tahoma, sans-serif;
+}
+
+/* --- INNER PANEL (XP content) --- */
+.error-window::before {
+  content: "";
+  position: absolute;
+  inset: 30px 3px 3px 3px;
+  background: var(--xp-surface);
+  border-radius: 2px;
+
+  box-shadow:
+    inset 1px 1px 0 var(--xp-line-light),
+    inset -1px -1px 0 var(--xp-line-dark);
+
+  z-index: 0;
+}
+
+/* vše nad panelem */
+.error-window > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* --- TITLE --- */
+.error-window .title-bar {
+  height: 26px;
+}
+
+.error-window .title-bar-text {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.error-window .error-title-icon {
+  width: 16px;
+  height: 16px;
+  flex: 0 0 16px;
+  object-fit: contain;
+}
+
+/* --- BODY --- */
+.error-window .error-body {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 22px 24px 10px;
+  background: transparent;
+  color: var(--text);
+}
+
+.error-window .error-body-icon {
+  width: 32px;
+  height: 32px;
+  flex: 0 0 32px;
+  object-fit: contain;
+  margin-top: 1px;
+}
+
+.error-window .error-text {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding-top: 2px;
+  line-height: 1.35;
+}
+
+.error-window .error-message {
+  display: block;
+  font-size: 11px;
+  color: var(--text);
+}
+
+/* --- FOOTER --- */
+.error-window .error-footer {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  padding: 8px 12px 18px;
+  background: transparent;
+}
+
+/* ================================
+   LUNA BUTTON
+================================ */
+
+.error-window .error-ok-btn {
+  min-width: 75px;
+  height: 23px;
+  padding: 0 12px;
+  font: 11px Tahoma, sans-serif;
+  color: var(--text);
+  cursor: default;
+
+  border: 1px solid var(--xp-title-end);
+  border-radius: var(--window-radius);
+
+  background:
+    linear-gradient(var(--xp-line-light), var(--xp-line-light)) padding-box,
+    linear-gradient(
+      to bottom,
+      color-mix(in srgb, var(--xp-title-mid) 30%, var(--xp-line-light) 70%),
+      var(--xp-title-mid),
+      var(--xp-title-start),
+      color-mix(in srgb, var(--xp-title-mid) 40%, var(--xp-line-light) 60%)
+    ) border-box;
+
+  box-shadow:
+    inset 1px 1px 0 var(--xp-line-light),
+    inset -1px -1px 0 color-mix(in srgb, var(--xp-title-start) 40%, var(--xp-line-light) 60%);
+}
+
+/* --- ORANGE DEFAULT / FOCUS --- */
+.error-window .error-ok-btn:hover,
+.error-window .error-ok-btn:focus-visible,
+.error-window #xp-default-btn {
+  outline: 1px dotted var(--text);
+  outline-offset: -4px;
+
+  background:
+    linear-gradient(var(--xp-line-light), var(--xp-line-light)) padding-box,
+    linear-gradient(
+      to bottom,
+      var(--xp-accent-start),
+      var(--xp-accent-mid),
+      var(--xp-accent-end),
+      var(--xp-accent-start)
+    ) border-box;
+}
+
+.error-window .error-ok-btn:active {
+  background:
+    linear-gradient(var(--xp-surface), var(--xp-line-light)) padding-box,
+    linear-gradient(
+      to bottom,
+      var(--xp-title-start),
+      color-mix(in srgb, var(--xp-title-mid) 55%, var(--xp-line-light) 45%)
+    ) border-box;
+
+  box-shadow:
+    inset 1px 1px 2px var(--xp-shadow-light);
+}

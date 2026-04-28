@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
+import type { ErrorType } from './CriticalError'
 import useSound from '../hooks/useSound'
 import MenuModal from './MenuModal';
 import ErrorBubble from './ErrorBubble';
@@ -16,7 +17,7 @@ import securityError from '../img/SecurityError.webp'
 
 interface FooterProps {
     handleFullscreen: () => void;
-    
+    onAppUnavailable: (type: ErrorType) => void;
     onIEOpen: () => void;
     onPaintOpen: () => void; 
     onMinesweeperOpen: () => void;
@@ -44,6 +45,7 @@ interface FooterProps {
 
 const Footer = ({ 
     handleFullscreen, 
+    onAppUnavailable, 
 
     onIEOpen, 
     onPaintOpen,
@@ -132,6 +134,7 @@ const Footer = ({
                         onCalculatorOpen={onCalculatorOpen}
                         onMinesweeperOpen={onMinesweeperOpen}
                         onTerminalOpen={onTerminalOpen}
+                        onAppUnavailable={onAppUnavailable}
 
                     />
                     <img src={windowsLogo} alt='Windows XP Logo' />

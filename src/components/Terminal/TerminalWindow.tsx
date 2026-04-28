@@ -19,6 +19,7 @@ const TerminalWindow = ({ onClose, apps }: TerminalWindowProps) => {
     const [textColor, setTextColor] = useState('#c0c0c0')
 
     const bottomRef = useRef<HTMLDivElement>(null)
+    const outerRef = useRef<HTMLDivElement>(null)
 
     const colorMap: Record<string, string> = {
         '0': '#000000',
@@ -41,6 +42,21 @@ const TerminalWindow = ({ onClose, apps }: TerminalWindowProps) => {
 
     useEffect(() => {
         bottomRef.current?.scrollIntoView({ behavior: 'smooth' })
+    }, [lines])
+
+    useEffect(() => {
+        const el = outerRef.current?.querySelector('.terminal-body') as HTMLElement
+        if (!el) return
+
+        const check = () => {
+            const scrollable = el.scrollHeight > el.clientHeight
+            outerRef.current?.classList.toggle('is-scrollable', scrollable)
+        }
+
+        check()
+        const observer = new ResizeObserver(check)
+        observer.observe(el)
+        return () => observer.disconnect()
     }, [lines])
 
     const handleCommand = (cmd: string) => {
@@ -159,7 +175,7 @@ const TerminalWindow = ({ onClose, apps }: TerminalWindowProps) => {
     }
 
     return (
-        <div className="terminal-body-outer">
+        <div className="terminal-body-outer" ref={outerRef}>
             <div 
                 className='terminal-body' 
                 style={{ 

@@ -34,6 +34,10 @@
   --insensitive: #a1a192;
   --tooltip-bg: #FFFFE2;
 
+  --xp-accent-start: #FFE7A2;
+  --xp-accent-mid: #FFB84A;
+  --xp-accent-end: #E97800;
+
   --window-radius: 3px;
   --window-radius-md: 6px;
   --window-radius-lg: 10px;

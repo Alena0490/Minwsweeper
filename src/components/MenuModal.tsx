@@ -1,3 +1,4 @@
+import type { ErrorType } from './CriticalError'
 import useSound from '../hooks/useSound'
 import UserCat from '../img/user-cat.webp'
 
@@ -24,12 +25,13 @@ import AllProgramsIcon from '../img/AllPrograms.webp'
 import './MenuModal.css'
 
 interface ModalProps {
-  className?: string;
-  onIEOpen: () => void;
-  onPaintOpen: () => void;
-  onCalculatorOpen: () => void;
-  onMinesweeperOpen: () => void;
-  onTerminalOpen: () => void;
+    className?: string;
+    onIEOpen: () => void;
+    onPaintOpen: () => void;
+    onCalculatorOpen: () => void;
+    onMinesweeperOpen: () => void;
+    onTerminalOpen: () => void;
+    onAppUnavailable: (type: ErrorType) => void;
 }
 
 const MenuModal = ({ 
@@ -38,7 +40,8 @@ const MenuModal = ({
     onPaintOpen, 
     onCalculatorOpen, 
     onMinesweeperOpen,
-    onTerminalOpen
+    onTerminalOpen,
+    onAppUnavailable
 }: ModalProps) => { 
     const {playStart } = useSound();
 
@@ -64,7 +67,10 @@ const MenuModal = ({
                             </span>
                     </div>
 
-                    <div className="menu-item menu-item-detailed">
+                    <div 
+                        className="menu-item menu-item-detailed" 
+                        onClick={() => onAppUnavailable('appNotFound')}
+                    >
                         <img src={OutlookExpress} alt="Email Icon" />
                         <span>
                             E-mail
@@ -125,7 +131,7 @@ const MenuModal = ({
                         <span>Control Panel</span>
                     </div>      
                     <div className="menu-item">
-                        <img src={ProgramAccess} alt="Printers and Faxes Icon" />
+                        <img src={ProgramAccess} alt="Program Access Icon" />
                         <span>Set Program Access<br />and Defaults</span>
                     </div>
                     <div className="menu-item">

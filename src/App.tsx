@@ -1,6 +1,8 @@
 import { useState } from "react"
 import useSound from './hooks/useSound'
 import useWindowState from './hooks/useWindowState';
+import type { ErrorType } from './components/CriticalError'
+import CriticalError from './components/CriticalError'
 
 import LoadingScreen from './components/XPLoading'
 import Game from "./components/minesweeper/Game"
@@ -17,6 +19,7 @@ import MinesweeperIcon from './img/Minesweeper.webp'
 import PaintIcon from './img/Paint.webp'
 import CalculatorIcon from './img/Calculator.webp'
 import TerminalIcon from './img/CommandPrompt.webp'
+
 import './App.css'
 
 interface FullscreenHTMLElement extends HTMLElement {
@@ -25,7 +28,7 @@ interface FullscreenHTMLElement extends HTMLElement {
 }
 
 const App = () => {
-  const { playStart, playMinimize } = useSound();
+  const { playStart, playMinimize, playCriticalError } = useSound();
 
   const minesweeper = useWindowState();
   const ie = useWindowState();
@@ -39,6 +42,7 @@ const App = () => {
   const [isMinesweeperOpen, setIsMinesweeperOpen] = useState(false)
   const [isTerminalOpen, setIsTerminalOpen] = useState(false)
   const [loading, setLoading] = useState(true)
+  const [activeError, setActiveError] = useState<ErrorType | null>(null)
 
   const handleFullscreen = () => {
     const elem = document.documentElement as FullscreenHTMLElement;
@@ -46,6 +50,12 @@ const App = () => {
     else if (elem.webkitRequestFullscreen) elem.webkitRequestFullscreen();
     else if (elem.msRequestFullscreen) elem.msRequestFullscreen();
   };
+
+  // Show Error Window
+  const openError = (type: ErrorType) => {
+    playCriticalError()
+    setActiveError(type)
+  }
 
   /*** MINIMIZE APPS */
 
@@ -145,7 +155,11 @@ const App = () => {
   ) : (
     <div className="app">
       <div className="app-wrapper">
-        <a href="#" className="desktop-item">
+        <a 
+            href="#" 
+            className="desktop-item"
+            onClick={() => openError('appNotFound')}
+          >
           <img className="app-icon my-computer" src={MyComputer} alt="My Computer" />
           <span className="desktop-item-label">My Computer</span>
         </a>
@@ -250,8 +264,16 @@ const App = () => {
         />
       )}
 
+      {activeError && (
+          <CriticalError
+              type={activeError}
+              onClose={() => setActiveError(null)}
+          />
+      )}
+
       <Footer
         handleFullscreen={handleFullscreen}
+        onAppUnavailable={openError}
 
         onIEOpen={openIE}
         onPaintOpen={openPaint}
