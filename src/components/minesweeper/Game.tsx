@@ -33,9 +33,17 @@ interface GameProps {
     setIsFullscreen: (value: boolean | ((prev: boolean) => boolean)) => void;
     isMinimized: boolean;
     setIsMinimized: (value: boolean | ((prev: boolean) => boolean)) => void;
+    onMouseDown?: () => void
 }
 
-const Game = ({onClose, isFullscreen, setIsFullscreen, isMinimized, setIsMinimized}:GameProps) => {
+const Game = ({
+  onClose, 
+  isFullscreen, 
+  setIsFullscreen, 
+  isMinimized, 
+  setIsMinimized,
+  onMouseDown
+}:GameProps) => {
     const [gameState, setGameState] = useState<GameState>('playing');
     const [level, setLevel] = useState(beginnerConfig);
     const [board, setBoard] = useState(() =>
@@ -168,6 +176,7 @@ const Game = ({onClose, isFullscreen, setIsFullscreen, isMinimized, setIsMinimiz
         isFullscreen && 'app-window--fullscreen',
     ].filter(Boolean).join(' ')}
       style={isFullscreen ? {} : { left: position.x, top: position.y }}
+      onMouseDown={onMouseDown}
     >
       <div 
         className='title-bar'

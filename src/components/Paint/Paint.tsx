@@ -13,9 +13,10 @@ interface PaintProps {
   isMinimized: boolean;
   setIsMinimized: (value: boolean | ((prev: boolean) => boolean)) => void;
   onClose: () => void;
+  onMouseDown?: () => void
 }
 
-const Paint = ({ isFullscreen, setIsFullscreen, isMinimized, setIsMinimized, onClose }: PaintProps) => {
+const Paint = ({ isFullscreen, setIsFullscreen, isMinimized, setIsMinimized, onClose, onMouseDown }: PaintProps) => {
   
   const [tool, setTool] = useState("pencil");
   const [zoom, setZoom] = useState(1);
@@ -98,6 +99,7 @@ const Paint = ({ isFullscreen, setIsFullscreen, isMinimized, setIsMinimized, onC
         isFullscreen && 'app-window--fullscreen',
       ].filter(Boolean).join(' ')}
       style={isFullscreen ? {} : { left: position.x, top: position.y }}
+      onMouseDown={onMouseDown}
     >
       <div className='title-bar' onMouseDown={handleMouseDown}>
         <span className='title-bar-text'>

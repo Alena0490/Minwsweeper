@@ -12,6 +12,7 @@ interface TerminalProps {
     isFullscreen: boolean;
     toggleFullscreen: () => void;
     apps: { name: string; size: string }[];
+    onMouseDown?: () => void
 }
 
 const Terminal = ({
@@ -20,7 +21,8 @@ const Terminal = ({
     setIsMinimized, 
     isFullscreen, 
     toggleFullscreen,
-    apps
+    apps,
+    onMouseDown
 }: TerminalProps) => {
 
     const { position, handleMouseDown } = useDraggable(400, 150);
@@ -37,6 +39,7 @@ const Terminal = ({
         isFullscreen && 'app-window--fullscreen',
     ].filter(Boolean).join(' ')}
     style={isFullscreen ? {} : { left: position.x, top: position.y }}
+    onMouseDown={onMouseDown}
     >
          <div className='title-bar' onMouseDown={handleMouseDown}>
                 <span className='title-bar-text'>

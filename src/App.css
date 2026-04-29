@@ -158,8 +158,8 @@
 
 /*** ICON BUTTONS */
 .title-bar-buttons.xp-title-controls .xp-title-control {
-  width: 21px;
-  height: 21px;
+  width: 21.5px;
+  height: 21.5px;
   padding: 0;
   border: 0;
   border-radius: 3px;
@@ -168,7 +168,7 @@
   line-height: 0;
   background-repeat: no-repeat;
   background-position: center;
-  background-size: 21px 21px;
+  background-size: 21.5px 21.5px;
   box-shadow: none;
   overflow: hidden;
   cursor: default;

@@ -11,7 +11,7 @@ const IEFavourites = ({ onNavigate, onClose }: IEFavouritesProps) => {
   return (
     <div className="ie-favourites">
       <div className="ie-favourites-header">
-        <span>Favorites</span>
+        <span>Favourites</span>
         <button onClick={onClose} className="ie-favourites-close">✕</button>
       </div>
       <div className="ie-favourites-list">

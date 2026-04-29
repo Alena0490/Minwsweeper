@@ -14,15 +14,17 @@ interface FieldProps {
     setIsPressed: (pressed: boolean) => void;
     deathId: string | null;
     setGameState: (state: 'playing' | 'won' | 'lost') => void;
+    onMouseDown?: () => void
 }
 
-const Field = ({ board, gameState, onFlag, onOpen, setIsPressed, deathId }: FieldProps) => { 
+const Field = ({ board, gameState, onFlag, onOpen, setIsPressed, deathId, onMouseDown }: FieldProps) => { 
     if (!board || board.length === 0 || !board[0]) return null;
     
     return (
     <div
       className="field"
       style={{ gridTemplateColumns: `repeat(${board[0].length}, var(--cell-size))` }}
+      onMouseDown={onMouseDown}
     >
       {board.map((row) =>
         row.map((cell) => (

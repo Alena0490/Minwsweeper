@@ -67,9 +67,10 @@ const errorConfig: Record<ErrorType, ErrorConfig> = {
 interface ErrorProps {
     type: ErrorType
     onClose: () => void
+    onMouseDown?: () => void
 }
 
-const CriticalError = ({ type, onClose }: ErrorProps) => {
+const CriticalError = ({ type, onClose, onMouseDown }: ErrorProps) => {
     const { titleBar, message, icon, buttons } = errorConfig[type]
 
     const { position, handleMouseDown } = useDraggable(
@@ -81,15 +82,16 @@ const CriticalError = ({ type, onClose }: ErrorProps) => {
         <div
             className="app-window error-window"
             style={{ left: position.x, top: position.y }}
+            onMouseDown={onMouseDown}
         >
             <div className="title-bar" onMouseDown={handleMouseDown}>
                 <span className="title-bar-text">
                     <img className="error-title-icon" src={icon} alt="" />
                     {titleBar}
                 </span>
-                <div className="title-bar-buttons">
+                <div className="title-bar-buttons xp-title-controls">
                     <button
-                        className="btn-close"
+                        className="xp-title-control btn-close"
                         onClick={onClose}
                         type="button"
                         aria-label="Close"

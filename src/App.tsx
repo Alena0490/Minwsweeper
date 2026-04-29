@@ -29,6 +29,16 @@ interface FullscreenHTMLElement extends HTMLElement {
   msRequestFullscreen?: () => Promise<void>;
 }
 
+type WindowId =
+  | 'minesweeper'
+  | 'ie'
+  | 'paint'
+  | 'calculator'
+  | 'terminal'
+  | 'notepad'
+  | 'error'
+
+
 const App = () => {
   const { playStart, playMinimize, playCriticalError } = useSound();
 
@@ -47,6 +57,17 @@ const App = () => {
   const [loading, setLoading] = useState(true)
   const [activeError, setActiveError] = useState<ErrorType | null>(null)
   const [isNotepadOpen, setIsNotepadOpen] = useState(false)
+  const [windowOrder, setWindowOrder] = useState<WindowId[]>([])
+
+  // Bring active window to the front
+  const bringToFront = (id: WindowId) => {
+    setWindowOrder(prev => [...prev.filter(item => item !== id), id])
+  }
+
+  // Remove closed window from order
+  const removeFromOrder = (id: WindowId) => {
+    setWindowOrder(prev => prev.filter(item => item !== id))
+  }
 
   const handleFullscreen = () => {
     const elem = document.documentElement as FullscreenHTMLElement;
@@ -59,6 +80,7 @@ const App = () => {
   const openError = (type: ErrorType) => {
     playCriticalError()
     setActiveError(type)
+    bringToFront('error')
   }
 
   /*** MINIMIZE APPS */
@@ -120,6 +142,7 @@ const App = () => {
     } else if (ie.isMinimized) {
       handleIEMinimize(false);
     }
+    bringToFront('ie')
   };
 
   // Open Minesweeper
@@ -130,6 +153,7 @@ const App = () => {
     } else if (minesweeper.isMinimized) {
       handleMinesweeperMinimize(false);
     }
+    bringToFront('minesweeper')
   };
 
   // Open Paint
@@ -140,6 +164,7 @@ const App = () => {
     } else if (paint.isMinimized) {
       handlePaintMinimize(false);
     }
+    bringToFront('paint')
   };
 
   // Open Calculator
@@ -150,6 +175,7 @@ const App = () => {
     } else if (calculator.isMinimized) {
       handleCalculatorMinimize(false);
     }
+    bringToFront('calculator')
   };
 
   // Open Terminal
@@ -160,6 +186,7 @@ const App = () => {
     } else if (terminal.isMinimized) {
       handleTerminalMinimize(false);
     }
+    bringToFront('terminal')
   };
 
   // Open Notepad
@@ -170,7 +197,156 @@ const App = () => {
     } else if (notepad.isMinimized) {
       handleNotepadMinimize(false);
     }
+    bringToFront('notepad')
   };
+
+  // APLICATION RENDERING
+  const renderWindow = (id: WindowId) => {
+
+    /*** Game Window */
+    if (id === 'minesweeper' && isMinesweeperOpen) {
+      return (
+        <Game
+          key="minesweeper"
+          onClose={() => {
+            playMinimize()
+            setIsMinesweeperOpen(false)
+            removeFromOrder('minesweeper')
+          }}
+          isMinimized={minesweeper.isMinimized}
+          isFullscreen={minesweeper.isFullscreen}
+          setIsMinimized={handleMinesweeperMinimize}
+          setIsFullscreen={() => minesweeper.toggleFullscreen()}
+          onMouseDown={() => bringToFront('minesweeper')}
+        />
+      )
+    }
+
+    /*** IE Window */
+    if (id === 'ie' && isIEOpen) {
+      return (
+        <IEWindow
+          key="ie"
+          onClose={() => { 
+            playMinimize(); 
+            setIsIEOpen(false); 
+            removeFromOrder('ie') 
+          }}
+          isMinimized={ie.isMinimized}
+          setIsMinimized={handleIEMinimize}
+          isFullscreen={ie.isFullscreen}
+          toggleFullscreen={ie.toggleFullscreen}
+          onMouseDown={() => bringToFront('ie')}
+        />
+      )
+    }
+
+    /*** Paint Window */
+    if (id === 'paint' && isPaintOpen) {
+      return (
+        <Paint
+          key="paint"
+          onClose={() => { 
+            playMinimize(); 
+            setIsPaintOpen(false); 
+            removeFromOrder('paint') 
+          }}
+          isMinimized={paint.isMinimized}
+          setIsMinimized={handlePaintMinimize}
+          isFullscreen={paint.isFullscreen}
+          setIsFullscreen={() => paint.toggleFullscreen()}
+          onMouseDown={() => bringToFront('paint')}
+        />
+      )
+    }
+
+    /*** Calculator Window */
+    if (id === 'calculator' && isCalculatorOpen) {
+      return (
+        <Calculator
+          key="calculator"
+          onClose={() => { 
+            playMinimize(); 
+            setIsCalculatorOpen(false); 
+            removeFromOrder('calculator') 
+          }}
+          isMinimized={calculator.isMinimized}
+          setIsMinimized={handleCalculatorMinimize}
+          isFullscreen={calculator.isFullscreen}
+          toggleFullscreen={calculator.toggleFullscreen}
+          onMouseDown={() => bringToFront('calculator')}
+        />
+      )
+    }
+
+    /*** Terminal Window */
+    if (id === 'terminal' && isTerminalOpen) {
+      return (
+        <Terminal
+          key="terminal"
+          onClose={() => { 
+            playMinimize(); 
+            setIsTerminalOpen(false); 
+            removeFromOrder('terminal') 
+          }}
+          isMinimized={terminal.isMinimized}
+          setIsMinimized={handleTerminalMinimize}
+          isFullscreen={terminal.isFullscreen}
+          toggleFullscreen={terminal.toggleFullscreen}
+          onMouseDown={() => bringToFront('terminal')}
+          apps={[
+            { name: 'Minesweeper', size: '21,600' },
+            { name: 'Internet Explorer', size: '85,670' },
+            { name: 'Paint', size: '80,740' },
+            { name: 'Calculator', size: '16,280' },
+            { name: 'Command Prompt', size: '5,260' },
+            { name: 'Loading Screen', size: '7,730' },
+            { name: 'Start Menu', size: '21,600' },
+            { name: 'Taskbar', size: '3,260' },
+            { name: 'Error Bubble', size: '590' },
+            { name: 'Critical Error', size: '10,480' },
+            { name: 'Notepad', size: '70' },
+          ]}
+        />
+      )
+    }
+
+    /*** Notepad Window */
+    if (id === 'notepad' && isNotepadOpen) {
+      return (
+        <Notepad
+          key="notepad"
+          onClose={() => { 
+            playMinimize(); 
+            setIsNotepadOpen(false); 
+            removeFromOrder('notepad') 
+          }}
+          isMinimized={notepad.isMinimized}
+          setIsMinimized={handleNotepadMinimize}
+          isFullscreen={notepad.isFullscreen}
+          toggleFullscreen={notepad.toggleFullscreen}
+          onMouseDown={() => bringToFront('notepad')}
+        />
+      )
+    }
+
+    /*** Error Window */
+    if (id === 'error' && activeError) {
+      return (
+        <CriticalError
+          key="error"
+          type={activeError}
+          onClose={() => {
+            setActiveError(null);
+            removeFromOrder('error');
+          }}
+          onMouseDown={() => bringToFront('error')}
+        />
+      )
+    }
+
+    return null
+  }
 
   return loading ? (
     <LoadingScreen onFinish={() => setLoading(false)} />
@@ -227,91 +403,8 @@ const App = () => {
         </a>
       </div>
 
-       {/* Game window */}
-      {isMinesweeperOpen && (
-        <Game
-          onClose={() => { playMinimize(); setIsMinesweeperOpen(false); }}
-          isMinimized={minesweeper.isMinimized}
-          isFullscreen={minesweeper.isFullscreen}
-          setIsMinimized={handleMinesweeperMinimize}
-          setIsFullscreen={() => minesweeper.toggleFullscreen()}
-        />
-      )}
-
-      {/* IE window */}
-      {isIEOpen && (
-        <IEWindow
-          onClose={() => { playMinimize(); setIsIEOpen(false); }}
-          isMinimized={ie.isMinimized}
-          setIsMinimized={handleIEMinimize}
-          isFullscreen={ie.isFullscreen}
-          toggleFullscreen={ie.toggleFullscreen}
-        />
-      )}
-
-      {/* Paint window */}
-      {isPaintOpen && (
-        <Paint
-          onClose={() => { playMinimize(); setIsPaintOpen(false); }}
-          isMinimized={paint.isMinimized}
-          setIsMinimized={handlePaintMinimize}
-          isFullscreen={paint.isFullscreen}
-          setIsFullscreen={() => paint.toggleFullscreen()}
-        />
-      )}
-
-      {/* Calculator window */}
-      {isCalculatorOpen && (
-        <Calculator
-          onClose={() => { playMinimize(); setIsCalculatorOpen(false); }}
-          isMinimized={calculator.isMinimized}
-          setIsMinimized={handleCalculatorMinimize}
-          isFullscreen={calculator.isFullscreen}
-          toggleFullscreen={calculator.toggleFullscreen}
-        />
-      )}
-
-      {/* Terminal window */}
-      {isTerminalOpen && (
-        <Terminal
-          onClose={() => { playMinimize(); setIsTerminalOpen(false); }}
-          isMinimized={terminal.isMinimized}
-          setIsMinimized={handleTerminalMinimize}
-          isFullscreen={terminal.isFullscreen}
-          toggleFullscreen={terminal.toggleFullscreen}
-          apps={[
-            { name: 'Minesweeper', size: '21,600' },
-            { name: 'Internet Explorer', size: '85,670' },
-            { name: 'Paint', size: '80,740' },
-            { name: 'Calculator', size: '16,280' },
-            { name: 'Command Prompt', size: '5,260' },
-            { name: 'Loading Screen', size: '7,730' },
-            { name: 'Start Menu', size: '21,600' },
-            { name: 'Taskbar', size: '3,260' },
-            { name: 'Error Bubble', size: '590' },
-            { name: 'Critical Error', size: '10,480' },
-            { name: 'Notepad', size: '70' },
-        ]}
-        />
-      )}
-
-      {/* Notepad window */}
-      {isNotepadOpen && (
-        <Notepad
-            onClose={() => { playMinimize(); setIsNotepadOpen(false); }}
-            isMinimized={notepad.isMinimized}
-            setIsMinimized={handleNotepadMinimize}
-            isFullscreen={notepad.isFullscreen}
-            toggleFullscreen={notepad.toggleFullscreen}
-        />
-      )}
-
-      {activeError && (
-          <CriticalError
-              type={activeError}
-              onClose={() => setActiveError(null)}
-          />
-      )}
+      {/* Open windows, ordered from back to front */}
+      {windowOrder.map(renderWindow)}
 
       <Footer
         handleFullscreen={handleFullscreen}

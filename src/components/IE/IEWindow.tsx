@@ -37,9 +37,17 @@ interface IEWindowProps {
     setIsMinimized: (value: boolean | ((prev: boolean) => boolean)) => void;
     isFullscreen: boolean;
     toggleFullscreen: () => void;
+    onMouseDown?: () => void
 }
 
-const IEWindow = ({ onClose, isMinimized, setIsMinimized, isFullscreen, toggleFullscreen }: IEWindowProps) => {
+const IEWindow = ({ 
+    onClose, 
+    isMinimized, 
+    setIsMinimized, 
+    isFullscreen, 
+    toggleFullscreen,
+    onMouseDown 
+}: IEWindowProps) => {
     const HOME_URL = "https://web.archive.org/web/20031024040025if_/http://www.google.com/";
 
     const [history, setHistory] = useState([HOME_URL, "https://alena-pumprova.cz/"]);
@@ -150,6 +158,7 @@ const IEWindow = ({ onClose, isMinimized, setIsMinimized, isFullscreen, toggleFu
                 isFullscreen && 'app-window--fullscreen',
             ].filter(Boolean).join(' ')}
             style={isFullscreen ? {} : { left: position.x, top: position.y }}
+            onMouseDown={onMouseDown}
         >
             <div className='title-bar' onMouseDown={handleMouseDown}>
                 <div className="title">

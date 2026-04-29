@@ -8,6 +8,8 @@ const NotepadApp = () => {
                 className="xp-notepad" 
                 spellCheck="false"
                 rows={20}
+                cols={2}
+                autoComplete="off"
             >
             </textarea>
         </div>

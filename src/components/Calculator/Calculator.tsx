@@ -13,6 +13,7 @@ interface CalculatorProps {
     setIsMinimized: (value: boolean | ((prev: boolean) => boolean)) => void;
     isFullscreen: boolean;
     toggleFullscreen: () => void;
+    onMouseDown?: () => void
 }
 
 const Calculator = ({
@@ -20,7 +21,8 @@ const Calculator = ({
     isMinimized, 
     setIsMinimized, 
     isFullscreen, 
-    toggleFullscreen 
+    toggleFullscreen,
+    onMouseDown 
 }: CalculatorProps) => {
     const { position, handleMouseDown } = useDraggable(400, 150);
 
@@ -39,6 +41,7 @@ const Calculator = ({
             isFullscreen && 'app-window--fullscreen',
         ].filter(Boolean).join(' ')}
         style={isFullscreen ? {} : { left: position.x, top: position.y }}
+        onMouseDown={onMouseDown}
         >
             <div className='title-bar' onMouseDown={handleMouseDown}>
                 <span className='title-bar-text'>
