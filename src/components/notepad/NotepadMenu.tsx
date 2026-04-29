@@ -25,7 +25,7 @@ const NotepadMenu = ( {windowPosition, onClose }: NotepadMenuProps) => {
 
 
     return (
-        <menu>
+        <menu ref={menuRef} className="notepad-menu">
             <ul>
                 <li onClick={() => setOpenMenu(openMenu === 'file' ? null : 'file')}>
                     File

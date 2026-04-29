@@ -11,6 +11,7 @@ import IEWindow from "./components/IE/IEWindow"
 import Calculator from "./components/Calculator/Calculator"
 import Footer from "./components/Footer"
 import Terminal from "./components/terminal/Terminal";
+import Notepad from './components/notepad/Notepad'
 
 import MyComputer from './img/MyComputer.webp'
 import IntertExplorer from './img/InternetExplorer6.webp'
@@ -19,6 +20,7 @@ import MinesweeperIcon from './img/Minesweeper.webp'
 import PaintIcon from './img/Paint.webp'
 import CalculatorIcon from './img/Calculator.webp'
 import TerminalIcon from './img/CommandPrompt.webp'
+import NotepadIcon from './img/Notepad.webp'
 
 import './App.css'
 
@@ -35,6 +37,7 @@ const App = () => {
   const paint = useWindowState();
   const calculator = useWindowState();
   const terminal = useWindowState();
+  const notepad = useWindowState();
 
   const [isIEOpen, setIsIEOpen] = useState(false);
   const [isPaintOpen, setIsPaintOpen] = useState(false);
@@ -43,6 +46,7 @@ const App = () => {
   const [isTerminalOpen, setIsTerminalOpen] = useState(false)
   const [loading, setLoading] = useState(true)
   const [activeError, setActiveError] = useState<ErrorType | null>(null)
+  const [isNotepadOpen, setIsNotepadOpen] = useState(false)
 
   const handleFullscreen = () => {
     const elem = document.documentElement as FullscreenHTMLElement;
@@ -99,6 +103,14 @@ const App = () => {
     terminal.setIsMinimized(nextValue);
   };
 
+  // Minimize Notepad
+  const handleNotepadMinimize = (value: boolean | ((prev: boolean) => boolean)) => {
+    const nextValue = typeof value === 'function' ? value(notepad.isMinimized) : value;
+    if (nextValue) playMinimize();
+    else playStart();
+    notepad.setIsMinimized(nextValue);
+  };
+
   /*** OPEN APPS */
   // Open IE
   const openIE = () => {
@@ -150,6 +162,16 @@ const App = () => {
     }
   };
 
+  // Open Notepad
+  const openNotepad = () => {
+    if (!isNotepadOpen) {
+      playStart();
+      setIsNotepadOpen(true);
+    } else if (notepad.isMinimized) {
+      handleNotepadMinimize(false);
+    }
+  };
+
   return loading ? (
     <LoadingScreen onFinish={() => setLoading(false)} />
   ) : (
@@ -191,6 +213,13 @@ const App = () => {
           <img className="app-icon paint" src={TerminalIcon} alt="Windows CMD" />
           <span className="desktop-item-label">Terminal</span>
         </div>
+
+        {/* Notepad Desktop Icon*/}
+        <div className="desktop-item" onDoubleClick={openNotepad}>
+            <img className="app-icon" src={NotepadIcon} alt="Notepad" />
+            <span className="desktop-item-label">Notepad</span>
+        </div>
+
 
         <a href="#" className="desktop-item">
           <img className="app-icon bin" src={Bin} alt="Recycle Bin" />
@@ -261,7 +290,19 @@ const App = () => {
             { name: 'Taskbar', size: '3,260' },
             { name: 'Error Bubble', size: '590' },
             { name: 'Critical Error', size: '10,480' },
+            { name: 'Notepad', size: '70' },
         ]}
+        />
+      )}
+
+      {/* Notepad window */}
+      {isNotepadOpen && (
+        <Notepad
+            onClose={() => { playMinimize(); setIsNotepadOpen(false); }}
+            isMinimized={notepad.isMinimized}
+            setIsMinimized={handleNotepadMinimize}
+            isFullscreen={notepad.isFullscreen}
+            toggleFullscreen={notepad.toggleFullscreen}
         />
       )}
 
@@ -281,6 +322,7 @@ const App = () => {
         onMinesweeperOpen={openMinesweeper}
         onTerminalOpen={openTerminal}
         onCalculatorOpen={openCalculator}
+        onNotepadOpen={openNotepad}
 
         minesweeperMinimized={minesweeper.isMinimized}
         setMinesweeperMinimized={handleMinesweeperMinimize}
@@ -292,12 +334,15 @@ const App = () => {
         setPaintMinimized={handlePaintMinimize}
         calculatorMinimized={calculator.isMinimized}
         setCalculatorMinimized={handleCalculatorMinimize}
+        notepadMinimized={notepad.isMinimized}
+        setNotepadMinimized={handleNotepadMinimize}
 
         isMinesweeperOpen={isMinesweeperOpen}
         isIEOpen={isIEOpen}
         isPaintOpen={isPaintOpen}
         isCalculatorOpen={isCalculatorOpen}
         isTerminalOpen={isTerminalOpen}
+        isNotepadOpen={isNotepadOpen}
       />
     </div>
   );

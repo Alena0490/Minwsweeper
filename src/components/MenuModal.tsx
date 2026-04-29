@@ -21,6 +21,7 @@ import LogOff from '../img/Logout.webp'
 import TurnOff from '../img/Power.webp'
 import PaintIcon from '../img/Paint.webp'
 import TerminalIcon from '../img/CommandPrompt.webp'
+import NotepadIcon from '../img/Notepad.webp'
 import AllProgramsIcon from '../img/AllPrograms.webp'
 import './MenuModal.css'
 
@@ -31,6 +32,7 @@ interface ModalProps {
     onCalculatorOpen: () => void;
     onMinesweeperOpen: () => void;
     onTerminalOpen: () => void;
+    onNotepadOpen: () => void;
     onAppUnavailable: (type: ErrorType) => void;
 }
 
@@ -41,6 +43,7 @@ const MenuModal = ({
     onCalculatorOpen, 
     onMinesweeperOpen,
     onTerminalOpen,
+    onNotepadOpen,
     onAppUnavailable
 }: ModalProps) => { 
     const {playStart } = useSound();
@@ -96,6 +99,11 @@ const MenuModal = ({
                     <div className="menu-item" onClick={() => { onPaintOpen(); playStart(); }}>
                         <img src={PaintIcon} alt="Paint Icon" />
                         Paint
+                    </div>
+
+                    <div className="menu-item" onClick={() => { onNotepadOpen(); playStart(); }}>
+                        <img src={NotepadIcon} alt="Notepad Icon" />
+                        Notepad
                     </div>
 
                       <div className="menu-item bottom">

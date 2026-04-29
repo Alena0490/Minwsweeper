@@ -11,6 +11,7 @@ import IEIcon from '../img/InternetExplorer6.webp'
 import PaintIcon from '../img/Paint.webp'
 import CalculatorIcon from '../img/Calculator.webp'
 import TerminalIcon from '../img/CommandPrompt.webp'
+import NotepadIcon from '../img/Notepad.webp'
 import volume from '../img/Volume.webp'
 import gameIcon from '../img/minesweeperIcon.webp'
 import securityError from '../img/SecurityError.webp'
@@ -23,24 +24,28 @@ interface FooterProps {
     onMinesweeperOpen: () => void;
     onCalculatorOpen: () => void;
     onTerminalOpen: () => void;
+    onNotepadOpen: () => void;
    
     isIEOpen: boolean;
     isPaintOpen: boolean;
     isMinesweeperOpen: boolean;
     isCalculatorOpen: boolean;
     isTerminalOpen: boolean;
+    isNotepadOpen: boolean;
 
     ieMinimized: boolean;
     paintMinimized: boolean; 
     minesweeperMinimized: boolean;
     calculatorMinimized: boolean;
     terminalMinimized:boolean;
+    notepadMinimized:boolean;
     
     setIeMinimized: (value: boolean | ((prev: boolean) => boolean)) => void;
     setPaintMinimized: (value: boolean | ((prev: boolean) => boolean)) => void;
     setMinesweeperMinimized: (value: boolean | ((prev: boolean) => boolean)) => void;  
     setCalculatorMinimized: (value: boolean | ((prev: boolean) => boolean)) => void;
     setTerminalMinimized: (value: boolean | ((prev: boolean) => boolean)) => void;
+    setNotepadMinimized: (value: boolean | ((prev: boolean) => boolean)) => void;
 }
 
 const Footer = ({ 
@@ -52,24 +57,28 @@ const Footer = ({
     onMinesweeperOpen, 
     onCalculatorOpen,
     onTerminalOpen, 
+    onNotepadOpen,
 
     ieMinimized, 
     paintMinimized,
     minesweeperMinimized, 
     calculatorMinimized,
     terminalMinimized,
+    notepadMinimized,
 
     setIeMinimized, 
     setPaintMinimized, 
     setMinesweeperMinimized, 
     setCalculatorMinimized,
     setTerminalMinimized,
+    setNotepadMinimized,
     
     isIEOpen,
     isPaintOpen,
     isMinesweeperOpen,
     isCalculatorOpen,
-    isTerminalOpen 
+    isTerminalOpen,
+    isNotepadOpen 
 }: FooterProps) => {
     const [time, setTime] = useState(new Date());
     const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -134,6 +143,7 @@ const Footer = ({
                         onCalculatorOpen={onCalculatorOpen}
                         onMinesweeperOpen={onMinesweeperOpen}
                         onTerminalOpen={onTerminalOpen}
+                        onNotepadOpen={onNotepadOpen}
                         onAppUnavailable={onAppUnavailable}
 
                     />
@@ -220,6 +230,20 @@ const Footer = ({
                         >
                             <img src={TerminalIcon} alt="Windows Command Prompt Icon" />
                             <span>C:\WINDOWS\system32\cmd.exe</span>
+                        </div>
+                    )}
+
+                    {isNotepadOpen && (
+                        <div
+                            className={`taskbar-item ${!notepadMinimized ? 'taskbar-item--active' : ''}`}
+                            onClick={() => {
+                                if (notepadMinimized) playStart();
+                                else playMinimize();
+                                setNotepadMinimized(prev => !prev);
+                            }}
+                        >
+                            <img src={NotepadIcon} alt="Notepad Icon" />
+                            <span>Untitled - Notepad</span>
                         </div>
                     )}
 

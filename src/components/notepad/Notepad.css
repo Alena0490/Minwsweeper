@@ -1,21 +1,48 @@
+.app-window.notepad--fullscreen {
+  width: 100vw;
+}
 
+/* .paint-window:not(.paint--fullscreen) {
+  min-width: 700px;
+  height: 450px;
+} */
+
+.notepad-icon {
+  width: 20px;
+  height: auto;
+  margin-right: 4px;
+  filter: contrast(1.2);
+}
+
+.notepad-app {
+    min-width: 400px;
+    background-color: var(--xp-surface);
+    padding: 0;
+}
+
+.notepad-app textarea {
+    width: 100%;
+    height: 100%;
+    outline: none;
+    resize: none;
+}
 
 /* ─────────────────────────────────────────
    Notepad Menu
 ───────────────────────────────────────── */
-.calculator-menu {
+.notepad-menu {
   width: 100%;
   height: 19px;
   display: flex;
   align-items: center;
   background: var(--xp-surface);
-  color: #000;
+  color: var(--text);
   border-top: 1px solid rgba(255, 255, 255, 0.35);
   border-bottom: 1px solid #ACA899;
-  font: 11px Tahoma, sans-serif;
+  font-size: 11px,
 }
 
-.calculator-menu > ul {
+.notepad-menu > ul {
   display: flex;
   align-items: center;
   list-style: none;
@@ -23,7 +50,7 @@
   padding: 0 2px;
 }
 
-.calculator-menu > ul > li {
+.notepad-menu > ul > li {
   position: relative;
   display: flex;
   align-items: center;
@@ -32,13 +59,13 @@
   cursor: default;
 }
 
-.calculator-menu > ul > li:hover,
-.calculator-menu > ul > li:has(.submenu.open) {
+.notepad-menu > ul > li:hover,
+.notepad-menu > ul > li:has(.submenu.open) {
   background: var(--xp-menu-hover);
   color: var(--xp-menu-hover-text);
 }
 
-.calculator-menu .submenu {
+.notepad-menu .submenu {
   display: none;
   position: absolute;
   top: 19px;
@@ -57,11 +84,11 @@
   width: max-content;
 }
 
-.calculator-menu .submenu.open {
+.notepad-menu .submenu.open {
   display: block;
 }
 
-.calculator-menu .submenu li {
+.notepad-menu .submenu li {
   position: relative;
   display: flex;
   align-items: center;
@@ -71,7 +98,7 @@
   white-space: nowrap;
 }
 
-.submenu li.is-disabled {
+.notepad li.is-disabled {
   color: var(--xp-disabled);
   pointer-events: none;
 }
@@ -87,27 +114,27 @@
   color: var(--xp-disabled);
 }
 
-.calculator-menu .submenu li:hover {
+.notepad-menu .submenu li:hover {
   background: var(--xp-menu-hover);
   color: var(--xp-menu-hover-text);
 }
 
-.calculator-menu .submenu li.checked::before {
-  content: "•";
+.notepad-menu .submenu li.checked::before {
+  content: "✓";
   position: absolute;
   left: 8px;
   font-size: 18px;
   line-height: 1;
 }
 
-.calculator-menu .submenu li span {
+.notepad-menu .submenu li span {
   min-width: 30px;
   margin-left: auto;
   padding-left: 20px;
   text-align: right;
 }
 
-.calculator-menu .submenu li.separator {
+.notepad-menu .submenu li.separator {
   height: 2px;
   margin: 3px 1px;
   padding: 0;
@@ -117,6 +144,22 @@
   border-bottom: 1px solid #FFFFFF;
 }
 
-.calculator-menu .submenu li.separator::before {
+.notepad-menu .submenu li.separator::before {
   content: none;
+}
+
+
+.notepad-statusbar {
+    width: 100%;
+    height: 19px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 3px;
+    padding: 3px 6px;
+    background: var(--xp-surface);
+    color: var(--text);
+    border-top: 1px solid rgba(255, 255, 255, 0.35);
+    border-bottom: 1px solid #ACA899;
+    font-size: 9px,
 }
