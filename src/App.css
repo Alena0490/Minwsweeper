@@ -154,3 +154,38 @@
   column-gap: 10px;
   row-gap: 18px;
 }
+
+
+/*** ICON BUTTONS */
+.title-bar-buttons.xp-title-controls .xp-title-control {
+  width: 21px;
+  height: 21px;
+  padding: 0;
+  border: 0;
+  border-radius: 3px;
+  color: transparent;
+  font-size: 0;
+  line-height: 0;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 21px 21px;
+  box-shadow: none;
+  overflow: hidden;
+  cursor: default;
+}
+
+.title-bar-buttons.xp-title-controls .btn-minimize {
+  background-image: url("./img/Minimize.webp");
+}
+
+.title-bar-buttons.xp-title-controls .btn-maximize {
+  background-image: url("./img/Maximize.webp");
+}
+
+.title-bar-buttons.xp-title-controls .btn-restore {
+  background-image: url("./img/Restore.webp");
+}
+
+.title-bar-buttons.xp-title-controls .btn-close {
+  background-image: url("./img/Exit.webp");
+}

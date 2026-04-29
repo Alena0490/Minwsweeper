@@ -7,6 +7,11 @@
   height: 450px;
 } */
 
+.notepad-window .title-bar {
+    gap: 8px;
+    min-height: 26px;
+}
+
 .notepad-icon {
   width: 20px;
   height: auto;

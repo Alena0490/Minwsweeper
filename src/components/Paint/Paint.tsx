@@ -104,33 +104,36 @@ const Paint = ({ isFullscreen, setIsFullscreen, isMinimized, setIsMinimized, onC
           <img className='paint-icon' src={PaintIcon} alt="MS Paint Icon" />
           untitled - Paint
         </span>
-        <div className='title-bar-buttons'>
-            <button
-                className='btn-minimize'
-                onClick={() => setIsMinimized(true)}
-                type="button"
-            >
-                _
-            </button>
-            <button
-                className='btn-maximize'
-                onClick={() => {
-                setIsMinimized(false);
-                setIsFullscreen(prev => !prev);
-                }}
-                type="button"
-                aria-label={isFullscreen ? 'Restore' : 'Maximize'}
-            >
-                {isFullscreen ? '❐' : '□'}
-            </button>
-            <button
-                className='btn-close'
-                onClick={onClose} 
-                type="button"
-                aria-label="Close"
-            >
-                ✕
-            </button>
+        <div className="title-bar-buttons xp-title-controls">
+          <button
+            className="xp-title-control btn-minimize"
+            onClick={() => setIsMinimized(true)}
+            type="button"
+            aria-label="Minimize"
+          >
+            _
+          </button>
+
+          <button
+            className={`xp-title-control ${isFullscreen ? 'btn-restore' : 'btn-maximize'}`}
+            onClick={() => {
+              setIsMinimized(false);
+              setIsFullscreen(prev => !prev);
+            }}
+            type="button"
+            aria-label={isFullscreen ? 'Restore' : 'Maximize'}
+          >
+            {isFullscreen ? '❐' : '□'}
+          </button>
+
+          <button
+            className="xp-title-control btn-close"
+            onClick={onClose}
+            type="button"
+            aria-label="Close"
+          >
+            ✕
+          </button>
         </div>
       </div>
       <PaintMenu

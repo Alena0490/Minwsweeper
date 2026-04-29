@@ -6,6 +6,10 @@
   min-width: 700px;
   height: 450px;
 } */
+.paint-window .title-bar {
+    gap: 8px;
+    min-height: 26px;
+}
 
 .paint-icon {
   width: 20px;

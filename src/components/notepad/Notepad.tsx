@@ -40,34 +40,37 @@ const Notepad = ({
                 <img className='notepad-icon' src={NotepadIcon} alt="MS Notepad Icon" />
                 Notepad
                 </span>
-                <div className='title-bar-buttons'>
+                <div className="title-bar-buttons xp-title-controls">
                     <button
-                        className='btn-minimize'
+                        className="xp-title-control btn-minimize"
                         onClick={() => setIsMinimized(true)}
                         type="button"
+                        aria-label="Minimize"
                     >
                         _
                     </button>
+
                     <button
-                        className='btn-maximize'
+                        className={`xp-title-control ${isFullscreen ? 'btn-restore' : 'btn-maximize'}`}
                         onClick={() => {
-                            setIsMinimized(false);
-                            toggleFullscreen();
+                        setIsMinimized(false);
+                        toggleFullscreen();
                         }}
                         type="button"
                         aria-label={isFullscreen ? 'Restore' : 'Maximize'}
                     >
                         {isFullscreen ? '❐' : '□'}
                     </button>
+
                     <button
-                        className='btn-close'
-                        onClick={onClose} 
+                        className="xp-title-control btn-close"
+                        onClick={onClose}
                         type="button"
                         aria-label="Close"
                     >
                         ✕
                     </button>
-                </div>
+                    </div>
             </div>
         <NotepadMenu
             windowPosition={position}

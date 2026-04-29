@@ -176,16 +176,18 @@ const Game = ({onClose, isFullscreen, setIsFullscreen, isMinimized, setIsMinimiz
         <span className='title-bar-text'><img className='game-icon' src={GameIcon} alt="Minesweeper Icon" />
           {level === beginnerConfig ? 'Mineswe...' : 'Minesweeper'}
         </span>
-        <div className='title-bar-buttons'>
+        <div className="title-bar-buttons xp-title-controls">
           <button
-            className='btn-minimize'
+            className="xp-title-control btn-minimize"
             onClick={() => setIsMinimized(true)}
             type="button"
+            aria-label="Minimize"
           >
             _
           </button>
+
           <button
-            className='btn-maximize'
+            className={`xp-title-control ${isFullscreen ? 'btn-restore' : 'btn-maximize'}`}
             onClick={() => {
               setIsMinimized(false);
               setIsFullscreen(prev => !prev);
@@ -197,7 +199,7 @@ const Game = ({onClose, isFullscreen, setIsFullscreen, isMinimized, setIsMinimiz
           </button>
 
           <button
-            className='btn-close'
+            className="xp-title-control btn-close"
             onClick={onClose}
             type="button"
             aria-label="Close"
