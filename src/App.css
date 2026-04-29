@@ -1,6 +1,5 @@
 .app {
   width: 100%;
-  height: calc(100vh - 30px);
   position: relative;
   z-index: 1;
 }
@@ -144,6 +143,7 @@
 
   width: auto;
   height: auto;
+  max-height: calc(100vh -30px);
 
   display: flex;
   flex-direction: column;
