@@ -113,7 +113,7 @@ const CriticalError = ({ type, onClose }: ErrorProps) => {
                     <button
                         key={btn.label}
                         id={btn.isDefault ? 'xp-default-btn' : undefined}
-                        className="error-ok-btn"
+                        className="error-dialog-btn"
                         onClick={btn.onClick ?? onClose}
                         type="button"
                     >

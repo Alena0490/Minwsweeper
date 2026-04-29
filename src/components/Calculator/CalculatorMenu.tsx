@@ -22,10 +22,10 @@ const CalculatorMenu = ({
     isScientific,
     onToggleScientific
 }:CalculatorMenuProps) => {
-    const [openMenu, setOpenMenu] = useState< 'edit' | 'view' |  'help' | null>(null)
-    const [openModal, setOpenModal] = useState<'about' | null>(null)
+    const [openMenu, setOpenMenu] = useState< 'edit' | 'view' |  'help' | null>(null);
+    const [openModal, setOpenModal] = useState<'about' | null>(null);
     
-    const menuRef = useRef<HTMLElement>(null)
+    const menuRef = useRef<HTMLElement>(null);
     
     // const itemClass = (disabled = false, extra = '') =>
     //     `${disabled ? 'is-disabled' : ''}${extra ? ` ${extra}` : ''}`.trim()

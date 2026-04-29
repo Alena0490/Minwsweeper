@@ -17,6 +17,8 @@ export default defineConfig({
                     footer: ['./src/components/Footer.tsx'],
                     startmenu: ['./src/components/MenuModal.tsx'],
                     errorbubble: ['./src/components/ErrorBubble.tsx'],
+                    criticalerror: ['./src/components/CriticalError.tsx'],
+                    notepad: ['./src/components/Notepad/Notepad.tsx'],
                 }
             }
         }

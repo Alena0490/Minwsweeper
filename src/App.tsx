@@ -158,7 +158,7 @@ const App = () => {
         <a 
             href="#" 
             className="desktop-item"
-            onClick={() => openError('appNotFound')}
+            onDoubleClick={() => openError('appNotFound')}
           >
           <img className="app-icon my-computer" src={MyComputer} alt="My Computer" />
           <span className="desktop-item-label">My Computer</span>
@@ -251,15 +251,16 @@ const App = () => {
           isFullscreen={terminal.isFullscreen}
           toggleFullscreen={terminal.toggleFullscreen}
           apps={[
-            { name: 'Minesweeper', size: '42,200' },
-            { name: 'Internet Explorer', size: '101,880' },
-            { name: 'Paint', size: '99,040' },
-            { name: 'Calculator', size: '26,130' },
-            { name: 'Command Prompt', size: '3,550' },
-            { name: 'Loading Screen', size: '17,140' },
-            { name: 'Start Menu', size: '22,900' },
-            { name: 'Taskbar', size: '5,220' },
-            { name: 'Error Bubble', size: '1,730' },
+            { name: 'Minesweeper', size: '21,600' },
+            { name: 'Internet Explorer', size: '85,670' },
+            { name: 'Paint', size: '80,740' },
+            { name: 'Calculator', size: '16,280' },
+            { name: 'Command Prompt', size: '5,260' },
+            { name: 'Loading Screen', size: '7,730' },
+            { name: 'Start Menu', size: '21,600' },
+            { name: 'Taskbar', size: '3,260' },
+            { name: 'Error Bubble', size: '590' },
+            { name: 'Critical Error', size: '10,480' },
         ]}
         />
       )}
