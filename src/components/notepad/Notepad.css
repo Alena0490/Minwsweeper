@@ -1,3 +1,8 @@
+@font-face {
+    font-family: 'Lucida Console';
+    src: url('../../fonts/lucon.ttf') format('truetype');
+}
+
 .app-window.notepad--fullscreen {
   width: 100vw;
 }
@@ -37,7 +42,7 @@
   width: 100%;
   height: 100%;
   padding: 6px 8px;
-  font-family: inherit;
+  font-family: 'Lucida Console', monospace;
   font-size: 11px;
   outline: none;
   border: none;
@@ -115,7 +120,7 @@
   white-space: nowrap;
 }
 
-.notepad li.is-disabled {
+.notepad-menu li.is-disabled  {
   color: var(--xp-disabled);
   pointer-events: none;
 }
@@ -140,7 +145,7 @@
   content: "✓";
   position: absolute;
   left: 8px;
-  font-size: 18px;
+  font-size: 16px;
   line-height: 1;
 }
 

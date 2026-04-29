@@ -5,9 +5,20 @@ import AboutNotepad from './AboutNotepad'
 interface NotepadMenuProps {
     windowPosition: { x: number, y: number };
     onClose: () => void;
+    showStatusBar: boolean
+    onToggleStatusBar: () => void
+    wordWrap: boolean
+    onToggleWordWrap: () => void
 }
 
-const NotepadMenu = ( {windowPosition, onClose }: NotepadMenuProps) => {
+const NotepadMenu = ( {
+    windowPosition, 
+    onClose,
+    showStatusBar,
+    onToggleStatusBar,
+    wordWrap,
+    onToggleWordWrap 
+}: NotepadMenuProps) => {
     const [openMenu, setOpenMenu] = useState< 'file' | 'edit' |'format' |  'view' |  'help' | null>(null);
     const [openModal, setOpenModal] = useState<'about' | null>(null);
 
@@ -49,13 +60,22 @@ const NotepadMenu = ( {windowPosition, onClose }: NotepadMenuProps) => {
                 <li onClick={() => setOpenMenu(openMenu === 'format' ? null : 'format')}>
                     Format
                     <ul className={`submenu ${openMenu === 'format' ? 'open' : ''}`}>
-                        <li className="is-disabled">Word Wrap</li>
+                        <li 
+                            className={wordWrap ? 'checked' : ''}
+                            onClick={onToggleWordWrap}
+                        >
+                            Word Wrap
+                        </li>
                     </ul>
                 </li>
                 <li onClick={() => setOpenMenu(openMenu === 'view' ? null : 'view')}>
                     View
                     <ul className={`submenu ${openMenu === 'view' ? 'open' : ''}`}>
-                        <li className="is-disabled">Status Bar</li>
+                        <li 
+                            className={showStatusBar ? 'checked' : ''}
+                            onClick={onToggleStatusBar}
+
+                        >Status Bar</li>
                     </ul>
                 </li>
                 <li onClick={() => setOpenMenu(openMenu === 'help' ? null : 'help')}>
