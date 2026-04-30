@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react'
 import { createPortal } from 'react-dom'
 import AboutNotepad from './AboutNotepad'
+import ReplaceModal from './ReplaceModal'
 
 interface NotepadMenuProps {
     windowPosition: { x: number, y: number };
@@ -28,7 +29,8 @@ const NotepadMenu = ( {
     onSaveAs
 }: NotepadMenuProps) => {
     const [openMenu, setOpenMenu] = useState< 'file' | 'edit' |'format' |  'view' |  'help' | null>(null);
-    const [openModal, setOpenModal] = useState<'about' | null>(null);
+    const [openModal, setOpenModal] = useState<'about' | 'replace' | null>(null);
+
 
     // Date/Time
     const menuRef = useRef<HTMLMenuElement>(null)
@@ -74,7 +76,7 @@ const NotepadMenu = ( {
                         <li className="is-disabled">Undo</li>
                         <li className="is-disabled">Redo</li>
                         <li className="is-disabled">Find</li>
-                        <li className="is-disabled">Replace</li>
+                        <li onClick={() => { setOpenModal('replace'); setOpenMenu(null) }}>Replace</li>
                         <li onClick={insertDateTime}>Date/Time</li>
                     </ul>
                 </li>
@@ -109,10 +111,25 @@ const NotepadMenu = ( {
                     </ul>
                 </li>
             </ul>
+            {/* About Modal */}
                 {openModal === 'about' && createPortal(
                     <AboutNotepad 
                         onClose={() => setOpenModal(null)} 
                         style={{ 
+                            position: 'fixed',
+                            top: windowPosition.y + 145,
+                            left: windowPosition.x + 90,
+                        }}
+                    />,
+                    document.body
+                )}
+
+                {/* Replace Modal */}
+                {openModal === 'replace' && createPortal(
+                    <ReplaceModal
+                        onClose={() => setOpenModal(null)}
+                        textareaRef={textareaRef}
+                        style={{
                             position: 'fixed',
                             top: windowPosition.y + 145,
                             left: windowPosition.x + 90,

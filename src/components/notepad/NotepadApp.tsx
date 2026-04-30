@@ -28,9 +28,9 @@ const NotepadApp = ({
     fileName,
     setFileName,
 }: NotepadAppProps) => {
-    const [text, setText] = useState('')
-    const [cursor, setCursor] = useState({ ln: 1, col: 1 })
-
+    const [text, setText] = useState('');
+    const [cursor, setCursor] = useState({ ln: 1, col: 1 });
+  
     const updateCursor = () => {
         const el = textareaRef.current
         if (!el) return
