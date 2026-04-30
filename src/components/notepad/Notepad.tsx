@@ -28,12 +28,14 @@ const Notepad = ({
     const [wordWrap, setWordWrap] = useState(false);
     const [saveAsOpen, setSaveAsOpen] = useState(false);
     const [fileName, setFileName] = useState('Untitled.txt');
-    const [savedName, setSavedName] = useState<string | null>(null)
+    const [savedName, setSavedName] = useState<string | null>(null);
+    const [canUndo, setCanUndo] = useState(false);
+    const [canRedo, setCanRedo] = useState(false);
 
-
-    // const fileHandle = useRef<FileSystemFileHandle | null>(null)
     const textareaRef = useRef<HTMLTextAreaElement>(null);
-    const openRef = useRef<() => void>(() => {})
+    const openRef = useRef<() => void>(() => {});
+    const undoRef = useRef<() => void>(() => {});
+    const redoRef = useRef<() => void>(() => {});
 
     const handleSaveFromMenu = () => {
         if (savedName) {
@@ -108,6 +110,10 @@ const Notepad = ({
                 onOpen={() => openRef.current()}
                 onSave={handleSaveFromMenu}
                 onSaveAs={() => setSaveAsOpen(true)}
+                onUndo={() => undoRef.current()}
+                onRedo={() => redoRef.current()}
+                canUndo={canUndo}
+                canRedo={canRedo}
             />
             <NotepadApp
                 showStatusBar={showStatusBar}
@@ -121,6 +127,12 @@ const Notepad = ({
                 onSaved={(name) => {
                     setFileName(name)
                     setSavedName(name)
+                }}
+                undoRef={undoRef}
+                redoRef={redoRef}
+                onHistoryChange={(canUndo, canRedo) => {
+                    setCanUndo(canUndo)
+                    setCanRedo(canRedo)
                 }}
             />
         </div>

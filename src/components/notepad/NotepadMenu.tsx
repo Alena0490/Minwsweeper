@@ -14,6 +14,10 @@ interface NotepadMenuProps {
     onOpen: () => void;
     onSave: () => void;
     onSaveAs: () => void;
+    onUndo: () => void;
+    onRedo: () => void;
+    canUndo: boolean
+    canRedo: boolean
 }
 
 const NotepadMenu = ( {
@@ -26,7 +30,11 @@ const NotepadMenu = ( {
     textareaRef,
     onOpen,
     onSave,
-    onSaveAs
+    onSaveAs,
+    onUndo,
+    onRedo,
+    canUndo,
+    canRedo
 }: NotepadMenuProps) => {
     const [openMenu, setOpenMenu] = useState< 'file' | 'edit' |'format' |  'view' |  'help' | null>(null);
     const [openModal, setOpenModal] = useState<'about' | 'find' | 'replace' | null>(null);
@@ -72,8 +80,8 @@ const NotepadMenu = ( {
                 <li onClick={() => setOpenMenu(openMenu === 'edit' ? null : 'edit')}>
                     Edit
                     <ul className={`submenu ${openMenu === 'edit' ? 'open' : ''}`}>
-                        <li className="is-disabled">Undo</li>
-                        <li className="is-disabled">Redo</li>
+                        <li className={!canUndo ? 'is-disabled' : ''} onClick={canUndo ? onUndo : undefined}>Undo</li>
+                        <li className={!canRedo ? 'is-disabled' : ''} onClick={canRedo ? onRedo : undefined}>Redo</li>
                         <li onClick={() => { setOpenModal('find'); setOpenMenu(null) }}>Find</li>
                         <li onClick={() => { setOpenModal('replace'); setOpenMenu(null) }}>Replace</li>
                         <li onClick={insertDateTime}>Date/Time</li>

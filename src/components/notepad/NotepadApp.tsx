@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from 'react'
+import { useState, useRef, useEffect, useCallback } from 'react'
 
 declare global {
     interface Window {
@@ -15,6 +15,9 @@ interface NotepadAppProps {
     setSaveAsOpen: (value: boolean) => void;
     fileName: string;
     setFileName: (value: string) => void;
+    undoRef: React.RefObject<() => void>;
+    redoRef: React.RefObject<() => void>;
+    onHistoryChange: (canUndo: boolean, canRedo: boolean) => void
 }
 
 const NotepadApp = ({ 
@@ -27,9 +30,14 @@ const NotepadApp = ({
     onSaved,
     fileName,
     setFileName,
+    undoRef,
+    redoRef,
+    onHistoryChange
 }: NotepadAppProps) => {
     const [text, setText] = useState('');
     const [cursor, setCursor] = useState({ ln: 1, col: 1 });
+    const [history, setHistory] = useState<string[]>(['']);
+    const [historyIndex, setHistoryIndex] = useState(0);
   
     const updateCursor = () => {
         const el = textareaRef.current
@@ -41,6 +49,31 @@ const NotepadApp = ({
             col: lines[lines.length - 1].length + 1,
         })
     }
+
+    // History
+    const handleUndo = useCallback(() => {
+        if (historyIndex === 0) return
+        const newIndex = historyIndex - 1
+        setHistoryIndex(newIndex)
+        setText(history[newIndex])
+    }, [history, historyIndex])
+
+    const handleRedo = useCallback(() => {
+        if (historyIndex >= history.length - 1) return
+        const newIndex = historyIndex + 1
+        setHistoryIndex(newIndex)
+        setText(history[newIndex])
+    }, [history, historyIndex])
+
+    useEffect(() => {
+        undoRef.current = handleUndo
+        redoRef.current = handleRedo
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [handleUndo, handleRedo])
+
+    useEffect(() => {
+        onHistoryChange(historyIndex > 0, historyIndex < history.length - 1)
+    }, [historyIndex, history.length, onHistoryChange])
 
     // Open File
     useEffect(() => {
@@ -59,6 +92,8 @@ const NotepadApp = ({
                 const result = ev.target?.result
                 if (typeof result !== 'string') return
                 setText(result)
+                setHistory([result])
+                setHistoryIndex(0)
                 onSaved(file.name)
             }
             reader.readAsText(file)
@@ -128,7 +163,13 @@ const NotepadApp = ({
                         spellCheck={false}
                         autoComplete="off"
                         value={text}
-                        onChange={e => { setText(e.target.value);}}
+                        onChange={e => {
+                            const newText = e.target.value
+                            setText(newText)
+                            const newHistory = history.slice(0, historyIndex + 1)
+                            setHistory([...newHistory, newText])
+                            setHistoryIndex(newHistory.length)
+                        }}
                         onClick={updateCursor}
                         onKeyUp={updateCursor}
                         style={{ whiteSpace: wordWrap ? 'pre-wrap' : 'pre' }}
