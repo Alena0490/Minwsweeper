@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react'
 import { createPortal } from 'react-dom'
 import AboutNotepad from './AboutNotepad'
-import ReplaceModal from './ReplaceModal'
+import FindReplaceModal from './FindReplaceModal'
 
 interface NotepadMenuProps {
     windowPosition: { x: number, y: number };
@@ -29,8 +29,7 @@ const NotepadMenu = ( {
     onSaveAs
 }: NotepadMenuProps) => {
     const [openMenu, setOpenMenu] = useState< 'file' | 'edit' |'format' |  'view' |  'help' | null>(null);
-    const [openModal, setOpenModal] = useState<'about' | 'replace' | null>(null);
-
+    const [openModal, setOpenModal] = useState<'about' | 'find' | 'replace' | null>(null);
 
     // Date/Time
     const menuRef = useRef<HTMLMenuElement>(null)
@@ -75,7 +74,7 @@ const NotepadMenu = ( {
                     <ul className={`submenu ${openMenu === 'edit' ? 'open' : ''}`}>
                         <li className="is-disabled">Undo</li>
                         <li className="is-disabled">Redo</li>
-                        <li className="is-disabled">Find</li>
+                        <li onClick={() => { setOpenModal('find'); setOpenMenu(null) }}>Find</li>
                         <li onClick={() => { setOpenModal('replace'); setOpenMenu(null) }}>Replace</li>
                         <li onClick={insertDateTime}>Date/Time</li>
                     </ul>
@@ -124,11 +123,27 @@ const NotepadMenu = ( {
                     document.body
                 )}
 
-                {/* Replace Modal */}
-                {openModal === 'replace' && createPortal(
-                    <ReplaceModal
+                {/* Find Modal */}
+                {openModal === 'find' && createPortal(
+                    <FindReplaceModal
                         onClose={() => setOpenModal(null)}
                         textareaRef={textareaRef}
+                        mode="find"
+                        style={{
+                            position: 'fixed',
+                            top: windowPosition.y + 145,
+                            left: windowPosition.x + 90,
+                        }}
+                    />,
+                    document.body
+                )}
+
+                {/* Replace Modal */}
+                {openModal === 'replace' && createPortal(
+                    <FindReplaceModal
+                        onClose={() => setOpenModal(null)}
+                        textareaRef={textareaRef}
+                        mode="replace"
                         style={{
                             position: 'fixed',
                             top: windowPosition.y + 145,

@@ -1,16 +1,19 @@
 /* ================================
-   REPLACE MODAL
+   FIND / REPLACE MODAL
 ================================ */
 
 .find-replace-dialog {
-    MIN-width: 263px;
+    min-width: 263px;
     position: absolute;
     min-height: auto;
     font-size: 11px;
     z-index: 1;
 }
 
-/* Luna title jako error, jen menší */
+/* ================================
+   TITLE BAR
+================================ */
+
 .find-replace-dialog .title-bar {
     height: 25px;
     min-height: 25px;
@@ -24,23 +27,28 @@
     font-weight: 700;
 }
 
+/* ================================
+   MAIN LAYOUT
+================================ */
+
 .find-replace-body {
     display: grid;
     grid-template-columns: 206px 75px;
     column-gap: 8px;
-    align-items: tstar;
+    align-items: start;
     padding: 10px 8px 14px;
     background: var(--xp-surface);
     color: var(--text);
 }
 
-
+/* Left content */
 .find-replace-fields {
     display: flex;
     flex-direction: column;
     gap: 6px;
 }
 
+/* Input rows */
 .find-replace-row {
     display: grid;
     grid-template-columns: 72px 1fr;
@@ -60,21 +68,38 @@
     font: 11px Tahoma, sans-serif;
     background: var(--xp-line-light);
     color: var(--text);
+    outline: none;
     border: 1px solid var(--taskbar-btn);
     border-radius: 2px;
+}
 
+/* ================================
+   FIND OPTIONS AREA
+================================ */
+
+.find-replace-lower {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-top: 18px;
+}
+
+.find-replace-checks {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
 }
 
 .find-replace-checkbox {
     display: flex;
     align-items: center;
     gap: 4px;
-    margin-top: 27px;
+    margin: 0;
     font: 11px Tahoma, sans-serif;
     white-space: nowrap;
 }
 
-/* zruší switch styl */
+/* Keep native XP-like checkbox instead of custom switch */
 .find-replace-checkbox input[type="checkbox"] {
     appearance: auto;
     -webkit-appearance: checkbox;
@@ -82,6 +107,40 @@
     height: 13px;
     margin: 0;
 }
+
+/* Direction group */
+.find-replace-direction {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    margin-right: 4px;
+}
+
+.find-replace-direction span {
+    text-align: left;
+}
+
+.direction-labels {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.find-replace-direction label {
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    font: 11px Tahoma, sans-serif;
+    white-space: nowrap;
+}
+
+.find-replace-direction input[type="radio"] {
+    margin: 0;
+}
+
+/* ================================
+   ACTION BUTTONS
+================================ */
 
 .find-replace-actions {
     display: flex;
@@ -93,45 +152,55 @@
 
 /* Buttons */
 .find-replace-btn {
-  min-width: 30px;
-  height: 21px;
-  padding: 0 3px;
-  font-size: 11px;
-  color: var(--text);
-  cursor: default;
+    min-width: 30px;
+    height: 21px;
+    padding: 0 3px;
+    font-size: 11px;
+    color: var(--text);
+    cursor: default;
 
-  border: 1px solid var(--xp-line-mid);
-  border-radius: 3px;
+    border: 1px solid var(--xp-line-mid);
+    border-radius: 3px;
 
-  background:
-    linear-gradient(
-      to bottom,
-      var(--xp-line-light) 0%,
-      var(--xp-line-light) 35%,
-      var(--xp-surface) 100%
-    );
+    background:
+        linear-gradient(
+            to bottom,
+            var(--xp-line-light) 0%,
+            var(--xp-line-light) 35%,
+            var(--xp-surface) 100%
+        );
 
     box-shadow:
         inset 0 0 0 1px color-mix(in srgb, var(--xp-title-mid) 35%, var(--xp-line-light) 65%);
-    }
+}
 
-.find-replace-dialog  #xp-default-btn {
-  box-shadow:
-    inset 0 0 0 1px color-mix(in srgb, var(--xp-title-mid) 45%, var(--xp-line-light) 55%),
-    0 0 0 1px color-mix(in srgb, var(--xp-title-mid) 65%, var(--xp-line-light) 35%);
+.find-replace-dialog #xp-default-btn {
+    box-shadow:
+        inset 0 0 0 1px color-mix(in srgb, var(--xp-title-mid) 45%, var(--xp-line-light) 55%),
+        0 0 0 1px color-mix(in srgb, var(--xp-title-mid) 65%, var(--xp-line-light) 35%);
 }
 
 .find-replace-btn:focus-visible {
-   outline: 1px dotted var(--text);
-  outline-offset: -4px;
+    outline: 1px dotted var(--text);
+    outline-offset: -4px;
 }
 
 .find-replace-btn:active {
-  transform: none;
-  background:
-    linear-gradient(
-      to bottom,
-      var(--xp-surface),
-      var(--xp-line-light)
-    );
+    transform: none;
+    background:
+        linear-gradient(
+            to bottom,
+            var(--xp-surface),
+            var(--xp-line-light)
+        );
+}
+
+.find-replace-btn:disabled {
+    color: var(--xp-line-dark);
+    background: var(--xp-surface);
+    border: 1px solid var(--xp-line-mid);
+    box-shadow:
+        inset 0 0 0 1px var(--xp-line-mid);
+    opacity: 1;
+    pointer-events: none;
 }
