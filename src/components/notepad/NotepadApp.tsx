@@ -46,7 +46,7 @@ const NotepadApp = ({
     useEffect(() => {
         openRef.current = handleOpen
     })
-    
+
     const handleOpen = () => {
         const input = document.createElement('input')
         input.type = 'file'
@@ -89,23 +89,34 @@ const NotepadApp = ({
 
     useEffect(() => {
         const el = textareaRef.current
-        const wrapper = scrollWrapperRef.current
+        const wrapper = wrapperRef.current   // ← HLAVNÍ WRAPPER
+
         if (!el || !wrapper) return
 
         const check = () => {
-            wrapper.classList.toggle('has-vertical-scroll', el.scrollHeight > el.clientHeight)
-            wrapperRef.current?.classList.toggle('has-horizontal-scroll', el.scrollWidth > el.clientWidth)
+            const hasVertical = el.scrollHeight > el.clientHeight
+            const hasHorizontal = el.scrollWidth > el.clientWidth
+
+            wrapper.classList.toggle('has-v-scroll', hasVertical)
+            wrapper.classList.toggle('has-h-scroll', hasHorizontal)
+            wrapper.classList.toggle('has-vh-scroll', hasVertical && hasHorizontal)
+
+            wrapper.classList.toggle('has-vertical-scroll', hasVertical)
+            wrapper.classList.toggle('has-horizontal-scroll', hasHorizontal)
+
+            scrollWrapperRef.current?.classList.toggle('has-vertical-scroll', hasVertical)
         }
 
         check()
         el.addEventListener('input', check)
         window.addEventListener('resize', check)
+
         return () => {
             el.removeEventListener('input', check)
             window.removeEventListener('resize', check)
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [])
+    }, [wordWrap])
 
     return (
         <div className="notepad-app">
