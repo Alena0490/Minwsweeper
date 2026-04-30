@@ -407,3 +407,16 @@
   transform-origin: top left;
   z-index: 5;
 }
+
+/* Save As dialog */
+.paint-dialog .title-bar-buttons  .btn-close {
+    width: 1.05rem;
+  height: 1.05rem;
+  padding: 0;
+  border: 1px solid #7f7f7f;
+  background: #d4d0c8;
+  box-shadow: inset 1px 1px 0 #ffffff, inset -1px -1px 0 #808080;
+  color: #000;
+  font: 700 0.75rem / 1 Tahoma, sans-serif;
+  border-radius: 0;
+}

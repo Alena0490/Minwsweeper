@@ -912,7 +912,7 @@ const Canvas = ({
           onClick={() => setSaveAsOpen(false)}
         >
           <div
-            className={`paint-dialog ${saveAsOpen ? "is-open" : ""}`}
+            className={`xp-dialog paint-dialog ${saveAsOpen ? "is-open" : ""}`}
             onClick={(e) => e.stopPropagation()}
             role="dialog"
             aria-modal="true"

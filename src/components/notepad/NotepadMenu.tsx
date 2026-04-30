@@ -5,10 +5,11 @@ import AboutNotepad from './AboutNotepad'
 interface NotepadMenuProps {
     windowPosition: { x: number, y: number };
     onClose: () => void;
-    showStatusBar: boolean
-    onToggleStatusBar: () => void
-    wordWrap: boolean
-    onToggleWordWrap: () => void
+    showStatusBar: boolean;
+    onToggleStatusBar: () => void;
+    wordWrap: boolean;
+    onToggleWordWrap: () => void;
+    textareaRef: React.RefObject<HTMLTextAreaElement | null>
 }
 
 const NotepadMenu = ( {
@@ -17,12 +18,26 @@ const NotepadMenu = ( {
     showStatusBar,
     onToggleStatusBar,
     wordWrap,
-    onToggleWordWrap 
+    onToggleWordWrap,
+    textareaRef
 }: NotepadMenuProps) => {
     const [openMenu, setOpenMenu] = useState< 'file' | 'edit' |'format' |  'view' |  'help' | null>(null);
     const [openModal, setOpenModal] = useState<'about' | null>(null);
 
-    const menuRef = useRef<HTMLElement>(null);
+    // Date/Time
+    const menuRef = useRef<HTMLMenuElement>(null)
+
+    const insertDateTime = () => {
+        const el = textareaRef.current
+        if (!el) return
+        const now = new Date()
+        const formatted = now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' }) 
+            + ' ' + now.toLocaleDateString('en-US')
+        const start = el.selectionStart
+        const end = el.selectionEnd
+        el.setRangeText(formatted, start, end, 'end')
+        el.focus()
+    }
 
        useEffect(() => {
             const handleClickOutside = (e: MouseEvent) => {
@@ -54,7 +69,7 @@ const NotepadMenu = ( {
                         <li className="is-disabled">Redo</li>
                         <li className="is-disabled">Find</li>
                         <li className="is-disabled">Replace</li>
-                        <li className="is-disabled">Date/Time</li>
+                        <li onClick={insertDateTime}>Date/Time</li>
                     </ul>
                 </li>
                 <li onClick={() => setOpenMenu(openMenu === 'format' ? null : 'format')}>

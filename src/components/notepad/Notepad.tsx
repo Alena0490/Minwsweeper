@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import useDraggable from '../../hooks/useDraggable';
 import NotepadMenu from './NotepadMenu';
 import NotepadApp from './NotepadApp'
@@ -12,6 +12,7 @@ interface NotepadProps {
     setIsMinimized: (value: boolean | ((prev: boolean) => boolean)) => void;
     isFullscreen: boolean;
     toggleFullscreen: () => void;
+    onMouseDown?: () => void
 }
 
 const Notepad = ({
@@ -20,10 +21,15 @@ const Notepad = ({
     setIsMinimized, 
     isFullscreen, 
     toggleFullscreen,
+    onMouseDown
 }: NotepadProps) => {
     const { position, handleMouseDown } = useDraggable(400, 150);
-    const [showStatusBar, setShowStatusBar] = useState(true)
-    const [wordWrap, setWordWrap] = useState(false)
+    const [showStatusBar, setShowStatusBar] = useState(true);
+    const [wordWrap, setWordWrap] = useState(false);
+    const [saveAsOpen, setSaveAsOpen] = useState(false);
+    const [fileName, setFileName] = useState('Untitled.txt');
+
+    const textareaRef = useRef<HTMLTextAreaElement>(null);
 
     return (
         <div
@@ -36,6 +42,7 @@ const Notepad = ({
                 isFullscreen && 'app-window--fullscreen',
             ].filter(Boolean).join(' ')}
             style={isFullscreen ? {} : { left: position.x, top: position.y }}
+            onMouseDown={onMouseDown}
         >
             <div className='title-bar' onMouseDown={handleMouseDown}>
                 <span className='title-bar-text'>
@@ -79,10 +86,17 @@ const Notepad = ({
                 onToggleStatusBar={() => setShowStatusBar(prev => !prev)}
                 wordWrap={wordWrap}
                 onToggleWordWrap={() => setWordWrap(prev => !prev)}
+                textareaRef={textareaRef}
+                onSaveAs={() => setSaveAsOpen(true)}
             />
             <NotepadApp
                 showStatusBar={showStatusBar}
                 wordWrap={wordWrap}
+                textareaRef={textareaRef}
+                saveAsOpen={saveAsOpen}
+                setSaveAsOpen={setSaveAsOpen}
+                fileName={fileName}
+                setFileName={setFileName}
             />
         </div>
     )

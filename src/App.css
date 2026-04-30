@@ -166,6 +166,7 @@
   color: transparent;
   font-size: 0;
   line-height: 0;
+  background-color: transparent;
   background-repeat: no-repeat;
   background-position: center;
   background-size: 21.5px 21.5px;
@@ -186,6 +187,13 @@
   background-image: url("./img/Restore.webp");
 }
 
-.title-bar-buttons.xp-title-controls .btn-close {
+.title-bar-buttons.xp-title-controls .xp-title-control.btn-close {
   background-image: url("./img/Exit.webp");
+}
+
+.paint-dialog .title-bar-buttons.xp-title-controls .xp-title-control.btn-close {
+  width: 21px;
+  height: 21px;
+  background-size: 21px;
+  background-color: transparent;
 }
