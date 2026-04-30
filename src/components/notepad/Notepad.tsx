@@ -33,6 +33,7 @@ const Notepad = ({
 
     // const fileHandle = useRef<FileSystemFileHandle | null>(null)
     const textareaRef = useRef<HTMLTextAreaElement>(null);
+    const openRef = useRef<() => void>(() => {})
 
     const handleSaveFromMenu = () => {
         if (savedName) {
@@ -104,6 +105,7 @@ const Notepad = ({
                 wordWrap={wordWrap}
                 onToggleWordWrap={() => setWordWrap(prev => !prev)}
                 textareaRef={textareaRef}
+                onOpen={() => openRef.current()}
                 onSave={handleSaveFromMenu}
                 onSaveAs={() => setSaveAsOpen(true)}
             />
@@ -111,6 +113,7 @@ const Notepad = ({
                 showStatusBar={showStatusBar}
                 wordWrap={wordWrap}
                 textareaRef={textareaRef}
+                openRef={openRef}
                 saveAsOpen={saveAsOpen}
                 setSaveAsOpen={setSaveAsOpen}
                 fileName={fileName}

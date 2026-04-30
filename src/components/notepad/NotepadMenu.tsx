@@ -10,6 +10,7 @@ interface NotepadMenuProps {
     wordWrap: boolean;
     onToggleWordWrap: () => void;
     textareaRef: React.RefObject<HTMLTextAreaElement | null>;
+    onOpen: () => void;
     onSave: () => void;
     onSaveAs: () => void;
 }
@@ -22,6 +23,7 @@ const NotepadMenu = ( {
     wordWrap,
     onToggleWordWrap,
     textareaRef,
+    onOpen,
     onSave,
     onSaveAs
 }: NotepadMenuProps) => {
@@ -60,7 +62,7 @@ const NotepadMenu = ( {
                 <li onClick={() => setOpenMenu(openMenu === 'file' ? null : 'file')}>
                     File
                     <ul className={`submenu ${openMenu === 'file' ? 'open' : ''}`}>
-                        <li className="is-disabled">Open</li>
+                        <li onClick={onOpen}>Open</li>
                         <li onClick={onSave}>Save</li>
                         <li onClick={onSaveAs}>Save As</li>
                         <li onClick={onClose}>Exit</li>

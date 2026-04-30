@@ -9,6 +9,7 @@ interface NotepadAppProps {
     showStatusBar: boolean;
     wordWrap: boolean;
     textareaRef: React.RefObject<HTMLTextAreaElement | null>;
+    openRef: React.RefObject<() => void>;
     onSaved: (name: string) => void
     saveAsOpen: boolean;
     setSaveAsOpen: (value: boolean) => void;
@@ -21,6 +22,7 @@ const NotepadApp = ({
     wordWrap, 
     textareaRef,
     saveAsOpen,
+    openRef,
     setSaveAsOpen,
     onSaved,
     fileName,
@@ -38,6 +40,30 @@ const NotepadApp = ({
             ln: lines.length,
             col: lines[lines.length - 1].length + 1,
         })
+    }
+
+    // Open File
+    useEffect(() => {
+        openRef.current = handleOpen
+    })
+    
+    const handleOpen = () => {
+        const input = document.createElement('input')
+        input.type = 'file'
+        input.accept = '.txt,text/plain'
+        input.onchange = (e) => {
+            const file = (e.target as HTMLInputElement).files?.[0]
+            if (!file) return
+            const reader = new FileReader()
+            reader.onload = (ev) => {
+                const result = ev.target?.result
+                if (typeof result !== 'string') return
+                setText(result)
+                onSaved(file.name)
+            }
+            reader.readAsText(file)
+        }
+        input.click()
     }
 
     // Save File
