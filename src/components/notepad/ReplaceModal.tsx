@@ -7,6 +7,7 @@ interface DraggableDialogProps {
     onClose: () => void;
     style?: React.CSSProperties;
     textareaRef: React.RefObject<HTMLTextAreaElement | null>;
+    mode: 'find' | 'replace'
 }
 
 const ReplaceModal = ({ style, onClose, textareaRef }: DraggableDialogProps) => {
@@ -31,8 +32,12 @@ const ReplaceModal = ({ style, onClose, textareaRef }: DraggableDialogProps) => 
         const content = matchCase ? el.value : el.value.toLowerCase()
         const search = matchCase ? findText : findText.toLowerCase()
         const start = el.selectionEnd ?? 0
-        const index = content.indexOf(search, start)
-        if (index === -1) return
+        let index = content.indexOf(search, start)
+        if (index === -1) index = content.indexOf(search, 0) // wrap around
+        if (index === -1) {
+            alert(`Cannot find "${findText}"`)
+            return
+        }
         el.setSelectionRange(index, index + search.length)
         el.focus()
     }
@@ -44,7 +49,11 @@ const ReplaceModal = ({ style, onClose, textareaRef }: DraggableDialogProps) => 
         const selected = el.value.slice(el.selectionStart, el.selectionEnd)
         const matches = matchCase ? selected === findText : selected.toLowerCase() === findText.toLowerCase()
         if (matches) {
-            el.setRangeText(replaceText, el.selectionStart, el.selectionEnd, 'end')
+            const start = el.selectionStart
+            const end = el.selectionEnd
+            const newValue = el.value.slice(0, start) + replaceText + el.value.slice(end)
+            const nativeInputValueSetter = Object.getOwnPropertyDescriptor(window.HTMLTextAreaElement.prototype, 'value')?.set
+            nativeInputValueSetter?.call(el, newValue)
             el.dispatchEvent(new Event('input', { bubbles: true }))
         }
         handleFindNext()
@@ -56,7 +65,9 @@ const ReplaceModal = ({ style, onClose, textareaRef }: DraggableDialogProps) => 
         if (!el || !findText) return
         const flags = matchCase ? 'g' : 'gi'
         const escaped = findText.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
-        el.value = el.value.replace(new RegExp(escaped, flags), replaceText)
+        const newValue = el.value.replace(new RegExp(escaped, flags), replaceText)
+        const nativeInputValueSetter = Object.getOwnPropertyDescriptor(window.HTMLTextAreaElement.prototype, 'value')?.set
+        nativeInputValueSetter?.call(el, newValue)
         el.dispatchEvent(new Event('input', { bubbles: true }))
         el.focus()
     }
