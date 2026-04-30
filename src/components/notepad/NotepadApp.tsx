@@ -1,12 +1,31 @@
 import { useState, useRef, useEffect } from 'react'
 
+declare global {
+    interface Window {
+        showSaveFilePicker: (options?: object) => Promise<FileSystemFileHandle>
+    }
+}
 interface NotepadAppProps {
     showStatusBar: boolean;
     wordWrap: boolean;
-    textareaRef: React.RefObject<HTMLTextAreaElement | null>
+    textareaRef: React.RefObject<HTMLTextAreaElement | null>;
+    onSaved: (name: string) => void
+    saveAsOpen: boolean;
+    setSaveAsOpen: (value: boolean) => void;
+    fileName: string;
+    setFileName: (value: string) => void;
 }
 
-const NotepadApp = ({ showStatusBar, wordWrap, textareaRef }: NotepadAppProps) => {
+const NotepadApp = ({ 
+    showStatusBar, 
+    wordWrap, 
+    textareaRef,
+    saveAsOpen,
+    setSaveAsOpen,
+    onSaved,
+    fileName,
+    setFileName,
+}: NotepadAppProps) => {
     const [text, setText] = useState('')
     const [cursor, setCursor] = useState({ ln: 1, col: 1 })
 
@@ -19,6 +38,20 @@ const NotepadApp = ({ showStatusBar, wordWrap, textareaRef }: NotepadAppProps) =
             ln: lines.length,
             col: lines[lines.length - 1].length + 1,
         })
+    }
+
+    // Save File
+    const handleSave = () => {
+        const safeName = fileName.trim() || 'Untitled.txt'
+        const finalName = safeName.toLowerCase().endsWith('.txt') ? safeName : `${safeName}.txt`
+        const blob = new Blob([text], { type: 'text/plain' })
+        const a = document.createElement('a')
+        a.download = finalName
+        a.href = URL.createObjectURL(blob)
+        a.click()
+        URL.revokeObjectURL(a.href)
+        onSaved(finalName)
+        setSaveAsOpen(false)
     }
 
     useEffect(() => {
@@ -75,6 +108,52 @@ const NotepadApp = ({ showStatusBar, wordWrap, textareaRef }: NotepadAppProps) =
                     <div className="status sunken">100%</div>
                     <div className="status sunken">Windows (CRLF)</div>
                     <div className="status sunken">UTF-8</div>
+                </div>
+            )}
+
+            {/* Save As dialog */}
+            {saveAsOpen && (
+                <div
+                    className={`notepad-dialog-backdrop ${saveAsOpen ? 'is-open' : ''}`}
+                    onClick={() => setSaveAsOpen(false)}
+                >
+                    <div
+                        className={`xp-dialog notepad-dialog ${saveAsOpen ? 'is-open' : ''}`}
+                        onClick={(e) => e.stopPropagation()}
+                        role="dialog"
+                        aria-modal="true"
+                        aria-labelledby="save-as-title"
+                    >
+                        <div className="title-bar">
+                            <div className="title-bar-text" id="save-as-title">
+                                Save As
+                            </div>
+                            <div className="title-bar-buttons">
+                                <button
+                                    type="button"
+                                    className="btn-close"
+                                    onClick={() => setSaveAsOpen(false)}
+                                    aria-label="Close"
+                                >
+                                    ×
+                                </button>
+                            </div>
+                        </div>
+                        <div className="xp-dialog-body">
+                            <label htmlFor="filename-input">File name:</label>
+                            <input
+                                id="filename-input"
+                                type="text"
+                                value={fileName}
+                                onChange={(e) => setFileName(e.target.value)}
+                                autoFocus
+                            />
+                        </div>
+                        <div className="xp-dialog-actions notepad-dialog-actions">
+                            <button type="button" onClick={handleSave}>Save</button>
+                            <button type="button" onClick={() => setSaveAsOpen(false)}>Cancel</button>
+                        </div>
+                    </div>
                 </div>
             )}
         </div>

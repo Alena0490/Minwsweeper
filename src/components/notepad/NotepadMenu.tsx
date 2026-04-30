@@ -9,7 +9,9 @@ interface NotepadMenuProps {
     onToggleStatusBar: () => void;
     wordWrap: boolean;
     onToggleWordWrap: () => void;
-    textareaRef: React.RefObject<HTMLTextAreaElement | null>
+    textareaRef: React.RefObject<HTMLTextAreaElement | null>;
+    onSave: () => void;
+    onSaveAs: () => void;
 }
 
 const NotepadMenu = ( {
@@ -19,7 +21,9 @@ const NotepadMenu = ( {
     onToggleStatusBar,
     wordWrap,
     onToggleWordWrap,
-    textareaRef
+    textareaRef,
+    onSave,
+    onSaveAs
 }: NotepadMenuProps) => {
     const [openMenu, setOpenMenu] = useState< 'file' | 'edit' |'format' |  'view' |  'help' | null>(null);
     const [openModal, setOpenModal] = useState<'about' | null>(null);
@@ -57,8 +61,8 @@ const NotepadMenu = ( {
                     File
                     <ul className={`submenu ${openMenu === 'file' ? 'open' : ''}`}>
                         <li className="is-disabled">Open</li>
-                        <li className="is-disabled">Save</li>
-                        <li className="is-disabled">Save As</li>
+                        <li onClick={onSave}>Save</li>
+                        <li onClick={onSaveAs}>Save As</li>
                         <li onClick={onClose}>Exit</li>
                     </ul>
                 </li>

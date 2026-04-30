@@ -13,11 +13,12 @@
 }
 
 .notepad-app {
-  width: 100%;
-  min-width: 400px;
-  height: auto;
-  background-color: var(--xp-surface);
-  padding: 0;
+    position: relative;
+    width: 100%;
+    min-width: 400px;
+    height: auto;
+    background-color: var(--xp-surface);
+    padding: 0;
 }
 
 .xp-notepad-wrapper {
@@ -358,4 +359,124 @@
   color: #000;
   font: 700 0.75rem / 1 Tahoma, sans-serif;
   border-radius: 0;
+}
+
+/* ─────────────────────────────────────────
+   Dialog Window
+───────────────────────────────────────── */
+.notepad-dialog-backdrop {
+    position: absolute;
+    inset: 0;
+    background: color-mix(in srgb, #000 15%, transparent);
+    display: grid;
+    place-items: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.16s ease;
+    z-index: 9999;
+}
+
+.notepad-dialog-backdrop.is-open {
+    opacity: 1;
+    pointer-events: all;
+}
+
+.notepad-dialog {
+    width: 20rem;
+    background: var(--xp-surface);
+    border: 2px solid;
+    border-color: var(--xp-line-light) var(--xp-line-dark) var(--xp-line-dark) var(--xp-line-light);
+    box-shadow: 1px 1px 0 var(--xp-line-deep);
+    font-size: 11px;
+    color: var(--text);
+    overflow: hidden;
+    opacity: 0;
+    transform: translateY(10px) scale(0.98);
+    transition: opacity 0.16s ease, transform 0.16s ease;
+}
+
+.notepad-dialog.is-open {
+    opacity: 1;
+    transform: none;
+}
+
+.notepad:not(:focus-within) .title-bar {
+    background: linear-gradient(to right, #7f7f7f 0%, #9a9a9a 55%, #b5b5b5 100%);
+}
+
+.notepad-dialog .title-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-width: 0;
+    padding: 0 0.1875rem 0 0.375rem;
+    min-height: 1.5625rem;
+    color: var(--xp-title-text);
+    background: linear-gradient(to right, var(--xp-title-start) 0%, var(--xp-title-mid) 55%, var(--xp-title-end) 100%);
+    cursor: default;
+    border-bottom: 1px solid 
+color-mix(in srgb, var(--xp-line-dark) 70%, transparent);
+}
+
+.notepad-window .title-bar {
+    gap: 8px;
+    min-height: 26px;
+}
+
+/** Save dialog body */
+.notepad-dialog-body {
+  display: grid;
+  gap: 0.5rem;
+  padding: 0.9rem;
+}
+
+.notepad-dialog-body input {
+  width: 100%;
+  min-height: 1.5rem;
+  padding: 0.15rem 0.25rem;
+
+  border: 1px solid var(--xp-line-dark);
+  background: var(--xp-line-light);
+
+  box-shadow:
+    inset 1px 1px 0 var(--xp-line-mid);
+
+  font: inherit;
+}
+
+.notepad-dialog-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  padding: 0 0.9rem 0.9rem;
+}
+
+.notepad-dialog-actions button {
+  min-width: 4.75rem;
+  min-height: 1.45rem;
+  padding: 0 0.5rem;
+
+  border: 1px solid var(--xp-line-dark);
+  background: var(--xp-surface);
+
+  box-shadow:
+    inset 1px 1px 0 var(--xp-line-light),
+    inset -1px -1px 0 var(--xp-line-dark);
+
+  font: inherit;
+}
+
+.notepad-dialog-actions button:hover {
+  background: var(--xp-surface-2);
+}
+
+.notepad-dialog-actions button:active {
+  box-shadow:
+    inset -1px -1px 0 var(--xp-line-light),
+    inset 1px 1px 0 var(--xp-line-dark);
+}
+
+.notepad-dialog-actions button:first-child {
+  outline: 1px dotted #000;
+  outline-offset: -4px;
 }

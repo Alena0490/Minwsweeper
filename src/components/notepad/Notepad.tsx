@@ -28,9 +28,26 @@ const Notepad = ({
     const [wordWrap, setWordWrap] = useState(false);
     const [saveAsOpen, setSaveAsOpen] = useState(false);
     const [fileName, setFileName] = useState('Untitled.txt');
+    const [savedName, setSavedName] = useState<string | null>(null)
 
+
+    // const fileHandle = useRef<FileSystemFileHandle | null>(null)
     const textareaRef = useRef<HTMLTextAreaElement>(null);
 
+    const handleSaveFromMenu = () => {
+        if (savedName) {
+            const text = textareaRef.current?.value ?? ''
+            const blob = new Blob([text], { type: 'text/plain' })
+            const a = document.createElement('a')
+            a.download = savedName
+            a.href = URL.createObjectURL(blob)
+            a.click()
+            URL.revokeObjectURL(a.href)
+        } else {
+            setSaveAsOpen(true)
+        }
+    }
+ 
     return (
         <div
             className={[
@@ -47,7 +64,7 @@ const Notepad = ({
             <div className='title-bar' onMouseDown={handleMouseDown}>
                 <span className='title-bar-text'>
                     <img className='notepad-icon' src={NotepadIcon} alt="MS Notepad Icon" />
-                    Untitled - Notepad
+                    {fileName.replace('.txt', '')} - Notepad
                 </span>
                 <div className="title-bar-buttons xp-title-controls">
                     <button
@@ -87,6 +104,7 @@ const Notepad = ({
                 wordWrap={wordWrap}
                 onToggleWordWrap={() => setWordWrap(prev => !prev)}
                 textareaRef={textareaRef}
+                onSave={handleSaveFromMenu}
                 onSaveAs={() => setSaveAsOpen(true)}
             />
             <NotepadApp
@@ -97,6 +115,10 @@ const Notepad = ({
                 setSaveAsOpen={setSaveAsOpen}
                 fileName={fileName}
                 setFileName={setFileName}
+                onSaved={(name) => {
+                    setFileName(name)
+                    setSavedName(name)
+                }}
             />
         </div>
     )

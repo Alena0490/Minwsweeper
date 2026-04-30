@@ -908,18 +908,18 @@ const Canvas = ({
       {/* Save As Dialog */}
       {saveAsOpen && (
         <div
-          className={`paint-dialog-backdrop ${saveAsOpen ? "is-open" : ""}`}
+          className={`notepad-dialog-backdrop ${saveAsOpen ? 'is-open' : ''}`}
           onClick={() => setSaveAsOpen(false)}
         >
           <div
-            className={`xp-dialog paint-dialog ${saveAsOpen ? "is-open" : ""}`}
+             className={`xp-dialog notepad-dialog ${saveAsOpen ? 'is-open' : ''}`}
             onClick={(e) => e.stopPropagation()}
             role="dialog"
             aria-modal="true"
             aria-labelledby="save-as-title"
           >
             <div className="title-bar">
-              <div className="title-bar-text">Save As</div>
+              <div className="title-bar-text"  id="save-as-title">Save As</div>
               <div className="title-bar-buttons">
                 <button
                   type="button"
@@ -931,7 +931,7 @@ const Canvas = ({
                 </button>
               </div>
             </div>
-            <div className="paint-dialog-body">
+            <div className="notepad-dialog-body">
               <label htmlFor="filename-input">File name:</label>
               <input
                 id="filename-input"
@@ -941,7 +941,7 @@ const Canvas = ({
                 autoFocus
               />
             </div>
-            <div className="paint-dialog-actions">
+            <div className="notepad-dialog-actions">
               <button type="button" onClick={handleSaveAsConfirm}>Save</button>
               <button type="button" onClick={() => { playMinimize(); setSaveAsOpen(false); }}>Cancel</button>
             </div>
