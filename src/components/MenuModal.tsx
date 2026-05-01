@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import type { ErrorType } from './CriticalError'
 import useSound from '../hooks/useSound'
 import UserCat from '../img/user-cat.webp'
@@ -23,6 +24,10 @@ import PaintIcon from '../img/Paint.webp'
 import TerminalIcon from '../img/CommandPrompt.webp'
 import NotepadIcon from '../img/Notepad.webp'
 import AllProgramsIcon from '../img/AllPrograms.webp'
+import WindowsCatalog from '../img/WindowsCatalog.webp'
+import WindowsUpdate from '../img/WindowsUpdate.webp'
+import StartMenuPrograms from '../img/StarMenuPrograms.webp'
+
 import './MenuModal.css'
 
 interface ModalProps {
@@ -47,6 +52,9 @@ const MenuModal = ({
     onAppUnavailable
 }: ModalProps) => { 
     const {playStart } = useSound();
+    const [showAllPrograms, setShowAllPrograms] = useState(false);
+    const [showAccessories, setShowAccessories] = useState(false);
+    const [showGames, setShowGames] = useState(false);
 
     return (
         <div 
@@ -58,60 +66,144 @@ const MenuModal = ({
             <span>Alena</span>
         </div>
             <div className='menu'>
-                <div className="menu-left">
-                    <div 
-                        className="menu-item menu-item-detailed"
-                        onClick={() => { onIEOpen(); playStart(); }}
-                    >
+                {/* MENU - LEFT PART */}
+                <div 
+                    className="menu-left-outer"
+                    onMouseLeave={() => setShowAllPrograms(false)}
+                >
+                    <div className="menu-left">
+                        <div 
+                            className="menu-item menu-item-detailed"
+                            onClick={() => { onIEOpen(); playStart(); }}
+                        >
                             <img src={Internet} alt="Internet Icon" />
                             <span>
                                 Internet
                                 <small>Internet Explorer</small>
                             </span>
+                        </div>
+
+                        <div 
+                            className="menu-item menu-item-detailed" 
+                            onClick={() => onAppUnavailable('appNotFound')}
+                        >
+                            <img src={OutlookExpress} alt="Email Icon" />
+                            <span>
+                                E-mail
+                                <small>Outlook Express</small>
+                            </span>
+                        </div>
+                        <hr />
+                        <div className="menu-item" onClick={() => { onMinesweeperOpen(); playStart(); }}>
+                            <img src={MinesweeperIcon} alt="Minesweeper Icon" />
+                            Minesweeper
+                        </div>
+
+                        <div className="menu-item" onClick={() => { onCalculatorOpen(); playStart(); }}>
+                            <img src={Calculator} alt="Calculator Icon" />
+                            Calculator
+                        </div>
+
+                        <div className="menu-item" onClick={() => { onTerminalOpen(); playStart(); }}>
+                            <img src={TerminalIcon} alt="Command Prompt Icon" />
+                            Command Prompt
+                        </div>
+
+                        <div className="menu-item" onClick={() => { onPaintOpen(); playStart(); }}>
+                            <img src={PaintIcon} alt="Paint Icon" />
+                            Paint
+                        </div>
+
+                        <div className="menu-item" onClick={() => { onNotepadOpen(); playStart(); }}>
+                            <img src={NotepadIcon} alt="Notepad Icon" />
+                            Notepad
+                        </div>
+
+                        <div 
+                            className="menu-item bottom"
+                            onMouseEnter={() => setShowAllPrograms(true)}
+                        >
+                            All Programs
+                            <img src={AllProgramsIcon} alt="All Programs Icon" />
+                        </div>
                     </div>
 
-                    <div 
-                        className="menu-item menu-item-detailed" 
-                        onClick={() => onAppUnavailable('appNotFound')}
-                    >
-                        <img src={OutlookExpress} alt="Email Icon" />
-                        <span>
-                            E-mail
-                            <small>Outlook Express</small>
-                        </span>
-                    </div>
-                    <hr />
-                    <div className="menu-item" onClick={() => { onMinesweeperOpen(); playStart(); }}>
-                        <img src={MinesweeperIcon} alt="Minesweeper Icon" />
-                        Minesweeper
-                    </div>
+                    {/* ALL ITEMS SUBMENU */}
+                    {showAllPrograms && (
+                        <div className="all-programs-menu">
+                            <div className="menu-item is-disabled">
+                                <img src={ProgramAccess} alt="Program Access" />
+                                Set Program Access and Default
+                            </div>
+                            <div className="menu-item is-disabled">
+                                <img src={WindowsCatalog} alt="Windows Catalog" />
+                                Windows Catalog
+                            </div>
+                            <div className="menu-item is-disabled">
+                                <img src={WindowsUpdate} alt="Windows Update" />
+                                Windows Update
+                            </div>
+                            <hr />
+                            {/* SECOND SUBMENU */}
+                            <div 
+                                className="menu-item has-submenu"
+                                onMouseEnter={() => { setShowAccessories(true); setShowGames(false) }}
+                                onMouseLeave={() => setShowAccessories(false)}
+                            >
+                                <img src={StartMenuPrograms} alt="Accessories" />
+                                Accessories
+                                {showAccessories && (
+                                    <div className="all-programs-submenu">
+                                        <div className="menu-item" onClick={() => { onNotepadOpen(); playStart(); }}>
+                                            <img src={NotepadIcon} alt="Notepad" />
+                                            Notepad
+                                        </div>
+                                        <div className="menu-item" onClick={() => { onPaintOpen(); playStart(); }}>
+                                            <img src={PaintIcon} alt="Paint" />
+                                            Paint
+                                        </div>
+                                        <div className="menu-item" onClick={() => { onCalculatorOpen(); playStart(); }}>
+                                            <img src={Calculator} alt="Calculator" />
+                                            Calculator
+                                        </div>
+                                        <div className="menu-item" onClick={() => { onTerminalOpen(); playStart(); }}>
+                                            <img src={TerminalIcon} alt="Command Prompt" />
+                                            Command Prompt
+                                        </div>
+                                    </div>
+                                )}
+                            </div>
 
-                    <div className="menu-item" onClick={() => { onCalculatorOpen(); playStart(); }}>
-                        <img src={Calculator} alt="Calculator Icon" />
-                        Calculator
-                    </div>
-
-                    <div className="menu-item" onClick={() => { onTerminalOpen(); playStart(); }}>
-                        <img src={TerminalIcon} alt="Command Prompt Icon" />
-                        Command Prompt
-                    </div>
-
-                    <div className="menu-item" onClick={() => { onPaintOpen(); playStart(); }}>
-                        <img src={PaintIcon} alt="Paint Icon" />
-                        Paint
-                    </div>
-
-                    <div className="menu-item" onClick={() => { onNotepadOpen(); playStart(); }}>
-                        <img src={NotepadIcon} alt="Notepad Icon" />
-                        Notepad
-                    </div>
-
-                      <div className="menu-item bottom">
-                        All Programs
-                        <img src={AllProgramsIcon} alt=" All Programs Icon" />
-                    </div>
+                            <div 
+                                className="menu-item has-submenu"
+                                onMouseEnter={() => { setShowGames(true); setShowAccessories(false) }}
+                                onMouseLeave={() => setShowGames(false)}
+                            >
+                                <img src={StartMenuPrograms} alt="Games" />
+                                Games
+                                {showGames && (
+                                    <div className="all-programs-submenu">
+                                        <div className="menu-item" onClick={() => { onMinesweeperOpen(); playStart(); }}>
+                                            <img src={MinesweeperIcon} alt="Minesweeper" />
+                                            Minesweeper
+                                        </div>
+                                    </div>
+                                )}
+                            </div>
+                            <hr />
+                            <div className="menu-item" onClick={() => onAppUnavailable('appNotFound')}>
+                                <img src={OutlookExpress} alt="Outlook Express" />
+                                Outlook Express
+                            </div>
+                            <div className="menu-item" onClick={() => { onIEOpen(); playStart(); }}>
+                                <img src={Internet} alt="Internet Explorer" />
+                                Internet Explorer
+                            </div>
+                        </div>
+                    )}
                 </div>
 
+                {/* MENU - RIGHT PART */}
                 <div className="menu-right">
                     <div className="menu-item top-menu-item">
                         <img src={MyDocuments} alt="My Documents Icon" />

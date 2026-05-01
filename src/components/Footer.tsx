@@ -137,6 +137,7 @@ const Footer = ({
                     onDoubleClick={handleFullscreen}
                 >
                     <MenuModal 
+                        key={isMenuOpen ? 'open' : 'closed'}
                         className={`start-menu ${isMenuOpen ? 'open' : ''}`} 
                         onIEOpen={onIEOpen}
                         onPaintOpen={onPaintOpen}
@@ -145,7 +146,6 @@ const Footer = ({
                         onTerminalOpen={onTerminalOpen}
                         onNotepadOpen={onNotepadOpen}
                         onAppUnavailable={onAppUnavailable}
-
                     />
                     <img src={windowsLogo} alt='Windows XP Logo' />
                     <span>Start</span>
