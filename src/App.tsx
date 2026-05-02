@@ -5,6 +5,7 @@ import type { ErrorType } from './components/CriticalError'
 import CriticalError from './components/CriticalError'
 
 import LoadingScreen from './components/XPLoading'
+import LoginScreen from "./components/LoginScreen";
 import Game from "./components/minesweeper/Game"
 import Paint from './components/Paint/Paint'
 import IEWindow from "./components/IE/IEWindow"
@@ -51,22 +52,23 @@ const App = () => {
 
   const [isIEOpen, setIsIEOpen] = useState(false);
   const [isPaintOpen, setIsPaintOpen] = useState(false);
-  const [isCalculatorOpen, setIsCalculatorOpen] = useState(false)
-  const [isMinesweeperOpen, setIsMinesweeperOpen] = useState(false)
-  const [isTerminalOpen, setIsTerminalOpen] = useState(false)
-  const [loading, setLoading] = useState(true)
-  const [activeError, setActiveError] = useState<ErrorType | null>(null)
-  const [isNotepadOpen, setIsNotepadOpen] = useState(false)
-  const [windowOrder, setWindowOrder] = useState<WindowId[]>([])
+  const [isCalculatorOpen, setIsCalculatorOpen] = useState(false);
+  const [isMinesweeperOpen, setIsMinesweeperOpen] = useState(false);
+  const [isTerminalOpen, setIsTerminalOpen] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [activeError, setActiveError] = useState<ErrorType | null>(null);
+  const [isNotepadOpen, setIsNotepadOpen] = useState(false);
+  const [windowOrder, setWindowOrder] = useState<WindowId[]>([]);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   // Bring active window to the front
   const bringToFront = (id: WindowId) => {
-    setWindowOrder(prev => [...prev.filter(item => item !== id), id])
+    setWindowOrder(prev => [...prev.filter(item => item !== id), id]);
   }
 
   // Remove closed window from order
   const removeFromOrder = (id: WindowId) => {
-    setWindowOrder(prev => prev.filter(item => item !== id))
+    setWindowOrder(prev => prev.filter(item => item !== id));
   }
 
   const handleFullscreen = () => {
@@ -78,9 +80,9 @@ const App = () => {
 
   // Show Error Window
   const openError = (type: ErrorType) => {
-    playCriticalError()
-    setActiveError(type)
-    bringToFront('error')
+    playCriticalError();
+    setActiveError(type);
+    bringToFront('error');
   }
 
   /*** MINIMIZE APPS */
@@ -348,97 +350,90 @@ const App = () => {
     return null
   }
 
-  return loading ? (
-    <LoadingScreen onFinish={() => setLoading(false)} />
-  ) : (
-    <div className="app">
-      <div className="app-wrapper">
-        <a 
-            href="#" 
-            className="desktop-item"
-            onDoubleClick={() => openError('appNotFound')}
-          >
-          <img className="app-icon my-computer" src={MyComputer} alt="My Computer" />
-          <span className="desktop-item-label">My Computer</span>
-        </a>
-        <div className="desktop-item" onDoubleClick={openIE}>
-          <img className="app-icon ie" src={IntertExplorer} alt="Internet Explorer" />
-          <span className="desktop-item-label">Internet Explorer</span>
-        </div>
+ 
+  return !isLoggedIn ? (
+    <LoginScreen onLogin={() => setIsLoggedIn(true)} />
+      ) : loading ? (
+          <LoadingScreen onFinish={() => setLoading(false)} />
+      ) : (
+          <div className="app">
+            <div className="app-wrapper">
+              <a 
+                  href="#" 
+                  className="desktop-item"
+                  onDoubleClick={() => openError('appNotFound')}
+                >
+                <img className="app-icon my-computer" src={MyComputer} alt="My Computer" />
+                <span className="desktop-item-label">My Computer</span>
+              </a>
+              <div className="desktop-item" onDoubleClick={openIE}>
+                <img className="app-icon ie" src={IntertExplorer} alt="Internet Explorer" />
+                <span className="desktop-item-label">Internet Explorer</span>
+              </div>
 
-        {/* Minesweeper Desktop Icon*/}
-        <div className="desktop-item" onDoubleClick={openMinesweeper}>
-          <img className="app-icon paint" src={MinesweeperIcon} alt="Minesweeper" />
-          <span className="desktop-item-label">Minesweeper</span>
-        </div>
+              <div className="desktop-item" onDoubleClick={openMinesweeper}>
+                <img className="app-icon paint" src={MinesweeperIcon} alt="Minesweeper" />
+                <span className="desktop-item-label">Minesweeper</span>
+              </div>
 
-        {/* Paint Desktop Icon*/}
-        <div className="desktop-item" onDoubleClick={openPaint}>
-          <img className="app-icon paint" src={PaintIcon} alt="Paint" />
-          <span className="desktop-item-label">Paint</span>
-        </div>
+              <div className="desktop-item" onDoubleClick={openPaint}>
+                <img className="app-icon paint" src={PaintIcon} alt="Paint" />
+                <span className="desktop-item-label">Paint</span>
+              </div>
 
-        {/* Calculator Desktop Icon*/}
-        <div className="desktop-item" onDoubleClick={openCalculator}>
-          <img className="app-icon paint" src={CalculatorIcon} alt="Calculator" />
-          <span className="desktop-item-label">Calculator</span>
-        </div>
+              <div className="desktop-item" onDoubleClick={openCalculator}>
+                <img className="app-icon paint" src={CalculatorIcon} alt="Calculator" />
+                <span className="desktop-item-label">Calculator</span>
+              </div>
 
-        {/* Terminal Desktop Icon*/}
-        <div className="desktop-item" onDoubleClick={openTerminal}>
-          <img className="app-icon paint" src={TerminalIcon} alt="Windows CMD" />
-          <span className="desktop-item-label">Terminal</span>
-        </div>
+              <div className="desktop-item" onDoubleClick={openTerminal}>
+                <img className="app-icon paint" src={TerminalIcon} alt="Windows CMD" />
+                <span className="desktop-item-label">Terminal</span>
+              </div>
 
-        {/* Notepad Desktop Icon*/}
-        <div className="desktop-item" onDoubleClick={openNotepad}>
-            <img className="app-icon" src={NotepadIcon} alt="Notepad" />
-            <span className="desktop-item-label">Notepad</span>
-        </div>
+              <div className="desktop-item" onDoubleClick={openNotepad}>
+                  <img className="app-icon" src={NotepadIcon} alt="Notepad" />
+                  <span className="desktop-item-label">Notepad</span>
+              </div>
 
+              <a href="#" className="desktop-item">
+                <img className="app-icon bin" src={Bin} alt="Recycle Bin" />
+                <span className="desktop-item-label">Recycle Bin</span>
+              </a>
+            </div>
 
-        <a href="#" className="desktop-item">
-          <img className="app-icon bin" src={Bin} alt="Recycle Bin" />
-          <span className="desktop-item-label">Recycle Bin</span>
-        </a>
-      </div>
+            {windowOrder.map(renderWindow)}
 
-      {/* Open windows, ordered from back to front */}
-      {windowOrder.map(renderWindow)}
-
-      <Footer
-        handleFullscreen={handleFullscreen}
-        onAppUnavailable={openError}
-
-        onIEOpen={openIE}
-        onPaintOpen={openPaint}
-        onMinesweeperOpen={openMinesweeper}
-        onTerminalOpen={openTerminal}
-        onCalculatorOpen={openCalculator}
-        onNotepadOpen={openNotepad}
-
-        minesweeperMinimized={minesweeper.isMinimized}
-        setMinesweeperMinimized={handleMinesweeperMinimize}
-        ieMinimized={ie.isMinimized}
-        setIeMinimized={handleIEMinimize}
-        terminalMinimized={terminal.isMinimized}
-        setTerminalMinimized={handleTerminalMinimize}
-        paintMinimized={paint.isMinimized}
-        setPaintMinimized={handlePaintMinimize}
-        calculatorMinimized={calculator.isMinimized}
-        setCalculatorMinimized={handleCalculatorMinimize}
-        notepadMinimized={notepad.isMinimized}
-        setNotepadMinimized={handleNotepadMinimize}
-
-        isMinesweeperOpen={isMinesweeperOpen}
-        isIEOpen={isIEOpen}
-        isPaintOpen={isPaintOpen}
-        isCalculatorOpen={isCalculatorOpen}
-        isTerminalOpen={isTerminalOpen}
-        isNotepadOpen={isNotepadOpen}
-      />
-    </div>
-  );
+            <Footer
+              handleFullscreen={handleFullscreen}
+              onAppUnavailable={openError}
+              onIEOpen={openIE}
+              onPaintOpen={openPaint}
+              onMinesweeperOpen={openMinesweeper}
+              onTerminalOpen={openTerminal}
+              onCalculatorOpen={openCalculator}
+              onNotepadOpen={openNotepad}
+              minesweeperMinimized={minesweeper.isMinimized}
+              setMinesweeperMinimized={handleMinesweeperMinimize}
+              ieMinimized={ie.isMinimized}
+              setIeMinimized={handleIEMinimize}
+              terminalMinimized={terminal.isMinimized}
+              setTerminalMinimized={handleTerminalMinimize}
+              paintMinimized={paint.isMinimized}
+              setPaintMinimized={handlePaintMinimize}
+              calculatorMinimized={calculator.isMinimized}
+              setCalculatorMinimized={handleCalculatorMinimize}
+              notepadMinimized={notepad.isMinimized}
+              setNotepadMinimized={handleNotepadMinimize}
+              isMinesweeperOpen={isMinesweeperOpen}
+              isIEOpen={isIEOpen}
+              isPaintOpen={isPaintOpen}
+              isCalculatorOpen={isCalculatorOpen}
+              isTerminalOpen={isTerminalOpen}
+              isNotepadOpen={isNotepadOpen}
+            />
+          </div>
+      )
 };
 
 export default App;

@@ -13,6 +13,7 @@ export default defineConfig({
                     paint: ['./src/components/Paint/Paint.tsx'],
                     calculator: ['./src/components/Calculator/Calculator.tsx'],
                     terminal: ['./src/components/terminal/Terminal.tsx'],
+                    login: ['./src/components/LoginScreen.tsx'],
                     loading: ['./src/components/XPLoading.tsx'],
                     footer: ['./src/components/Footer.tsx'],
                     startmenu: ['./src/components/MenuModal.tsx'],
