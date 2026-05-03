@@ -28,7 +28,7 @@ import WindowsCatalog from '../img/WindowsCatalog.webp'
 import WindowsUpdate from '../img/WindowsUpdate.webp'
 import StartMenuPrograms from '../img/StarMenuPrograms.webp'
 
-import './MenuModal.css'
+import './StartMenu.css'
 
 interface ModalProps {
     className?: string;

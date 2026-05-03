@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react'
 import IEModal from './AboutIE'
 import menuData from '../../data/IEData'
+import useSound from '../../hooks/useSound'
 import './IEMenu.css'
 
 interface IEMenuProps {
@@ -50,9 +51,11 @@ const IEMenu = ({
     onCopy,
     onPaste
 }: IEMenuProps) => {
-    const [openMenu, setOpenMenu] = useState<string | null>(null)
-    const [hoveredItem, setHoveredItem] = useState<number | null>(null)
-    const [openModal, setOpenModal] = useState<'about' | null>(null)
+    const [openMenu, setOpenMenu] = useState<string | null>(null);
+    const [hoveredItem, setHoveredItem] = useState<number | null>(null);
+    const [openModal, setOpenModal] = useState<'about' | null>(null);
+
+    const { playStartMenu } = useSound()
 
     const menuRef = useRef<HTMLDivElement>(null)
 
@@ -95,17 +98,18 @@ const IEMenu = ({
                                     ) : (
                                         <li
                                             key={i}
-                                           className={`ie-submenu-item 
+                                            className={`ie-submenu-item 
                                                 ${item.disabled ? 'disabled' : ''} 
-                                                ${item.icon ? 'has-icon' : ''} ${item.action === 'statusbar' && statusBarVisible ? 'checked' : ''} 
+                                                ${item.icon ? 'has-icon' : ''} ${item.action === 'statusbar' && statusBarVisible ? 'checked' : ''}
                                                 ${item.action === 'favourites' && favouritesVisible ? 'checked' : ''}`}
                                             onMouseEnter={() => setHoveredItem(i)}
                                             onMouseLeave={() => setHoveredItem(null)}
                                             onClick={() => {
+                                                playStartMenu();
                                                 if (item.url && onNavigate) {
-                                                    onNavigate(item.url)
-                                                    setOpenMenu(null)
-                                                    setHoveredItem(null)
+                                                    onNavigate(item.url);
+                                                    setOpenMenu(null);
+                                                    setHoveredItem(null);
                                                 }
                                                 if (item.action === 'back') { onBack?.(); setOpenMenu(null) }
                                                 if (item.action === 'forward') { onForward?.(); setOpenMenu(null) }
@@ -119,7 +123,7 @@ const IEMenu = ({
                                                 if (item.action === 'stop') { onStop?.(); setOpenMenu(null) }
                                                 if (item.action === 'print') { onPrint?.(); setOpenMenu(null) }
                                                 if (item.action === 'about') { setOpenModal('about'); setOpenMenu(null) }
-                                                 if (item.action === 'cut') { onCut?.(); setOpenMenu(null) }
+                                                if (item.action === 'cut') { onCut?.(); setOpenMenu(null) }
                                                 if (item.action === 'copy') { onCopy?.(); setOpenMenu(null) }
                                                 if (item.action === 'paste') { onPaste?.(); setOpenMenu(null) }
                                             }}
@@ -137,31 +141,33 @@ const IEMenu = ({
                                                             <li key={j} className="separator"/>
                                                         ) : (
                                                             <li
-                                                            key={j}
-                                                            className={`ie-submenu-item 
-                                                                ${child.disabled ? 'disabled' : ''} 
-                                                                ${child.action === 'toolbar-standard' && standardToolbarVisible ? 'checked' : ''} 
-                                                                ${child.action === 'toolbar-address' && addressBarVisible ? 'checked' : ''}
-                                                                ${child.action === 'favourites' && favouritesVisible ? 'checked' : ''}`}
-                                                            onClick={(e) => {
-                                                                e.stopPropagation()
-                                                                if (child.url && onNavigate) {
-                                                                    onNavigate(child.url)
-                                                                    setOpenMenu(null)
-                                                                    setHoveredItem(null)
-                                                                }
-                                                                if (child.action === 'back') { onBack?.(); setOpenMenu(null) }
-                                                                if (child.action === 'forward') { onForward?.(); setOpenMenu(null) }
-                                                                if (child.action === 'home') { onHome?.(); setOpenMenu(null) }
-                                                                if (child.action === 'favourites') { onToggleFavourites?.(); setOpenMenu(null) }
-                                                                if (child.action === 'toolbar-standard') { onToggleStandardToolbar?.(); setOpenMenu(null) }
-                                                                if (child.action === 'toolbar-address') { onToggleAddressBar?.(); setOpenMenu(null) }
-                                                            }}
-                                                        >
-                                                            {child.icon && <img src={child.icon} alt="" className="menu-item-icon" />}
-                                                            <span className="ie-submenu-label">{child.label}</span>
-                                                        </li>
-                                                    ))}
+                                                                key={j}
+                                                                className={`ie-submenu-item 
+                                                                    ${child.disabled ? 'disabled' : ''} 
+                                                                    ${child.action === 'toolbar-standard' && standardToolbarVisible ? 'checked' : ''} 
+                                                                    ${child.action === 'toolbar-address' && addressBarVisible ? 'checked' : ''}
+                                                                    ${child.action === 'favourites' && favouritesVisible ? 'checked' : ''}`}
+                                                                onClick={(e) => {
+                                                                    e.stopPropagation();
+                                                                    playStartMenu();
+                                                                    if (child.url && onNavigate) {
+                                                                        onNavigate(child.url);
+                                                                        setOpenMenu(null);
+                                                                        setHoveredItem(null);
+                                                                    }
+                                                                    if (child.action === 'back') { onBack?.(); setOpenMenu(null) }
+                                                                    if (child.action === 'forward') { onForward?.(); setOpenMenu(null) }
+                                                                    if (child.action === 'home') { onHome?.(); setOpenMenu(null) }
+                                                                    if (child.action === 'favourites') { onToggleFavourites?.(); setOpenMenu(null) }
+                                                                    if (child.action === 'toolbar-standard') { onToggleStandardToolbar?.(); setOpenMenu(null) }
+                                                                    if (child.action === 'toolbar-address') { onToggleAddressBar?.(); setOpenMenu(null) }
+                                                                }}
+                                                            >
+                                                                {child.icon && <img src={child.icon} alt="" className="menu-item-icon" />}
+                                                                <span className="ie-submenu-label">{child.label}</span>
+                                                            </li>
+                                                        )
+                                                    )}
                                                 </ul>
                                             )}
                                         </li>

@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef  } from 'react'
 import { createPortal } from 'react-dom'
+import useSound from '../../hooks/useSound' 
 import type { BoardConfig } from '../../data/game'
 import { beginnerConfig, intermediateConfig, expertConfig } from '../../data/game'
 import About from './About'
@@ -20,9 +21,11 @@ interface GameMenuProps {
 }
 
 const GameMenu = ({ onReset, onMarksChange, level, setLevel, setIsMinimized, windowPosition, soundEnabled, onSoundToggle }: GameMenuProps) => {
-    const [openMenu, setOpenMenu] = useState<'game' | 'help' | null>(null)
-    const [openModal, setOpenModal] = useState<'about' | 'times' | 'custom' | null>(null)
-    const [marks, setMarks] = useState(true)
+    const [openMenu, setOpenMenu] = useState<'game' | 'help' | null>(null);
+    const [openModal, setOpenModal] = useState<'about' | 'times' | 'custom' | null>(null);
+    const [marks, setMarks] = useState(true);
+
+    const { playStartMenu } = useSound(); 
 
     const menuRef = useRef<HTMLElement>(null);
 
@@ -44,6 +47,7 @@ const GameMenu = ({ onReset, onMarksChange, level, setLevel, setIsMinimized, win
         });
         setOpenMenu(null);
     }
+
   return (
     <menu 
         className='game-menu'
@@ -55,65 +59,131 @@ const GameMenu = ({ onReset, onMarksChange, level, setLevel, setIsMinimized, win
             >
                 Game
                 <ul className={`submenu game ${openMenu === 'game' ? 'open' : ''}`}>
-                    <li onClick={() => onReset()}>New <span>F2</span></li>
+                    <li 
+                        onClick={() => { 
+                            playStartMenu(); 
+                            onReset(); }
+                        }
+                    >
+                        New <span>F2</span>
+                    </li>
                     <li className="separator" aria-hidden="true"></li>
-                    <li
+                    <li 
                         className={level === beginnerConfig ? 'checked' : ''}
-                        onClick={() => {
-                            setLevel(beginnerConfig)
-                            onReset(beginnerConfig)
-                            setOpenMenu(null)
-                        }}
+                        onClick={() => { 
+                            playStartMenu(); 
+                            setLevel(beginnerConfig); 
+                            onReset(beginnerConfig); 
+                            setOpenMenu(null); }
+                        }
                     >
                         Beginner
                     </li>
-                    <li
+                    <li 
                         className={level === intermediateConfig ? 'checked' : ''}
-                        onClick={() => {
-                            setLevel(intermediateConfig)
-                            onReset(intermediateConfig)
-                            setOpenMenu(null)
-                        }}
+                        onClick={() => { 
+                            playStartMenu(); 
+                            setLevel(intermediateConfig); 
+                            onReset(intermediateConfig); 
+                            setOpenMenu(null); }
+                        }
                     >
                         Intermediate
                     </li>
-                    <li
+                    <li 
                         className={level === expertConfig ? 'checked' : ''}
-                        onClick={() => {
-                            setLevel(expertConfig)
-                            onReset(expertConfig)
-                            setOpenMenu(null)
-                        }}
+                        onClick={() => { 
+                            playStartMenu(); 
+                            setLevel(expertConfig); 
+                            onReset(expertConfig); 
+                            setOpenMenu(null); }
+                        }
                     >
                         Expert
                     </li>
-                    <li onClick={() => { setOpenModal('custom'); setOpenMenu(null) }}>Custom</li>
+                    <li 
+                        onClick={() => { 
+                            playStartMenu(); 
+                            setOpenModal('custom'); 
+                            setOpenMenu(null); }
+                        }
+                    >
+                        Custom
+                    </li>
                     <li className="separator" aria-hidden="true"></li>
-                    <li
+                    <li 
                         className={marks ? 'checked' : ''}
-                        onClick={toggleMarks}
-                        >
+                        onClick={() => { 
+                            playStartMenu(); 
+                            toggleMarks(); }
+                        }
+                    >
                         Marks (?)
                     </li>
-                    <li
+                    <li 
                         className={soundEnabled ? 'checked' : ''}
-                        onClick={() => { onSoundToggle(); setOpenMenu(null); }}
-                    >Sound</li>
+                        onClick={() => { 
+                            playStartMenu(); 
+                            onSoundToggle(); 
+                            setOpenMenu(null); }
+                        }
+                    >
+                        Sound
+                    </li>
                     <li className="separator" aria-hidden="true"></li>
-                    <li onClick={() => { setOpenModal('times'); setOpenMenu(null) }}>Best Times</li>
+                    <li 
+                        onClick={() => { 
+                            playStartMenu(); 
+                            setOpenModal('times'); 
+                            setOpenMenu(null); }
+                        }
+                    >
+                        Best Times
+                    </li>
                     <li className="separator" aria-hidden="true"></li>
-                    <li onClick={() => { setIsMinimized(true); setOpenMenu(null); }}>Exit</li>
+                    <li 
+                        onClick={() => { 
+                            playStartMenu(); 
+                            setIsMinimized(true); 
+                            setOpenMenu(null); }
+                        }
+                    >
+                        Exit
+                    </li>
                 </ul>
             </li>
             
             <li onClick={() => setOpenMenu(openMenu === 'help' ? null : 'help')}>
                 Help
                 <ul className={`submenu help ${openMenu === 'help' ? 'open' : ''}`}>
-                    <li className="is-disabled" aria-disabled="true">Contents <span>F1</span></li>
-                    <li className="is-disabled" aria-disabled="true">Search for Help On...</li>
-                    <li className="is-disabled" aria-disabled="true">Using Help</li>
+                    <li 
+                        className="is-disabled" 
+                        aria-disabled="true"
+                    >
+                        Contents <span>F1</span>
+                    </li>
+                    <li 
+                        className="is-disabled" 
+                        aria-disabled="true"
+                    >
+                        Search for Help On...
+                    </li>
+                    <li 
+                        className="is-disabled" 
+                        aria-disabled="true"
+                    >
+                        Using Help
+                    </li>
                     <li className="separator" aria-hidden="true"></li>
-                    <li onClick={() => { setOpenModal('about'); setOpenMenu(null) }}>About Minesweeper...</li>
+                    <li 
+                        onClick={() => { 
+                            playStartMenu(); 
+                            setOpenModal('about'); 
+                            setOpenMenu(null); }
+                        }
+                    >
+                        About Minesweeper...
+                    </li>
                 </ul>
             </li>
         </ul>

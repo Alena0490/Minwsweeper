@@ -11,15 +11,19 @@ import "./Canvas.css";
 interface CanvasProps {
   canvasRef: React.RefObject<HTMLCanvasElement | null>;
   ctxRef: React.RefObject<CanvasRenderingContext2D | null>;
+
   startDrawing: (e: React.MouseEvent | React.TouchEvent) => void;
   draw: (e: React.MouseEvent | React.TouchEvent) => void;
   endDrawing: () => void;
+
   lineColor: string;
   setLineColor: (color: string) => void;
   lineWidth: number;
   lineOpacity: number;
+
   tool: string;
   setTool: (tool: string) => void;
+
   floodFill: (
     ctx: CanvasRenderingContext2D,
     x: number,
@@ -27,22 +31,29 @@ interface CanvasProps {
     fillRGBA: number[],
     tolerance?: number,
   ) => void;
+
   zoom: number;
   setZoom: React.Dispatch<React.SetStateAction<number>>;
   pan: { x: number; y: number };
   setPan: React.Dispatch<React.SetStateAction<{ x: number; y: number }>>;
+
   onStatusChange: (message: string) => void;
+
   saveAsOpen: boolean;
   setSaveAsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+
   selectedShapePreset: number;
   bgColor: string,
+
   selection: { x: number; y: number; w: number; h: number } | null;
   setSelection: React.Dispatch<React.SetStateAction<{ x: number; y: number; w: number; h: number } | null>>;
   selectionData: ImageData | null;
   setSelectionData: React.Dispatch<React.SetStateAction<ImageData | null>>;
   selectedBgPreset: number;
+
   textBoxPos: { x: number; y: number; w: number; h: number } | null;
   setTextBoxPos: React.Dispatch<React.SetStateAction<{ x: number; y: number; w: number; h: number } | null>>;
+
   snapshotRef: React.RefObject<() => void>;
   canvasWidth: number;
   canvasHeight: number;
@@ -51,33 +62,44 @@ interface CanvasProps {
 
 const Canvas = ({
   canvasRef,
+  ctxRef,
+
   startDrawing,
   draw,
   endDrawing,
-  ctxRef,
-  tool,
+
   lineColor,
+  setLineColor,
   lineWidth,
   lineOpacity,
-  setLineColor,
+
+  tool,
   setTool,
+
+  floodFill,
+
   zoom,
   setZoom,
-  floodFill,
   pan,
   setPan,
+
   onStatusChange,
+
   saveAsOpen,
   setSaveAsOpen,
+
   selectedShapePreset,
   bgColor,
+
   selection,
   setSelection,
   selectionData,
   setSelectionData,
   selectedBgPreset,
+
   textBoxPos,
   setTextBoxPos,
+
   snapshotRef,
   canvasWidth,
   canvasHeight,
@@ -140,6 +162,11 @@ const Canvas = ({
     handleOpenFile
   } = usePaintFileActions(canvasRef, ctxRef, snapshot, onStatusChange, saveAsOpen, setSaveAsOpen);
 
+  const handleOpenFileRef = useRef(handleOpenFile);
+  useEffect(() => {
+    handleOpenFileRef.current = handleOpenFile;
+  }, [handleOpenFile]);
+
   /* ── Selection ── */
   const {
     selStartRef,
@@ -179,7 +206,7 @@ const Canvas = ({
     }
     else if (tool === "undo") { undo(); setTimeout(() => setTool("pencil"), 0); }
     else if (tool === "redo") { redo(); setTimeout(() => setTool("pencil"), 0); }
-    else if (tool === "open") { handleOpenFile(); setTimeout(() => setTool("pencil"), 0); }
+    else if (tool === "open") { handleOpenFileRef.current(); setTimeout(() => setTool("pencil"), 0); }
     else if (tool === "invert") {
       if (invertedRef.current) { invertedRef.current = false; return; }
       invertedRef.current = true;
@@ -193,7 +220,7 @@ const Canvas = ({
       ctx.putImageData(imageData, 0, 0);
       setTimeout(() => setTool("pencil"), 0);
     }
-  }, [tool, canvasRef, ctxRef, setTool, snapshot, undo, redo, handleOpenFile]);
+  }, [tool, canvasRef, ctxRef, setTool, snapshot, undo, redo]);
 
   /* ── Canvas panning (middle mouse + drag) ── */
   const { isPanningRef, panStartRef } = usePaintPanning(canvasRef, pan, setPan, setZoom);

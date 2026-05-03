@@ -42,7 +42,7 @@ type WindowId =
 
 
 const App = () => {
-  const { playStart, playMinimize, playCriticalError } = useSound();
+  const { playStart, playMinimize, playCriticalError, playShutDown, playLogOff } = useSound();
 
   const minesweeper = useWindowState();
   const ie = useWindowState();
@@ -214,13 +214,22 @@ const App = () => {
   // SHUTDOWN
   const handleShutdownAction = (action: 'switchuser' | 'logoff' | 'standby' | 'turnoff' | 'restart') => {
     setShutdownMode(null);
-    if (action === 'logoff' || action === 'switchuser' || action === 'standby' || action === 'turnoff') {
-      setIsLoggedIn(false);
+
+    if (action === 'turnoff' || action === 'restart' || action === 'standby') {
+        playShutDown();
+    } else {
+        playLogOff();
     }
-    if (action === 'restart') {
-      setIsLoggedIn(false);
-      setLoading(true);
-    }
+
+    setTimeout(() => {
+        if (action === 'logoff' || action === 'switchuser' || action === 'standby' || action === 'turnoff') {
+            setIsLoggedIn(false);
+        }
+        if (action === 'restart') {
+            setIsLoggedIn(false);
+            setLoading(true);
+        }
+    }, 1500);
   };
 
   const handleShutdownCancel = () => {

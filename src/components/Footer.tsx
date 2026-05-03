@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import type { ErrorType } from './CriticalError'
 import useSound from '../hooks/useSound'
-import MenuModal from './MenuModal';
+import MenuModal from './StartMenu';
 import ErrorBubble from './ErrorBubble';
 import './Footer.css'
 

@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react'
 import { createPortal } from 'react-dom'
+import useSound from '../../hooks/useSound'
 import AboutNotepad from './AboutNotepad'
 import FindReplaceModal from './FindReplaceModal'
 
@@ -39,6 +40,9 @@ const NotepadMenu = ( {
     const [openMenu, setOpenMenu] = useState< 'file' | 'edit' |'format' |  'view' |  'help' | null>(null);
     const [openModal, setOpenModal] = useState<'about' | 'find' | 'replace' | null>(null);
 
+    //Sound
+    const { playStartMenu } = useSound();
+
     // Date/Time
     const menuRef = useRef<HTMLMenuElement>(null)
 
@@ -71,20 +75,96 @@ const NotepadMenu = ( {
                 <li onClick={() => setOpenMenu(openMenu === 'file' ? null : 'file')}>
                     File
                     <ul className={`submenu ${openMenu === 'file' ? 'open' : ''}`}>
-                        <li onClick={onOpen}>Open</li>
-                        <li onClick={onSave}>Save</li>
-                        <li onClick={onSaveAs}>Save As</li>
-                        <li onClick={onClose}>Exit</li>
+                        <li 
+                            onClick={() => { 
+                                playStartMenu(); 
+                                onOpen(); 
+                                setOpenMenu(null); }
+                            }
+                        >
+                            Open
+                        </li>
+                        <li 
+                            onClick={() => { 
+                                playStartMenu(); 
+                                onSave(); 
+                                setOpenMenu(null); }
+                            }
+                        >
+                            Save
+                        </li>
+                        <li 
+                            onClick={() => { 
+                                playStartMenu(); 
+                                onSaveAs(); 
+                                setOpenMenu(null); }
+                            }
+                        >
+                            Save As
+                        </li>
+                        <li 
+                            onClick={() => { 
+                                playStartMenu(); 
+                                onClose(); }
+                            }
+                        >
+                            Exit
+                        </li>
                     </ul>
                 </li>
-                <li onClick={() => setOpenMenu(openMenu === 'edit' ? null : 'edit')}>
+                <li 
+                    onClick={() => 
+                        setOpenMenu(openMenu === 'edit' ? null : 'edit')
+                    }
+                >
                     Edit
                     <ul className={`submenu ${openMenu === 'edit' ? 'open' : ''}`}>
-                        <li className={!canUndo ? 'is-disabled' : ''} onClick={canUndo ? onUndo : undefined}>Undo</li>
-                        <li className={!canRedo ? 'is-disabled' : ''} onClick={canRedo ? onRedo : undefined}>Redo</li>
-                        <li onClick={() => { setOpenModal('find'); setOpenMenu(null) }}>Find</li>
-                        <li onClick={() => { setOpenModal('replace'); setOpenMenu(null) }}>Replace</li>
-                        <li onClick={insertDateTime}>Date/Time</li>
+                        <li 
+                            className={!canUndo ? 'is-disabled' : ''} 
+                            onClick={canUndo ? () => { 
+                                playStartMenu(); 
+                                onUndo(); } : undefined
+                            }
+                        >
+                            Undo
+                        </li>
+                        
+                        <li 
+                            className={!canRedo ? 'is-disabled' : ''} 
+                            onClick={canRedo ? () => { 
+                                playStartMenu(); 
+                                onRedo(); } : undefined
+                            }
+                        >
+                            Redo
+                        </li>
+                        <li 
+                            onClick={() => { 
+                                playStartMenu(); 
+                                setOpenModal('find'); 
+                                setOpenMenu(null); }
+                            }
+                        >
+                            Find
+                        </li>
+                        <li 
+                            onClick={() => { 
+                                playStartMenu(); 
+                                setOpenModal('replace'); 
+                                setOpenMenu(null); }
+                            }
+                        >
+                            Replace
+                        </li>
+                        <li 
+                            onClick={() => { 
+                                playStartMenu(); 
+                                insertDateTime(); 
+                                setOpenMenu(null); }
+                            }
+                        >
+                            Date/Time
+                        </li>
                     </ul>
                 </li>
                 <li onClick={() => setOpenMenu(openMenu === 'format' ? null : 'format')}>
@@ -92,7 +172,11 @@ const NotepadMenu = ( {
                     <ul className={`submenu ${openMenu === 'format' ? 'open' : ''}`}>
                         <li 
                             className={wordWrap ? 'checked' : ''}
-                            onClick={onToggleWordWrap}
+                            onClick={() => { 
+                                playStartMenu(); 
+                                onToggleWordWrap(); 
+                                setOpenMenu(null); }
+                            }
                         >
                             Word Wrap
                         </li>
@@ -103,9 +187,14 @@ const NotepadMenu = ( {
                     <ul className={`submenu ${openMenu === 'view' ? 'open' : ''}`}>
                         <li 
                             className={showStatusBar ? 'checked' : ''}
-                            onClick={onToggleStatusBar}
-
-                        >Status Bar</li>
+                            onClick={() => { 
+                                playStartMenu(); 
+                                onToggleStatusBar(); 
+                                setOpenMenu(null); }
+                            }
+                        >
+                            Status Bar
+                        </li>
                     </ul>
                 </li>
                 <li onClick={() => setOpenMenu(openMenu === 'help' ? null : 'help')}>
@@ -113,8 +202,14 @@ const NotepadMenu = ( {
                     <ul className={`submenu ${openMenu === 'help' ? 'open' : ''}`}>
                         <li className="is-disabled">Help Topics</li>
                         <li 
-                            onClick={() => { setOpenModal('about'); setOpenMenu(null) }}
-                        >About Notepad</li>
+                            onClick={() => { 
+                                playStartMenu(); 
+                                setOpenModal('about'); 
+                                setOpenMenu(null); }
+                            }
+                        >
+                            About Notepad
+                        </li>
                     </ul>
                 </li>
             </ul>
