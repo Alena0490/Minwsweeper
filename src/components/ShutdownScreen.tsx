@@ -37,7 +37,7 @@ const ShutdownScreen = ({ mode, onCancel, onAction }: ShutdownScreenProps) => {
             />
         )
     }
-  
+
     return (
     <div className={`shutdown-overlay ${isAnimating ? 'is-animating' : ''}`}>
         <div className="shutdown-modal">

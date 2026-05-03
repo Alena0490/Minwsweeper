@@ -62,6 +62,7 @@ const App = () => {
   const [windowOrder, setWindowOrder] = useState<WindowId[]>([]);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [shutdownMode, setShutdownMode] = useState<'logoff' | 'turnoff' | null>(null);
+  const [isFadingOut, setIsFadingOut] = useState(false);
 
 
   // Bring active window to the front
@@ -221,7 +222,9 @@ const App = () => {
         playLogOff();
     }
 
+    setIsFadingOut(true);
     setTimeout(() => {
+        setIsFadingOut(false);
         if (action === 'logoff' || action === 'switchuser' || action === 'standby' || action === 'turnoff') {
             setIsLoggedIn(false);
         }
@@ -229,7 +232,7 @@ const App = () => {
             setIsLoggedIn(false);
             setLoading(true);
         }
-    }, 1500);
+    }, 3000);
   };
 
   const handleShutdownCancel = () => {
@@ -478,6 +481,18 @@ const App = () => {
               onLogOff={() => openShutdown('logoff')}
               onTurnOff={() => openShutdown('turnoff')}
             />
+
+            {/* FadeOut Overlay */}
+            {isFadingOut && (
+              <div style={{
+                  position: 'fixed',
+                  inset: 0,
+                  background: '#000',
+                  opacity: 1,
+                  zIndex: 99999,
+                  animation: 'fadeToBlack 0.8s ease forwards',
+              }} />
+          )}
           </div>
       )
 };

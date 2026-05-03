@@ -31,12 +31,12 @@ const XPLoading = ({ onFinish }: { onFinish: () => void }) => {
       }}
     >
       <div className="window">
-        <div className="logo">
-          <img src={Logo} className="xp-logo" alt="" aria-hidden="true" />
-          <span className="tm">™</span>
-          <p className="top">Microsoft</p>
-          <p className="mid">Windows<sup className="reg-mark">®</sup><span>xp</span></p>
-          <p className="bottom">Professional</p>
+        <div className="load-logo">
+          <img src={Logo} className="xp-logo-load" alt="Logo Windows" aria-hidden="true" />
+          <span className="load-tm">™</span>
+          <p className="load-top">Microsoft</p>
+          <p className="load-mid">Windows<sup className="load-reg-mark">®</sup><span>xp</span></p>
+          <p className="load-bottom">Professional</p>
         </div>
         <div className="container">
           <div className="box"></div>

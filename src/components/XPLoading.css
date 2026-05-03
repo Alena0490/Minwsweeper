@@ -31,13 +31,13 @@
 /* ─────────────────────────────────────────
    Logo block 
 ───────────────────────────────────────── */
-.logo {
+.load-logo {
   position: relative;
   width: 220px;
   margin: 50px auto;
 }
 
-.logo p {
+.load-logo  p {
   margin: 0;
   padding: 0;
 }
@@ -45,7 +45,7 @@
 /* ─────────────────────────────────────────
    Windows logo 
 ───────────────────────────────────────── */
-.xp-logo {
+.xp-logo-load {
   position: absolute;
   width: 110px;
   height: auto;
@@ -58,13 +58,13 @@
 /* ─────────────────────────────────────────
    Text styling
 ───────────────────────────────────────── */
-.top {
+.load-top {
   font-size: 16px;
   font-weight: 300;
   line-height: 16px;
 }
 
-.top::after {
+.load-top::after {
   content: "\00AE"; /* ® */
   font-size: 9px;
   position: relative;
@@ -73,13 +73,13 @@
   font-family: inherit;
 }
 
-.mid {
+.load-mid {
   font-size: 46px;
   font-weight: 700;
   line-height: 36px;
 }
 
-.mid span {
+.load-mid span {
   font-size: 26px;
   display: inline-block;
   vertical-align: top;
@@ -88,21 +88,21 @@
   margin-top: -12px;
 }
 
-.logo .bottom {
+.load-logo .load-bottom {
   font-size: 30px;
   font-weight: 300;
   line-height: 30px;
   margin-left: 5px;
 }
 
-.tm {
+.load-tm {
   position: absolute;
   font-size: 9px;
   top: 7px;
   left: 186px;
 }
 
-.reg-mark {
+.load-reg-mark {
   font-size: 9px;
   font-weight: 300;
   vertical-align: super;
