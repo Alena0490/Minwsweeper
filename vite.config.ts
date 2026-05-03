@@ -16,7 +16,7 @@ export default defineConfig({
                     login: ['./src/components/LoginScreen.tsx'],
                     loading: ['./src/components/XPLoading.tsx'],
                     footer: ['./src/components/Footer.tsx'],
-                    startmenu: ['./src/components/MenuModal.tsx'],
+                    startmenu: ['./src/components/StartMenu.tsx'],
                     errorbubble: ['./src/components/ErrorBubble.tsx'],
                     criticalerror: ['./src/components/CriticalError.tsx'],
                     notepad: ['./src/components/Notepad/Notepad.tsx'],
