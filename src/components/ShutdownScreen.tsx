@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import ShutdownDisplay from './ShutdownDisplay'
 
 import Logo from '../img/logo.webp'
 import SwitchUser from '../img/SwitchUser.webp'
@@ -7,7 +8,7 @@ import Restart from '../img/Restart.webp'
 import Power from '../img/Power.webp'
 import Logout from '../img/Logout.webp'
 
-import './ShutdownScreen.css'
+import './ShutDownScreen.css'
 
 interface ShutdownScreenProps {
     mode: 'logoff' | 'turnoff'
@@ -16,14 +17,25 @@ interface ShutdownScreenProps {
 }
 
 const ShutdownScreen = ({ mode, onCancel, onAction }: ShutdownScreenProps) => {
+    const [activeAction, setActiveAction] = useState<'switchuser' | 'logoff' | 'standby' | 'turnoff' | 'restart' | null>(null)
+
     const [isAnimating, setIsAnimating] = useState(true)
 
-    const handleCancel = () => {
+     const handleCancel = () => {
         setIsAnimating(false)
 
         window.setTimeout(() => {
             onCancel()
         }, 700)
+    }
+
+    if (activeAction) {
+        return (
+            <ShutdownDisplay
+                action={activeAction}
+                onDone={() => onAction(activeAction)}
+            />
+        )
     }
   
     return (
@@ -39,26 +51,26 @@ const ShutdownScreen = ({ mode, onCancel, onAction }: ShutdownScreenProps) => {
             <div className="shutdown-middle">
                 {mode === 'logoff' ? (
                     <>
-                        <button type="button" className="shutdown-btn" onClick={() => onAction('switchuser')}>
+                        <button type="button" className="shutdown-btn" onClick={() => setActiveAction('switchuser')}>
                             <img src={SwitchUser} alt="Switch User" />
                             <span>Switch User</span>
                         </button>
-                        <button type="button" className="shutdown-btn" onClick={() => onAction('logoff')}>
+                        <button type="button" className="shutdown-btn" onClick={() => setActiveAction('logoff')}>
                             <img src={Logout} alt="Log Off" />
                             <span>Log Off</span>
                         </button>
                     </>
                 ) : (
                     <>
-                        <button type="button" className="shutdown-btn" onClick={() => onAction('standby')}>
+                        <button type="button" className="shutdown-btn" onClick={() => setActiveAction('standby')}>
                             <img src={Standby} alt="Stand By" />
                             <span>Stand By</span>
                         </button>
-                        <button type="button" className="shutdown-btn" onClick={() => onAction('turnoff')}>
+                        <button type="button" className="shutdown-btn" onClick={() => setActiveAction('turnoff')}>
                             <img src={Power} alt="Turn Off" />
                             <span>Turn Off</span>
                         </button>
-                        <button type="button" className="shutdown-btn" onClick={() => onAction('restart')}>
+                        <button type="button" className="shutdown-btn" onClick={() => setActiveAction('restart')}>
                             <img src={Restart} alt="Restart" />
                             <span>Restart</span>
                         </button>
