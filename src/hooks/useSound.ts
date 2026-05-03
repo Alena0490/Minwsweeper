@@ -9,6 +9,9 @@ import startXP from '../sounds/Windows XP Startup.wav'
 import balloon from '../sounds/Windows XP Balloon.wav'
 import error from '../sounds/Windows XP Error.wav'
 import criticalError from '../sounds/Windows XP Critical Stop.wav'
+import startMenu from '../sounds/Windows XP Menu Command.wav'
+import logOff from '../sounds/Windows XP Logoff Sound.wav'
+import shutDown from '../sounds/Windows XP Shutdown.wav'
 
 const useSound = () => {
     const [enabled, setEnabled] = useState(true);
@@ -30,6 +33,9 @@ const useSound = () => {
         playBalloon: () => playSound(balloon),
         playError: () => playSound(error),
         playCriticalError: () => playSound(criticalError),
+        playStartMenu: () => playSound(startMenu),
+        playLogOff: () => playSound(logOff),
+        playShutDown: () => playSound(shutDown),
         enabled,
         toggleSound: () => setEnabled(prev => !prev),
     };

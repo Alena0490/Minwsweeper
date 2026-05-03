@@ -3,6 +3,7 @@ import useSound from './hooks/useSound'
 import useWindowState from './hooks/useWindowState';
 import type { ErrorType } from './components/CriticalError'
 import CriticalError from './components/CriticalError'
+import ShutdownScreen from './components/ShutdownScreen'
 
 import LoadingScreen from './components/XPLoading'
 import LoginScreen from "./components/LoginScreen";
@@ -60,6 +61,8 @@ const App = () => {
   const [isNotepadOpen, setIsNotepadOpen] = useState(false);
   const [windowOrder, setWindowOrder] = useState<WindowId[]>([]);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [shutdownMode, setShutdownMode] = useState<'logoff' | 'turnoff' | null>(null);
+
 
   // Bring active window to the front
   const bringToFront = (id: WindowId) => {
@@ -71,6 +74,7 @@ const App = () => {
     setWindowOrder(prev => prev.filter(item => item !== id));
   }
 
+  // Handle Fullscreen
   const handleFullscreen = () => {
     const elem = document.documentElement as FullscreenHTMLElement;
     if (elem.requestFullscreen) elem.requestFullscreen();
@@ -200,6 +204,27 @@ const App = () => {
       handleNotepadMinimize(false);
     }
     bringToFront('notepad')
+  };
+
+  // Handler
+  const openShutdown = (mode: 'logoff' | 'turnoff') => {
+    setShutdownMode(mode);
+  };
+
+  // SHUTDOWN
+  const handleShutdownAction = (action: 'switchuser' | 'logoff' | 'standby' | 'turnoff' | 'restart') => {
+    setShutdownMode(null);
+    if (action === 'logoff' || action === 'switchuser' || action === 'standby' || action === 'turnoff') {
+      setIsLoggedIn(false);
+    }
+    if (action === 'restart') {
+      setIsLoggedIn(false);
+      setLoading(true);
+    }
+  };
+
+  const handleShutdownCancel = () => {
+    setShutdownMode(null);
   };
 
   // APLICATION RENDERING
@@ -356,7 +381,7 @@ const App = () => {
       ) : loading ? (
           <LoadingScreen onFinish={() => setLoading(false)} />
       ) : (
-          <div className="app">
+          <div className={`app`}>
             <div className="app-wrapper">
               <a 
                   href="#" 
@@ -404,6 +429,14 @@ const App = () => {
 
             {windowOrder.map(renderWindow)}
 
+            {shutdownMode && (
+                <ShutdownScreen
+                    mode={shutdownMode}
+                    onCancel={handleShutdownCancel}
+                    onAction={handleShutdownAction}
+                />
+            )}
+
             <Footer
               handleFullscreen={handleFullscreen}
               onAppUnavailable={openError}
@@ -431,6 +464,8 @@ const App = () => {
               isCalculatorOpen={isCalculatorOpen}
               isTerminalOpen={isTerminalOpen}
               isNotepadOpen={isNotepadOpen}
+              onLogOff={() => openShutdown('logoff')}
+              onTurnOff={() => openShutdown('turnoff')}
             />
           </div>
       )

@@ -39,6 +39,8 @@ interface ModalProps {
     onTerminalOpen: () => void;
     onNotepadOpen: () => void;
     onAppUnavailable: (type: ErrorType) => void;
+    onLogOff: () => void;
+    onTurnOff: () => void;
 }
 
 const MenuModal = ({ 
@@ -49,7 +51,9 @@ const MenuModal = ({
     onMinesweeperOpen,
     onTerminalOpen,
     onNotepadOpen,
-    onAppUnavailable
+    onAppUnavailable,
+    onLogOff,
+    onTurnOff
 }: ModalProps) => { 
     const {playStart } = useSound();
     const [showAllPrograms, setShowAllPrograms] = useState(false);
@@ -254,12 +258,11 @@ const MenuModal = ({
                 </div>
             </div>
             <div className='power'>
-                {/* <div className="power-button"></div> */}
-                <div className="power-button">
+                <div className="power-button" onClick={onLogOff}>
                     <img src={LogOff} alt="Log Off" />
                     Log Off
                 </div>
-                <div className="power-button">
+                <div className="power-button" onClick={onTurnOff}>
                     <img src={TurnOff} alt="Turn Off" />
                     Turn Off Computer
                 </div>

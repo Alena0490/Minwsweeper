@@ -46,6 +46,9 @@ interface FooterProps {
     setCalculatorMinimized: (value: boolean | ((prev: boolean) => boolean)) => void;
     setTerminalMinimized: (value: boolean | ((prev: boolean) => boolean)) => void;
     setNotepadMinimized: (value: boolean | ((prev: boolean) => boolean)) => void;
+
+    onLogOff: () => void;
+    onTurnOff: () => void;
 }
 
 const Footer = ({ 
@@ -78,7 +81,10 @@ const Footer = ({
     isMinesweeperOpen,
     isCalculatorOpen,
     isTerminalOpen,
-    isNotepadOpen 
+    isNotepadOpen,
+    
+    onLogOff,
+    onTurnOff
 }: FooterProps) => {
     const [time, setTime] = useState(new Date());
     const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -146,6 +152,8 @@ const Footer = ({
                         onTerminalOpen={onTerminalOpen}
                         onNotepadOpen={onNotepadOpen}
                         onAppUnavailable={onAppUnavailable}
+                        onLogOff={onLogOff}
+                        onTurnOff={onTurnOff}
                     />
                     <img src={windowsLogo} alt='Windows XP Logo' />
                     <span>Start</span>
