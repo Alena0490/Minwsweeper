@@ -20,6 +20,8 @@ export default defineConfig({
                     errorbubble: ['./src/components/ErrorBubble.tsx'],
                     criticalerror: ['./src/components/CriticalError.tsx'],
                     notepad: ['./src/components/Notepad/Notepad.tsx'],
+                    shutdownscreen: ['./src/components/ShutdownScreen.tsx'],
+                    shutdowndisplay: ['./src/components/ShutdownDisplay.tsx'],
                 }
             }
         }

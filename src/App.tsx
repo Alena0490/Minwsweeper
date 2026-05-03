@@ -331,18 +331,20 @@ const App = () => {
           toggleFullscreen={terminal.toggleFullscreen}
           onMouseDown={() => bringToFront('terminal')}
           apps={[
-            { name: 'Minesweeper', size: '21,600' },
-            { name: 'Internet Explorer', size: '85,670' },
-            { name: 'Paint', size: '80,740' },
-            { name: 'Calculator', size: '16,280' },
-            { name: 'Command Prompt', size: '5,260' },
-            { name: 'Loading Screen', size: '7,730' },
-            { name: 'Start Menu', size: '21,600' },
-            { name: 'Taskbar', size: '3,260' },
+            { name: 'Minesweeper', size: '21,850' },
+            { name: 'Internet Explorer', size: '85,900' },
+            { name: 'Paint', size: '80,860' },
+            { name: 'Calculator', size: '16,510' },
+            { name: 'Command Prompt', size: '5,290' },
+            { name: 'Loading Screen', size: '9,800' },
+            { name: 'Start Menu', size: '14,270' },
+            { name: 'Taskbar', size: '3,670' },
             { name: 'Error Bubble', size: '590' },
-            { name: 'Critical Error', size: '10,480' },
-            { name: 'Notepad', size: '70' },
-          ]}
+            { name: 'Critical Error', size: '10,540' },
+            { name: 'Notepad', size: '13,410' },
+            { name: 'Shutdown Screen', size: '11,680' },
+            { name: 'Shutdown Display', size: '1,160' },
+        ]}
         />
       )
     }
