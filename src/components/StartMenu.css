@@ -28,7 +28,7 @@
     box-shadow:
         inset 1px 1px 0 var(--xp-highlight-soft),
         inset -1px -1px 0 rgba(0, 0, 0, 0.25),
-        0 3px 3px rgba(0, 0, 0, 0.35);
+        0 var(--space-2) var(--space-2) rgba(0, 0, 0, 0.35);
     isolation: isolate;
     letter-spacing: 0.1px;
     z-index: 200;
@@ -40,11 +40,11 @@
 .user {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: var(--space-6);
     min-height: 74px;
-    padding: 10px 12px var(--margin-large);
+    padding: var(--space-6) var(--space-7) var(--space-5);
     width: 100%;
-    box-shadow: inset 0 3px 2px rgba(255, 255, 255, 0.45);
+    box-shadow: inset 0 var(--space-2) var(--space-1) rgba(255, 255, 255, 0.45);
 }
 
 .user span {
@@ -54,14 +54,14 @@
     letter-spacing: -0.3px;
     text-shadow:
         1px 1px 0 rgba(0, 0, 0, 0.35),
-        0 0 var(--margin-md) rgba(255, 255, 255, 0.08);
+        0 0 var(--space-4) rgba(255, 255, 255, 0.08);
 }
 
 .user img {
     width: 52px;
     height: 52px;
     object-fit: cover;
-    border: 2px solid var(--xp-line-light);
+    border: var(--space-1) solid var(--xp-line-light);
     border-radius: 6px;
     box-shadow:
         1px 1px 0 rgba(0, 0, 0, 0.25),
@@ -77,7 +77,7 @@
     display: grid;
     grid-template-columns: 50.5% 49.5%;
     min-height: 0;
-    margin-inline: 1px 3px;
+    margin-inline: 1px var(--space-2);
     background:
         radial-gradient(
             circle at 14% 0%,
@@ -85,12 +85,12 @@
             transparent 58%
         );
     border-top: 1px solid rgba(255, 255, 255, 0.3);
-    box-shadow: 0 0px 3px var(--xp-shadow-soft);
+    box-shadow: 0 0px var(--space-2) var(--xp-shadow-soft);
 }
 
 .menu img {
     filter:
-        drop-shadow(2px 2px 0 var(--xp-shadow-soft))
+        drop-shadow(var(--space-1) var(--space-1) 0 var(--xp-shadow-soft))
         drop-shadow(-1px -1px 0 var(--xp-highlight-soft));
 }
 
@@ -123,7 +123,7 @@
 .menu-right {
     height: 100%;
     position: relative;
-    box-shadow: 0 0px 3px var(--xp-shadow-soft);
+    box-shadow: 0 0 var(--space-2) var(--xp-shadow-soft);
     z-index: 1;
 }
 
@@ -139,7 +139,7 @@
     display: flex;
     flex-direction: column;
     gap: 0;
-    padding: var(--margin-md) var(--margin-md) 0;
+    padding: var(--space-4) var(--space-4) 0;
     background: var(--xp-line-light);
 }
 
@@ -157,14 +157,14 @@
 .menu-left .menu-item,
 .menu-item-link {
     min-height: 42px;
-    padding: var(--app-icon-margin) var(--margin-large);
-    gap: 12px;
+    padding: var(--space-3) var(--space-5);
+    gap: var(--space-7);
     font-size: var(--font-size-lg);
     line-height: 1.1;
 }
 
 .menu-item-link {
-    padding: var(--app-icon-margin) 0 0;
+    padding: var(--space-3) 0 0;
     text-decoration: none;
     color: inherit;
 }
@@ -193,16 +193,16 @@
 
 .menu-left .menu-item.bottom {
     margin-block: auto 0;
-    padding: 12px var(--margin-large) var(--margin-md) 44px;
-    gap: var(--margin-md);
+    padding: var(--space-7) var(--space-5) var(--space-4) 44px;
+    gap: var(--space-4);
     align-items: center;
     font-weight: 600;
     border-top: 1px solid var(--xp-separator);
 }
 
 .menu-left .menu-item.bottom img {
-    width: 18px;
-    height: 18px;
+    width: var(--space-9);
+    height: var(--space-9);
     flex-shrink: 0;
 }
 
@@ -225,7 +225,7 @@
 .menu-right hr {
     border: 0;
     height: 1px;
-    margin: var(--app-icon-margin) var(--margin-md);
+    margin: var(--space-3) var(--space-4);
     background: linear-gradient(
         90deg,
         transparent 0%,
@@ -242,7 +242,7 @@
     display: flex;
     flex-direction: column;
     gap: 1px;
-    padding: var(--margin-large) var(--margin-md) var(--margin-md) 7px;
+    padding: var(--space-5) var(--space-4) var(--space-4) 7px;
     background: linear-gradient(
         180deg,
         var(--xp-menu-right-top) 0%,
@@ -256,9 +256,9 @@
 .menu-right .menu-item {
     display: flex;
     align-items: center;
-    gap: var(--margin-md);
+    gap: var(--space-4);
     min-height: 21px;
-    padding: 2px 3px 2px 1px;
+    padding: var(--space-1) var(--space-2) var(--space-1) 1px;
     color: #0b2a4a;
     font-size: var( --font-size-md);
     line-height: 1.05;
@@ -285,7 +285,7 @@
 .menu-right hr {
     border: 0;
     height: 1px;
-    margin: var(--margin-md) var(--margin-large) var(--margin-md) 22px;
+    margin: var(--space-4) var(--space-5) var(--space-4) 22px;
     background: color-mix(in srgb, var(--xp-menu-vignette-deep) 75%, transparent);
     opacity: 0.6;
 }
@@ -298,10 +298,10 @@
     display: flex;
     align-items: center;
     justify-content: flex-end;
-    gap: 14px;
+    gap: var(--space-8);
     min-height: 48px;
     margin-top: auto;
-    padding: var(--margin-large) 10px;
+    padding: var(--space-5) var(--space-6);
     border-top: 1px solid var(--xp-highlight-soft);
 }
 
@@ -309,9 +309,9 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: var(--margin-md);
+    gap: var(--space-4);
     min-height: 28px;
-    padding: 2px var(--margin-md);
+    padding: var(--space-1) var(--space-4);
     color: var(--text-inverted);
     font-size: var(--font-size-lg);
     font-weight: 700;
@@ -342,9 +342,9 @@
     width: 200px;
     background: var(--xp-line-light);
     border: 1px solid var(--xp-title-end);
-    border-left: 4px solid transparent;
+    border-left: var(--space-3) solid transparent;
     border-image: linear-gradient(180deg, var(--xp-power-top) 0%, var(--xp-power-bottom) 100%) 1;
-    box-shadow: 2px 2px 4px var(--xp-shadow-soft);
+    box-shadow:  var(--space-1) var(--space-3) var(--xp-shadow-soft);
     font-family: inherit;
     font-style: normal;
     font-size: inherit;
@@ -352,13 +352,13 @@
     z-index: 400;
     display: flex;
     flex-direction: column;
-    padding: 4px 0;
+    padding: var(--space-3) 0;
 }
 
 .all-programs-menu .menu-item {
     min-height: 32px;
-    padding: var(--app-icon-margin) var(--margin-large);
-    gap: var(--margin-large);
+    padding: var(--space-3) var(--space-5);
+    gap: var(--space-5);
     font-size: var( --font-size-md);
     display: flex;
     align-items: center;
@@ -375,7 +375,7 @@
 .all-programs-menu hr {
     border: 0;
     height: 1px;
-    margin: var(--app-icon-margin) var(--margin-md);
+    margin: var(--space-3) var(--space-4);
     background: linear-gradient(
         90deg,
         transparent 0%,
@@ -421,11 +421,11 @@
     width: 200px;
     background: var(--xp-line-light);
     border: 1px solid var(--xp-title-end);
-    border-left: 4px solid transparent;
+    border-left: var(--space-3) solid transparent;
     border-image: linear-gradient(180deg, var(--xp-power-top) 0%, var(--xp-power-bottom) 100%) 1;
-    box-shadow: -2px 2px 4px var(--xp-shadow-soft);
+    box-shadow: calc(-1 * var(--space-1)) var(--space-1) var(--space-3) var(--xp-shadow-soft);
     z-index: 500;
     display: flex;
     flex-direction: column;
-    padding: var(--app-icon-margin) 0;
+    padding: var(--space-3) 0;
 }

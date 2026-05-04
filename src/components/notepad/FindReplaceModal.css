@@ -31,9 +31,9 @@
 .find-replace-body {
     display: grid;
     grid-template-columns: 206px 75px;
-    column-gap: var(--margin-large);
+    column-gap: var(--space-5);
     align-items: start;
-    padding: 10px var(--margin-large) 14px;
+    padding: var(--space-6) var(--space-5) var(--space-8);
     background: var(--xp-surface);
     color: var(--text);
 }
@@ -41,7 +41,7 @@
 .find-replace-fields {
     display: flex;
     flex-direction: column;
-    gap: var(--margin-md);
+    gap: var(--space-4);
 }
 
 /* ─────────────────────────────────────────
@@ -61,14 +61,18 @@
 
 .find-replace-row input[type='text'] {
     width: 126px;
-    height: 18px;
-    padding: 1px 2px;
+    height: var(--space-9);
+    padding: 1px var(--space-1);
     font-size: var(--font-size-md);
     background: var(--xp-line-light);
     color: var(--text);
     outline: none;
     border: 1px solid var(--taskbar-btn);
     border-radius: 2px;
+}
+
+.find-replace-row input[type='text']:focus {
+    outline: none;
 }
 
 /* ─────────────────────────────────────────
@@ -78,19 +82,19 @@
     display: flex;
     align-items: flex-start;
     justify-content: space-between;
-    margin-top: 18px;
+    margin-top: var(--space-9);
 }
 
 .find-replace-checks {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: var(--space-6);
 }
 
 .find-replace-checkbox {
     display: flex;
     align-items: center;
-    gap: var(--app-icon-margin);
+    gap: var(--space-3);
     margin: 0;
     font-size: var(--font-size-md);
     white-space: nowrap;
@@ -111,8 +115,8 @@
 .find-replace-direction {
     display: flex;
     flex-direction: column;
-    gap: 3px;
-    margin-right: var(--app-icon-margin);
+    gap: var(--space-2);
+    margin-right: var(--space-3);
 }
 
 .find-replace-direction span {
@@ -122,13 +126,13 @@
 .direction-labels {
     display: flex;
     align-items: center;
-    gap: var(--margin-large);
+    gap: var(--space-5);
 }
 
 .find-replace-direction label {
     display: flex;
     align-items: center;
-    gap: 3px;
+    gap: var(--space-2);
     font-size: var(--font-size-md);
     white-space: nowrap;
 }
@@ -151,7 +155,7 @@
 .find-replace-btn {
     min-width: 30px;
     height: 21px;
-    padding: 0 3px;
+    padding: 0 var(--space-2);
     font-size: var(--font-size-md);
     color: var(--text);
     cursor: default;
@@ -176,7 +180,7 @@
 
 .find-replace-btn:focus-visible {
     outline: 1px dotted var(--text);
-    outline-offset: -4px;
+    outline-offset: calc(-1 * var(--space-3));
 }
 
 .find-replace-btn:active {

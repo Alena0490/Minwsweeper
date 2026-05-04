@@ -22,7 +22,7 @@
 }
 
 .shutdown-display .shutdown-top {
-    border-bottom: 4px solid transparent;
+    border-bottom: var(--space-3) solid transparent;
     border-image: linear-gradient(
         90deg,
         transparent 0%,
@@ -59,7 +59,7 @@
             #3761c4 100%
         );
     border-top: none;
-    border-bottom: 4px solid transparent;
+    border-bottom: var(--space-3) solid transparent;
     border-image: linear-gradient(
         90deg,
         var(--xp-title-mid) 0%,
@@ -85,7 +85,7 @@
     font-weight: 600;
     letter-spacing: 1.1px;
     text-align: right;
-    text-shadow: 1px 1px 2px color-mix(in srgb, var(--xp-title-end) 70%, transparent);
+    text-shadow: 1px 1px var(--space-1) color-mix(in srgb, var(--xp-title-end) 70%, transparent);
 }
 
 /* ─────────────────────────────────────────
@@ -129,7 +129,7 @@
     font-size: 7px;
     position: relative;
     top: -7px;
-    margin-left: 2px;
+    margin-left: var(--space-1);
     color: var(--xp-menu-right-bottom);
 }
 
@@ -152,7 +152,7 @@
     text-shadow: 0 0 1px var(--text);
     font-weight: 600;
     left: 265px;
-    top: 18px;
+    top: var(--space-9);
 }
 
 .shutdown-logo .tm {
@@ -169,5 +169,5 @@
     color: var(--xp-menu-right-bottom);
     position: relative;
     top: -5px;
-    left: -2px;
+    left: calc(-1 * var(--space-1));
 }

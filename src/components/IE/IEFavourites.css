@@ -5,18 +5,18 @@
     position: relative;
     width: 200px;
     min-width: 200px;
-    padding: 0 3px 1px 0;
+    padding: 0 var(--space-2) 1px 0;
     background: var(--xp-surface);
     border-right: 2px solid var(--xp-line-deep);
     box-shadow:
         1px 1px 0 var(--xp-line-dark),
         0 1px 0 var(--xp-line-dark),
-        2px 1px 0 color-mix(in srgb, var(--xp-line-deep) 85%, var(--xp-surface) 15%),
-        0 2px 0 color-mix(in srgb, var(--xp-line-deep) 85%, var(--xp-surface) 15%),
-        3px 0 0 color-mix(in srgb, var(--xp-line-dark) 88%, var(--xp-surface-2) 12%),
-        0 3px 0 color-mix(in srgb, var(--xp-line-dark) 88%, var(--xp-surface-2) 12%),
-        0 4px 3px color-mix(in srgb, var(--xp-line-deep) 70%, var(--xp-surface) 30%),
-        2px 4px 3px color-mix(in srgb, var(--xp-line-deep) 55%, var(--xp-surface) 45%);
+        var(--space-1) 1px 0 color-mix(in srgb, var(--xp-line-deep) 85%, var(--xp-surface) 15%),
+        0 var(--space-1) 0 color-mix(in srgb, var(--xp-line-deep) 85%, var(--xp-surface) 15%),
+        var(--space-2) 0 0 color-mix(in srgb, var(--xp-line-dark) 88%, var(--xp-surface-2) 12%),
+        0 var(--space-2) 0 color-mix(in srgb, var(--xp-line-dark) 88%, var(--xp-surface-2) 12%),
+        0 var(--space-3) var(--space-2) color-mix(in srgb, var(--xp-line-deep) 70%, var(--xp-surface) 30%),
+        var(--space-1) var(--space-3) var(--space-2) color-mix(in srgb, var(--xp-line-deep) 55%, var(--xp-surface) 45%);
     display: flex;
     flex-direction: column;
     overflow: hidden;
@@ -65,7 +65,7 @@
 .ie-favourites-header {
     height: 22px;
     margin-right: 1px;
-    padding: 2px var(--margin-md) 2px 7px;
+    padding: var(--space-1) var(--space-4) var(--space-1) 7px;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -77,8 +77,8 @@
 }
 
 .ie-favourites-close {
-    width: 14px;
-    height: 14px;
+    width: var(--space-8);
+    height: var(--space-8);
     display: grid;
     place-items: center;
     padding: 0;
@@ -101,7 +101,7 @@
 .ie-favourites-list {
     flex: 1;
     overflow-y: auto;
-    padding: var(--app-icon-margin) 2px;
+    padding: var(--space-3) var(--space-1);
     background: var(--xp-line-light);
     margin-right: 1px;
     border-right: 1px solid var(--xp-line-dark);
@@ -118,8 +118,8 @@
     min-height: 20px;
     display: flex;
     align-items: center;
-    gap: var(--app-icon-margin);
-    padding: 1px var(--margin-md) 1px 7px;
+    gap: var(--space-3);
+    padding: 1px var(--space-4) 1px 7px;
     color: var(--text);
     font-size: var(--font-size-md);
     line-height: 1.2;
@@ -160,8 +160,8 @@
 }
 
 .ie-favourites-item .ie-favourites-icon {
-    width: 14px;
-    height: 14px;
+    width: var(--space-8);
+    height: var(--space-8);
     flex-shrink: 0;
     object-fit: contain;
     opacity: 0.85;

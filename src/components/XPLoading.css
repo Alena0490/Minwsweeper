@@ -68,7 +68,7 @@
     font-size: var(--font-size-xs);
     position: relative;
     top: -5px;
-    margin-left: 2px;
+    margin-left: var(--space-1);
     font-family: inherit;
 }
 
@@ -84,7 +84,7 @@
     vertical-align: top;
     color: #FF6821;
     font-weight: 400;
-    margin-top: -12px;
+    margin-top: calc(-1 * var(--space-7));
 }
 
 .load-logo .load-bottom {
@@ -115,11 +115,11 @@
 ───────────────────────────────────────── */
 .container {
     width: 160px;
-    height: 18px;
-    border: 2px solid #b2b2b2;
+    height: var(--space-9);
+    border: var(--space-1) solid #b2b2b2;
     border-radius: 4px;
     margin: 0 auto;
-    padding: 2px 1px;
+    padding: var(--space-1) 1px;
     overflow: hidden;
     font-size: 0;
 }
@@ -127,8 +127,8 @@
 .box {
     width: 11px;
     height: 100%;
-    margin-right: 2px;
-    border-radius: 2px;
+    margin-right: var(--space-1);
+    border-radius: var(--space-1);
     background: linear-gradient(to bottom, #2838c7 0%, #5979ef 17%, #869ef3 32%, #869ef3 45%, #5979ef 59%, #2838c7 100%);
     display: inline-block;
     animation: loader 2s infinite linear;

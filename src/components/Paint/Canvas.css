@@ -42,12 +42,12 @@
     box-shadow:
         1px 0 0 var(--xp-line-dark),
         0 1px 0 var(--xp-line-dark),
-        2px 0 0 color-mix(in srgb, var(--xp-line-deep) 85%, var(--xp-surface) 15%),
-        0 2px 0 color-mix(in srgb, var(--xp-line-deep) 85%, var(--xp-surface) 15%),
-        3px 0 0 color-mix(in srgb, var(--xp-line-dark) 88%, var(--xp-surface-2) 12%),
-        0 3px 0 color-mix(in srgb, var(--xp-line-dark) 88%, var(--xp-surface-2) 12%),
-        0 4px 3px color-mix(in srgb, var(--xp-line-deep) 70%, var(--xp-surface) 30%),
-        2px 4px 3px color-mix(in srgb, var(--xp-line-deep) 55%, var(--xp-surface) 45%);
+        var(--space-1) 0 0 color-mix(in srgb, var(--xp-line-deep) 85%, var(--xp-surface) 15%),
+        0 var(--space-1) 0 color-mix(in srgb, var(--xp-line-deep) 85%, var(--xp-surface) 15%),
+        var(--space-2) 0 0 color-mix(in srgb, var(--xp-line-dark) 88%, var(--xp-surface-2) 12%),
+        0 var(--space-2) 0 color-mix(in srgb, var(--xp-line-dark) 88%, var(--xp-surface-2) 12%),
+        0 var(--space-3) var(--space-2) color-mix(in srgb, var(--xp-line-deep) 70%, var(--xp-surface) 30%),
+        var(--space-1) var(--space-3) var(--space-2) color-mix(in srgb, var(--xp-line-deep) 55%, var(--xp-surface) 45%);
 }
 
 .draw-area {
@@ -65,7 +65,7 @@
     position: absolute;
     inset: 0;
     border: 1px solid var(--xp-line-dark);
-    box-shadow: inset 3px 3px 1px var(--xp-shadow-soft);
+    box-shadow: inset var(--space-2) var(--space-2) 1px var(--xp-shadow-soft);
     pointer-events: none;
     z-index: 10;
 }
@@ -228,7 +228,7 @@
     background-image:
         linear-gradient(to right, rgba(0, 0, 0, 0.2) 1px, transparent 1px),
         linear-gradient(to bottom, rgba(0, 0, 0, 0.2) 1px, transparent 1px);
-    background-size: 10px 10px;
+    background-size: var(--space-6) var(--space-6);
     transform: translate(var(--pan-x, 0), var(--pan-y, 0)) scale(var(--zoom, 1));
     transform-origin: top left;
     z-index: 5;
@@ -255,7 +255,7 @@
 .paint-dialog {
     width: 20rem;
     background: var(--xp-surface);
-    border: 2px solid;
+    border: var(--space-1) solid;
     border-color:
         var(--xp-line-light)
         var(--xp-line-dark)
@@ -419,5 +419,5 @@
 
 .paint-dialog-actions button:first-child {
     outline: 1px dotted #000;
-    outline-offset: -4px;
+    outline-offset: calc(-1 * var(--space-3));
 }

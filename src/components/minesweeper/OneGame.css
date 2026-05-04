@@ -1,14 +1,14 @@
 .game-field {
     background-color: var(--ms-panel);
-    padding: var(--margin-md);
+    padding: var(--space-4);
     border-top: 5px solid var(--xp-line-light);
-    border-left: 3px solid var(--xp-line-light);
+    border-left: var(--space-2) solid var(--xp-line-light);
 }
 
 /* Outer status panel — sunken border effect */
 .status-panel-outer {
     background: var(--ms-panel);
-    margin-bottom: var(--margin-md);
+    margin-bottom: var(--space-4);
     border-top: 1px solid var(--xp-line-dark);
     border-left: 1px solid var(--xp-line-dark);
     border-right: 1px solid var(--xp-line-light);
@@ -19,9 +19,9 @@
     display: grid;
     grid-template-columns: 41px 1fr 41px;
     align-items: center;
-    gap: var(--margin-large);
+    gap: var(--space-5);
     width: 100%;
-    padding: 7px var(--margin-md);
+    padding: 7px var(--space-4);
     background: var(--ms-panel);
     border-top: 1px solid var(--xp-line-dark);
     border-left: 1px solid var(--xp-line-dark);
@@ -34,7 +34,7 @@
     top: -1px;
     min-width: 41px;
     height: 20px;
-    padding: 0 3px;
+    padding: 0 var(--space-2);
     display: flex;
     align-items: center;
     justify-content: flex-end;
@@ -60,7 +60,7 @@
 
 .digit {
     display: inline-block;
-    width: 10px;
+    width: var(--space-6);
     text-align: right;
 }
 
@@ -74,16 +74,16 @@
     box-shadow:
         inset 1px 1px 0 var(--border-light),
         inset -1px -1px 0 var(--border-dark),
-        inset 2px 2px 0 var(--background),
-        inset -2px -2px 0 var(--border-dark);
+        inset var(--space-1) var(--space-1) 0 var(--background),
+        inset calc(-1 * var(--space-1)) calc(-1 * var(--space-1)) 0 var(--border-dark);
 }
 
 .face-button:active {
     box-shadow:
         inset 1px 1px 0 var(--border-dark),
         inset -1px -1px 0 var(--border-light),
-        inset 2px 2px 0 var(--border-dark),
-        inset -2px -2px 0 var(--background);
+        inset var(--space-1) var(--space-1) 0 var(--border-dark),
+        inset calc(-1 * var(--space-1)) calc(-1 * var(--space-1)) 0 var(--background);
     transform: translate(1px, 1px);
 }
 
@@ -104,8 +104,8 @@
     box-shadow:
         inset 1px 1px 0 var(--border-light),
         inset -1px -1px 0 var(--border-dark),
-        inset 2px 2px 0 var(--background),
-        inset -2px -2px 0 var(--border-dark);
+        inset var(--space-1) var(--space-1) 0 var(--background),
+        inset calc(-1 * var(--space-1))  calc(-1 * var(--space-1)) 0 var(--border-dark);
 }
 
 .cell--open {

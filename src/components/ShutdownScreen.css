@@ -33,9 +33,9 @@
     width: 450px;
     display: flex;
     flex-direction: column;
-    border: 2px solid var(--text);
+    border: var(--space-1) solid var(--text);
     overflow: hidden;
-    box-shadow: 4px 4px 16px rgba(0, 0, 0, 0.6);
+    box-shadow: var(--space-3) var(--space-3) 16px rgba(0, 0, 0, 0.6);
     z-index: 300;
     opacity: 1;
     transition: opacity 350ms ease;
@@ -72,23 +72,23 @@
     position: relative;
     display: flex;
     align-items: center;
-    margin-block: var(--app-icon-margin) ;
+    margin-block: var(--space-3) ;
 }
 
 .logo-wrap img {
     width: 56px;
     height: auto;
-    filter: drop-shadow(2px 3px 4px var(--title-bar));
+    filter: drop-shadow(var(--space-1) var(--space-2) var(--space-3) var(--title-bar));
 }
 
 .turnoff-tm {
     position: absolute;
-    right: -3px;
-    bottom: var(--margin-md);
+    right: calc(-1 * var(--space-2));
+    bottom: var(--space-4);
     font-size: 8px;
     color: var(--xp-menu-right-bottom);
     opacity: 0.8;
-    text-shadow: 2px 3px 4px var(--title-bar);
+    text-shadow: var(--space-1) var(--space-2) var(--space-3) var(--title-bar);
 }
 
 /* ─────────────────────────────────────────
@@ -99,10 +99,10 @@
     display: flex;
     justify-content: space-around;
     align-items: flex-end;
-    gap: 24px;
-    padding: 30px 24px;
+    gap: var(--space-10);
+    padding: 30px var(--space-10);
     background: radial-gradient(ellipse at 50% 0%, #8ab8f8 20%, #6197f4 60%, #3a6fd8 100%);
-    border-top: 3px solid transparent;
+    border-top: var(--space-2) solid transparent;
     border-image: linear-gradient(
         90deg,
         transparent 0%,
@@ -117,7 +117,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 12px;
+    gap: var(--space-7);
     background: none;
     border: none;
     color: var(--xp-title-text);
@@ -143,11 +143,11 @@
     display: flex;
     justify-content: flex-end;
     align-items: center;
-    padding-right: 18px;
+    padding-right: var(--space-9);
 }
 
 .shutdown-bottom button {
-    padding: var(--app-icon-margin) 16px;
+    padding: var(--space-3) 16px;
     font-size: var(--font-size-lg);
     cursor: default;
     background: linear-gradient(
@@ -159,7 +159,7 @@
     border-radius: 3px;
     box-shadow:
         inset 1px 1px 0 var(--xp-line-light),
-        0 2px 0 color-mix(in srgb, var(--xp-menu-right-bottom) 55%, transparent);
+        0 var(--space-1) 0 color-mix(in srgb, var(--xp-menu-right-bottom) 55%, transparent);
 }
 
 /* ─────────────────────────────────────────

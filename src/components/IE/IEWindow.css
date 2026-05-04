@@ -13,7 +13,7 @@
 }
 
 .ie-window > .title-bar {
-    gap: var(--margin-large);
+    gap: var(--space-5);
     min-height: 30px;
     user-select: none;
 }
@@ -21,7 +21,7 @@
 .ie-window > .title-bar .title {
     display: flex;
     align-items: center;
-    gap: var(--margin-large);
+    gap: var(--space-5);
     min-width: 0;
 }
 
@@ -63,8 +63,8 @@
     display: flex;
     align-items: center;
     justify-content: flex-start;
-    padding-left: var(--margin-md);
-    padding-right: 2px;
+    padding-left: var(--space-4);
+    padding-right: var(--space-1);
     background: var(--xp-highlight-top);
     border-left: 1px solid var(--xp-line-mid);
     border-bottom: 1px solid var(--xp-line-light);
@@ -83,8 +83,8 @@
 .ie-menu {
     display: flex;
     justify-content: space-between;
-    gap: 12px;
-    padding: 3px var(--margin-large) 2px;
+    gap: var(--space-7);
+    padding: var(--space-2) var(--space-5) var(--space-1);
     background: var(--xp-surface);
     border-bottom: 1px solid var(--xp-line-mid);
 }
@@ -116,21 +116,21 @@ button.disabled {
     background: var(--xp-surface);
     box-shadow:
         0 1px 0 var(--xp-line-dark),
-        0 2px 1px var(--xp-line-deep),
-        0 3px 3px var(--xp-shadow-soft);
+        0 var(--space-1) 1px var(--xp-line-deep),
+        0 var(--space-2) var(--space-2) var(--xp-shadow-soft);
     z-index: 15;
 }
 
 .ie-toolbar-top {
     display: flex;
-    padding: var(--app-icon-margin) var(--margin-large);
+    padding: var(--space-3) var(--space-5);
 }
 
 .toolbar-btn {
     display: flex;
     align-items: center;
-    gap: var(--app-icon-margin);
-    padding: 2px 3px;
+    gap: var(--space-3);
+    padding: var(--space-1) var(--space-2);
     min-height: 22px;
     line-height: 1.1;
     border: 1px solid transparent;
@@ -157,8 +157,8 @@ button.disabled {
 }
 
 .border-right {
-    margin-right: var(--app-icon-margin);
-    padding-right: var(--margin-large);
+    margin-right: var(--space-3);
+    padding-right: var(--space-5);
     border-right: 1px solid var(--xp-line-mid);
 }
 
@@ -179,8 +179,8 @@ button.disabled {
 }
 
 .toolbar-img-small {
-    width: 18px;
-    height: 18px;
+    width: var(--space-9);
+    height: var(--space-9);
     z-index: 10;
 }
 
@@ -196,8 +196,8 @@ button.disabled {
     width: 100%;
     display: flex;
     justify-content: space-between;
-    gap: var(--margin-large);
-    padding: var(--app-icon-margin) var(--margin-large);
+    gap: var(--space-5);
+    padding: var(--space-3) var(--space-5);
     background: var(--xp-surface);
 }
 
@@ -205,7 +205,7 @@ button.disabled {
 .right {
     display: flex;
     align-items: center;
-    gap: var(--app-icon-margin);
+    gap: var(--space-3);
 }
 
 .left {
@@ -225,7 +225,7 @@ button.disabled {
 
 .absolute {
     position: absolute;
-    left: var(--margin-md);
+    left: var(--space-4);
     top: 53%;
     transform: translateY(-50%);
     pointer-events: none;
@@ -234,7 +234,7 @@ button.disabled {
 .address-bar {
     width: 100%;
     height: 22px;
-    padding: 2px var(--margin-large) 2px 28px;
+    padding: var(--space-1) var(--space-5) var(--space-1) 28px;
     color: #000;
     background: #fff;
     border-radius: 0;
@@ -272,12 +272,12 @@ button.disabled {
     box-shadow:
         1px 0 0 var(--xp-line-dark),
         0 1px 0 var(--xp-line-dark),
-        2px 0 0 color-mix(in srgb, var(--xp-line-deep) 85%, var(--xp-surface) 15%),
-        0 2px 0 color-mix(in srgb, var(--xp-line-deep) 85%, var(--xp-surface) 15%),
-        3px 0 0 color-mix(in srgb, var(--xp-line-dark) 88%, var(--xp-surface-2) 12%),
-        0 3px 0 color-mix(in srgb, var(--xp-line-dark) 88%, var(--xp-surface-2) 12%),
-        0 4px 3px color-mix(in srgb, var(--xp-line-deep) 70%, var(--xp-surface) 30%),
-        2px 4px 3px color-mix(in srgb, var(--xp-line-deep) 55%, var(--xp-surface) 45%);
+        var(--space-1) 0 0 color-mix(in srgb, var(--xp-line-deep) 85%, var(--xp-surface) 15%),
+        0 var(--space-1) 0 color-mix(in srgb, var(--xp-line-deep) 85%, var(--xp-surface) 15%),
+        var(--space-2) 0 0 color-mix(in srgb, var(--xp-line-dark) 88%, var(--xp-surface-2) 12%),
+        0 var(--space-2) 0 color-mix(in srgb, var(--xp-line-dark) 88%, var(--xp-surface-2) 12%),
+        0 var(--space-3) var(--space-2) color-mix(in srgb, var(--xp-line-deep) 70%, var(--xp-surface) 30%),
+        var(--space-1) var(--space-3) var(--space-2) color-mix(in srgb, var(--xp-line-deep) 55%, var(--xp-surface) 45%);
 }
 
 /* Scroll arrow indicators */
@@ -394,7 +394,7 @@ button.disabled {
 }
 
 .ie-error-header h2 {
-    margin: -4px 0 0;
+    margin: calc(-1 * var(--space-3)) 0 0;
     padding-top: 0.1rem;
     font-weight: 400;
     font-size: 1rem;
@@ -428,7 +428,7 @@ button.disabled {
 
 .ie-error button {
     margin: 0 0 0.95rem 2.95rem;
-    padding: 1px var(--margin-large) 2px;
+    padding: 1px var(--space-5) var(--space-1);
     min-height: 1.45rem;
     color: var(--text);
     background: linear-gradient(var(--xp-surface-2), var(--xp-line-mid));
@@ -532,16 +532,16 @@ button.disabled {
 .ie-statusbar {
     display: flex;
     align-items: center;
-    gap: var(--app-icon-margin);
-    padding: 2px var(--app-icon-margin);
+    gap: var(--space-3);
+    padding: var(--space-1) var(--space-3);
     background: var(--xp-surface);
     border-top: 1px solid var(--xp-line-mid);
     justify-content: flex-start;
 }
 
 .ie-statusbar img {
-    width: 18px;
-    height: 18px;
+    width: var(--space-9);
+    height: var(--space-9);
     padding: 1px;
     filter:
         drop-shadow(1px 1px 0 var(--xp-shadow-soft))
@@ -551,15 +551,15 @@ button.disabled {
 .status-text {
     display: flex;
     align-items: center;
-    gap: 3px;
-    padding: 0 var(--margin-md);
+    gap: var(--space-2);
+    padding: 0 var(--space-4);
     margin-inline: auto 36px;
     flex: 0 0 auto;
     border-top: 1px solid var(--xp-line-dark);
     border-left: 1px solid var(--xp-line-dark);
     border-right: 1px solid var(--xp-line-light);
     border-bottom: 1px solid var(--xp-line-light);
-    min-height: 18px;
+    min-height: var(--space-9);
     background: var(--xp-surface);
     color: var(--text);
 }

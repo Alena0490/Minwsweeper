@@ -19,7 +19,7 @@
     opacity: 0;
     visibility: hidden;
     pointer-events: none;
-    transform: translateY(18px) scale(0.96);
+    transform: translateY(var(--space-9)) scale(0.96);
     transition:
         opacity 0.18s ease,
         transform 0.18s ease,
@@ -51,7 +51,7 @@
 .terminal-icon {
     width: 20px;
     height: auto;
-    margin-right: var(--app-icon-margin);
+    margin-right: var(--space-3);
     filter: contrast(1.2);
 }
 
@@ -63,7 +63,7 @@
     width: 80ch;
     height: calc(25 * 1.15em);
     overflow-y: auto;
-    padding: var(--app-icon-margin) var(--margin-md);
+    padding: var(--space-3) var(--space-4);
     background-color: var(--ms-display-bg);
     color: var(--terminal-text, var(--text-inverted));
     font-family: 'Lucida Console', monospace;

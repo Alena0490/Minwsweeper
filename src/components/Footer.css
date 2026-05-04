@@ -10,7 +10,7 @@ footer {
     align-items: center;
     justify-content: space-between;
     background: linear-gradient(to bottom, var(--xp-taskbar-top), var(--xp-taskbar-bottom));
-    box-shadow: inset 0 3px 2px rgba(255, 255, 255, 0.45);
+    box-shadow: inset 0 var(--space-2) var(--space-1) rgba(255, 255, 255, 0.45);
 }
 
 /* ─────────────────────────────────────────
@@ -19,7 +19,7 @@ footer {
 .left-menu {
     display: flex;
     align-items: center;
-    gap: var(--margin-md);
+    gap: var(--space-4);
 }
 
 /* ─────────────────────────────────────────
@@ -30,10 +30,10 @@ footer {
     bottom: 0;
     min-width: 110px;
     height: 30px;
-    padding: 0 10px 0 var(--margin-md);
+    padding: 0 var(--space-6) 0 var(--space-4);
     display: flex;
     align-items: center;
-    gap: var(--margin-md);
+    gap: var(--space-4);
     color: #fff;
     font-size: var(--font-size-2xl);
     font-weight: 700;
@@ -41,7 +41,7 @@ footer {
     background: linear-gradient(to bottom, var(--xp-start-top), var(--xp-start-bottom));
     border-radius: 0 10px 10px 0;
     box-shadow:
-        inset 0 3px 2px rgba(255, 255, 255, 0.5),
+        inset 0 var(--space-2) var(--space-1) rgba(255, 255, 255, 0.5),
         inset -1px -1px 0 rgba(0, 0, 0, 0.25);
 }
 
@@ -56,10 +56,10 @@ footer img {
 .taskbar-item {
     display: flex;
     align-items: center;
-    gap: var(--margin-md);
+    gap: var(--space-4);
     height: 28px;
     max-width: 150px;
-    padding: 0 var(--margin-large);
+    padding: 0 var(--space-5);
     border-radius: 2px;
     cursor: default;
     font-size: var(--font-size-md);
@@ -78,7 +78,7 @@ footer img {
         var(--xp-taskbar-bottom) 100%
     );
     box-shadow:
-        inset 1px 1px 2px rgba(0, 0, 0, 0.35),
+        inset 1px 1px var(--space-1) rgba(0, 0, 0, 0.35),
         inset -1px -1px 0 rgba(255, 255, 255, 0.15);
 }
 
@@ -90,7 +90,7 @@ footer img {
 
 .taskbar-item img,
 .menu-item img {
-    width: 18px;
+    width: var(--space-9);
     height: auto;
     image-rendering: pixelated;
 }
@@ -101,9 +101,9 @@ footer img {
 .menu-item {
     display: flex;
     align-items: center;
-    gap: var(--margin-md);
+    gap: var(--space-4);
     height: 28px;
-    padding: 0 var(--margin-large);
+    padding: 0 var(--space-5);
     cursor: default;
     font-size: var(--font-size-md);
     color: var(--text-inverted);
@@ -115,7 +115,7 @@ footer img {
 .right-panel.taskbar-item {
     margin-right: 0;
     height: 100%;
-    padding: 0 var(--margin-md);
+    padding: 0 var(--space-4);
 }
 
 .time {

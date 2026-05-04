@@ -13,7 +13,7 @@
     background: var(--xp-surface);
     min-height: 0;
     flex: 1;
-    box-shadow: 5px 0 3px var(--xp-line-dark);
+    box-shadow: 5px 0 var(--space-2) var(--xp-line-dark);
 }
 
 /* ─────────────────────────────────────────
@@ -23,10 +23,10 @@
     display: flex;
     flex-direction: row;
     align-items: center;
-    padding: var(--app-icon-margin) var(--margin-md);
+    padding: var(--space-3) var(--space-4);
     background: var(--xp-surface);
     border-top: 1px solid var(--xp-line-light);
-    gap: var(--app-icon-margin);
+    gap: var(--space-3);
 }
 
 .colors__swatches {
@@ -44,7 +44,7 @@
     height: 20px;
     background: var(--xp-line-light);
     border: 1px solid var(--text);
-    box-shadow: 2px 2px 1px var(--xp-shadow-soft);
+    box-shadow: var(--space-1) var(--space-1) 1px var(--xp-shadow-soft);
 }
 
 .colors__fg {
@@ -68,7 +68,7 @@
 .colors__grid {
     display: grid;
     grid-template-columns: repeat(20, 16px);
-    grid-template-rows: repeat(2, 14px);
+    grid-template-rows: repeat(2, var(--space-8));
     gap: 1px;
 }
 
@@ -76,8 +76,8 @@
    Color Chips
 ───────────────────────────────────────── */
 .colors__chip {
-    width: 14px;
-    height: 14px;
+    width: var(--space-8);
+    height: var(--space-8);
     border: 1px solid var(--xp-line-dark);
     box-shadow: inset 1px 1px 1px var(--xp-shadow-soft);
     cursor: pointer;
@@ -92,5 +92,5 @@
 }
 
 .colors__chip--active {
-    border: 2px solid var(--text);
+    border: var(--space-1) solid var(--text);
 }

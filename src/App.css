@@ -16,7 +16,7 @@
     display: flex;
     flex-direction: column;
     margin: auto;
-    padding: 3px;
+    padding: var(--space-2);
     border-top-left-radius: var(--window-radius-top-x) var(--window-radius-top-y);
     border-top-right-radius: var(--window-radius-top-x) var(--window-radius-top-y);
     border-bottom-left-radius: var(--window-radius);
@@ -44,7 +44,7 @@
     opacity: 0;
     visibility: hidden;
     pointer-events: none;
-    transform: translateY(18px) scale(0.96);
+    transform: translateY(var(--space-9)) scale(0.96);
     transition:
         opacity 0.18s ease,
         transform 0.18s ease,
@@ -69,7 +69,7 @@
     align-items: center;
     justify-content: space-between;
     min-width: 0;
-    padding: 0 3px 0 var(--margin-md);
+    padding: 0 var(--space-2) 0 var(--space-4);
     color: var(--xp-title-text);
     background: transparent;
     cursor: move;
@@ -96,7 +96,7 @@
 ───────────────────────────────────────── */
 .title-bar-buttons {
     display: flex;
-    gap: 2px;
+    gap: var(--space-1);
 }
 
 .title-bar-buttons button {
@@ -189,7 +189,7 @@
 ───────────────────────────────────────── */
 .app-wrapper {
     position: absolute;
-    left: 24px;
+    left: var(--space-10);
     top: 28px;
     bottom: 42px;
     width: auto;
@@ -200,8 +200,8 @@
     flex-wrap: wrap;
     align-content: flex-start;
     align-items: center;
-    column-gap: 10px;
-    row-gap: 18px;
+    column-gap: var(--space-6);
+    row-gap: var(--space-9);
 }
 
 /* ─────────────────────────────────────────

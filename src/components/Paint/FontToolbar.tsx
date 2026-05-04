@@ -53,14 +53,14 @@ const FontToolbar = ({
                 >
                     Fonts
                 </div>
-                <div className='title-bar-buttons'>
+                <div className='title-bar-buttons xp-title-controls'>
                     <button
                         type='button'
-                        className='btn-close'
+                        className='xp-title-control btn-close'
                         onClick={onClose}
                         aria-label='Close'
                     >
-                        &#215;
+                        ✕
                     </button>
                 </div>
             </div>

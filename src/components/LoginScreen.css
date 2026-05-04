@@ -21,15 +21,15 @@
     overflow: hidden;
     background-color: var(--xp-title-start);
     box-shadow:
-        3px 3px 8px rgba(0, 0, 0, 0.35),
+        var(--space-2) var(--space-2) 8px rgba(0, 0, 0, 0.35),
         0 0 0 1px var(--xp-title-end);
-    padding: 3px;
+    padding: var(--space-2);
 }
 
 .login-screen::after {
     content: '';
     position: absolute;
-    height: 10px;
+    height: var(--space-6);
     top: 0;
     left: 0;
     right: 0;
@@ -49,7 +49,7 @@
     display: flex;
     align-items: center;
     border-radius: 6px 6px 0 0;
-    padding: 0 10px;
+    padding: 0 var(--space-6);
     background: linear-gradient(to bottom, var(--xp-taskbar-bottom) 50%, var(--xp-taskbar-top) 80%);
 }
 
@@ -86,7 +86,7 @@
         #5c8fe6 40%,
         #3f73d8 100%
     );
-    padding: 22px var(--margin-large) 2px;
+    padding: 22px var(--space-5) var(--space-1);
     color: var(--xp-title-text);
     border-bottom: 5px solid transparent;
     border-image: linear-gradient(
@@ -107,7 +107,7 @@
     font-size: var(--font-size-sm);
     line-height: 1.2;
     letter-spacing: 1.1px;
-    margin-bottom: var(--app-icon-margin) ;
+    margin-bottom: var(--space-3) ;
     color: var(--xp-menu-right-top);
     justify-content: flex-end;
 }
@@ -116,7 +116,7 @@
     margin-left: auto;
     align-self: flex-end;
     font-size: 15px;
-    margin-bottom: var(--app-icon-margin) ;
+    margin-bottom: var(--space-3) ;
     font-style: italic;
     color: var(--xp-title-text);
     font-weight: 700;
@@ -137,8 +137,8 @@
     position: absolute;
     width: 82px;
     height: auto;
-    top: -10px;
-    left: -10px;
+    top: calc(-1 * var(--space-6));
+    left: calc(-1 * var(--space-6));
     image-rendering: pixelated;
     pointer-events: none;
     filter: drop-shadow(1px 1px 1px var(--xp-shadow-light));
@@ -193,7 +193,7 @@
     color: #FF6821;
     text-shadow: 1px 1px 1px var(--xp-shadow-light);
     font-weight: 400;
-    margin-top: calc(-1 * var(--margin-large));
+    margin-top: calc(-1 * var(--space-5));
 }
 
 .logo .bottom {
@@ -228,7 +228,7 @@
 .login-body {
     display: flex;
     flex-direction: column;
-    padding: 34px 28px 24px;
+    padding: 34px 28px var(--space-10);
     gap: 16px;
     background: var(--xp-surface);
 }
@@ -236,7 +236,7 @@
 .log-user,
 .password {
     display: flex;
-    gap: 14px;
+    gap: var(--space-8);
 }
 
 .log-user label,
@@ -248,11 +248,11 @@
 .log-user input,
 .password input {
     width: 300px;
-    height: 24px;
+    height: var(--space-10);
     font-size: var(--font-size-lg);
     background: var(--xp-line-light);
     border: 1px solid var(--xp-title-start);
-    padding: 0 3px;
+    padding: 0 var(--space-2);
     outline: none;
 }
 
@@ -262,14 +262,14 @@
 .login-buttons {
     display: flex;
     justify-content: flex-end;
-    gap: 14px;
-    margin-top: 12px;
+    gap: var(--space-8);
+    margin-top: var(--space-7);
 }
 
 .login-buttons button {
     min-width: 82px;
     height: 23px;
-    padding: 0 12px;
+    padding: 0 var(--space-7);
     font-size: var( --font-size-md);
     color: var(--text);
     cursor: default;
@@ -289,7 +289,7 @@
 
 .login-buttons button:focus-visible {
     outline: 1px dotted var(--text);
-    outline-offset: -4px;
+    outline-offset: calc(-1 * var(--space-3));
 }
 
 .login-buttons button:active {

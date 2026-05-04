@@ -18,7 +18,7 @@
     gap: 0;
     list-style: none;
     margin: 0;
-    padding: 0 2px;
+    padding: 0 var(--space-1)
 }
 
 .game-menu > ul > li {
@@ -26,7 +26,7 @@
     display: flex;
     align-items: center;
     height: 16px;
-    padding: 0 var(--margin-large);
+    padding: 0 var(--space-5);
     cursor: default;
 }
 
@@ -46,7 +46,7 @@
     left: 0;
     z-index: 20;
     margin: 0;
-    padding: 2px 0;
+    padding: var(--space-1) 0;
     list-style: none;
     background: var(--xp-surface);
     color: #000;
@@ -75,8 +75,8 @@
 .game-menu .submenu li::before {
     content: '';
     position: absolute;
-    left: 10px;
-    width: 10px;
+    left: var(--space-6);
+    width: var(--space-6);
     text-align: center;
 }
 
@@ -91,7 +91,7 @@
 .game-menu .submenu li.checked::before {
     content: '✓';
     position: absolute;
-    left: var(--margin-large);
+    left: var(--space-5);
     top: 0;
     bottom: 0;
     display: flex;
@@ -114,8 +114,8 @@
    Submenu Separator
 ───────────────────────────────────────── */
 .game-menu .submenu li.separator {
-    height: 2px;
-    margin: 3px 1px;
+    height: var(--space-1);
+    margin: var(--space-2) 1px;
     padding: 0;
     background: transparent;
     pointer-events: none;

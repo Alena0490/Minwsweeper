@@ -14,7 +14,7 @@
     color: var(--text);
     font-size: var(--font-size-md);
     line-height: 1.35;
-    box-shadow: 2px 2px 4px var(--xp-shadow-light);
+    box-shadow: var(--space-1) var(--space-1) var(--space-3) var(--xp-shadow-light);
     z-index: 100;
 }
 

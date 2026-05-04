@@ -20,7 +20,7 @@
 .mini-modal header {
     width: 100%;
     height: 28px;
-    padding: 0 var(--margin-large) 0 10px;
+    padding: 0 var(--space-5) 0 var(--space-6);
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -51,8 +51,8 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 10px;
-    padding: 16px 14px 14px;
+    gap: var(--space-6);
+    padding: 16px var(--space-8) var(--space-8);
     /* background: var(--xp-surface); */
 }
 
@@ -64,8 +64,8 @@
 }
 
 #about .main-text {
-    gap: 10px;
-    padding: 26px 14px 12px;
+    gap: var(--space-6);
+    padding: 26px var(--space-8) var(--space-7);
 }
 
 #about .main-text p {
@@ -88,7 +88,7 @@
 
 #about a:focus-visible {
     outline: 1px dotted #000;
-    outline-offset: 2px;
+    outline-offset: var(--space-1);
 }
 
 /* ─────────────────────────────────────────
@@ -97,7 +97,7 @@
 .set-buttons {
     display: flex;
     justify-content: center;
-    gap: 10px;
+    gap: var(--space-6);
     width: 100%;
 }
 
@@ -105,7 +105,7 @@
 #about .main-text > button {
     min-width: 72px;
     height: 30px;
-    padding: 0 14px;
+    padding: 0 var(--space-8);
     border: 1.5px solid var(--border-middle);
     border-radius: 10px;
     background: linear-gradient(to bottom, #fafafa, #f0f0f0);
@@ -148,7 +148,7 @@
 
 .underline {
     text-decoration: underline;
-    text-underline-offset: 2px;
+    text-underline-offset: var(--space-1);
     text-decoration-thickness: 1.5px;
 }
 
@@ -160,20 +160,20 @@
     margin: 0;
     padding: 0;
     display: grid;
-    gap: var(--margin-md);
+    gap: var(--space-4);
 }
 
 #custom li {
     display: grid;
     grid-template-columns: 60px 42px;
     align-items: center;
-    column-gap: var(--margin-md);
+    column-gap: var(--space-4);
 }
 
 #custom input {
     width: 42px;
-    height: 24px;
-    border: 2px solid;
+    height: var(--space-10);
+    border: var(--space-1) solid;
     border-top-color: #7a7a7a;
     border-left-color: #7a7a7a;
     border-right-color: var(--xp-line-light);

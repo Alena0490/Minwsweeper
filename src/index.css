@@ -136,12 +136,20 @@
     /* ─────────────────────────────────────────
        Layout
     ───────────────────────────────────────── */
-    --cell-size: 18px;
+    --cell-size: var(--space-9);
     --app-icon-size: 48px;
-    --app-gap: 10px;
-    --margin-large: 8px;
-    --margin-md: 6px;
-    --app-icon-margin: 4px;
+  
+    /* Spacing */
+  --space-1: 2px;
+  --space-2: 3px;
+  --space-3: 4px;
+  --space-4: 6px;
+  --space-5: 8px;
+  --space-6: 10px;
+  --space-7: 12px;
+  --space-8: 14px;
+  --space-9: 18px;
+  --space-10: 24px;
 
     /* ─────────────────────────────────────────
        Start Menu
@@ -176,6 +184,10 @@
     --xp-separator: #C8C2B8;
 }
 
+html {
+  font-size: 16px;
+}
+
 body {
     font-family: 'Tahoma', sans-serif;
     background-image: url('./img/xp-background.webp');
@@ -203,16 +215,16 @@ body {
     box-shadow:
         inset 1px 1px 0 var(--xp-line-light),
         inset -1px -1px 0 var(--xp-line-dark),
-        inset 2px 2px 0 #F7F4E9,
-        inset -2px -2px 0 #716F64;
+        inset var(--space-1) var(--space-1) 0 #F7F4E9,
+        inset calc(-1 * var(--space-1)) calc(-1 * var(--space-1)) 0 #716F64;
 }
 
 .bevel-sunken {
     box-shadow:
         inset 1px 1px 0 #716F64,
         inset -1px -1px 0 #F7F4E9,
-        inset 2px 2px 0 var(--xp-line-dark),
-        inset -2px -2px 0 var(--xp-line-light);
+        inset var(--space-1) var(--space-1) 0 var(--xp-line-dark),
+        inset calc(-1 * var(--space-1)) calc(-1 * var(--space-1)) 0 var(--xp-line-light);
 }
 
 .app {
@@ -226,14 +238,14 @@ body {
 
 .app-wrapper {
     position: absolute;
-    left: 24px;
+    left: var(--space-10);
     top: 28px;
     width: fit-content;
     height: fit-content;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 18px;
+    gap: var(--space-9);
 }
 
 .desktop-item {
@@ -244,7 +256,7 @@ body {
     font-size: var(--font-size-md);
     line-height: 1.2;
     color: var(--text-inverted);
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.9);
+    text-shadow: 1px 1px var(--space-1) rgba(0, 0, 0, 0.9);
     text-decoration: none;
     cursor: default;
     user-select: none;
@@ -260,7 +272,7 @@ body {
 
 .desktop-item-label {
     max-width: 100%;
-    padding: 1px 3px;
+    padding: 1px var(--space-2);
     text-align: center;
     word-break: break-word;
 }
@@ -269,7 +281,7 @@ body {
     position: relative;
     width: var(--app-icon-size);
     height: auto;
-    margin-bottom: var(--app-icon-margin);
+    margin-bottom: var(--space-3);
     display: block;
 }
 
@@ -280,6 +292,6 @@ body {
     flex: 1;
     display: flex;
     align-items: center;
-    padding: 0 10px;
+    padding: 0 var(--space-6);
     gap: 5px;
 }

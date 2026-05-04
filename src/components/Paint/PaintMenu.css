@@ -18,7 +18,7 @@
     align-items: center;
     list-style: none;
     margin: 0;
-    padding: 0 2px;
+    padding: 0 var(--space-1);
 }
 
 .paint-menu > ul > li {
@@ -26,7 +26,7 @@
     display: flex;
     align-items: center;
     height: 16px;
-    padding: 0 var(--margin-large);
+    padding: 0 var(--space-5);
     cursor: default;
 }
 
@@ -46,7 +46,7 @@
     left: 0;
     z-index: 20;
     margin: 0;
-    padding: 2px 0;
+    padding: var(--space-1) 0;
     list-style: none;
     background: var(--xp-surface);
     color: #000;
@@ -83,7 +83,7 @@
 .paint-menu .submenu li.checked::before {
     content: '✓';
     position: absolute;
-    left: var(--margin-large);
+    left: var(--space-5);
     top: 0;
     bottom: 0;
     display: flex;
@@ -115,8 +115,8 @@
    Submenu Separator
 ───────────────────────────────────────── */
 .paint-menu .submenu li.separator {
-    height: 2px;
-    margin: 3px 1px;
+    height: var(--space-1);
+    margin: var(--space-2) 1px;
     padding: 0;
     background: transparent;
     pointer-events: none;
@@ -144,18 +144,18 @@
 .paint-menu .submenu li.has-submenu::after {
     content: '▶';
     position: absolute;
-    right: var(--margin-md);
+    right: var(--space-4);
     font-size: 8px;
 }
 
 .paint-menu .submenu li .submenu {
     display: none;
     position: absolute;
-    top: -2px;
+    top: calc(-1 * var(--space-1));
     left: 100%;
     z-index: 21;
     margin: 0;
-    padding: 2px 0;
+    padding: var(--space-1) 0;
     list-style: none;
     background: var(--xp-surface);
     color: #000;

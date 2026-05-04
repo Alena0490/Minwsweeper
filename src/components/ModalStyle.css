@@ -8,7 +8,8 @@
     z-index: 40;
     overflow: hidden;
     transform: translate(-50%, -50%);
-    border: 2px solid;
+    outline: none;
+    border: var(--space-1) solid;
     border-color:
         var(--xp-line-light)
         var(--xp-line-dark)
@@ -28,6 +29,10 @@
         #9a9a9a 55%,
         #b5b5b5 100%
     );
+}
+
+.xp-dialog:focus {
+  outline: none;
 }
 
 .xp-dialog:not(:focus-within) .title-bar-text {
@@ -93,7 +98,9 @@
         inset 1px 1px 0 #ffffff,
         inset -1px -1px 0 #808080;
     color: #000;
-    font-size: (--font-size-lg);
+    font-family: Tahoma, sans-serif;
+    font-size: var(--font-size-lg);
+    font-weight: 700;
     line-height: 1;
     border-radius: 0;
 }
@@ -145,9 +152,9 @@
     background: var(--xp-surface);
     box-shadow:
         inset 1px 1px 0 #ffffff,
-        inset 2px 2px 0 #f3f0e7,
+        inset var(--space-1) var(--space-1) 0 #f3f0e7,
         inset -1px -1px 0 #aca899,
-        inset -2px -2px 0 #d6d0c4;
+        inset calc(-1 * var(--space-1)) calc(-1 * var(--space-1)) 0 #d6d0c4;
     color: var(--text);
     font: inherit;
 }
@@ -160,7 +167,7 @@
 #xp-default-btn::before {
     content: '';
     position: absolute;
-    inset: -2px;
+    inset: calc(-1 * var(--space-1));
     border: 1px solid #fff;
     pointer-events: none;
 }
@@ -184,9 +191,9 @@
     padding-left: calc(0.75rem + 1px);
     box-shadow:
         inset 1px 1px 0 #808080,
-        inset 2px 2px 0 #aca899,
+        inset var(--space-1) var(--space-1) 0 #aca899,
         inset -1px -1px 0 #ffffff,
-        inset -2px -2px 0 #ece9d8;
+        inset calc(-1 * var(--space-1)) calc(-1 * var(--space-1)) 0 #ece9d8;
 }
 
 .xp-dialog-actions button:focus,
@@ -212,7 +219,7 @@
 .xp-dialog--custom-zoom .custom-zoom-actions button:active::after {
     content: '';
     position: absolute;
-    inset: 2px;
+    inset: var(--space-1);
     border: 1px dotted #000;
     pointer-events: none;
 }
@@ -524,7 +531,7 @@
 }
 
 .thumbnail-dialog .title-bar {
-  padding-left: var(--margin-large);
+  padding-left: var(--space-5);
 }
 
 .thumbnail-body {
