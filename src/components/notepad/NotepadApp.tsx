@@ -21,6 +21,23 @@ interface NotepadAppProps {
     onHistoryChange: (canUndo: boolean, canRedo: boolean) => void;
 }
 
+// Phrases that trigger the classic Windows XP Notepad encoding bug
+const MAGIC_PHRASES = [
+    'this app can fix it',
+    'bush hid the facts',
+    'what are you doing',
+];
+
+// Simulated garbled output for each magic phrase
+const GARBLED: Record<string, string> = {
+    'this app can fix it': '□□□□ □□□ □□□ □□ □□',
+    'bush hid the facts':  '□□□□ □□□ □□□ □□□□□',
+    'what are you doing':  '□□□□ □□□ □□□ □□□□□',
+};
+
+const isGarbled = (text: string) =>
+    Object.values(GARBLED).includes(text.trim());
+
 const NotepadApp = ({
     showStatusBar,
     wordWrap,
@@ -97,6 +114,7 @@ const NotepadApp = ({
             reader.onload = (ev) => {
                 const result = ev.target?.result;
                 if (typeof result !== 'string') return;
+                // Simulate encoding bug — garbled files reopen as garbled
                 setText(result);
                 setHistory([result]);
                 setHistoryIndex(0);
@@ -107,11 +125,23 @@ const NotepadApp = ({
         input.click();
     };
 
-    // Save file
+    // Save file — magic phrases are saved garbled, simulating the XP encoding bug
     const handleSave = () => {
         const safeName = fileName.trim() || 'Untitled.txt';
         const finalName = safeName.toLowerCase().endsWith('.txt') ? safeName : `${safeName}.txt`;
-        const blob = new Blob([text], { type: 'text/plain' });
+
+        const trimmed = text.trim().toLowerCase();
+        const matched = MAGIC_PHRASES.find(p => p === trimmed);
+        const savedText = matched ? GARBLED[matched] : text;
+
+        // If already garbled, reload as garbled after save
+        if (matched) {
+            setText(GARBLED[matched]);
+            setHistory([GARBLED[matched]]);
+            setHistoryIndex(0);
+        }
+
+        const blob = new Blob([savedText], { type: 'text/plain' });
         const a = document.createElement('a');
         a.download = finalName;
         a.href = URL.createObjectURL(blob);
@@ -171,7 +201,11 @@ const NotepadApp = ({
                         }}
                         onClick={updateCursor}
                         onKeyUp={updateCursor}
-                        style={{ whiteSpace: wordWrap ? 'pre-wrap' : 'pre' }}
+                        style={{
+                            whiteSpace: wordWrap ? 'pre-wrap' : 'pre',
+                            // Garbled text uses a different font to look like encoding symbols
+                            fontFamily: isGarbled(text) ? 'serif' : undefined,
+                        }}
                         data-gramm='false'
                         data-gramm_editor='false'
                         data-enable-grammarly='false'
