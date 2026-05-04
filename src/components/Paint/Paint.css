@@ -11,14 +11,14 @@
 } */
 
 .paint-window .title-bar {
-    gap: 8px;
+    gap: var(--margin-large);
     min-height: 26px;
 }
 
 .paint-icon {
     width: 20px;
     height: auto;
-    margin-right: 4px;
+    margin-right: var(--app-icon-margin);
     filter: contrast(1.2);
 }
 
@@ -29,7 +29,7 @@
     display: flex;
     align-items: center;
     gap: 2px;
-    padding: 2px 4px;
+    padding: 2px var(--app-icon-margin);
     background: var(--xp-surface);
     border-top: 1px solid var(--xp-line-mid);
     justify-content: flex-start;
@@ -43,7 +43,7 @@
     border-bottom: 1px solid var(--xp-line-mid);
     border-right: 1px solid var(--xp-line-mid);
     min-height: 16px;
-    padding: 0 4px;
+    padding: 0 var(--app-icon-margin);
 }
 
 .helper__tool { flex: 2; }

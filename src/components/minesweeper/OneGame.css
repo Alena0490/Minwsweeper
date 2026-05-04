@@ -1,6 +1,6 @@
 .game-field {
     background-color: var(--ms-panel);
-    padding: 6px;
+    padding: var(--margin-md);
     border-top: 5px solid var(--xp-line-light);
     border-left: 3px solid var(--xp-line-light);
 }
@@ -8,7 +8,7 @@
 /* Outer status panel — sunken border effect */
 .status-panel-outer {
     background: var(--ms-panel);
-    margin-bottom: 6px;
+    margin-bottom: var(--margin-md);
     border-top: 1px solid var(--xp-line-dark);
     border-left: 1px solid var(--xp-line-dark);
     border-right: 1px solid var(--xp-line-light);
@@ -19,9 +19,9 @@
     display: grid;
     grid-template-columns: 41px 1fr 41px;
     align-items: center;
-    gap: 8px;
+    gap: var(--margin-large);
     width: 100%;
-    padding: 7px 6px;
+    padding: 7px var(--margin-md);
     background: var(--ms-panel);
     border-top: 1px solid var(--xp-line-dark);
     border-left: 1px solid var(--xp-line-dark);

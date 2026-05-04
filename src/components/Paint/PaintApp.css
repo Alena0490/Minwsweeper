@@ -23,10 +23,10 @@
     display: flex;
     flex-direction: row;
     align-items: center;
-    padding: 4px 6px;
+    padding: var(--app-icon-margin) var(--margin-md);
     background: var(--xp-surface);
     border-top: 1px solid var(--xp-line-light);
-    gap: 4px;
+    gap: var(--app-icon-margin);
 }
 
 .colors__swatches {

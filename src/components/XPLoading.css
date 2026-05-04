@@ -6,7 +6,6 @@
     height: 100vh;
     background: var(--ms-display-bg);
     color: var(--text-inverted);
-    font-family: Tahoma, sans-serif;
     position: relative;
     overflow: hidden;
 }

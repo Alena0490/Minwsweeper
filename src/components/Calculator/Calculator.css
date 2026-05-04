@@ -48,7 +48,7 @@
     display: flex;
     align-items: center;
     height: 16px;
-    padding: 0 8px;
+    padding: 0 var(--margin-large);
     cursor: default;
 }
 
@@ -115,7 +115,7 @@
 .calculator-menu .submenu li.checked::before {
     content: "•";
     position: absolute;
-    left: 8px;
+    left: var(--margin-large);
     font-size: 18px;
     line-height: 1;
 }

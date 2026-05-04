@@ -72,7 +72,7 @@
     position: relative;
     display: flex;
     align-items: center;
-    margin-block: 4px;
+    margin-block: var(--app-icon-margin) ;
 }
 
 .logo-wrap img {
@@ -84,7 +84,7 @@
 .turnoff-tm {
     position: absolute;
     right: -3px;
-    bottom: 6px;
+    bottom: var(--margin-md);
     font-size: 8px;
     color: var(--xp-menu-right-bottom);
     opacity: 0.8;
@@ -147,7 +147,7 @@
 }
 
 .shutdown-bottom button {
-    padding: 4px 16px;
+    padding: var(--app-icon-margin) 16px;
     font-size: var(--font-size-lg);
     cursor: default;
     background: linear-gradient(

@@ -16,14 +16,14 @@
 }
 
 .notepad-window .title-bar {
-    gap: 8px;
+    gap: var(--margin-large);
     min-height: 26px;
 }
 
 .notepad-icon {
     width: 20px;
     height: auto;
-    margin-right: 4px;
+    margin-right: var(--app-icon-margin);
     filter: contrast(1.2);
 }
 
@@ -62,7 +62,7 @@
     width: 100%;
     height: 100%;
     box-sizing: border-box;
-    padding: 4px 20px 4px 4px;
+    padding: var(--app-icon-margin) 20px var(--app-icon-margin) var(--app-icon-margin);
     font-family: 'Lucida Console', monospace;
     font-size: var(--font-size-md);
     line-height: 1.25;
@@ -101,7 +101,7 @@
     display: flex;
     align-items: center;
     height: 16px;
-    padding: 0 8px;
+    padding: 0 var(--margin-large);
     cursor: default;
 }
 
@@ -155,7 +155,7 @@
 .notepad-menu .submenu li.checked::before {
     content: '✓';
     position: absolute;
-    left: 8px;
+    left: var(--margin-large);
     font-size: 16px;
     line-height: 1;
 }
@@ -213,7 +213,7 @@
     justify-content: flex-start;
     align-items: center;
     gap: 2px;
-    padding: 3px 6px;
+    padding: 3px var(--margin-md);
     background: var(--xp-surface);
     color: var(--text);
     border-top: 1px solid rgba(255, 255, 255, 0.35);

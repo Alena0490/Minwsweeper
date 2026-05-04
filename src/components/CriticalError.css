@@ -17,7 +17,7 @@
 .error-window .title-bar-text {
     display: inline-flex;
     align-items: center;
-    gap: 4px;
+    gap: var(--app-icon-margin);
     min-width: 0;
     font-size: var(--font-size-lg);
     font-weight: 700;
@@ -54,7 +54,7 @@
 .error-window .error-text {
     display: flex;
     flex-direction: column;
-    gap: 6px;
+    gap: var(--margin-md);
     padding-top: 2px;
     line-height: 1.35;
 }
@@ -71,8 +71,8 @@
 .error-window .error-footer {
     display: flex;
     justify-content: center;
-    gap: 8px;
-    padding: 8px 12px 18px;
+    gap: var(--margin-large);
+    padding: var(--margin-large) 12px 18px;
     background: var(--xp-surface);
     border-top: 0;
 }

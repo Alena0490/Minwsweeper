@@ -13,7 +13,7 @@
 }
 
 .ie-window > .title-bar {
-    gap: 8px;
+    gap: var(--margin-large);
     min-height: 30px;
     user-select: none;
 }
@@ -21,7 +21,7 @@
 .ie-window > .title-bar .title {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: var(--margin-large);
     min-width: 0;
 }
 
@@ -63,7 +63,7 @@
     display: flex;
     align-items: center;
     justify-content: flex-start;
-    padding-left: 6px;
+    padding-left: var(--margin-md);
     padding-right: 2px;
     background: var(--xp-highlight-top);
     border-left: 1px solid var(--xp-line-mid);
@@ -84,7 +84,7 @@
     display: flex;
     justify-content: space-between;
     gap: 12px;
-    padding: 3px 8px 2px;
+    padding: 3px var(--margin-large) 2px;
     background: var(--xp-surface);
     border-bottom: 1px solid var(--xp-line-mid);
 }
@@ -123,13 +123,13 @@ button.disabled {
 
 .ie-toolbar-top {
     display: flex;
-    padding: 4px 8px;
+    padding: var(--app-icon-margin) var(--margin-large);
 }
 
 .toolbar-btn {
     display: flex;
     align-items: center;
-    gap: 4px;
+    gap: var(--app-icon-margin);
     padding: 2px 3px;
     min-height: 22px;
     line-height: 1.1;
@@ -157,8 +157,8 @@ button.disabled {
 }
 
 .border-right {
-    margin-right: 4px;
-    padding-right: 8px;
+    margin-right: var(--app-icon-margin);
+    padding-right: var(--margin-large);
     border-right: 1px solid var(--xp-line-mid);
 }
 
@@ -196,8 +196,8 @@ button.disabled {
     width: 100%;
     display: flex;
     justify-content: space-between;
-    gap: 8px;
-    padding: 4px 8px;
+    gap: var(--margin-large);
+    padding: var(--app-icon-margin) var(--margin-large);
     background: var(--xp-surface);
 }
 
@@ -205,7 +205,7 @@ button.disabled {
 .right {
     display: flex;
     align-items: center;
-    gap: 4px;
+    gap: var(--app-icon-margin);
 }
 
 .left {
@@ -225,7 +225,7 @@ button.disabled {
 
 .absolute {
     position: absolute;
-    left: 6px;
+    left: var(--margin-md);
     top: 53%;
     transform: translateY(-50%);
     pointer-events: none;
@@ -234,7 +234,7 @@ button.disabled {
 .address-bar {
     width: 100%;
     height: 22px;
-    padding: 2px 8px 2px 28px;
+    padding: 2px var(--margin-large) 2px 28px;
     color: #000;
     background: #fff;
     border-radius: 0;
@@ -428,7 +428,7 @@ button.disabled {
 
 .ie-error button {
     margin: 0 0 0.95rem 2.95rem;
-    padding: 1px 8px 2px;
+    padding: 1px var(--margin-large) 2px;
     min-height: 1.45rem;
     color: var(--text);
     background: linear-gradient(var(--xp-surface-2), var(--xp-line-mid));
@@ -532,8 +532,8 @@ button.disabled {
 .ie-statusbar {
     display: flex;
     align-items: center;
-    gap: 4px;
-    padding: 2px 4px;
+    gap: var(--app-icon-margin);
+    padding: 2px var(--app-icon-margin);
     background: var(--xp-surface);
     border-top: 1px solid var(--xp-line-mid);
     justify-content: flex-start;
@@ -552,7 +552,7 @@ button.disabled {
     display: flex;
     align-items: center;
     gap: 3px;
-    padding: 0 6px;
+    padding: 0 var(--margin-md);
     margin-inline: auto 36px;
     flex: 0 0 auto;
     border-top: 1px solid var(--xp-line-dark);

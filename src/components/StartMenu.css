@@ -42,7 +42,7 @@
     align-items: center;
     gap: 10px;
     min-height: 74px;
-    padding: 10px 12px 8px;
+    padding: 10px 12px var(--margin-large);
     width: 100%;
     box-shadow: inset 0 3px 2px rgba(255, 255, 255, 0.45);
 }
@@ -54,7 +54,7 @@
     letter-spacing: -0.3px;
     text-shadow:
         1px 1px 0 rgba(0, 0, 0, 0.35),
-        0 0 6px rgba(255, 255, 255, 0.08);
+        0 0 var(--margin-md) rgba(255, 255, 255, 0.08);
 }
 
 .user img {
@@ -139,7 +139,7 @@
     display: flex;
     flex-direction: column;
     gap: 0;
-    padding: 6px 6px 0;
+    padding: var(--margin-md) var(--margin-md) 0;
     background: var(--xp-line-light);
 }
 
@@ -157,14 +157,14 @@
 .menu-left .menu-item,
 .menu-item-link {
     min-height: 42px;
-    padding: 4px 8px;
+    padding: var(--app-icon-margin) var(--margin-large);
     gap: 12px;
     font-size: var(--font-size-lg);
     line-height: 1.1;
 }
 
 .menu-item-link {
-    padding: 4px 0 0;
+    padding: var(--app-icon-margin) 0 0;
     text-decoration: none;
     color: inherit;
 }
@@ -193,8 +193,8 @@
 
 .menu-left .menu-item.bottom {
     margin-block: auto 0;
-    padding: 12px 8px 6px 44px;
-    gap: 6px;
+    padding: 12px var(--margin-large) var(--margin-md) 44px;
+    gap: var(--margin-md);
     align-items: center;
     font-weight: 600;
     border-top: 1px solid var(--xp-separator);
@@ -225,7 +225,7 @@
 .menu-right hr {
     border: 0;
     height: 1px;
-    margin: 4px 6px;
+    margin: var(--app-icon-margin) var(--margin-md);
     background: linear-gradient(
         90deg,
         transparent 0%,
@@ -242,7 +242,7 @@
     display: flex;
     flex-direction: column;
     gap: 1px;
-    padding: 8px 6px 6px 7px;
+    padding: var(--margin-large) var(--margin-md) var(--margin-md) 7px;
     background: linear-gradient(
         180deg,
         var(--xp-menu-right-top) 0%,
@@ -256,7 +256,7 @@
 .menu-right .menu-item {
     display: flex;
     align-items: center;
-    gap: 6px;
+    gap: var(--margin-md);
     min-height: 21px;
     padding: 2px 3px 2px 1px;
     color: #0b2a4a;
@@ -285,7 +285,7 @@
 .menu-right hr {
     border: 0;
     height: 1px;
-    margin: 6px 8px 6px 22px;
+    margin: var(--margin-md) var(--margin-large) var(--margin-md) 22px;
     background: color-mix(in srgb, var(--xp-menu-vignette-deep) 75%, transparent);
     opacity: 0.6;
 }
@@ -301,7 +301,7 @@
     gap: 14px;
     min-height: 48px;
     margin-top: auto;
-    padding: 8px 10px;
+    padding: var(--margin-large) 10px;
     border-top: 1px solid var(--xp-highlight-soft);
 }
 
@@ -309,9 +309,9 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 6px;
+    gap: var(--margin-md);
     min-height: 28px;
-    padding: 2px 6px;
+    padding: 2px var(--margin-md);
     color: var(--text-inverted);
     font-size: var(--font-size-lg);
     font-weight: 700;
@@ -357,8 +357,8 @@
 
 .all-programs-menu .menu-item {
     min-height: 32px;
-    padding: 4px 8px;
-    gap: 8px;
+    padding: var(--app-icon-margin) var(--margin-large);
+    gap: var(--margin-large);
     font-size: var( --font-size-md);
     display: flex;
     align-items: center;
@@ -375,7 +375,7 @@
 .all-programs-menu hr {
     border: 0;
     height: 1px;
-    margin: 4px 6px;
+    margin: var(--app-icon-margin) var(--margin-md);
     background: linear-gradient(
         90deg,
         transparent 0%,
@@ -427,5 +427,5 @@
     z-index: 500;
     display: flex;
     flex-direction: column;
-    padding: 4px 0;
+    padding: var(--app-icon-margin) 0;
 }

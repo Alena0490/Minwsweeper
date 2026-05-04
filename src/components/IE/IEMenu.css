@@ -38,7 +38,7 @@
    Menu Trigger Button
 ───────────────────────────────────────── */
 .ie-menu-trigger {
-    padding: 2px 8px;
+    padding: 2px var(--margin-large);
     background: transparent;
     border: none;
     cursor: default;
@@ -95,7 +95,7 @@
 }
 
 .has-icon .ie-submenu-label {
-    margin-left: 6px;
+    margin-left: var(--margin-md);
 }
 
 .ie-submenu-shortcut {
@@ -157,7 +157,7 @@
 ───────────────────────────────────────── */
 .separator {
     height: 1px;
-    margin: 4px 2px;
+    margin: var(--app-icon-margin) 2px;
     background: var(--xp-line-mid);
 }
 
@@ -166,7 +166,7 @@
 ───────────────────────────────────────── */
 .menu-item-icon {
     position: absolute;
-    left: 4px;
+    left: var(--app-icon-margin);
     top: 50%;
     transform: translateY(-50%);
     width: 16px;
@@ -218,7 +218,7 @@
 
 .ie-submenu--nested .separator {
     height: 1px;
-    margin: 4px 2px;
+    margin: var(--app-icon-margin) 2px;
     background: var(--xp-line-mid);
 }
 

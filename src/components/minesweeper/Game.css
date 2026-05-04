@@ -24,7 +24,7 @@
 .game-icon {
     width: 18px;
     height: auto;
-    margin-right: 4px;
+    margin-right: var(--app-icon-margin);
 }
 
 /* ─────────────────────────────────────────

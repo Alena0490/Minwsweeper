@@ -4,7 +4,6 @@
 footer {
     width: 100%;
     height: 30px;
-    /* padding: 0 4px 0 0; */
     position: fixed;
     bottom: 0;
     display: flex;
@@ -20,7 +19,7 @@ footer {
 .left-menu {
     display: flex;
     align-items: center;
-    gap: 6px;
+    gap: var(--margin-md);
 }
 
 /* ─────────────────────────────────────────
@@ -31,10 +30,10 @@ footer {
     bottom: 0;
     min-width: 110px;
     height: 30px;
-    padding: 0 10px 0 6px;
+    padding: 0 10px 0 var(--margin-md);
     display: flex;
     align-items: center;
-    gap: 6px;
+    gap: var(--margin-md);
     color: #fff;
     font-size: var(--font-size-2xl);
     font-weight: 700;
@@ -57,10 +56,10 @@ footer img {
 .taskbar-item {
     display: flex;
     align-items: center;
-    gap: 6px;
+    gap: var(--margin-md);
     height: 28px;
     max-width: 150px;
-    padding: 0 8px;
+    padding: 0 var(--margin-large);
     border-radius: 2px;
     cursor: default;
     font-size: var(--font-size-md);
@@ -87,7 +86,6 @@ footer img {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    font-family: 'Tahoma', sans-serif;
 }
 
 .taskbar-item img,
@@ -103,9 +101,9 @@ footer img {
 .menu-item {
     display: flex;
     align-items: center;
-    gap: 6px;
+    gap: var(--margin-md);
     height: 28px;
-    padding: 0 8px;
+    padding: 0 var(--margin-large);
     cursor: default;
     font-size: var(--font-size-md);
     color: var(--text-inverted);
@@ -117,11 +115,10 @@ footer img {
 .right-panel.taskbar-item {
     margin-right: 0;
     height: 100%;
-    padding: 0 6px;
+    padding: 0 var(--margin-md);
 }
 
 .time {
-    font-family: Tahoma, sans-serif;
     font-size: var(--font-size-2xl);
     font-weight: 500;
     color: var(--text-inverted);

@@ -86,7 +86,7 @@
         #5c8fe6 40%,
         #3f73d8 100%
     );
-    padding: 22px 8px 2px;
+    padding: 22px var(--margin-large) 2px;
     color: var(--xp-title-text);
     border-bottom: 5px solid transparent;
     border-image: linear-gradient(
@@ -107,7 +107,7 @@
     font-size: var(--font-size-sm);
     line-height: 1.2;
     letter-spacing: 1.1px;
-    margin-bottom: 4px;
+    margin-bottom: var(--app-icon-margin) ;
     color: var(--xp-menu-right-top);
     justify-content: flex-end;
 }
@@ -116,7 +116,7 @@
     margin-left: auto;
     align-self: flex-end;
     font-size: 15px;
-    margin-bottom: 4px;
+    margin-bottom: var(--app-icon-margin) ;
     font-style: italic;
     color: var(--xp-title-text);
     font-weight: 700;
@@ -193,7 +193,7 @@
     color: #FF6821;
     text-shadow: 1px 1px 1px var(--xp-shadow-light);
     font-weight: 400;
-    margin-top: -8px;
+    margin-top: calc(-1 * var(--margin-large));
 }
 
 .logo .bottom {

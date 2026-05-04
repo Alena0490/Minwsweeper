@@ -51,7 +51,7 @@
 .terminal-icon {
     width: 20px;
     height: auto;
-    margin-right: 4px;
+    margin-right: var(--app-icon-margin);
     filter: contrast(1.2);
 }
 
@@ -63,7 +63,7 @@
     width: 80ch;
     height: calc(25 * 1.15em);
     overflow-y: auto;
-    padding: 4px 6px;
+    padding: var(--app-icon-margin) var(--margin-md);
     background-color: var(--ms-display-bg);
     color: var(--terminal-text, var(--text-inverted));
     font-family: 'Lucida Console', monospace;

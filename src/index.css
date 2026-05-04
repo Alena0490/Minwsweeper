@@ -139,6 +139,8 @@
     --cell-size: 18px;
     --app-icon-size: 48px;
     --app-gap: 10px;
+    --margin-large: 8px;
+    --margin-md: 6px;
     --app-icon-margin: 4px;
 
     /* ─────────────────────────────────────────

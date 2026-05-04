@@ -75,7 +75,7 @@
 .xp-classic-window .title-bar-buttons {
     display: flex;
     gap: 2px;
-    margin-left: 6px;
+    margin-left: var(--margin-md);
 }
 
 .xp-classic-window .title-bar-buttons button {
