@@ -1,4 +1,4 @@
-import { useRef, useEffect } from "react";
+import { useRef, useEffect } from 'react';
 
 interface SelectionParams {
     tool: string;
@@ -13,104 +13,109 @@ interface SelectionParams {
 }
 
 export const usePaintSelection = ({
-  tool,
-  bgColor,
-  ctxRef,
-  selection,
-  setSelection,
-  selectionData,
-  setSelectionData,
-  snapshot,
-  setTool
+    tool,
+    bgColor,
+    ctxRef,
+    selection,
+    setSelection,
+    selectionData,
+    setSelectionData,
+    snapshot,
+    setTool,
 }: SelectionParams) => {
-  const selStartRef = useRef<{ x: number; y: number } | null>(null);
-  const isDraggingSelectionRef = useRef(false);
-  const dragOffsetRef = useRef({ x: 0, y: 0 });
-  const cleanCanvasRef = useRef<ImageData | null>(null);
-  const freeSelectPathRef = useRef<{ x: number; y: number }[]>([]);
-  const freeSelectClipPathRef = useRef<{ x: number; y: number }[]>([]);
+    const selStartRef = useRef<{ x: number; y: number } | null>(null);
+    const isDraggingSelectionRef = useRef(false);
+    const dragOffsetRef = useRef({ x: 0, y: 0 });
+    const cleanCanvasRef = useRef<ImageData | null>(null);
+    const freeSelectPathRef = useRef<{ x: number; y: number }[]>([]);
+    const freeSelectClipPathRef = useRef<{ x: number; y: number }[]>([]);
 
-  /* ── Keyboard actions ── */
-  useEffect(() => {
-    const handleKey = (e: KeyboardEvent) => {
-        if (e.key === 'a' && e.ctrlKey) {
-            e.preventDefault();
+    // Keyboard shortcuts — Ctrl+A (select all), Delete, Ctrl+C, Ctrl+X
+    useEffect(() => {
+        const handleKey = (e: KeyboardEvent) => {
+            // Select all
+            if (e.key === 'a' && e.ctrlKey) {
+                e.preventDefault();
+                const ctx = ctxRef.current;
+                if (!ctx) return;
+                const canvas = ctx.canvas;
+                const data = ctx.getImageData(0, 0, canvas.width, canvas.height);
+                setSelectionData(data);
+                setSelection({ x: 0, y: 0, w: canvas.width, h: canvas.height });
+                setTool('rectselect');
+                return;
+            }
+
+            if ((tool !== 'rectselect' && tool !== 'freeselect') || !selection || !selectionData) return;
             const ctx = ctxRef.current;
             if (!ctx) return;
-            const canvas = ctx.canvas;
-            const data = ctx.getImageData(0, 0, canvas.width, canvas.height);
-            setSelectionData(data);
-            setSelection({ x: 0, y: 0, w: canvas.width, h: canvas.height });
-            setTool('rectselect');
-            return;
-        }
-        if ((tool !== 'rectselect' && tool !== 'freeselect') || !selection || !selectionData) return;
-        const ctx = ctxRef.current;
-        if (!ctx) return;
 
-        if (e.key === 'Delete') {
-            snapshot();
-            ctx.fillStyle = bgColor;
-            if (tool === 'freeselect' && freeSelectClipPathRef.current.length > 0) {
-                ctx.beginPath();
-                ctx.moveTo(freeSelectClipPathRef.current[0].x, freeSelectClipPathRef.current[0].y);
-                freeSelectClipPathRef.current.forEach(p => ctx.lineTo(p.x, p.y));
-                ctx.closePath();
-                ctx.fill();
-            } else {
-                ctx.fillRect(selection.x, selection.y, selection.w, selection.h);
-            }
-            setSelection(null);
-            setSelectionData(null);
+            // Delete selection
+            if (e.key === 'Delete') {
+                snapshot();
+                ctx.fillStyle = bgColor;
+                if (tool === 'freeselect' && freeSelectClipPathRef.current.length > 0) {
+                    ctx.beginPath();
+                    ctx.moveTo(freeSelectClipPathRef.current[0].x, freeSelectClipPathRef.current[0].y);
+                    freeSelectClipPathRef.current.forEach(p => ctx.lineTo(p.x, p.y));
+                    ctx.closePath();
+                    ctx.fill();
+                } else {
+                    ctx.fillRect(selection.x, selection.y, selection.w, selection.h);
+                }
+                setSelection(null);
+                setSelectionData(null);
             }
 
-        if (e.key === 'c' && e.ctrlKey) {
-            const tempCanvas = document.createElement('canvas');
-            tempCanvas.width = selection.w;
-            tempCanvas.height = selection.h;
-            const tempCtx = tempCanvas.getContext('2d')!;
-            tempCtx.putImageData(selectionData, 0, 0);
-            tempCanvas.toBlob((blob) => {
-            if (!blob) return;
-            navigator.clipboard.write([new ClipboardItem({ 'image/png': blob })]);
-            });
-        }
+            // Copy selection
+            if (e.key === 'c' && e.ctrlKey) {
+                const tempCanvas = document.createElement('canvas');
+                tempCanvas.width = selection.w;
+                tempCanvas.height = selection.h;
+                const tempCtx = tempCanvas.getContext('2d')!;
+                tempCtx.putImageData(selectionData, 0, 0);
+                tempCanvas.toBlob((blob) => {
+                    if (!blob) return;
+                    navigator.clipboard.write([new ClipboardItem({ 'image/png': blob })]);
+                });
+            }
 
-      if (e.key === 'x' && e.ctrlKey) {
-        snapshot();
-        const tempCanvas = document.createElement('canvas');
-        tempCanvas.width = selection.w;
-        tempCanvas.height = selection.h;
-        tempCanvas.getContext('2d')!.putImageData(selectionData, 0, 0);
-        tempCanvas.toBlob((blob) => {
-            if (!blob) return;
-            navigator.clipboard.write([new ClipboardItem({ 'image/png': blob })]);
-        });
-        ctx.fillStyle = bgColor;
-        if (tool === 'freeselect' && freeSelectClipPathRef.current.length > 0) {
-            ctx.beginPath();
-            ctx.moveTo(freeSelectClipPathRef.current[0].x, freeSelectClipPathRef.current[0].y);
-            freeSelectClipPathRef.current.forEach(p => ctx.lineTo(p.x, p.y));
-            ctx.closePath();
-            ctx.fill();
-        } else {
-            ctx.fillRect(selection.x, selection.y, selection.w, selection.h);
-        }
-        setSelection(null);
-        setSelectionData(null);
-        }
+            // Cut selection
+            if (e.key === 'x' && e.ctrlKey) {
+                snapshot();
+                const tempCanvas = document.createElement('canvas');
+                tempCanvas.width = selection.w;
+                tempCanvas.height = selection.h;
+                tempCanvas.getContext('2d')!.putImageData(selectionData, 0, 0);
+                tempCanvas.toBlob((blob) => {
+                    if (!blob) return;
+                    navigator.clipboard.write([new ClipboardItem({ 'image/png': blob })]);
+                });
+                ctx.fillStyle = bgColor;
+                if (tool === 'freeselect' && freeSelectClipPathRef.current.length > 0) {
+                    ctx.beginPath();
+                    ctx.moveTo(freeSelectClipPathRef.current[0].x, freeSelectClipPathRef.current[0].y);
+                    freeSelectClipPathRef.current.forEach(p => ctx.lineTo(p.x, p.y));
+                    ctx.closePath();
+                    ctx.fill();
+                } else {
+                    ctx.fillRect(selection.x, selection.y, selection.w, selection.h);
+                }
+                setSelection(null);
+                setSelectionData(null);
+            }
+        };
+
+        window.addEventListener('keydown', handleKey);
+        return () => window.removeEventListener('keydown', handleKey);
+    }, [tool, selection, selectionData, bgColor, ctxRef, snapshot, setSelection, setSelectionData, setTool]);
+
+    return {
+        selStartRef,
+        isDraggingSelectionRef,
+        dragOffsetRef,
+        cleanCanvasRef,
+        freeSelectPathRef,
+        freeSelectClipPathRef,
     };
-
-    window.addEventListener('keydown', handleKey);
-    return () => window.removeEventListener('keydown', handleKey);
-  }, [tool, selection, selectionData, bgColor, ctxRef, snapshot, setSelection, setSelectionData, setTool]);
-
-  return {
-    selStartRef,
-    isDraggingSelectionRef,
-    dragOffsetRef,
-    cleanCanvasRef,
-    freeSelectPathRef,
-    freeSelectClipPathRef,
-  };
 };

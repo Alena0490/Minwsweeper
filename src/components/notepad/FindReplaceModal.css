@@ -1,7 +1,6 @@
-/* ================================
-   FIND / REPLACE MODAL
-================================ */
-
+/* ─────────────────────────────────────────
+   Find / Replace Modal
+───────────────────────────────────────── */
 .find-replace-dialog {
     min-width: 263px;
     position: absolute;
@@ -10,10 +9,9 @@
     z-index: 1;
 }
 
-/* ================================
-   TITLE BAR
-================================ */
-
+/* ─────────────────────────────────────────
+   Title Bar
+───────────────────────────────────────── */
 .find-replace-dialog .title-bar {
     height: 25px;
     min-height: 25px;
@@ -27,10 +25,9 @@
     font-weight: 700;
 }
 
-/* ================================
-   MAIN LAYOUT
-================================ */
-
+/* ─────────────────────────────────────────
+   Main Layout
+───────────────────────────────────────── */
 .find-replace-body {
     display: grid;
     grid-template-columns: 206px 75px;
@@ -41,14 +38,15 @@
     color: var(--text);
 }
 
-/* Left content */
 .find-replace-fields {
     display: flex;
     flex-direction: column;
     gap: 6px;
 }
 
-/* Input rows */
+/* ─────────────────────────────────────────
+   Input Rows
+───────────────────────────────────────── */
 .find-replace-row {
     display: grid;
     grid-template-columns: 72px 1fr;
@@ -61,11 +59,11 @@
     white-space: nowrap;
 }
 
-.find-replace-row input[type="text"] {
+.find-replace-row input[type='text'] {
     width: 126px;
     height: 18px;
     padding: 1px 2px;
-    font: 11px Tahoma, sans-serif;
+    font-size: 11px;
     background: var(--xp-line-light);
     color: var(--text);
     outline: none;
@@ -73,10 +71,9 @@
     border-radius: 2px;
 }
 
-/* ================================
-   FIND OPTIONS AREA
-================================ */
-
+/* ─────────────────────────────────────────
+   Find Options
+───────────────────────────────────────── */
 .find-replace-lower {
     display: flex;
     align-items: flex-start;
@@ -95,12 +92,12 @@
     align-items: center;
     gap: 4px;
     margin: 0;
-    font: 11px Tahoma, sans-serif;
+    font-size: 11px;
     white-space: nowrap;
 }
 
-/* Keep native XP-like checkbox instead of custom switch */
-.find-replace-checkbox input[type="checkbox"] {
+/* Native XP-style checkbox */
+.find-replace-checkbox input[type='checkbox'] {
     appearance: auto;
     -webkit-appearance: checkbox;
     width: 13px;
@@ -108,7 +105,9 @@
     margin: 0;
 }
 
-/* Direction group */
+/* ─────────────────────────────────────────
+   Direction Group
+───────────────────────────────────────── */
 .find-replace-direction {
     display: flex;
     flex-direction: column;
@@ -130,18 +129,17 @@
     display: flex;
     align-items: center;
     gap: 3px;
-    font: 11px Tahoma, sans-serif;
+    font-size: 11px;
     white-space: nowrap;
 }
 
-.find-replace-direction input[type="radio"] {
+.find-replace-direction input[type='radio'] {
     margin: 0;
 }
 
-/* ================================
-   ACTION BUTTONS
-================================ */
-
+/* ─────────────────────────────────────────
+   Action Buttons
+───────────────────────────────────────── */
 .find-replace-actions {
     display: flex;
     flex-direction: column;
@@ -150,7 +148,6 @@
     margin: 0;
 }
 
-/* Buttons */
 .find-replace-btn {
     min-width: 30px;
     height: 21px;
@@ -158,10 +155,8 @@
     font-size: 11px;
     color: var(--text);
     cursor: default;
-
     border: 1px solid var(--xp-line-mid);
     border-radius: 3px;
-
     background:
         linear-gradient(
             to bottom,
@@ -169,7 +164,6 @@
             var(--xp-line-light) 35%,
             var(--xp-surface) 100%
         );
-
     box-shadow:
         inset 0 0 0 1px color-mix(in srgb, var(--xp-title-mid) 35%, var(--xp-line-light) 65%);
 }

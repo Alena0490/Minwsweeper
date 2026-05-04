@@ -1,3 +1,6 @@
+/* ─────────────────────────────────────────
+   Login Backdrop
+───────────────────────────────────────── */
 .login-screen-backdrop {
     position: fixed;
     inset: 0;
@@ -7,11 +10,14 @@
     z-index: 9999;
 }
 
+/* ─────────────────────────────────────────
+   Login Window
+───────────────────────────────────────── */
 .login-screen {
     position: relative;
     width: 550px;
     border: none;
-     border-radius: 8px 8px 0 0;
+    border-radius: 8px 8px 0 0;
     overflow: hidden;
     background-color: var(--xp-title-start);
     box-shadow:
@@ -27,13 +33,16 @@
     top: 0;
     left: 0;
     right: 0;
-     background: linear-gradient(to bottom, rgba(255,255,255,0.45) 0%, transparent 50%);
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 0.45) 0%, transparent 50%);
     box-shadow: inset 0 5px 6px rgba(255, 255, 255, 0.45);
     opacity: 0.8;
     z-index: 2;
     pointer-events: none;
 }
 
+/* ─────────────────────────────────────────
+   Title Bar
+───────────────────────────────────────── */
 .login-title {
     position: relative;
     height: 32px;
@@ -51,7 +60,7 @@
     left: 0;
     right: 0;
     height: 28px;
-    background: linear-gradient(to bottom, transparent 87%, var(--xp-title-end) 100%, var(--xp-title-end) 100%);
+    background: linear-gradient(to bottom, transparent 87%, var(--xp-title-end) 100%);
     opacity: 0.7;
     z-index: 1;
 }
@@ -63,7 +72,159 @@
     font-weight: 700;
 }
 
+/* ─────────────────────────────────────────
+   Logo Area
+───────────────────────────────────────── */
+.login-logos {
+    min-height: 135px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    background: linear-gradient(
+        to bottom,
+        #7fa4ed 0%,
+        #5c8fe6 40%,
+        #3f73d8 100%
+    );
+    padding: 22px 8px 2px;
+    color: var(--xp-title-text);
+    border-bottom: 5px solid transparent;
+    border-image: linear-gradient(
+        90deg,
+        var(--xp-title-mid) 0%,
+        var(--xp-title-mid) 8%,
+        var(--xp-accent-end) 25%,
+        var(--xp-accent-mid) 50%,
+        var(--xp-accent-end) 75%,
+        var(--xp-title-mid) 92%,
+        var(--xp-title-mid) 100%
+    ) 1;
+}
 
+.copy {
+    display: flex;
+    flex-direction: column;
+    font-size: 10px;
+    line-height: 1.2;
+    letter-spacing: 1.1px;
+    margin-bottom: 4px;
+    color: var(--xp-menu-right-top);
+    justify-content: flex-end;
+}
+
+.company {
+    margin-left: auto;
+    align-self: flex-end;
+    font-size: 15px;
+    margin-bottom: 4px;
+    font-style: italic;
+    color: var(--xp-title-text);
+    font-weight: 700;
+}
+
+/* ─────────────────────────────────────────
+   Windows Logo
+───────────────────────────────────────── */
+.logo {
+    transform: scale(1.04);
+    position: relative;
+    width: 275px;
+    bottom: 28px;
+    margin: 0 auto;
+}
+
+.xp-logo {
+    position: absolute;
+    width: 82px;
+    height: auto;
+    top: -10px;
+    left: -10px;
+    image-rendering: pixelated;
+    pointer-events: none;
+    filter: drop-shadow(1px 1px 1px var(--xp-shadow-light));
+}
+
+.logo .top,
+.logo .mid,
+.logo .bottom {
+    margin-left: 76px;
+}
+
+.logo p {
+    margin: 0;
+    padding: 0;
+}
+
+/* ─────────────────────────────────────────
+   Logo Text
+───────────────────────────────────────── */
+.top {
+    font-size: 11px;
+    font-weight: 300;
+    line-height: 1;
+    letter-spacing: 1.2px;
+    color: var(--xp-menu-right-top);
+}
+
+.logo .top {
+    margin-bottom: -5px;
+}
+
+.top::after {
+    content: '\00AE'; /* ® */
+    font-size: 4px;
+    position: relative;
+    top: -5px;
+    margin-left: 1px;
+    font-family: inherit;
+}
+
+.mid {
+    font-size: 32px;
+    letter-spacing: 1.4px;
+    font-weight: 700;
+    line-height: 1.1;
+}
+
+.mid span {
+    font-size: 22px;
+    display: inline-block;
+    vertical-align: top;
+    color: #FF6821;
+    text-shadow: 1px 1px 1px var(--xp-shadow-light);
+    font-weight: 400;
+    margin-top: -8px;
+}
+
+.logo .bottom {
+    font-size: 18px;
+    font-weight: 300;
+    line-height: 1;
+    white-space: nowrap;
+    letter-spacing: 1.2px;
+    color: var(--xp-menu-right-top);
+}
+
+.tm {
+    position: absolute;
+    font-size: 9px;
+    top: 53px;
+    left: 60px;
+    color: var(--xp-menu-right-top);
+}
+
+.reg-mark {
+    font-size: 4px;
+    font-weight: 300;
+    vertical-align: super;
+    color: var(--text-inverted);
+    position: relative;
+    top: -8px;
+}
+
+/* ─────────────────────────────────────────
+   Login Body
+───────────────────────────────────────── */
 .login-body {
     display: flex;
     flex-direction: column;
@@ -95,163 +256,14 @@
     outline: none;
 }
 
-.login-buttons {
-    gap: 8px;
-    margin-top: 12px;
-}
-
-.copy {
-    display: flex;
-    flex-direction: column;
-    font-size: 10px;
-    line-height: 1.2;
-    letter-spacing: 1.1px;
-    margin-bottom: 4px;
-    color: var(--xp-menu-right-top);
-    justify-content: flex-end;
-}
-
-.company {
-    margin-left: auto;
-    align-self: flex-end;
-    font-size: 15px;
-    margin-bottom: 4px;
-    font-style: italic;
-    color: var(--xp-title-text);
-    font-weight: 700;
-}
-
 /* ─────────────────────────────────────────
-   lOGO
+   Login Buttons
 ───────────────────────────────────────── */
-.login-logos {
-    min-height: 135px;
-    display: flex;
-    align-items: flex-end;
-    justify-content: space-between;
-    background: linear-gradient(
-        to bottom,
-        #7fa4ed 0%,
-        #5c8fe6 40%,
-        #3f73d8 100%
-    );
-    padding: 22px 8px 2px;
-    color: var(--xp-title-text);
-    border-bottom: 5px solid transparent;
-    border-image: linear-gradient(
-        90deg,
-        var(--xp-title-mid) 0%,
-        var(--xp-title-mid) 8%,
-
-        var(--xp-accent-end) 25%,
-        var(--xp-accent-mid) 50%,
-        var(--xp-accent-end) 75%,
-
-        var(--xp-title-mid) 92%,
-        var(--xp-title-mid) 100%
-    ) 1;
-}
-
-.logo {
-    transform: scale(1.04);
-    position: relative;
-    width: 275px;
-    bottom: 28px;
-    margin: 0 auto;
-}
-
-.xp-logo {
-    position: absolute;
-    width: 82px;
-    height: auto;
-    top: -10px;
-    left: -10px;
-    image-rendering: pixelated;
-    pointer-events: none;
-    filter: drop-shadow(1px 1px 1px var(--xp-shadow-light));
-}
-
-.logo .top,
-.logo .mid,
-.logo .bottom {
-    margin-left: 76px;
-}
-
-.logo p {
-  margin: 0;
-  padding: 0;
-}
-
-/* Text Styling */
-.top {
-  font-size: 11px;
-  font-weight: 300;
-  line-height: 1;
-  letter-spacing: 1.2px;
-  color: var(--xp-menu-right-top);
-}
-
-.logo .top {
-    margin-bottom: -5px;
-}
-
-.top::after {
-  content: "\00AE"; /* ® */
-  font-size: 4px;
-  position: relative;
-  top: -5px;
-  margin-left: 1px;
-  font-family: inherit;
-}
-
-.mid {
-  font-size: 32px;
-  letter-spacing: 1.4px;
-  font-weight: 700;
-  line-height: 1.1;
-}
-
-.mid span {
-  font-size: 22px;
-  display: inline-block;
-  vertical-align: top;
-  color: #FF6821;
-  text-shadow: 1px 1px 1px var(--xp-shadow-light);
-  font-weight: 400;
-  margin-top: -8px;
-}
-
-.logo .bottom {
-    font-size: 18px;
-    font-weight: 300;
-    line-height: 1;
-    white-space: nowrap;
-    letter-spacing: 1.2px;
-    color: var(--xp-menu-right-top);
-}
-
-.tm {
-    position: absolute;
-    font-size: 9px;
-    top: 53px;
-    left: 60px;
-    color: var(--xp-menu-right-top);
-}
-
-.reg-mark {
-  font-size: 4px;
-  font-weight: 300;
-  vertical-align: super;
-  color: var(--text-inverted);
-  position: relative;
-  top: -8px; 
-}
-
-/* Buttons */
 .login-buttons {
     display: flex;
     justify-content: flex-end;
     gap: 14px;
+    margin-top: 12px;
 }
 
 .login-buttons button {
@@ -261,7 +273,7 @@
     font-size: 11px;
     color: var(--text);
     cursor: default;
-    border: 1px solid var(--xp-title-start);;
+    border: 1px solid var(--xp-title-start);
     border-radius: 3px;
     background:
         linear-gradient(
@@ -270,10 +282,10 @@
             var(--xp-line-light) 35%,
             var(--xp-surface) 100%
         );
-        box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--xp-title-mid) 45%, var(--xp-line-light) 55%), 
+    box-shadow:
+        inset 0 0 0 1px color-mix(in srgb, var(--xp-title-mid) 45%, var(--xp-line-light) 55%),
         0 0 0 1px color-mix(in srgb, var(--xp-title-mid) 65%, var(--xp-line-light) 35%);
 }
-
 
 .login-buttons button:focus-visible {
     outline: 1px dotted var(--text);
@@ -281,7 +293,7 @@
 }
 
 .login-buttons button:active {
-    Transform: none;
+    transform: none;
     background:
         linear-gradient(
             to bottom,

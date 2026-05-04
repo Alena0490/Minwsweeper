@@ -1,171 +1,188 @@
-
+/* ─────────────────────────────────────────
+   Toolbox
+───────────────────────────────────────── */
 .xp-toolbox {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 54px;
-  min-width: 54px;
-  flex-shrink: 0;
-  background: var(--xp-surface);
-  border-top: 1px solid var(--xp-line-light);
-  border-right: 1px solid var(--xp-line-mid);
-  padding: 6px;
-  box-shadow: 0 3px 1px var(--xp-line-deep);
-  z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 54px;
+    min-width: 54px;
+    flex-shrink: 0;
+    background: var(--xp-surface);
+    border-top: 1px solid var(--xp-line-light);
+    border-right: 1px solid var(--xp-line-mid);
+    padding: 6px;
+    box-shadow: 0 3px 1px var(--xp-line-deep);
+    z-index: 1;
 }
 
+/* ─────────────────────────────────────────
+   Tool Grid
+───────────────────────────────────────── */
 .xp-tool-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1px;
-  width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1px;
+    width: 100%;
 }
 
 .xp-tool-btn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 22px;
-  height: 22px;
-  padding: 2px;
-  background: var(--xp-surface);
-  border: 1px solid transparent;
-  cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 22px;
+    height: 22px;
+    padding: 2px;
+    background: var(--xp-surface);
+    border: 1px solid transparent;
+    cursor: pointer;
 }
 
 .xp-tool-btn--disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
+    opacity: 0.5;
+    cursor: not-allowed;
 }
 
 .xp-tool-btn img {
-  width: 18px;
-  height: auto;
+    width: 18px;
+    height: auto;
 }
 
 .xp-tool-btn:hover {
-  border-color: var(--xp-line-light) var(--xp-line-dark) var(--xp-line-dark) var(--xp-line-light);
+    border-color: var(--xp-line-light) var(--xp-line-dark) var(--xp-line-dark) var(--xp-line-light);
 }
 
 .xp-tool-btn.active {
-  border-color: var(--xp-line-dark) var(--xp-line-light) var(--xp-line-light) var(--xp-line-dark);
-  background: var(--xp-surface-2);
+    border-color: var(--xp-line-dark) var(--xp-line-light) var(--xp-line-light) var(--xp-line-dark);
+    background: var(--xp-surface-2);
 }
 
-.xp-size-btn.line,
-.xp-size-btn.eraser,
-.xp-size-btn.zoom ,
-.xp-size-btn.rectselect {
-  width: unset;
-  aspect-ratio: unset;
-}
-
-.xp-size-btn.line img,
-.xp-size-btn.line svg ,
-.xp-size-btn.rectselect img {
-  width: 34px;
-  height: auto;
-}
-
-.xp-size-btn.line img {
-  transform: scaleY(0.6);
-}
-
-.xp-size-btn.zoom img {
-  width: 22px;
-  height: auto;
-  padding-block: 3px;
-}
-
-
-.xp-color-preview {
-  position: relative;
-  width: 36px;
-  height: 28px;
-  margin-top: 4px;
-}
-
-.xp-color-bg {
-  position: absolute;
-  bottom: 0;
-  right: 0;
-  width: 20px;
-  height: 20px;
-  background: var(--xp-line-light);
-  border: 1px solid var(--text);
-}
-
-.xp-color-fg {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 20px;
-  height: 20px;
-  border: 1px solid var(--text);
-  z-index: 1;
-}
-
+/* ─────────────────────────────────────────
+   Tool Preview Panel
+───────────────────────────────────────── */
 .xp-tool-preview {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  min-height: 56px;
-  height: fit-content;
-  background: var(--xp-surface);
-  margin-top: 4px;
-  box-shadow: inset  -1px -1px 0 var(--xp-line-light),
-              inset  1px 1px 0 var(--xp-line-dark);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    min-height: 56px;
+    height: fit-content;
+    background: var(--xp-surface);
+    margin-top: 4px;
+    box-shadow:
+        inset -1px -1px 0 var(--xp-line-light),
+        inset 1px 1px 0 var(--xp-line-dark);
 }
 
 .xp-context-panel {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 2px;
-  padding: 4px;
-  width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2px;
+    padding: 4px;
+    width: 100%;
 }
 
 .xp-context-panel:has(.line, .eraser, .zoom, .rectselect) {
-  display: flex;
-  flex-direction: column;
+    display: flex;
+    flex-direction: column;
 }
 
+/* ─────────────────────────────────────────
+   Size Buttons
+───────────────────────────────────────── */
 .xp-size-btn {
-  aspect-ratio: 1/1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: transparent;
-  border: none;
-  cursor: pointer;
+    aspect-ratio: 1/1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: none;
+    cursor: pointer;
 }
 
 .xp-size-btn svg,
-.xp-size-btn img  {
-  width: 16px;
-  height: auto;
+.xp-size-btn img {
+    width: 16px;
+    height: auto;
 }
 
 .xp-size-btn.active {
-  background: var(--xp-menu-hover);
-}
-
-.xp-size-btn.active .xp-dot {
-  background: var(--xp-line-light);
+    background: var(--xp-menu-hover);
 }
 
 .xp-size-btn.active img,
 .xp-size-btn.active svg {
-  filter: invert(1);
+    filter: invert(1);
 }
 
+.xp-size-btn.line,
+.xp-size-btn.eraser,
+.xp-size-btn.zoom,
+.xp-size-btn.rectselect {
+    width: unset;
+    aspect-ratio: unset;
+}
+
+.xp-size-btn.line img,
+.xp-size-btn.line svg,
+.xp-size-btn.rectselect img {
+    width: 34px;
+    height: auto;
+}
+
+.xp-size-btn.line img {
+    transform: scaleY(0.6);
+}
+
+.xp-size-btn.zoom img {
+    width: 22px;
+    height: auto;
+    padding-block: 3px;
+}
+
+/* ─────────────────────────────────────────
+   Color Preview
+───────────────────────────────────────── */
+.xp-color-preview {
+    position: relative;
+    width: 36px;
+    height: 28px;
+    margin-top: 4px;
+}
+
+.xp-color-bg {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 20px;
+    height: 20px;
+    background: var(--xp-line-light);
+    border: 1px solid var(--text);
+}
+
+.xp-color-fg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 20px;
+    height: 20px;
+    border: 1px solid var(--text);
+    z-index: 1;
+}
+
+/* ─────────────────────────────────────────
+   Dot Sizes
+───────────────────────────────────────── */
 .xp-dot {
-  background: var(--text);
-  border-radius: 50%;
+    background: var(--text);
+    border-radius: 50%;
 }
 
-.dot-sm { width: 2px; height: 2px; }
-.dot-md { width: 5px; height: 5px; }
-.dot-lg { width: 8px; height: 8px; }
+.xp-size-btn.active .xp-dot {
+    background: var(--xp-line-light);
+}
+
+.dot-sm { width: 2px;  height: 2px; }
+.dot-md { width: 5px;  height: 5px; }
+.dot-lg { width: 8px;  height: 8px; }
 .dot-xl { width: 14px; height: 14px; }

@@ -1,4 +1,4 @@
-import type { CellData } from "../data/game";
+import type { CellData } from '../data/game';
 
 export const floodFill = (board: CellData[][], row: number, col: number): CellData[][] => {
     const newBoard = board.map(r => r.map(cell => ({ ...cell })));

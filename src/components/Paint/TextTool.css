@@ -1,11 +1,15 @@
-/* ── Text Overlay ── */
+/* ─────────────────────────────────────────
+   Text Overlay
+───────────────────────────────────────── */
 .text-overlay {
     position: absolute;
     z-index: 9999;
     user-select: none;
 }
 
-/* ── Font Toolbar ── */
+/* ─────────────────────────────────────────
+   Font Toolbar
+───────────────────────────────────────── */
 .font-toolbar {
     position: absolute;
     left: 0;
@@ -32,7 +36,9 @@
     top: calc(100% + 0.1875rem);
 }
 
-/* ── Font Toolbar Title Bar ── */
+/* ─────────────────────────────────────────
+   Font Toolbar Title Bar
+───────────────────────────────────────── */
 .font-toolbar .title-bar {
     display: flex;
     align-items: center;
@@ -102,7 +108,9 @@
     background: linear-gradient(to bottom, #D94B31, #FFB1A6);
 }
 
-/* ── Font Toolbar Body ── */
+/* ─────────────────────────────────────────
+   Font Toolbar Body
+───────────────────────────────────────── */
 .font-toolbar-body {
     display: flex;
     flex-direction: row;
@@ -121,7 +129,7 @@
     font: inherit;
 }
 
-.font-toolbar input[type="number"] {
+.font-toolbar input[type='number'] {
     width: 40px;
     min-height: 1.5rem;
     padding: 0.1rem 0.25rem;
@@ -131,7 +139,9 @@
     font: inherit;
 }
 
-/* ── Font Buttons ── */
+/* ─────────────────────────────────────────
+   Font Buttons
+───────────────────────────────────────── */
 .font-btns {
     display: flex;
     gap: 2px;
@@ -166,14 +176,15 @@
     height: 14px;
 }
 
-/* ── Text area ── */
+/* ─────────────────────────────────────────
+   Paint Textarea
+───────────────────────────────────────── */
 .paint-textarea {
     display: block;
     box-sizing: border-box;
     margin: 0;
     padding: 0;
-   border:
-        1px dashed #fff;
+    border: 1px dashed #fff;
     outline: 1px dashed #000;
     outline-offset: 0;
     resize: none;

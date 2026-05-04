@@ -1,6 +1,6 @@
-import './Calculator.css'
-import { useState } from "react";
-import Button from "./Button";
+import './Calculator.css';
+import { useState } from 'react';
+import Button from './Button';
 import useCalculatorLogic from '../../hooks/useCalculatorLogic';
 
 interface CalculatorScientificProps {
@@ -16,7 +16,7 @@ const CalculatorScientific = ({ display, setDisplay, digitGrouping }: Calculator
     const [baseMode, setBaseMode] = useState<'hex' | 'dec' | 'oct' | 'bin'>('dec');
 
     const formattedDisplay = (() => {
-    const num = parseInt(display);
+        const num = parseInt(display);
         if (baseMode === 'hex') return isNaN(num) ? display : num.toString(16).toUpperCase();
         if (baseMode === 'oct') return isNaN(num) ? display : num.toString(8);
         if (baseMode === 'bin') return isNaN(num) ? display : num.toString(2);
@@ -59,25 +59,25 @@ const CalculatorScientific = ({ display, setDisplay, digitGrouping }: Calculator
     const { handleClick } = useCalculatorLogic({
         display,
         setDisplay,
-        onExtraClick: handleScientific
+        onExtraClick: handleScientific,
     });
 
     return (
-        <article className="calculator-frame calculator-frame--scientific">
-            <div className="mainCalc">
-                <div className="screen">
-                    <div className="output-screen-row">
+        <article className='calculator-frame calculator-frame--scientific'>
+            <div className='mainCalc'>
+                <div className='screen'>
+                    <div className='output-screen-row'>
                         <input readOnly value={formattedDisplay} />
                     </div>
                 </div>
 
-                <div className="calc-scientific-options">
-                    <div className="calc-radios calc-radios--base">
+                <div className='calc-scientific-options'>
+                    <div className='calc-radios calc-radios--base'>
                         {(['hex', 'dec', 'oct', 'bin'] as const).map(mode => (
                             <label key={mode}>
                                 <input
-                                    type="radio"
-                                    name="base"
+                                    type='radio'
+                                    name='base'
                                     checked={baseMode === mode}
                                     onChange={() => setBaseMode(mode)}
                                 />
@@ -86,14 +86,14 @@ const CalculatorScientific = ({ display, setDisplay, digitGrouping }: Calculator
                         ))}
                     </div>
 
-                    <div className="calc-radios calc-radios--angle">
+                    <div className='calc-radios calc-radios--angle'>
                         {(['deg', 'rad', 'grad'] as const).map(mode => (
                             <label key={mode}>
                                 <input
-                                    type="radio"
-                                    name="angle"
+                                    type='radio'
+                                    name='angle'
                                     checked={angleMode === mode}
-                                    onChange={() => { setAngleMode(mode); }}
+                                    onChange={() => setAngleMode(mode)}
                                 />
                                 {mode === 'deg' ? 'Degrees' : mode === 'rad' ? 'Radians' : 'Grads'}
                             </label>
@@ -101,108 +101,108 @@ const CalculatorScientific = ({ display, setDisplay, digitGrouping }: Calculator
                     </div>
                 </div>
 
-                <div className="calc-scientific-top">
-                    <div className="calc-top-inv-hyp">
+                <div className='calc-scientific-top'>
+                    <div className='calc-top-inv-hyp'>
                         <label>
-                            <input type="checkbox" checked={inv} onChange={() => setInv(prev => !prev)} />
+                            <input type='checkbox' checked={inv} onChange={() => setInv(prev => !prev)} />
                             Inv
                         </label>
                         <label>
-                            <input type="checkbox" checked={hyp} onChange={() => setHyp(prev => !prev)} />
+                            <input type='checkbox' checked={hyp} onChange={() => setHyp(prev => !prev)} />
                             Hyp
                         </label>
                     </div>
 
-                    <button className="calc-placeholder calc-placeholder--one" disabled aria-hidden="true" tabIndex={-1} />
-                    <button className="calc-placeholder calc-placeholder--two" disabled aria-hidden="true" tabIndex={-1} />
+                    <button className='calc-placeholder calc-placeholder--one' disabled aria-hidden='true' tabIndex={-1} />
+                    <button className='calc-placeholder calc-placeholder--two' disabled aria-hidden='true' tabIndex={-1} />
 
-                    <Button label="Backspace" handleClick={handleClick} className="delete calc-top-backspace" />
-                    <Button label="CE" handleClick={handleClick} className="delete calc-top-ce" />
-                    <Button label="C" handleClick={handleClick} className="clear calc-top-c" />
+                    <Button label='Backspace' handleClick={handleClick} className='delete calc-top-backspace' />
+                    <Button label='CE' handleClick={handleClick} className='delete calc-top-ce' />
+                    <Button label='C' handleClick={handleClick} className='clear calc-top-c' />
                 </div>
 
-                <div className="calc-scientific-layout">
-                    <div className="calc-stat-grid">
-                        <Button label="Sta" handleClick={handleClick} className="op is-disabled" />
-                        <Button label="Ave" handleClick={handleClick} className="op is-disabled" />
-                        <Button label="Sum" handleClick={handleClick} className="op is-disabled" />
-                        <Button label="s" handleClick={handleClick} className="op is-disabled" />
-                        <Button label="Dat" handleClick={handleClick} className="op is-disabled" />
+                <div className='calc-scientific-layout'>
+                    <div className='calc-stat-grid'>
+                        <Button label='Sta' handleClick={handleClick} className='op is-disabled' />
+                        <Button label='Ave' handleClick={handleClick} className='op is-disabled' />
+                        <Button label='Sum' handleClick={handleClick} className='op is-disabled' />
+                        <Button label='s' handleClick={handleClick} className='op is-disabled' />
+                        <Button label='Dat' handleClick={handleClick} className='op is-disabled' />
                     </div>
 
-                    <div className="calc-function-grid">
-                        <Button label="F-E" handleClick={handleClick} className="op" />
-                        <Button label="(" handleClick={handleClick} className="op" />
-                        <Button label=")" handleClick={handleClick} className="op" />
+                    <div className='calc-function-grid'>
+                        <Button label='F-E' handleClick={handleClick} className='op' />
+                        <Button label='(' handleClick={handleClick} className='op' />
+                        <Button label=')' handleClick={handleClick} className='op' />
 
-                        <Button label="dms" handleClick={handleClick} className="op" />
-                        <Button label="Exp" handleClick={handleClick} className="op" />
-                        <Button label="ln" handleClick={handleClick} className="op" />
+                        <Button label='dms' handleClick={handleClick} className='op' />
+                        <Button label='Exp' handleClick={handleClick} className='op' />
+                        <Button label='ln' handleClick={handleClick} className='op' />
 
-                        <Button label="sin" handleClick={handleClick} className="op" />
-                        <Button label="x^y" handleClick={handleClick} className="op" />
-                        <Button label="log" handleClick={handleClick} className="op" />
+                        <Button label='sin' handleClick={handleClick} className='op' />
+                        <Button label='x^y' handleClick={handleClick} className='op' />
+                        <Button label='log' handleClick={handleClick} className='op' />
 
-                        <Button label="cos" handleClick={handleClick} className="op" />
-                        <Button label="x^3" handleClick={handleClick} className="op" />
-                        <Button label="n!" handleClick={handleClick} className="op" />
+                        <Button label='cos' handleClick={handleClick} className='op' />
+                        <Button label='x^3' handleClick={handleClick} className='op' />
+                        <Button label='n!' handleClick={handleClick} className='op' />
 
-                        <Button label="tan" handleClick={handleClick} className="op" />
-                        <Button label="x^2" handleClick={handleClick} className="op" />
-                        <Button label="1/x" handleClick={handleClick} className="op" />
+                        <Button label='tan' handleClick={handleClick} className='op' />
+                        <Button label='x^2' handleClick={handleClick} className='op' />
+                        <Button label='1/x' handleClick={handleClick} className='op' />
                     </div>
 
-                    <div className="calc-main-grid">
-                        <div className="calc-memory-grid">
-                            <Button label="MC" handleClick={handleClick} className="op" />
-                            <Button label="MR" handleClick={handleClick} className="op" />
-                            <Button label="MS" handleClick={handleClick} className="op" />
-                            <Button label="M+" handleClick={handleClick} className="op" />
-                            <Button label="pi" handleClick={handleClick}/>
+                    <div className='calc-main-grid'>
+                        <div className='calc-memory-grid'>
+                            <Button label='MC' handleClick={handleClick} className='op' />
+                            <Button label='MR' handleClick={handleClick} className='op' />
+                            <Button label='MS' handleClick={handleClick} className='op' />
+                            <Button label='M+' handleClick={handleClick} className='op' />
+                            <Button label='pi' handleClick={handleClick} />
                         </div>
 
-                        <div className="calc-number-grid">
-                            <Button label="7" handleClick={handleClick} className={isDigitEnabled('7') ? '' : 'is-disabled'} />
-                            <Button label="8" handleClick={handleClick} className={isDigitEnabled('8') ? '' : 'is-disabled'} />
-                            <Button label="9" handleClick={handleClick} className={isDigitEnabled('9') ? '' : 'is-disabled'} />
-                            <Button label="/" handleClick={handleClick} className="op" />
+                        <div className='calc-number-grid'>
+                            <Button label='7' handleClick={handleClick} className={isDigitEnabled('7') ? '' : 'is-disabled'} />
+                            <Button label='8' handleClick={handleClick} className={isDigitEnabled('8') ? '' : 'is-disabled'} />
+                            <Button label='9' handleClick={handleClick} className={isDigitEnabled('9') ? '' : 'is-disabled'} />
+                            <Button label='/' handleClick={handleClick} className='op' />
 
-                            <Button label="4" handleClick={handleClick} className={isDigitEnabled('4') ? '' : 'is-disabled'}/>
-                            <Button label="5" handleClick={handleClick} className={isDigitEnabled('5') ? '' : 'is-disabled'}/>
-                            <Button label="6" handleClick={handleClick} className={isDigitEnabled('6') ? '' : 'is-disabled'}/>
-                            <Button label="*" handleClick={handleClick} className="op" />
+                            <Button label='4' handleClick={handleClick} className={isDigitEnabled('4') ? '' : 'is-disabled'} />
+                            <Button label='5' handleClick={handleClick} className={isDigitEnabled('5') ? '' : 'is-disabled'} />
+                            <Button label='6' handleClick={handleClick} className={isDigitEnabled('6') ? '' : 'is-disabled'} />
+                            <Button label='*' handleClick={handleClick} className='op' />
 
-                            <Button label="1" handleClick={handleClick} className={isDigitEnabled('1') ? '' : 'is-disabled'}/>
-                            <Button label="2" handleClick={handleClick} className={isDigitEnabled('2') ? '' : 'is-disabled'}/>
-                            <Button label="3" handleClick={handleClick} className={isDigitEnabled('3') ? '' : 'is-disabled'}/>
-                            <Button label="-" handleClick={handleClick} className="op" />
+                            <Button label='1' handleClick={handleClick} className={isDigitEnabled('1') ? '' : 'is-disabled'} />
+                            <Button label='2' handleClick={handleClick} className={isDigitEnabled('2') ? '' : 'is-disabled'} />
+                            <Button label='3' handleClick={handleClick} className={isDigitEnabled('3') ? '' : 'is-disabled'} />
+                            <Button label='-' handleClick={handleClick} className='op' />
 
-                            <Button label="0" handleClick={handleClick} className={isDigitEnabled('0') ? '' : 'is-disabled'}/>
-                            <Button label="+/-" handleClick={handleClick} className="op" />
-                            <Button label="." handleClick={handleClick} />
-                            <Button label="+" handleClick={handleClick} className="op" />
+                            <Button label='0' handleClick={handleClick} className={isDigitEnabled('0') ? '' : 'is-disabled'} />
+                            <Button label='+/-' handleClick={handleClick} className='op' />
+                            <Button label='.' handleClick={handleClick} />
+                            <Button label='+' handleClick={handleClick} className='op' />
 
-                            <Button label="A" handleClick={handleClick} className={baseMode === 'hex' ? '' : 'is-disabled'} />
-                            <Button label="B" handleClick={handleClick} className={baseMode === 'hex' ? '' : 'is-disabled'} />
-                            <Button label="C" handleClick={handleClick} className={baseMode === 'hex' ? '' : 'is-disabled'} />
-                            <Button label="D" handleClick={handleClick} className={baseMode === 'hex' ? '' : 'is-disabled'} />
+                            <Button label='A' handleClick={handleClick} className={baseMode === 'hex' ? '' : 'is-disabled'} />
+                            <Button label='B' handleClick={handleClick} className={baseMode === 'hex' ? '' : 'is-disabled'} />
+                            <Button label='C' handleClick={handleClick} className={baseMode === 'hex' ? '' : 'is-disabled'} />
+                            <Button label='D' handleClick={handleClick} className={baseMode === 'hex' ? '' : 'is-disabled'} />
                         </div>
 
-                        <div className="calc-side-grid">
-                            <Button label="Mod" handleClick={handleClick} className="op" />
-                            <Button label="And" handleClick={handleClick} className="op" />
+                        <div className='calc-side-grid'>
+                            <Button label='Mod' handleClick={handleClick} className='op' />
+                            <Button label='And' handleClick={handleClick} className='op' />
 
-                            <Button label="Or" handleClick={handleClick} className="op" />
-                            <Button label="Xor" handleClick={handleClick} className="op" />
+                            <Button label='Or' handleClick={handleClick} className='op' />
+                            <Button label='Xor' handleClick={handleClick} className='op' />
 
-                            <Button label="Lsh" handleClick={handleClick} className="op" />
-                            <Button label="Not" handleClick={handleClick} className="op" />
+                            <Button label='Lsh' handleClick={handleClick} className='op' />
+                            <Button label='Not' handleClick={handleClick} className='op' />
 
-                            <Button label="=" handleClick={handleClick} className="equals" />
-                            <Button label="Int" handleClick={handleClick} className="op" />
+                            <Button label='=' handleClick={handleClick} className='equals' />
+                            <Button label='Int' handleClick={handleClick} className='op' />
 
-                            <Button label="E" handleClick={handleClick} className={baseMode === 'hex' ? '' : 'is-disabled'} />
-                            <Button label="F" handleClick={handleClick} className={baseMode === 'hex' ? '' : 'is-disabled'} />
+                            <Button label='E' handleClick={handleClick} className={baseMode === 'hex' ? '' : 'is-disabled'} />
+                            <Button label='F' handleClick={handleClick} className={baseMode === 'hex' ? '' : 'is-disabled'} />
                         </div>
                     </div>
                 </div>

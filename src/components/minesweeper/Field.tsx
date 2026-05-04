@@ -1,10 +1,10 @@
-import type { CellData } from "../../data/game";
-import FlagIcon from '../../img/flag.png'
-import QuestionIcon from '../../img/questionGame.png'
-import Mine from '../../img/mine2.png'
-import Missflagged from '../../img/misflagged.png'
-import MineDeath from '../../img/mine-death.png'
-import './Field.css'
+import type { CellData } from '../../data/game';
+import FlagIcon from '../../img/flag.png';
+import QuestionIcon from '../../img/questionGame.png';
+import Mine from '../../img/mine2.png';
+import Missflagged from '../../img/misflagged.png';
+import MineDeath from '../../img/mine-death.png';
+import './Field.css';
 
 interface FieldProps {
     board: CellData[][];
@@ -14,63 +14,65 @@ interface FieldProps {
     setIsPressed: (pressed: boolean) => void;
     deathId: string | null;
     setGameState: (state: 'playing' | 'won' | 'lost') => void;
-    onMouseDown?: () => void
+    onMouseDown?: () => void;
 }
 
-const Field = ({ board, gameState, onFlag, onOpen, setIsPressed, deathId, onMouseDown }: FieldProps) => { 
+const Field = ({ board, gameState, onFlag, onOpen, setIsPressed, deathId, onMouseDown }: FieldProps) => {
     if (!board || board.length === 0 || !board[0]) return null;
-    
+
     return (
-    <div
-      className="field"
-      style={{ gridTemplateColumns: `repeat(${board[0].length}, var(--cell-size))` }}
-      onMouseDown={onMouseDown}
-    >
-      {board.map((row) =>
-        row.map((cell) => (
-            <button
-                key={cell.id}
-                className={[
-                    'cell',
-                    'cell--closed',
-                    cell.mark === 'flag' && 'cell--flagged',
-                    cell.mark === 'question' && 'cell--question',
-                    cell.isOpen && 'cell--open',
-                    cell.id === deathId && 'cell--death',
-                ].filter(Boolean).join(' ')}
-                type="button"
-                aria-label={`Cell ${cell.row + 1}, ${cell.col + 1}, closed`}
-                onClick={() => onOpen(cell.id)}
-                onContextMenu={(e) => {
-                    e.preventDefault();
-                    onFlag(cell.id);
-                }}
-                onMouseDown={(e) => e.button === 0 && setIsPressed(true)}
-                onMouseUp={() => setIsPressed(false)}
-                onMouseLeave={() => setIsPressed(false)}
-            >
-            {cell.isOpen && cell.isMine && (
-                cell.id === deathId
-                    ? <img src={MineDeath} alt="mine death" />
-                    : <img src={Mine} alt="mine" />
+        <div
+            className='field'
+            style={{ gridTemplateColumns: `repeat(${board[0].length}, var(--cell-size))` }}
+            onMouseDown={onMouseDown}
+        >
+            {board.map((row) =>
+                row.map((cell) => (
+                    <button
+                        key={cell.id}
+                        type='button'
+                        className={[
+                            'cell',
+                            'cell--closed',
+                            cell.mark === 'flag' && 'cell--flagged',
+                            cell.mark === 'question' && 'cell--question',
+                            cell.isOpen && 'cell--open',
+                            cell.id === deathId && 'cell--death',
+                        ].filter(Boolean).join(' ')}
+                        aria-label={`Cell ${cell.row + 1}, ${cell.col + 1}, ${cell.isOpen ? 'open' : 'closed'}`}
+                        onClick={() => onOpen(cell.id)}
+                        onContextMenu={(e) => {
+                            e.preventDefault();
+                            onFlag(cell.id);
+                        }}
+                        onMouseDown={(e) => e.button === 0 && setIsPressed(true)}
+                        onMouseUp={() => setIsPressed(false)}
+                        onMouseLeave={() => setIsPressed(false)}
+                    >
+                        {cell.isOpen && cell.isMine && (
+                            cell.id === deathId
+                                ? <img src={MineDeath} alt='mine death' />
+                                : <img src={Mine} alt='mine' />
+                        )}
+                        {!cell.isOpen && cell.mark === 'flag' && !cell.isMine && gameState === 'lost' && (
+                            <img src={Missflagged} alt='missflag' />
+                        )}
+                        {!cell.isOpen && cell.mark === 'flag' && !(gameState === 'lost' && cell.isMine) && (
+                            <img src={FlagIcon} alt='flag' />
+                        )}
+                        {!cell.isOpen && cell.mark === 'question' && (
+                            <img src={QuestionIcon} alt='question' />
+                        )}
+                        {cell.isOpen && !cell.isMine && cell.adjacentMines > 0 && (
+                            <span className={`cell-number n${cell.adjacentMines}`}>
+                                {cell.adjacentMines}
+                            </span>
+                        )}
+                    </button>
+                ))
             )}
-            {!cell.isOpen && cell.mark === 'flag' && !cell.isMine && gameState === 'lost' && (
-            <img src={Missflagged} alt="missflag" />
-            )}
-            {!cell.isOpen && cell.mark === 'flag' && !(gameState === 'lost' && cell.isMine) && (
-            <img src={FlagIcon} alt="flag" />
-            )}
-            {!cell.isOpen && cell.mark === 'question' && <img src={QuestionIcon} alt="question" />}
-            {cell.isOpen && !cell.isMine && cell.adjacentMines > 0 && (
-            <span className={`cell-number n${cell.adjacentMines}`}>
-                {cell.adjacentMines}
-            </span>
-            )}
-          </button>
-        ))
-      )}
-    </div>
-  );
+        </div>
+    );
 };
 
-export default Field
+export default Field;

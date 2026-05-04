@@ -1,3 +1,6 @@
+/* ─────────────────────────────────────────
+   IE Window
+───────────────────────────────────────── */
 .ie-window {
     width: 770px;
     height: 550px;
@@ -10,16 +13,16 @@
 }
 
 .ie-window > .title-bar {
-  gap: 8px;
-  min-height: 30px;
-  user-select: none;
+    gap: 8px;
+    min-height: 30px;
+    user-select: none;
 }
 
 .ie-window > .title-bar .title {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  min-width: 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-width: 0;
 }
 
 .title-bar-text {
@@ -33,6 +36,9 @@
     height: 22px;
 }
 
+/* ─────────────────────────────────────────
+   IE Toolbars
+───────────────────────────────────────── */
 .ie-toolbars,
 .ie-statusbar,
 .ie-menu,
@@ -52,22 +58,16 @@
     position: absolute;
     top: 0;
     right: 0;
-
     width: 30px;
     height: 22px;
-
     display: flex;
     align-items: center;
-    justify-content: flex-start; 
-
+    justify-content: flex-start;
     padding-left: 6px;
-    padding-right: 2px; 
-
+    padding-right: 2px;
     background: var(--xp-highlight-top);
-
     border-left: 1px solid var(--xp-line-mid);
     border-bottom: 1px solid var(--xp-line-light);
-
     z-index: 10;
 }
 
@@ -77,6 +77,9 @@
     display: block;
 }
 
+/* ─────────────────────────────────────────
+   IE Menu Bar
+───────────────────────────────────────── */
 .ie-menu {
     display: flex;
     justify-content: space-between;
@@ -96,6 +99,9 @@
     text-decoration: underline;
 }
 
+/* ─────────────────────────────────────────
+   IE Toolbar
+───────────────────────────────────────── */
 button.disabled {
     opacity: 0.8;
     filter: grayscale(1);
@@ -108,11 +114,10 @@ button.disabled {
     display: flex;
     flex-direction: column;
     background: var(--xp-surface);
-        box-shadow:
+    box-shadow:
         0 1px 0 var(--xp-line-dark),
-        0 2px 1px var(--xp-line-deep), 
+        0 2px 1px var(--xp-line-deep),
         0 3px 3px var(--xp-shadow-soft);
-
     z-index: 15;
 }
 
@@ -157,7 +162,11 @@ button.disabled {
     border-right: 1px solid var(--xp-line-mid);
 }
 
-.toolbar-img, .toolbar-img-small {
+/* ─────────────────────────────────────────
+   Toolbar Icons
+───────────────────────────────────────── */
+.toolbar-img,
+.toolbar-img-small {
     filter:
         drop-shadow(1px 1px 0 var(--xp-shadow-soft))
         drop-shadow(-1px -1px 0 var(--xp-highlight-soft));
@@ -180,6 +189,9 @@ button.disabled {
     height: auto;
 }
 
+/* ─────────────────────────────────────────
+   Address Bar
+───────────────────────────────────────── */
 .ie-toolbar-bottom {
     width: 100%;
     display: flex;
@@ -189,15 +201,16 @@ button.disabled {
     background: var(--xp-surface);
 }
 
-.left, .right {
+.left,
+.right {
     display: flex;
     align-items: center;
     gap: 4px;
 }
 
 .left {
-    flex: 1;  
-    min-width: 0;    
+    flex: 1;
+    min-width: 0;
 }
 
 .left span {
@@ -233,11 +246,13 @@ button.disabled {
     outline: none;
 }
 
-/*** PAGE WINDOW */
+/* ─────────────────────────────────────────
+   Page Window
+───────────────────────────────────────── */
 .page-window-outer {
     display: flex;
     position: relative;
-    z-index: 10; 
+    z-index: 10;
     isolation: isolate;
     flex: 1;
     width: 100%;
@@ -252,28 +267,20 @@ button.disabled {
     min-height: 0;
     overflow-y: auto;
     overflow-x: hidden;
-    flex: 1;
-    width: 100%;
-    height: 100%;
-    min-height: 0;
-    overflow-y: auto;
-    overflow-x: hidden;
     border: none;
     background-color: var(--xp-surface);
     box-shadow:
         1px 0 0 var(--xp-line-dark),
         0 1px 0 var(--xp-line-dark),
-
         2px 0 0 color-mix(in srgb, var(--xp-line-deep) 85%, var(--xp-surface) 15%),
         0 2px 0 color-mix(in srgb, var(--xp-line-deep) 85%, var(--xp-surface) 15%),
-
         3px 0 0 color-mix(in srgb, var(--xp-line-dark) 88%, var(--xp-surface-2) 12%),
         0 3px 0 color-mix(in srgb, var(--xp-line-dark) 88%, var(--xp-surface-2) 12%),
-
         0 4px 3px color-mix(in srgb, var(--xp-line-deep) 70%, var(--xp-surface) 30%),
         2px 4px 3px color-mix(in srgb, var(--xp-line-deep) 55%, var(--xp-surface) 45%);
 }
 
+/* Scroll arrow indicators */
 .page-window-outer::before {
     content: '▲';
     position: absolute;
@@ -306,6 +313,9 @@ button.disabled {
     pointer-events: none;
 }
 
+/* ─────────────────────────────────────────
+   Scrollbar
+───────────────────────────────────────── */
 .page-window-wrap::-webkit-scrollbar {
     width: 16px;
     z-index: 10;
@@ -348,8 +358,11 @@ button.disabled {
     z-index: 300;
 }
 
-/*** ERROR PAGE */
-/* Hide arrows */
+/* ─────────────────────────────────────────
+   Error Page
+───────────────────────────────────────── */
+
+/* Hide scroll arrows on error page */
 .page-window-outer:has(.ie-error)::before,
 .page-window-outer:has(.ie-error)::after {
     display: none;
@@ -417,18 +430,14 @@ button.disabled {
     margin: 0 0 0.95rem 2.95rem;
     padding: 1px 8px 2px;
     min-height: 1.45rem;
-
     color: var(--text);
     background: linear-gradient(var(--xp-surface-2), var(--xp-line-mid));
-
-    border-top: 1px solid var(--xp-line-mid); 
+    border-top: 1px solid var(--xp-line-mid);
     border-left: 1px solid var(--xp-line-mid);
     border-bottom: 1px solid var(--xp-line-deep);
-
     box-shadow:
         inset 1px 1px 0 var(--xp-line-mid),
         inset -1px -1px 0 var(--xp-line-dark);
-
     text-decoration: none;
     outline: none;
     cursor: default;
@@ -470,17 +479,19 @@ button.disabled {
     border-radius: 50%;
     box-sizing: border-box;
     border: 1px solid var(--xp-line-mid);
-    background:
-        linear-gradient(
-            to bottom,
-            var(--xp-line-light),
-            var(--xp-highlight-top)
-        );
+    background: linear-gradient(
+        to bottom,
+        var(--xp-line-light),
+        var(--xp-highlight-top)
+    );
     box-shadow:
         inset 0 1px 0 var(--xp-highlight-soft),
         inset 0 -1px 0 var(--xp-line-mid);
 }
 
+/* ─────────────────────────────────────────
+   Error Expand Arrow
+───────────────────────────────────────── */
 .ie-error-arrow {
     position: absolute;
     left: 0.08rem;
@@ -515,7 +526,9 @@ button.disabled {
     color: var(--xp-disabled);
 }
 
-/**** BOTTOM STATUS BAR */
+/* ─────────────────────────────────────────
+   Status Bar
+───────────────────────────────────────── */
 .ie-statusbar {
     display: flex;
     align-items: center;
@@ -526,21 +539,12 @@ button.disabled {
     justify-content: flex-start;
 }
 
-.status-text {
-    border-top: 1px solid var(--xp-line-dark);
-    border-left: 1px solid var(--xp-line-dark);
-    border-right: 1px solid var(--xp-line-light);
-    border-bottom: 1px solid var(--xp-line-light);
-    min-height: 18px;
-    background: var(--xp-surface);
-}
-
 .ie-statusbar img {
     width: 18px;
     height: 18px;
     padding: 1px;
-    filter: 
-        drop-shadow(1px 1px 0 var(--xp-shadow-soft)) 
+    filter:
+        drop-shadow(1px 1px 0 var(--xp-shadow-soft))
         drop-shadow(-1px -1px 0 var(--xp-highlight-soft));
 }
 
@@ -557,5 +561,5 @@ button.disabled {
     border-bottom: 1px solid var(--xp-line-light);
     min-height: 18px;
     background: var(--xp-surface);
-    color: var(--text)
+    color: var(--text);
 }

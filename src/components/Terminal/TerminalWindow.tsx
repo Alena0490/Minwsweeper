@@ -1,5 +1,5 @@
-import { useState, useRef, useEffect } from 'react'
-import './Terminal.css'
+import { useState, useRef, useEffect } from 'react';
+import './Terminal.css';
 
 interface TerminalWindowProps {
     onClose: () => void;
@@ -10,16 +10,16 @@ const WELCOME = [
     'Microsoft Windows XP [Version 5.1.2600]',
     '(C) Copyright 1985-2001 Microsoft Corp.',
     '',
-]
+];
 
 const TerminalWindow = ({ onClose, apps }: TerminalWindowProps) => {
-    const [lines, setLines] = useState<string[]>(WELCOME)
-    const [input, setInput] = useState('')
-    const [bgColor, setBgColor] = useState('#000000')
-    const [textColor, setTextColor] = useState('#c0c0c0')
+    const [lines, setLines] = useState<string[]>(WELCOME);
+    const [input, setInput] = useState('');
+    const [bgColor, setBgColor] = useState('#000000');
+    const [textColor, setTextColor] = useState('#c0c0c0');
 
-    const bottomRef = useRef<HTMLDivElement>(null)
-    const outerRef = useRef<HTMLDivElement>(null)
+    const bottomRef = useRef<HTMLDivElement>(null);
+    const outerRef = useRef<HTMLDivElement>(null);
 
     const colorMap: Record<string, string> = {
         '0': '#000000',
@@ -38,34 +38,34 @@ const TerminalWindow = ({ onClose, apps }: TerminalWindowProps) => {
         'd': '#8B4513',
         'e': '#ffff00',
         'f': '#ffffff',
-    }
+    };
 
+    // Scroll to bottom on new output
     useEffect(() => {
-        bottomRef.current?.scrollIntoView({ behavior: 'smooth' })
-    }, [lines])
+        bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
+    }, [lines]);
 
+    // Toggle scrollable class when content overflows
     useEffect(() => {
-        const el = outerRef.current?.querySelector('.terminal-body') as HTMLElement
-        if (!el) return
-
+        const el = outerRef.current?.querySelector('.terminal-body') as HTMLElement;
+        if (!el) return;
         const check = () => {
-            const scrollable = el.scrollHeight > el.clientHeight
-            outerRef.current?.classList.toggle('is-scrollable', scrollable)
-        }
-
-        check()
-        const observer = new ResizeObserver(check)
-        observer.observe(el)
-        return () => observer.disconnect()
-    }, [lines])
+            const scrollable = el.scrollHeight > el.clientHeight;
+            outerRef.current?.classList.toggle('is-scrollable', scrollable);
+        };
+        check();
+        const observer = new ResizeObserver(check);
+        observer.observe(el);
+        return () => observer.disconnect();
+    }, [lines]);
 
     const handleCommand = (cmd: string) => {
-        const trimmed = cmd.trim().toLowerCase()
-        const newLines = [...lines, `C:\\>${cmd}`]
+        const trimmed = cmd.trim().toLowerCase();
+        const newLines = [...lines, `C:\\>${cmd}`];
 
         if (trimmed === 'cls') {
-            setLines([])
-            return
+            setLines([]);
+            return;
         }
 
         if (trimmed === 'help') {
@@ -82,28 +82,28 @@ const TerminalWindow = ({ onClose, apps }: TerminalWindowProps) => {
                 '  systeminfo - Show system information', // working
                 '  color      - Change terminal color',
                 ''
-            )
+            );
         } else if (trimmed === 'ver') {
-            newLines.push('Microsoft Windows XP [Version 5.1.2600]', '')
+            newLines.push('Microsoft Windows XP [Version 5.1.2600]', '');
         } else if (trimmed === 'date') {
-            const now = new Date()
-            const day = now.toLocaleDateString('en-US', { weekday: 'short' })
-            const date = now.toLocaleDateString('en-GB')
+            const now = new Date();
+            const day = now.toLocaleDateString('en-US', { weekday: 'short' });
+            const date = now.toLocaleDateString('en-GB');
             newLines.push(
                 `The current date is: ${day} ${date}`,
                 'Enter the new date: (mm-dd-yy)',
                 ''
-            )
+            );
         } else if (trimmed === 'time') {
-            const now = new Date()
-            const time = now.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit', second: '2-digit' }) + '.00'
+            const now = new Date();
+            const time = now.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit', second: '2-digit' }) + '.00';
             newLines.push(
                 `The current time is: ${time}`,
                 'Enter the new time:',
                 ''
-            )
+            );
         } else if (trimmed.match(/^\d{2}-\d{2}-\d{2}$/) || trimmed.match(/^\d{2}:\d{2}(:\d{2})?$/)) {
-            newLines.push('')
+            newLines.push('');
         } else if (trimmed === 'dir') {
             newLines.push(
                 ' Volume in drive C has no label.',
@@ -113,16 +113,16 @@ const TerminalWindow = ({ onClose, apps }: TerminalWindowProps) => {
                 `0 File(s)              ${'0 bytes'.padStart(20)}`,
                 `${apps.length} Dir(s)  ${apps.reduce((sum, app) => sum + parseInt(app.size.replace(/,/g, '')), 0).toLocaleString('en-US')} bytes free`,
                 ''
-            )
+            );
         } else if (trimmed === 'echo') {
-            newLines.push('ECHO is on.', '')
+            newLines.push('ECHO is on.', '');
         } else if (trimmed.startsWith('echo ')) {
-            newLines.push(cmd.slice(5), '')
+            newLines.push(cmd.slice(5), '');
         } else if (trimmed === '') {
-            newLines.push('')
+            newLines.push('');
         } else if (trimmed === 'exit') {
-            onClose()
-            return
+            onClose();
+            return;
         } else if (trimmed === 'systeminfo') {
             newLines.push(
                 'Host Name:                 ALENA-PC',
@@ -139,7 +139,7 @@ const TerminalWindow = ({ onClose, apps }: TerminalWindowProps) => {
                 'GitHub:                    github.com/Alena0490',
                 'Portfolio:                 alena-pumprova.cz',
                 ''
-            )
+            );
         } else if (trimmed === 'color') {
             newLines.push(
                 'Sets the default console foreground and background colors.',
@@ -157,32 +157,32 @@ const TerminalWindow = ({ onClose, apps }: TerminalWindowProps) => {
                 '',
                 'Example: color 0A  (black background, green text)',
                 ''
-            )
+            );
         } else if (trimmed.startsWith('color ')) {
-            const code = trimmed.slice(6).toLowerCase()
+            const code = trimmed.slice(6).toLowerCase();
             if (code.length === 2 && colorMap[code[0]] && colorMap[code[1]]) {
-                setBgColor(colorMap[code[0]])
-                setTextColor(colorMap[code[1]])
-                newLines.push('')
+                setBgColor(colorMap[code[0]]);
+                setTextColor(colorMap[code[1]]);
+                newLines.push('');
             } else {
-                newLines.push('Invalid color code.', '')
+                newLines.push('Invalid color code.', '');
             }
         } else {
-            newLines.push(`'${trimmed}' is not recognized as an internal or external command,`, 'operable program or batch file.', '')
+            newLines.push(`'${trimmed}' is not recognized as an internal or external command,`, 'operable program or batch file.', '');
         }
 
-        setLines(newLines)
-    }
+        setLines(newLines);
+    };
 
     return (
-        <div className="terminal-body-outer" ref={outerRef}>
-            <div 
-                className='terminal-body' 
-                style={{ 
-                    backgroundColor: bgColor, 
+        <div className='terminal-body-outer' ref={outerRef}>
+            <div
+                className='terminal-body'
+                style={{
+                    backgroundColor: bgColor,
                     color: textColor,
-                    ['--terminal-text' as string]: textColor 
-            }}
+                    ['--terminal-text' as string]: textColor,
+                }}
             >
                 <div className='terminal-output'>
                     {lines.map((line, i) => (
@@ -196,8 +196,8 @@ const TerminalWindow = ({ onClose, apps }: TerminalWindowProps) => {
                             onChange={e => setInput(e.target.value)}
                             onKeyDown={e => {
                                 if (e.key === 'Enter') {
-                                    handleCommand(input)
-                                    setInput('')
+                                    handleCommand(input);
+                                    setInput('');
                                 }
                             }}
                             autoFocus
@@ -208,7 +208,7 @@ const TerminalWindow = ({ onClose, apps }: TerminalWindowProps) => {
                 </div>
             </div>
         </div>
-    )
-}
+    );
+};
 
-export default TerminalWindow
+export default TerminalWindow;

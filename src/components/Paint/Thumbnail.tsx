@@ -3,56 +3,63 @@ import { useDraggableDialog } from '../../hooks/useDraggableDialog';
 import '../../components/ModalStyle.css';
 
 interface ThumbnailProps {
-  canvasRef: React.RefObject<HTMLCanvasElement | null>;
-  onClose: () => void;
+    canvasRef: React.RefObject<HTMLCanvasElement | null>;
+    onClose: () => void;
 }
 
 const Thumbnail = ({ canvasRef, onClose }: ThumbnailProps) => {
-  const thumbRef = useRef<HTMLCanvasElement>(null);
+    const thumbRef = useRef<HTMLCanvasElement>(null);
 
-  const { dialogRef, onMouseDown, draggableStyle } = useDraggableDialog({
-    initialPosition: { left: 980, top: 520 },
-  });
+    const { dialogRef, onMouseDown, draggableStyle } = useDraggableDialog({
+        initialPosition: { left: 980, top: 520 },
+    });
 
-  useEffect(() => {
-    const update = () => {
-      const src = canvasRef.current;
-      const dst = thumbRef.current;
-      if (!src || !dst) return;
+    // Update thumbnail every 100ms by copying the main canvas
+    useEffect(() => {
+        const update = () => {
+            const src = canvasRef.current;
+            const dst = thumbRef.current;
+            if (!src || !dst) return;
+            const ctx = dst.getContext('2d');
+            if (!ctx) return;
+            ctx.clearRect(0, 0, dst.width, dst.height);
+            ctx.drawImage(src, 0, 0, dst.width, dst.height);
+        };
+        const interval = setInterval(update, 100);
+        return () => clearInterval(interval);
+    }, [canvasRef]);
 
-      const ctx = dst.getContext('2d');
-      if (!ctx) return;
-
-      ctx.clearRect(0, 0, dst.width, dst.height);
-      ctx.drawImage(src, 0, 0, dst.width, dst.height);
-    };
-
-    const interval = setInterval(update, 100);
-    return () => clearInterval(interval);
-  }, [canvasRef]);
-
-  return (
-    <div
-      ref={dialogRef}
-      className="xp-dialog thumbnail-dialog"
-      tabIndex={-1}
-      onMouseDown={onMouseDown}
-      style={draggableStyle}
-    >
-      <div className="title-bar">
-        <div className="title-bar-text">Thumbnail</div>
-        <div className="title-bar-buttons">
-          <button type="button" className="btn-close" onClick={onClose} aria-label="Close">
-            ×
-          </button>
+    return (
+        <div
+            ref={dialogRef}
+            className='xp-dialog thumbnail-dialog'
+            tabIndex={-1}
+            onMouseDown={onMouseDown}
+            style={draggableStyle}
+        >
+            <div className='title-bar'>
+                <div className='title-bar-text'>Thumbnail</div>
+                <div className='title-bar-buttons'>
+                    <button
+                        type='button'
+                        className='btn-close'
+                        onClick={onClose}
+                        aria-label='Close'
+                    >
+                        &#215;
+                    </button>
+                </div>
+            </div>
+            <div className='thumbnail-body'>
+                <canvas
+                    ref={thumbRef}
+                    width={150}
+                    height={100}
+                    className='thumbnail-canvas'
+                />
+            </div>
         </div>
-      </div>
-
-      <div className="thumbnail-body">
-        <canvas ref={thumbRef} width={150} height={100} className="thumbnail-canvas" />
-      </div>
-    </div>
-  );
+    );
 };
 
 export default Thumbnail;

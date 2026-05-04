@@ -1,3 +1,6 @@
+/* ─────────────────────────────────────────
+   Game Field
+───────────────────────────────────────── */
 .field {
     display: grid;
     grid-template-columns: repeat(9, var(--cell-size));
@@ -9,6 +12,9 @@
     border-bottom: 3px solid var(--border-light);
 }
 
+/* ─────────────────────────────────────────
+   Cell States
+───────────────────────────────────────── */
 .cell.isFlagged::after {
     content: '';
     position: absolute;
@@ -34,11 +40,17 @@
     color: var(--text-inverted);
 }
 
+.cell--death {
+    background-color: var(--ms-display-text);
+}
+
+/* ─────────────────────────────────────────
+   Cell Numbers
+───────────────────────────────────────── */
 .cell-number {
-  font-family: 'Tahoma', sans-serif;
-  font-size: 12px;
-  font-weight: bold;
-  line-height: 1;
+    font-size: 12px;
+    font-weight: bold;
+    line-height: 1;
 }
 
 .n1 { color: var(--ms-1); }
@@ -49,7 +61,3 @@
 .n6 { color: var(--ms-6); }
 .n7 { color: var(--ms-7); }
 .n8 { color: var(--ms-8); }
-
-.cell--death {
-    background-color: var(--ms-display-text);
-}

@@ -1,8 +1,8 @@
 export const blockedDomains = [
     'mail.google.com',
     'google.com/maps',
-    'facebook.com', 
-    'instagram.com', 
+    'facebook.com',
+    'instagram.com',
     'tiktok.com',
     'twitter.com',
     'x.com',
@@ -42,7 +42,7 @@ export const blockedDomains = [
     'chatgpt.com',
     'claude.ai',
     'gemini.google.com',
-]; 
+];
 
 export const allowedDomains = [
     'alena-pumprova.cz',
@@ -74,18 +74,17 @@ export const allowedDomains = [
     'https://web.archive.org/web/20031022033617if_/http://mapy.cz/',
     'https://web.archive.org/web/20031020075942if_/http://icq.com/',
     'https://web.archive.org/web/20040921010226if_/http://www.jamba.de/',
-    'https://web.archive.org/web/20031020113114if_/http://mobilmania.cz/', //retro mobily
+    'https://web.archive.org/web/20031020113114if_/http://mobilmania.cz/', // Retro mobile phones
     'https://web.archive.org/web/20031015084801if_/http://www.ocko.tv/',
     'https://web.archive.org/web/20031026034022if_/http://www.newgrounds.com/',
     'https://web.archive.org/web/20031026163410if_/http://www.miniclip.com/',
     'https://web.archive.org/web/20031012093609if_/http://www.lamer.cz/',
     'https://web.archive.org/web/20031025190325if_/http://www.homestarrunner.com/',
     'https://web.archive.org/web/20031021112125if_/http://albinoblacksheep.com/',
-    'https://web.archive.org/web/20031012093609if_/http://www.lamer.cz/',
     'https://web.archive.org/web/20031024124249if_/http://xchat.centrum.cz/',
     'https://web.archive.org/web/20031022070309if_/http://www.kompost.cz/',
     'https://web.archive.org/web/20051224153255if_/http://www.mobilhry.cz/',
-    'https://web.archive.org/web/20031018002806if_/http://www.nova.cz/', //TV
+    'https://web.archive.org/web/20031018002806if_/http://www.nova.cz/', // TV
     'https://web.archive.org/web/20031006082704if_/http://www.redboss.cz/cz/',
     'https://web.archive.org/web/20031027085512if_/http://www.nyx.cz/',
     'https://web.archive.org/web/20031204121747if_/http://www.osud.cz/cs/index.php',
@@ -96,7 +95,7 @@ export const allowedDomains = [
     'https://web.archive.org/web/20040301083337if_/http://www.okoun.cz/',
     'https://web.archive.org/web/20031020224816if_/http://zpovednice.cz/',
     'https://web.archive.org/web/20031021180752if_/http://www.dracidoupe.cz/',
-    'https://web.archive.org/web/20031020081938if_/http://happytreefriends.com/', //Happy Tree Friends
+    'https://web.archive.org/web/20031020081938if_/http://happytreefriends.com/', // Happy Tree Friends
     'https://web.archive.org/web/20031013015309if_/http://chcipni.cz/',
     'https://web.archive.org/web/20010516030624if_/http://www.jizdnirady.cz/',
     'https://web.archive.org/web/20071018024711if_/http://oznamkujucitele.cz/',
@@ -104,18 +103,8 @@ export const allowedDomains = [
     'https://web.archive.org/web/20031001074906if_/http://email.seznam.cz/index.py/login',
     'https://web.archive.org/web/20060226023427if_/http://www.bandatrotlu.com/',
     'https://web.archive.org/web/20031023150518if_/http://www.doupe.cz/',
-    'https://web.archive.org/web/20031016005103if_/http://www.kinobox.cz/',  //Filmy
+    'https://web.archive.org/web/20031016005103if_/http://www.kinobox.cz/', // Movies
     'https://web.archive.org/web/20031030193256if_/http://www.microsoft.com/',
     'https://web.archive.org/web/20031001073027if_/http://www.europress.cz/cz/profil_cas.php3?id_casopis=2',
-    'https://web.archive.org/web/20051015052818/https://www.linkedin.com/' //LinkedIn
-
-
-
-
-
-
-
-
-
-
+    'https://web.archive.org/web/20051015052818/https://www.linkedin.com/', // LinkedIn
 ];

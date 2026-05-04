@@ -1,24 +1,25 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
 const useDraggable = (initialX: number, initialY: number) => {
     const [position, setPosition] = useState({ x: initialX, y: initialY });
     const [isDragging, setIsDragging] = useState(false);
-    const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
+
+    const dragOffsetRef = useRef({ x: 0, y: 0 });
 
     const handleMouseDown = (e: React.MouseEvent) => {
         setIsDragging(true);
-        setDragOffset({
+        dragOffsetRef.current = {
             x: e.clientX - position.x,
             y: e.clientY - position.y,
-        });
+        };
     };
 
     useEffect(() => {
         const handleMouseMove = (e: MouseEvent) => {
             if (isDragging) {
                 setPosition({
-                    x: e.clientX - dragOffset.x,
-                    y: e.clientY - dragOffset.y,
+                    x: e.clientX - dragOffsetRef.current.x,
+                    y: e.clientY - dragOffsetRef.current.y,
                 });
             }
         };
@@ -32,7 +33,7 @@ const useDraggable = (initialX: number, initialY: number) => {
             document.removeEventListener('mousemove', handleMouseMove);
             document.removeEventListener('mouseup', handleMouseUp);
         };
-    }, [isDragging, dragOffset]);
+    }, [isDragging ]);
 
     return { position, handleMouseDown };
 };

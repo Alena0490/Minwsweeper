@@ -7,20 +7,19 @@ const useWindowState = (initialMinimized = false, initialFullscreen = false) => 
     const minimize = () => setIsMinimized(true);
     const restore = () => setIsMinimized(false);
     const toggleFullscreen = () => {
-        setIsMinimized(false);
-        restore(); 
+        restore();
         setIsFullscreen(prev => !prev);
     };
 
     const close = () => setIsMinimized(true);
 
-    return { 
-        isMinimized, 
+    return {
+        isMinimized,
         setIsMinimized,
-        isFullscreen, 
-        minimize, 
-        toggleFullscreen, 
-        close 
+        isFullscreen,
+        minimize,
+        toggleFullscreen,
+        close,
     };
 };
 

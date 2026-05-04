@@ -1,3 +1,6 @@
+/* ─────────────────────────────────────────
+   Start Menu
+───────────────────────────────────────── */
 .start-menu {
     position: absolute;
     bottom: 100%;
@@ -23,14 +26,17 @@
     border: 1px solid var(--xp-title-end);
     border-radius: 8px 8px 0 0;
     box-shadow:
-            inset 1px 1px 0 var(--xp-highlight-soft),
-            inset -1px -1px 0 rgba(0,0,0,0.25),
-            0 3px 3px rgba(0,0,0,0.35);
+        inset 1px 1px 0 var(--xp-highlight-soft),
+        inset -1px -1px 0 rgba(0, 0, 0, 0.25),
+        0 3px 3px rgba(0, 0, 0, 0.35);
     isolation: isolate;
     letter-spacing: 0.1px;
     z-index: 200;
 }
 
+/* ─────────────────────────────────────────
+   User Panel
+───────────────────────────────────────── */
 .user {
     display: flex;
     align-items: center;
@@ -38,30 +44,33 @@
     min-height: 74px;
     padding: 10px 12px 8px;
     width: 100%;
-    box-shadow: inset 0 3px 2px rgba(255,255,255,0.45);
+    box-shadow: inset 0 3px 2px rgba(255, 255, 255, 0.45);
 }
 
 .user span {
-  color: var(--text-inverted);
-  font-size: 22px;
-  font-weight: 700;
-  letter-spacing: -0.3px;
-  text-shadow:
-    1px 1px 0 rgba(0,0,0,0.35),
-    0 0 6px rgba(255,255,255,0.08);
+    color: var(--text-inverted);
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: -0.3px;
+    text-shadow:
+        1px 1px 0 rgba(0, 0, 0, 0.35),
+        0 0 6px rgba(255, 255, 255, 0.08);
 }
 
 .user img {
-  width: 52px;
-  height: 52px;
-  object-fit: cover;
-  border: 2px solid var(--xp-line-light);
-  border-radius: 6px;
-  box-shadow:
-    1px 1px 0 rgba(0,0,0,0.25),
-    inset 1px 1px 0 rgba(255,255,255,0.6);
+    width: 52px;
+    height: 52px;
+    object-fit: cover;
+    border: 2px solid var(--xp-line-light);
+    border-radius: 6px;
+    box-shadow:
+        1px 1px 0 rgba(0, 0, 0, 0.25),
+        inset 1px 1px 0 rgba(255, 255, 255, 0.6);
 }
 
+/* ─────────────────────────────────────────
+   Menu Body
+───────────────────────────────────────── */
 .menu {
     position: relative;
     flex: 1;
@@ -71,43 +80,45 @@
     margin-inline: 1px 3px;
     background:
         radial-gradient(
-        circle at 14% 0%,
-        var(--xp-highlight-soft) 0%,
-        transparent 58%
+            circle at 14% 0%,
+            var(--xp-highlight-soft) 0%,
+            transparent 58%
         );
-    border-top: 1px solid rgba(255,255,255,0.3);
+    border-top: 1px solid rgba(255, 255, 255, 0.3);
     box-shadow: 0 0px 3px var(--xp-shadow-soft);
 }
 
 .menu img {
     filter:
         drop-shadow(2px 2px 0 var(--xp-shadow-soft))
-        drop-shadow(-1px -1px 0 var(--xp-highlight-soft));     
+        drop-shadow(-1px -1px 0 var(--xp-highlight-soft));
 }
 
 .menu::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  z-index: 0;
-
-  background:
-    radial-gradient(
-      ellipse 140% 90% at 50% 42%,
-      var(--xp-menu-glow-center) 0%,
-      var(--xp-menu-glow-mid) 30%,
-      transparent 56%
-    ),
-    radial-gradient(
-      ellipse 160% 110% at 50% 42%,
-      transparent 0%,
-      transparent 60%,
-      var(--xp-menu-vignette) 80%,
-      var(--xp-menu-vignette-deep) 100%
-    );
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    background:
+        radial-gradient(
+            ellipse 140% 90% at 50% 42%,
+            var(--xp-menu-glow-center) 0%,
+            var(--xp-menu-glow-mid) 30%,
+            transparent 56%
+        ),
+        radial-gradient(
+            ellipse 160% 110% at 50% 42%,
+            transparent 0%,
+            transparent 60%,
+            var(--xp-menu-vignette) 80%,
+            var(--xp-menu-vignette-deep) 100%
+        );
 }
 
+/* ─────────────────────────────────────────
+   Left Column
+───────────────────────────────────────── */
 .menu-left,
 .menu-right {
     height: 100%;
@@ -124,6 +135,14 @@
     align-self: stretch;
 }
 
+.menu-left {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    padding: 6px 6px 0;
+    background: var(--xp-line-light);
+}
+
 .menu-left .menu-item,
 .menu-right .menu-item,
 .menu-item-link {
@@ -134,15 +153,6 @@
     border: 1px solid transparent;
     user-select: none;
 }
-
-.menu-left {
-    display: flex;
-    flex-direction: column;
-    gap: 0;
-    padding: 6px 6px 0;
-    background: var(--xp-line-light);
-}
-
 
 .menu-left .menu-item,
 .menu-item-link {
@@ -156,7 +166,7 @@
 .menu-item-link {
     padding: 4px 0 0;
     text-decoration: none;
-    color: inherit
+    color: inherit;
 }
 
 .menu-left .menu-item-detailed {
@@ -225,6 +235,9 @@
     );
 }
 
+/* ─────────────────────────────────────────
+   Right Column
+───────────────────────────────────────── */
 .menu-right {
     display: flex;
     flex-direction: column;
@@ -261,7 +274,6 @@
     height: auto;
     flex-shrink: 0;
     align-self: flex-start;
-    margin-top: -1px;
     margin-top: 0;
 }
 
@@ -278,6 +290,9 @@
     opacity: 0.6;
 }
 
+/* ─────────────────────────────────────────
+   Power Panel
+───────────────────────────────────────── */
 .power {
     width: 100%;
     display: flex;
@@ -305,18 +320,21 @@
 }
 
 .power-button:hover {
-    background: rgba(255,255,255,0.12);
+    background: rgba(255, 255, 255, 0.12);
     border-color: var(--xp-line-light);
 }
 
 .power-button img {
     width: 22px;
     height: auto;
-    filter: drop-shadow(1px 1px 0 rgba(255,255,255,0.4))
-            drop-shadow(-1px -1px 0 rgba(0,0,0,0.2));
+    filter:
+        drop-shadow(1px 1px 0 rgba(255, 255, 255, 0.4))
+        drop-shadow(-1px -1px 0 rgba(0, 0, 0, 0.2));
 }
 
-/* All Programs submenu */
+/* ─────────────────────────────────────────
+   All Programs Submenu
+───────────────────────────────────────── */
 .all-programs-menu {
     position: absolute;
     bottom: 0;
@@ -380,7 +398,7 @@
 .all-programs-menu .menu-item.is-disabled {
     color: var(--xp-disabled);
     /* pointer-events: none; */
-    cursor: url('../img//Prohibited.webp') 16 16, not-allowed;
+    cursor: url('../img/Prohibited.webp') 16 16, not-allowed;
 }
 
 .all-programs-menu .menu-item.is-disabled:hover {
@@ -389,7 +407,9 @@
     color: var(--xp-disabled);
 }
 
-/* Second submenu */
+/* ─────────────────────────────────────────
+   Nested Submenu
+───────────────────────────────────────── */
 .all-programs-menu .menu-item.has-submenu {
     position: relative;
 }

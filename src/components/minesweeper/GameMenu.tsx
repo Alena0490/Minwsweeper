@@ -1,35 +1,42 @@
-import { useState, useEffect, useRef  } from 'react'
-import { createPortal } from 'react-dom'
-import useSound from '../../hooks/useSound' 
-import type { BoardConfig } from '../../data/game'
-import { beginnerConfig, intermediateConfig, expertConfig } from '../../data/game'
-import About from './About'
-import BestTimes from './BestTimes'
-import Custom from './Custom'
-import './GameMenu.css'
+import { useState, useEffect, useRef } from 'react';
+import { createPortal } from 'react-dom';
+import useSound from '../../hooks/useSound';
+import type { BoardConfig } from '../../data/game';
+import { beginnerConfig, intermediateConfig, expertConfig } from '../../data/game';
+import About from './About';
+import BestTimes from './BestTimes';
+import Custom from './Custom';
+import './GameMenu.css';
 
 interface GameMenuProps {
-    onReset: (newLevel?: BoardConfig) => void
-    onMarksChange: (value: boolean) => void
-    level: BoardConfig
-    setLevel: (level: BoardConfig) => void
-
+    onReset: (newLevel?: BoardConfig) => void;
+    onMarksChange: (value: boolean) => void;
+    level: BoardConfig;
+    setLevel: (level: BoardConfig) => void;
     setIsMinimized: (value: boolean | ((prev: boolean) => boolean)) => void;
-    windowPosition: { x: number, y: number };
+    windowPosition: { x: number; y: number };
     soundEnabled: boolean;
     onSoundToggle: () => void;
 }
 
-const GameMenu = ({ onReset, onMarksChange, level, setLevel, setIsMinimized, windowPosition, soundEnabled, onSoundToggle }: GameMenuProps) => {
+const GameMenu = ({
+    onReset,
+    onMarksChange,
+    level,
+    setLevel,
+    setIsMinimized,
+    windowPosition,
+    soundEnabled,
+    onSoundToggle,
+}: GameMenuProps) => {
     const [openMenu, setOpenMenu] = useState<'game' | 'help' | null>(null);
     const [openModal, setOpenModal] = useState<'about' | 'times' | 'custom' | null>(null);
     const [marks, setMarks] = useState(true);
 
-    const { playStartMenu } = useSound(); 
-
+    const { playStartMenu } = useSound();
     const menuRef = useRef<HTMLElement>(null);
 
-    // Close menus on outside click
+    // Close menu on outside click
     useEffect(() => {
         const handleClickOutside = (e: MouseEvent) => {
             if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
@@ -46,186 +53,113 @@ const GameMenu = ({ onReset, onMarksChange, level, setLevel, setIsMinimized, win
             return !prev;
         });
         setOpenMenu(null);
-    }
+    };
 
-  return (
-    <menu 
-        className='game-menu'
-        ref={menuRef}
-      >
-        <ul>
-            <li 
-                onClick={() => setOpenMenu(openMenu === 'game' ? null : 'game')}
-            >
-                Game
-                <ul className={`submenu game ${openMenu === 'game' ? 'open' : ''}`}>
-                    <li 
-                        onClick={() => { 
-                            playStartMenu(); 
-                            onReset(); }
-                        }
-                    >
-                        New <span>F2</span>
-                    </li>
-                    <li className="separator" aria-hidden="true"></li>
-                    <li 
-                        className={level === beginnerConfig ? 'checked' : ''}
-                        onClick={() => { 
-                            playStartMenu(); 
-                            setLevel(beginnerConfig); 
-                            onReset(beginnerConfig); 
-                            setOpenMenu(null); }
-                        }
-                    >
-                        Beginner
-                    </li>
-                    <li 
-                        className={level === intermediateConfig ? 'checked' : ''}
-                        onClick={() => { 
-                            playStartMenu(); 
-                            setLevel(intermediateConfig); 
-                            onReset(intermediateConfig); 
-                            setOpenMenu(null); }
-                        }
-                    >
-                        Intermediate
-                    </li>
-                    <li 
-                        className={level === expertConfig ? 'checked' : ''}
-                        onClick={() => { 
-                            playStartMenu(); 
-                            setLevel(expertConfig); 
-                            onReset(expertConfig); 
-                            setOpenMenu(null); }
-                        }
-                    >
-                        Expert
-                    </li>
-                    <li 
-                        onClick={() => { 
-                            playStartMenu(); 
-                            setOpenModal('custom'); 
-                            setOpenMenu(null); }
-                        }
-                    >
-                        Custom
-                    </li>
-                    <li className="separator" aria-hidden="true"></li>
-                    <li 
-                        className={marks ? 'checked' : ''}
-                        onClick={() => { 
-                            playStartMenu(); 
-                            toggleMarks(); }
-                        }
-                    >
-                        Marks (?)
-                    </li>
-                    <li 
-                        className={soundEnabled ? 'checked' : ''}
-                        onClick={() => { 
-                            playStartMenu(); 
-                            onSoundToggle(); 
-                            setOpenMenu(null); }
-                        }
-                    >
-                        Sound
-                    </li>
-                    <li className="separator" aria-hidden="true"></li>
-                    <li 
-                        onClick={() => { 
-                            playStartMenu(); 
-                            setOpenModal('times'); 
-                            setOpenMenu(null); }
-                        }
-                    >
-                        Best Times
-                    </li>
-                    <li className="separator" aria-hidden="true"></li>
-                    <li 
-                        onClick={() => { 
-                            playStartMenu(); 
-                            setIsMinimized(true); 
-                            setOpenMenu(null); }
-                        }
-                    >
-                        Exit
-                    </li>
-                </ul>
-            </li>
-            
-            <li onClick={() => setOpenMenu(openMenu === 'help' ? null : 'help')}>
-                Help
-                <ul className={`submenu help ${openMenu === 'help' ? 'open' : ''}`}>
-                    <li 
-                        className="is-disabled" 
-                        aria-disabled="true"
-                    >
-                        Contents <span>F1</span>
-                    </li>
-                    <li 
-                        className="is-disabled" 
-                        aria-disabled="true"
-                    >
-                        Search for Help On...
-                    </li>
-                    <li 
-                        className="is-disabled" 
-                        aria-disabled="true"
-                    >
-                        Using Help
-                    </li>
-                    <li className="separator" aria-hidden="true"></li>
-                    <li 
-                        onClick={() => { 
-                            playStartMenu(); 
-                            setOpenModal('about'); 
-                            setOpenMenu(null); }
-                        }
-                    >
-                        About Minesweeper...
-                    </li>
-                </ul>
-            </li>
-        </ul>
-        {openModal === 'about' && createPortal(
-            <About 
-                onClose={() => setOpenModal(null)} 
-                style={{ 
-                    position: 'fixed',
-                    top: windowPosition.y + 145,
-                    left: windowPosition.x + 90,
-                }}
-            />,
-            document.body
-        )}
-        
-        {openModal === 'times' && createPortal(
-            <BestTimes 
-                onClose={() => setOpenModal(null)} 
-                style={{ 
-                    position: 'fixed',
-                    top: windowPosition.y + 145,
-                    left: windowPosition.x + 90,
-                }}
-            />,
-            document.body
-        )}
+    const modalStyle = {
+        position: 'fixed' as const,
+        top: windowPosition.y + 145,
+        left: windowPosition.x + 90,
+    };
 
-       {openModal === 'custom' && createPortal(
-        <Custom 
-            onClose={() => setOpenModal(null)} 
-            onReset={onReset}
-            setLevel={setLevel} 
-            style={{ 
-                position: 'fixed',
-                top: windowPosition.y + 150,
-                left: windowPosition.x + 90,
-            }}
-        />,
-        document.body
-        )}
-    </menu>
-  )
-}
+    return (
+        <menu
+            className='game-menu'
+            ref={menuRef}
+        >
+            <ul>
+                <li onClick={() => setOpenMenu(openMenu === 'game' ? null : 'game')}>
+                    Game
+                    <ul className={`submenu game ${openMenu === 'game' ? 'open' : ''}`}>
+                        <li onClick={() => { playStartMenu(); onReset(); }}>
+                            New <span>F2</span>
+                        </li>
+                        <li className='separator' aria-hidden='true'></li>
+                        <li
+                            className={level === beginnerConfig ? 'checked' : ''}
+                            onClick={() => { playStartMenu(); setLevel(beginnerConfig); onReset(beginnerConfig); setOpenMenu(null); }}
+                        >
+                            Beginner
+                        </li>
+                        <li
+                            className={level === intermediateConfig ? 'checked' : ''}
+                            onClick={() => { playStartMenu(); setLevel(intermediateConfig); onReset(intermediateConfig); setOpenMenu(null); }}
+                        >
+                            Intermediate
+                        </li>
+                        <li
+                            className={level === expertConfig ? 'checked' : ''}
+                            onClick={() => { playStartMenu(); setLevel(expertConfig); onReset(expertConfig); setOpenMenu(null); }}
+                        >
+                            Expert
+                        </li>
+                        <li onClick={() => { playStartMenu(); setOpenModal('custom'); setOpenMenu(null); }}>
+                            Custom
+                        </li>
+                        <li className='separator' aria-hidden='true'></li>
+                        <li
+                            className={marks ? 'checked' : ''}
+                            onClick={() => { playStartMenu(); toggleMarks(); }}
+                        >
+                            Marks (?)
+                        </li>
+                        <li
+                            className={soundEnabled ? 'checked' : ''}
+                            onClick={() => { playStartMenu(); onSoundToggle(); setOpenMenu(null); }}
+                        >
+                            Sound
+                        </li>
+                        <li className='separator' aria-hidden='true'></li>
+                        <li onClick={() => { playStartMenu(); setOpenModal('times'); setOpenMenu(null); }}>
+                            Best Times
+                        </li>
+                        <li className='separator' aria-hidden='true'></li>
+                        <li onClick={() => { playStartMenu(); setIsMinimized(true); setOpenMenu(null); }}>
+                            Exit
+                        </li>
+                    </ul>
+                </li>
 
-export default GameMenu
+                <li onClick={() => setOpenMenu(openMenu === 'help' ? null : 'help')}>
+                    Help
+                    <ul className={`submenu help ${openMenu === 'help' ? 'open' : ''}`}>
+                        <li className='is-disabled' aria-disabled='true'>
+                            Contents <span>F1</span>
+                        </li>
+                        <li className='is-disabled' aria-disabled='true'>
+                            Search for Help On...
+                        </li>
+                        <li className='is-disabled' aria-disabled='true'>
+                            Using Help
+                        </li>
+                        <li className='separator' aria-hidden='true'></li>
+                        <li onClick={() => { playStartMenu(); setOpenModal('about'); setOpenMenu(null); }}>
+                            About Minesweeper...
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+
+            {openModal === 'about' && createPortal(
+                <About onClose={() => setOpenModal(null)} style={modalStyle} />,
+                document.body
+            )}
+
+            {openModal === 'times' && createPortal(
+                <BestTimes onClose={() => setOpenModal(null)} style={modalStyle} />,
+                document.body
+            )}
+
+            {openModal === 'custom' && createPortal(
+                <Custom
+                    onClose={() => setOpenModal(null)}
+                    onReset={onReset}
+                    setLevel={setLevel}
+                    style={{ ...modalStyle, top: windowPosition.y + 150 }}
+                />,
+                document.body
+            )}
+        </menu>
+    );
+};
+
+export default GameMenu;

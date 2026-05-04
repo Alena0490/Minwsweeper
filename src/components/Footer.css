@@ -1,22 +1,31 @@
+/* ─────────────────────────────────────────
+   Taskbar
+───────────────────────────────────────── */
 footer {
-  width: 100%;
-  height: 30px;
-  /* padding: 0 4px 0 0; */
-  position: fixed;
-  bottom: 0;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  background: linear-gradient(to bottom, var(--xp-taskbar-top), var(--xp-taskbar-bottom));
-  box-shadow: inset 0 3px 2px rgba(255,255,255,0.45);
+    width: 100%;
+    height: 30px;
+    /* padding: 0 4px 0 0; */
+    position: fixed;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: linear-gradient(to bottom, var(--xp-taskbar-top), var(--xp-taskbar-bottom));
+    box-shadow: inset 0 3px 2px rgba(255, 255, 255, 0.45);
 }
 
+/* ─────────────────────────────────────────
+   Left Menu
+───────────────────────────────────────── */
 .left-menu {
-  display: flex;
-  align-items: center;
-  gap: 6px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
 }
 
+/* ─────────────────────────────────────────
+   Start Button
+───────────────────────────────────────── */
 .start {
     position: relative;
     bottom: 0;
@@ -31,8 +40,8 @@ footer {
     background: linear-gradient(to bottom, var(--xp-start-top), var(--xp-start-bottom));
     border-radius: 0 10px 10px 0;
     box-shadow:
-        inset 0 3px 2px rgba(255,255,255,0.5),
-        inset -1px -1px 0 rgba(0,0,0,0.25);
+        inset 0 3px 2px rgba(255, 255, 255, 0.5),
+        inset -1px -1px 0 rgba(0, 0, 0, 0.25);
 }
 
 footer img {
@@ -40,25 +49,24 @@ footer img {
     height: auto;
 }
 
-
-/* tlačítko aplikace */
+/* ─────────────────────────────────────────
+   Taskbar Item
+───────────────────────────────────────── */
 .taskbar-item {
     display: flex;
     align-items: center;
     gap: 6px;
-    height: 28px; /* XP standard */
+    height: 28px;
     max-width: 150px;
     padding: 0 8px;
     border-radius: 2px;
     cursor: default;
     font-size: 11px;
     color: var(--text-inverted);
-    
-    /* modrý gradient pro tlačítka */
     background: linear-gradient(to bottom, #3c81f3 0%, #245edb 12%, #245edb 100%);
-    box-shadow: 
-        inset 1px 1px 1px rgba(255,255,255,0.3),
-        1px 1px 1px rgba(0,0,0,0.3);
+    box-shadow:
+        inset 1px 1px 1px rgba(255, 255, 255, 0.3),
+        1px 1px 1px rgba(0, 0, 0, 0.3);
     z-index: 1;
 }
 
@@ -69,34 +77,41 @@ footer img {
         var(--xp-taskbar-bottom) 100%
     );
     box-shadow:
-        inset 1px 1px 2px rgba(0,0,0,0.35),
-        inset -1px -1px 0 rgba(255,255,255,0.15);
+        inset 1px 1px 2px rgba(0, 0, 0, 0.35),
+        inset -1px -1px 0 rgba(255, 255, 255, 0.15);
 }
 
-.menu-item {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  height: 28px;
-  padding: 0 8px;
-  cursor: default;
-  font-size: 11px;
-  color: var(--text-inverted);
+.taskbar-item span {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-family: 'Tahoma', sans-serif;
 }
 
-.menu-item img, 
-.taskbar-item img {
+.taskbar-item img,
+.menu-item img {
     width: 18px;
     height: auto;
     image-rendering: pixelated;
 }
 
-.taskbar-item span {
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  font-family: 'Tahoma', sans-serif;
+/* ─────────────────────────────────────────
+   Menu Item
+───────────────────────────────────────── */
+.menu-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    height: 28px;
+    padding: 0 8px;
+    cursor: default;
+    font-size: 11px;
+    color: var(--text-inverted);
 }
+
+/* ─────────────────────────────────────────
+   Right Panel / Clock
+───────────────────────────────────────── */
 .right-panel.taskbar-item {
     margin-right: 0;
     height: 100%;
@@ -108,20 +123,21 @@ footer img {
     font-size: 14px;
     font-weight: 500;
     color: var(--text-inverted);
-    text-shadow: 1px 1px 0 rgba(0,0,0,0.35);
+    text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.35);
 }
 
+/* ─────────────────────────────────────────
+   Start Menu Animation
+───────────────────────────────────────── */
 .start-menu {
     position: absolute;
     bottom: 100%;
     left: 0;
     z-index: 10;
-
     transform: translateY(8px);
     opacity: 0;
     visibility: hidden;
     pointer-events: none;
-
     transition:
         transform 0.14s ease-out,
         opacity 0.12s linear,
@@ -133,7 +149,6 @@ footer img {
     opacity: 1;
     visibility: visible;
     pointer-events: auto;
-
     transition:
         transform 0.14s ease-out,
         opacity 0.12s linear,

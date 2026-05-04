@@ -1,10 +1,10 @@
-import type { CellData } from "../../data/game";
-import './OneGame.css'
-import Field from './Field'
-import GameFace from '../../img/smile.png'
-import WinFace from '../../img/win.png'
-import LoseFace from '../../img/dead.png'
-import OhFace from '../../img/ohh.png'
+import type { CellData } from '../../data/game';
+import './OneGame.css';
+import Field from './Field';
+import GameFace from '../../img/smile.png';
+import WinFace from '../../img/win.png';
+import LoseFace from '../../img/dead.png';
+import OhFace from '../../img/ohh.png';
 
 interface OneGameProps {
     board: CellData[][];
@@ -20,36 +20,51 @@ interface OneGameProps {
     deathId: string | null;
 }
 
-const OneGame = ({ board, time, mines, gameState, handleReset, setGameState, isPressed, setIsPressed, onFlag, onOpen, deathId }: OneGameProps) => {
+const OneGame = ({
+    board,
+    time,
+    mines,
+    gameState,
+    handleReset,
+    setGameState,
+    isPressed,
+    setIsPressed,
+    onFlag,
+    onOpen,
+    deathId,
+}: OneGameProps) => {
     const getFace = () => {
-        if (isPressed) return <img src={OhFace} alt="Oh" />;
-        if (gameState === 'won') return <img src={WinFace} alt="Win" />;
-        if (gameState === 'lost') return <img src={LoseFace} alt="Lose" />;
-        return <img src={GameFace} alt="Smile" />;
+        if (isPressed) return <img src={OhFace} alt='Oh' />;
+        if (gameState === 'won') return <img src={WinFace} alt='Win' />;
+        if (gameState === 'lost') return <img src={LoseFace} alt='Lose' />;
+        return <img src={GameFace} alt='Smile' />;
     };
-    
-  return (
-    <div className="game-field">
-        <div className="status-panel-outer">
-            <div className="status-panel">
-                <output className='counter'>
-                    <span>
-                        {String(mines < 0 ? mines : Math.abs(mines)).padStart(3, '0').split('').map((digit, i) => (
-                            <span className="digit" key={i}>{digit}</span>
-                        ))}
-                    </span>
-                </output>
-                <button className='face-button' onClick={() => handleReset()}>{getFace()}</button>
-                <output className='counter'>
-                    <span>
-                        {String(time).padStart(3, '0').split('').map((digit, i) => (
-                            <span className="digit" key={i}>{digit}</span>
-                        ))}
-                    </span>
-                </output>
+
+    const formatCounter = (value: number) =>
+        String(Math.abs(value)).padStart(3, '0').split('').map((digit, i) => (
+            <span className='digit' key={i}>{digit}</span>
+        ));
+
+    return (
+        <div className='game-field'>
+            <div className='status-panel-outer'>
+                <div className='status-panel'>
+                    <output className='counter'>
+                        <span>{formatCounter(mines)}</span>
+                    </output>
+                    <button
+                        type='button'
+                        className='face-button'
+                        onClick={handleReset}
+                    >
+                        {getFace()}
+                    </button>
+                    <output className='counter'>
+                        <span>{formatCounter(time)}</span>
+                    </output>
+                </div>
             </div>
-        </div>
-            <Field 
+            <Field
                 board={board}
                 onFlag={onFlag}
                 onOpen={onOpen}
@@ -58,8 +73,8 @@ const OneGame = ({ board, time, mines, gameState, handleReset, setGameState, isP
                 setGameState={setGameState}
                 deathId={deathId}
             />
-    </div>
-  );
+        </div>
+    );
 };
 
-export default OneGame
+export default OneGame;

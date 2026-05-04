@@ -1,10 +1,10 @@
-import { useState, useRef } from 'react'
+import { useState, useRef } from 'react';
 import useDraggable from '../../hooks/useDraggable';
 import NotepadMenu from './NotepadMenu';
-import NotepadApp from './NotepadApp'
-import NotepadIcon from '../../img/Notepad.webp'
-import './Notepad.css'
-import '../../App.css'
+import NotepadApp from './NotepadApp';
+import NotepadIcon from '../../img/Notepad.webp';
+import './Notepad.css';
+import '../../App.css';
 
 interface NotepadProps {
     onClose: () => void;
@@ -12,16 +12,16 @@ interface NotepadProps {
     setIsMinimized: (value: boolean | ((prev: boolean) => boolean)) => void;
     isFullscreen: boolean;
     toggleFullscreen: () => void;
-    onMouseDown?: () => void
+    onMouseDown?: () => void;
 }
 
 const Notepad = ({
-    onClose, 
-    isMinimized, 
-    setIsMinimized, 
-    isFullscreen, 
+    onClose,
+    isMinimized,
+    setIsMinimized,
+    isFullscreen,
     toggleFullscreen,
-    onMouseDown
+    onMouseDown,
 }: NotepadProps) => {
     const { position, handleMouseDown } = useDraggable(400, 150);
     const [showStatusBar, setShowStatusBar] = useState(true);
@@ -39,24 +39,24 @@ const Notepad = ({
 
     const handleSaveFromMenu = () => {
         if (savedName) {
-            const text = textareaRef.current?.value ?? ''
-            const blob = new Blob([text], { type: 'text/plain' })
-            const a = document.createElement('a')
-            a.download = savedName
-            a.href = URL.createObjectURL(blob)
-            a.click()
-            URL.revokeObjectURL(a.href)
+            const text = textareaRef.current?.value ?? '';
+            const blob = new Blob([text], { type: 'text/plain' });
+            const a = document.createElement('a');
+            a.download = savedName;
+            a.href = URL.createObjectURL(blob);
+            a.click();
+            URL.revokeObjectURL(a.href);
         } else {
-            setSaveAsOpen(true)
+            setSaveAsOpen(true);
         }
-    }
- 
+    };
+
     return (
         <div
             className={[
                 'app-window',
                 'notepad-window',
-                isMinimized && 'notepad--minimized', 
+                isMinimized && 'notepad--minimized',
                 isMinimized && 'app-window--minimized',
                 isFullscreen && 'notepad--fullscreen',
                 isFullscreen && 'app-window--fullscreen',
@@ -66,39 +66,40 @@ const Notepad = ({
         >
             <div className='title-bar' onMouseDown={handleMouseDown}>
                 <span className='title-bar-text'>
-                    <img className='notepad-icon' src={NotepadIcon} alt="MS Notepad Icon" />
+                    <img className='notepad-icon' src={NotepadIcon} alt='MS Notepad Icon' />
                     {fileName.replace('.txt', '')} - Notepad
                 </span>
-                <div className="title-bar-buttons xp-title-controls">
+                <div className='title-bar-buttons xp-title-controls'>
                     <button
-                        className="xp-title-control btn-minimize"
+                        type='button'
+                        className='xp-title-control btn-minimize'
                         onClick={() => setIsMinimized(true)}
-                        type="button"
-                        aria-label="Minimize"
+                        aria-label='Minimize'
                     >
                         _
                     </button>
                     <button
+                        type='button'
                         className={`xp-title-control ${isFullscreen ? 'btn-restore' : 'btn-maximize'}`}
                         onClick={() => {
                             setIsMinimized(false);
                             toggleFullscreen();
                         }}
-                        type="button"
                         aria-label={isFullscreen ? 'Restore' : 'Maximize'}
                     >
                         {isFullscreen ? '❐' : '□'}
                     </button>
                     <button
-                        className="xp-title-control btn-close"
+                        type='button'
+                        className='xp-title-control btn-close'
                         onClick={onClose}
-                        type="button"
-                        aria-label="Close"
+                        aria-label='Close'
                     >
                         ✕
                     </button>
                 </div>
             </div>
+
             <NotepadMenu
                 windowPosition={position}
                 onClose={onClose}
@@ -115,6 +116,7 @@ const Notepad = ({
                 canUndo={canUndo}
                 canRedo={canRedo}
             />
+
             <NotepadApp
                 showStatusBar={showStatusBar}
                 wordWrap={wordWrap}
@@ -125,18 +127,18 @@ const Notepad = ({
                 fileName={fileName}
                 setFileName={setFileName}
                 onSaved={(name) => {
-                    setFileName(name)
-                    setSavedName(name)
+                    setFileName(name);
+                    setSavedName(name);
                 }}
                 undoRef={undoRef}
                 redoRef={redoRef}
                 onHistoryChange={(canUndo, canRedo) => {
-                    setCanUndo(canUndo)
-                    setCanRedo(canRedo)
+                    setCanUndo(canUndo);
+                    setCanRedo(canRedo);
                 }}
             />
         </div>
-    )
-}
+    );
+};
 
-export default Notepad
+export default Notepad;

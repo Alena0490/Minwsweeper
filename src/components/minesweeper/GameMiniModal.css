@@ -1,13 +1,16 @@
+/* ─────────────────────────────────────────
+   Mini Modal
+───────────────────────────────────────── */
 .mini-modal {
     position: fixed;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     max-width: 210px;
+    width: 220px;
     display: flex;
     flex-direction: column;
-    width: 220px;
-    background: #efefef; 
+    background: #efefef;
     box-shadow: 5px 5px 0 var(--xp-shadow-light);
     border-radius: 6px;
     overflow: hidden;
@@ -41,6 +44,9 @@
     padding: 0;
 }
 
+/* ─────────────────────────────────────────
+   Main Text
+───────────────────────────────────────── */
 .main-text {
     display: flex;
     flex-direction: column;
@@ -50,9 +56,16 @@
     /* background: var(--xp-surface); */
 }
 
+/* ─────────────────────────────────────────
+   About Dialog
+───────────────────────────────────────── */
+#about {
+    max-width: 205px;
+}
+
 #about .main-text {
-    gap: 8px;
-    padding: 22px 14px 12px;
+    gap: 10px;
+    padding: 26px 14px 12px;
 }
 
 #about .main-text p {
@@ -62,6 +75,25 @@
     color: var(--text-soft);
 }
 
+#about a {
+    color: #3366cc;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+#about a:hover {
+    color: #6699ff;
+    text-decoration: none;
+}
+
+#about a:focus-visible {
+    outline: 1px dotted #000;
+    outline-offset: 2px;
+}
+
+/* ─────────────────────────────────────────
+   Buttons
+───────────────────────────────────────── */
 .set-buttons {
     display: flex;
     justify-content: center;
@@ -74,16 +106,20 @@
     min-width: 72px;
     height: 30px;
     padding: 0 14px;
-     border: 1.5px solid var(--border-middle); 
+    border: 1.5px solid var(--border-middle);
     border-radius: 10px;
     background: linear-gradient(to bottom, #fafafa, #f0f0f0);
-    font: 700 12px Tahoma, sans-serif;
+    font-size: 12px;
+    font-weight: 700;
     color: #333;
     box-shadow:
-      inset 0 1px 0 rgba(255,255,255,0.9),
-      0 1px 0 rgba(0,0,0,0.05);
+        inset 0 1px 0 rgba(255, 255, 255, 0.9),
+        0 1px 0 rgba(0, 0, 0, 0.05);
 }
 
+/* ─────────────────────────────────────────
+   Times Dialog
+───────────────────────────────────────── */
 #times .main-text {
     color: var(--text-soft);
 }
@@ -110,12 +146,15 @@
     font-weight: 600;
 }
 
-.underline{
+.underline {
     text-decoration: underline;
     text-underline-offset: 2px;
     text-decoration-thickness: 1.5px;
 }
 
+/* ─────────────────────────────────────────
+   Custom Dialog
+───────────────────────────────────────── */
 #custom ul {
     list-style: none;
     margin: 0;
@@ -134,41 +173,13 @@
 #custom input {
     width: 42px;
     height: 24px;
-
     border: 2px solid;
     border-top-color: #7a7a7a;
     border-left-color: #7a7a7a;
-    border-right-color: #ffffff;
-    border-bottom-color: #ffffff;
-
+    border-right-color: var(--xp-line-light);
+    border-bottom-color: var(--xp-line-light);
     background: #f3f3f3;
     text-align: center;
-
-    font: 700 13px Tahoma, sans-serif;
+    font-size: 13px;
+    font-weight: 700;
 }
-
-#about {
-   max-width: 205px;
-}
-
-#about .main-text {
-    gap: 10px;
-    padding-top: 26px;
-}
-
-#about a {
-  color: #3366cc;
-  font-weight: 600;
-  text-decoration: none;
-}
-
-#about a:hover {
-  color: #6699ff;
-  text-decoration: none;
-}
-
-#about a:focus-visible {
-  outline: 1px dotted #000;
-  outline-offset: 2px;
-}
-

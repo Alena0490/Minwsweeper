@@ -1,13 +1,13 @@
-import { useState } from 'react'
+import { useState } from 'react';
 import useDraggable from '../../hooks/useDraggable';
-import './FindReplaceModal.css'
-import '../../App.css'
+import './FindReplaceModal.css';
+import '../../App.css';
 
 interface DraggableDialogProps {
     onClose: () => void;
     style?: React.CSSProperties;
     textareaRef: React.RefObject<HTMLTextAreaElement | null>;
-    mode: 'find' | 'replace'
+    mode: 'find' | 'replace';
 }
 
 const FindReplaceModal = ({ style, onClose, textareaRef, mode }: DraggableDialogProps) => {
@@ -27,80 +27,80 @@ const FindReplaceModal = ({ style, onClose, textareaRef, mode }: DraggableDialog
     const [wrapAround, setWrapAround] = useState(true);
     const [direction, setDirection] = useState<'up' | 'down'>('down');
 
-    // Find
+    // Find next occurrence of search text
     const handleFindNext = () => {
-        const el = textareaRef.current
-        if (!el || !findText) return
-        const content = matchCase ? el.value : el.value.toLowerCase()
-        const search = matchCase ? findText : findText.toLowerCase()
-        const start = el.selectionEnd ?? 0
-        let index = content.indexOf(search, start)
-        if (index === -1 && wrapAround) index = content.indexOf(search, 0)
+        const el = textareaRef.current;
+        if (!el || !findText) return;
+        const content = matchCase ? el.value : el.value.toLowerCase();
+        const search = matchCase ? findText : findText.toLowerCase();
+        const start = el.selectionEnd ?? 0;
+        let index = content.indexOf(search, start);
+        if (index === -1 && wrapAround) index = content.indexOf(search, 0);
         if (index === -1) {
-            alert(`Cannot find "${findText}"`)
-            return
+            alert(`Cannot find "${findText}"`);
+            return;
         }
-        el.setSelectionRange(index, index + search.length)
-        el.focus()
-    }
+        el.setSelectionRange(index, index + search.length);
+        el.focus();
+    };
 
-    // Replace
+    // Replace current selection if it matches, then find next
     const handleReplace = () => {
-        const el = textareaRef.current
-        if (!el || !findText) return
-        const selected = el.value.slice(el.selectionStart, el.selectionEnd)
-        const matches = matchCase ? selected === findText : selected.toLowerCase() === findText.toLowerCase()
+        const el = textareaRef.current;
+        if (!el || !findText) return;
+        const selected = el.value.slice(el.selectionStart, el.selectionEnd);
+        const matches = matchCase ? selected === findText : selected.toLowerCase() === findText.toLowerCase();
         if (matches) {
-            const start = el.selectionStart
-            const end = el.selectionEnd
-            const newValue = el.value.slice(0, start) + replaceText + el.value.slice(end)
-            const nativeInputValueSetter = Object.getOwnPropertyDescriptor(window.HTMLTextAreaElement.prototype, 'value')?.set
-            nativeInputValueSetter?.call(el, newValue)
-            el.dispatchEvent(new Event('input', { bubbles: true }))
+            const start = el.selectionStart;
+            const end = el.selectionEnd;
+            const newValue = el.value.slice(0, start) + replaceText + el.value.slice(end);
+            const nativeInputValueSetter = Object.getOwnPropertyDescriptor(window.HTMLTextAreaElement.prototype, 'value')?.set;
+            nativeInputValueSetter?.call(el, newValue);
+            el.dispatchEvent(new Event('input', { bubbles: true }));
         }
-        handleFindNext()
-    }
+        handleFindNext();
+    };
 
-    // Replace All
+    // Replace all occurrences
     const handleReplaceAll = () => {
-        const el = textareaRef.current
-        if (!el || !findText) return
-        const flags = matchCase ? 'g' : 'gi'
-        const escaped = findText.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
-        const newValue = el.value.replace(new RegExp(escaped, flags), replaceText)
-        const nativeInputValueSetter = Object.getOwnPropertyDescriptor(window.HTMLTextAreaElement.prototype, 'value')?.set
-        nativeInputValueSetter?.call(el, newValue)
-        el.dispatchEvent(new Event('input', { bubbles: true }))
-        el.focus()
-    }
+        const el = textareaRef.current;
+        if (!el || !findText) return;
+        const flags = matchCase ? 'g' : 'gi';
+        const escaped = findText.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+        const newValue = el.value.replace(new RegExp(escaped, flags), replaceText);
+        const nativeInputValueSetter = Object.getOwnPropertyDescriptor(window.HTMLTextAreaElement.prototype, 'value')?.set;
+        nativeInputValueSetter?.call(el, newValue);
+        el.dispatchEvent(new Event('input', { bubbles: true }));
+        el.focus();
+    };
 
     return (
         <div
-            className="app-window find-replace-dialog"
+            className='app-window find-replace-dialog'
             style={{ left: position.x, top: position.y }}
             tabIndex={-1}
         >
-            <div className="title-bar" onMouseDown={handleMouseDown}>
-                <span className="title-bar-text">{mode === 'find' ? 'Find' : 'Replace'}</span>
-                <div className="title-bar-buttons xp-title-controls">
+            <div className='title-bar' onMouseDown={handleMouseDown}>
+                <span className='title-bar-text'>{mode === 'find' ? 'Find' : 'Replace'}</span>
+                <div className='title-bar-buttons xp-title-controls'>
                     <button
-                        type="button"
-                        className="xp-title-control btn-close"
+                        type='button'
+                        className='xp-title-control btn-close'
                         onClick={onClose}
-                        aria-label="Close"
+                        aria-label='Close'
                     >
                         ✕
                     </button>
                 </div>
             </div>
 
-            <div className="find-replace-body">
-                <div className="find-replace-fields">
-                    <div className="find-replace-row">
-                        <label htmlFor="find-input">Find what:</label>
+            <div className='find-replace-body'>
+                <div className='find-replace-fields'>
+                    <div className='find-replace-row'>
+                        <label htmlFor='find-input'>Find what:</label>
                         <input
-                            id="find-input"
-                            type="text"
+                            id='find-input'
+                            type='text'
                             value={findText}
                             onChange={e => setFindText(e.target.value)}
                             autoFocus
@@ -108,23 +108,23 @@ const FindReplaceModal = ({ style, onClose, textareaRef, mode }: DraggableDialog
                     </div>
 
                     {mode === 'replace' && (
-                        <div className="find-replace-row">
-                            <label htmlFor="replace-input">Replace with:</label>
+                        <div className='find-replace-row'>
+                            <label htmlFor='replace-input'>Replace with:</label>
                             <input
-                                id="replace-input"
-                                type="text"
+                                id='replace-input'
+                                type='text'
                                 value={replaceText}
                                 onChange={e => setReplaceText(e.target.value)}
                             />
                         </div>
                     )}
 
-                    <div className="find-replace-lower">
-                        <div className="find-replace-checks">
-                            <label className="find-replace-checkbox" htmlFor="match-case">
+                    <div className='find-replace-lower'>
+                        <div className='find-replace-checks'>
+                            <label className='find-replace-checkbox' htmlFor='match-case'>
                                 <input
-                                    id="match-case"
-                                    type="checkbox"
+                                    id='match-case'
+                                    type='checkbox'
                                     checked={matchCase}
                                     onChange={e => setMatchCase(e.target.checked)}
                                 />
@@ -132,10 +132,10 @@ const FindReplaceModal = ({ style, onClose, textareaRef, mode }: DraggableDialog
                             </label>
 
                             {mode === 'find' && (
-                                <label className="find-replace-checkbox" htmlFor="wrap-around">
+                                <label className='find-replace-checkbox' htmlFor='wrap-around'>
                                     <input
-                                        id="wrap-around"
-                                        type="checkbox"
+                                        id='wrap-around'
+                                        type='checkbox'
                                         checked={wrapAround}
                                         onChange={e => setWrapAround(e.target.checked)}
                                     />
@@ -145,14 +145,14 @@ const FindReplaceModal = ({ style, onClose, textareaRef, mode }: DraggableDialog
                         </div>
 
                         {mode === 'find' && (
-                            <div className="find-replace-direction">
+                            <div className='find-replace-direction'>
                                 <span>Direction</span>
-                                <div className="direction-labels">
+                                <div className='direction-labels'>
                                     <label>
                                         <input
-                                            type="radio"
-                                            name="direction"
-                                            value="up"
+                                            type='radio'
+                                            name='direction'
+                                            value='up'
                                             checked={direction === 'up'}
                                             onChange={() => setDirection('up')}
                                         />
@@ -160,9 +160,9 @@ const FindReplaceModal = ({ style, onClose, textareaRef, mode }: DraggableDialog
                                     </label>
                                     <label>
                                         <input
-                                            type="radio"
-                                            name="direction"
-                                            value="down"
+                                            type='radio'
+                                            name='direction'
+                                            value='down'
                                             checked={direction === 'down'}
                                             onChange={() => setDirection('down')}
                                         />
@@ -174,15 +174,46 @@ const FindReplaceModal = ({ style, onClose, textareaRef, mode }: DraggableDialog
                     </div>
                 </div>
 
-                <div className="find-replace-actions">
-                    <button type="button" className="find-replace-btn" onClick={handleFindNext} disabled={!findText}>Find Next</button>
-                    {mode === 'replace' && <button type="button" className="find-replace-btn" onClick={handleReplace} disabled={!findText}>Replace</button>}
-                    {mode === 'replace' && <button type="button" className="find-replace-btn" onClick={handleReplaceAll} disabled={!findText}>Replace All</button>}
-                    <button type="button" className="find-replace-btn" onClick={onClose}>Cancel</button>
+                <div className='find-replace-actions'>
+                    <button
+                        type='button'
+                        className='find-replace-btn'
+                        onClick={handleFindNext}
+                        disabled={!findText}
+                    >
+                        Find Next
+                    </button>
+                    {mode === 'replace' && (
+                        <button
+                            type='button'
+                            className='find-replace-btn'
+                            onClick={handleReplace}
+                            disabled={!findText}
+                        >
+                            Replace
+                        </button>
+                    )}
+                    {mode === 'replace' && (
+                        <button
+                            type='button'
+                            className='find-replace-btn'
+                            onClick={handleReplaceAll}
+                            disabled={!findText}
+                        >
+                            Replace All
+                        </button>
+                    )}
+                    <button
+                        type='button'
+                        className='find-replace-btn'
+                        onClick={onClose}
+                    >
+                        Cancel
+                    </button>
                 </div>
             </div>
         </div>
-    )
-}
+    );
+};
 
-export default FindReplaceModal
+export default FindReplaceModal;

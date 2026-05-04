@@ -1,3 +1,6 @@
+/* ─────────────────────────────────────────
+   Shutdown Overlay
+───────────────────────────────────────── */
 .shutdown-overlay {
     position: fixed;
     inset: 0;
@@ -8,7 +11,7 @@
 }
 
 .shutdown-overlay::before {
-    content: "";
+    content: '';
     position: fixed;
     inset: 0;
     pointer-events: none;
@@ -22,6 +25,9 @@
     animation: none;
 }
 
+/* ─────────────────────────────────────────
+   Shutdown Modal
+───────────────────────────────────────── */
 .shutdown-modal {
     position: relative;
     width: 450px;
@@ -35,6 +41,9 @@
     transition: opacity 350ms ease;
 }
 
+/* ─────────────────────────────────────────
+   Top & Bottom Bars
+───────────────────────────────────────── */
 .shutdown-top,
 .shutdown-bottom {
     min-height: 54px;
@@ -56,6 +65,9 @@
     font-weight: 400;
 }
 
+/* ─────────────────────────────────────────
+   Logo
+───────────────────────────────────────── */
 .logo-wrap {
     position: relative;
     display: flex;
@@ -79,6 +91,9 @@
     text-shadow: 2px 3px 4px var(--title-bar);
 }
 
+/* ─────────────────────────────────────────
+   Middle — Action Buttons
+───────────────────────────────────────── */
 .shutdown-middle {
     min-height: 175px;
     display: flex;
@@ -121,6 +136,9 @@
     filter: brightness(1.2);
 }
 
+/* ─────────────────────────────────────────
+   Bottom — Cancel Button
+───────────────────────────────────────── */
 .shutdown-bottom {
     display: flex;
     justify-content: flex-end;
@@ -137,21 +155,21 @@
         var(--xp-line-light) 0%,
         var(--xp-surface) 100%
     );
-
     border: 1px solid var(--xp-line-deep);
     border-radius: 3px;
-
     box-shadow:
         inset 1px 1px 0 var(--xp-line-light),
         0 2px 0 color-mix(in srgb, var(--xp-menu-right-bottom) 55%, transparent);
 }
 
+/* ─────────────────────────────────────────
+   Animations
+───────────────────────────────────────── */
 @keyframes shutdownBackdrop {
     from {
         background: rgba(0, 0, 0, 0);
         backdrop-filter: grayscale(0);
     }
-
     to {
         background: rgba(0, 0, 0, 0.25);
         backdrop-filter: grayscale(1);

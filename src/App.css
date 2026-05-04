@@ -1,10 +1,16 @@
+/* ─────────────────────────────────────────
+   App Root
+───────────────────────────────────────── */
 .app {
-  width: 100%;
-  height: 100vh;
-  position: relative;
-  z-index: 1;
+    width: 100%;
+    height: 100vh;
+    position: relative;
+    z-index: 1;
 }
 
+/* ─────────────────────────────────────────
+   App Window
+───────────────────────────────────────── */
 .app-window {
     position: absolute;
     display: flex;
@@ -55,6 +61,9 @@
     z-index: 10;
 }
 
+/* ─────────────────────────────────────────
+   Title Bar
+───────────────────────────────────────── */
 .title-bar {
     display: flex;
     align-items: center;
@@ -67,138 +76,136 @@
 }
 
 .calculator-window .title-bar {
-  height: 26px;
-  font-size: 14px;
-}
-
-.title-bar-text {
-    color: #fff;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    text-shadow: 0 1px 0 rgba(0, 0, 0, 0.35);
-    line-height: 1;
+    height: 26px;
+    font-size: 14px;
 }
 
 .title-bar-text {
     display: inline-flex;
     align-items: center;
     line-height: 1;
-    text-shadow: 1px 1px 0 rgba(0,0,0,0.35);
+    color: #fff;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.35);
 }
 
-.title-bar-buttons button:hover {
-  filter: brightness(1.05);
-}
-
+/* ─────────────────────────────────────────
+   Title Bar Buttons
+───────────────────────────────────────── */
 .title-bar-buttons {
-  display: flex;
-  gap: 2px;
+    display: flex;
+    gap: 2px;
 }
 
 .title-bar-buttons button {
-  width: 21px;
-  height: 21px;
-  padding: 0;
-  border: 1px solid var(--background);
-  border-radius: 3px;
-  color: white;
-  font: bold 11px Tahoma, sans-serif;
-  line-height: 1;
-  background: linear-gradient(to bottom, #9CC2FF, #2B74E3);
-  box-shadow:
-    /* inset 1px 1px 0 rgba(255,255,255,0.7), */
-    inset -1px -1px 0 rgba(0,0,0,0.25);
+    width: 21px;
+    height: 21px;
+    padding: 0;
+    border: 1px solid var(--background);
+    border-radius: 3px;
+    color: white;
+    font: bold 11px Tahoma, sans-serif;
+    line-height: 1;
+    background: linear-gradient(to bottom, #9CC2FF, #2B74E3);
+    box-shadow:
+        /* inset 1px 1px 0 rgba(255,255,255,0.7), */
+        inset -1px -1px 0 rgba(0, 0, 0, 0.25);
+}
+
+.title-bar-buttons button:hover {
+    filter: brightness(1.05);
 }
 
 .title-bar-buttons button:active {
-  background: linear-gradient(to bottom, #2B74E3, #9CC2FF);
-
-  box-shadow:
-    inset 1px 1px 0 rgba(0,0,0,0.4),
-    inset -1px -1px 0 rgba(255,255,255,0.6);
-
-  transform: translate(1px, 1px);
+    background: linear-gradient(to bottom, #2B74E3, #9CC2FF);
+    box-shadow:
+        inset 1px 1px 0 rgba(0, 0, 0, 0.4),
+        inset -1px -1px 0 rgba(255, 255, 255, 0.6);
+    transform: translate(1px, 1px);
 }
 
 .title-bar-buttons .btn-close {
-  background: linear-gradient(to bottom, #FFB1A6, #D94B31);
-  /* border-color: #7F1D0E; */
+    background: linear-gradient(to bottom, #FFB1A6, #D94B31);
+    /* border-color: #7F1D0E; */
 }
 
 .title-bar-buttons .btn-close:active {
-  background: linear-gradient(to bottom, #D94B31, #FFB1A6);
-
-  box-shadow:
-    inset 1px 1px 0 rgba(0,0,0,0.4),
-    inset -1px -1px 0 rgba(255,255,255,0.6);
-
-  transform: translate(1px, 1px);
+    background: linear-gradient(to bottom, #D94B31, #FFB1A6);
+    box-shadow:
+        inset 1px 1px 0 rgba(0, 0, 0, 0.4),
+        inset -1px -1px 0 rgba(255, 255, 255, 0.6);
+    transform: translate(1px, 1px);
 }
 
-.app-wrapper {
-  position: absolute;
-  left: 24px;
-  top: 28px;
-  bottom: 42px;
-
-  width: auto;
-  height: auto;
-  max-height: calc(100vh - 30px);
-
-  display: flex;
-  flex-direction: column;
-  flex-wrap: wrap;
-  align-content: flex-start;
-  align-items: center;
-
-  column-gap: 10px;
-  row-gap: 18px;
-}
-
-
-/*** ICON BUTTONS */
+/* ─────────────────────────────────────────
+   XP Icon Buttons
+───────────────────────────────────────── */
 .title-bar-buttons.xp-title-controls .xp-title-control {
-  width: 21.5px;
-  height: 21.5px;
-  padding: 0;
-  border: 0;
-  border-radius: 3px;
-  color: transparent;
-  font-size: 0;
-  line-height: 0;
-  background-color: transparent;
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: 21.5px 21.5px;
-  box-shadow: none;
-  overflow: hidden;
-  cursor: default;
+    width: 21.5px;
+    height: 21.5px;
+    padding: 0;
+    border: 0;
+    border-radius: 3px;
+    color: transparent;
+    font-size: 0;
+    line-height: 0;
+    background-color: transparent;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 21.5px 21.5px;
+    box-shadow: none;
+    overflow: hidden;
+    cursor: default;
 }
 
 .title-bar-buttons.xp-title-controls .btn-minimize {
-  background-image: url("./img/Minimize.webp");
+    background-image: url('./img/Minimize.webp');
 }
 
 .title-bar-buttons.xp-title-controls .btn-maximize {
-  background-image: url("./img/Maximize.webp");
+    background-image: url('./img/Maximize.webp');
 }
 
 .title-bar-buttons.xp-title-controls .btn-restore {
-  background-image: url("./img/Restore.webp");
+    background-image: url('./img/Restore.webp');
 }
 
 .title-bar-buttons.xp-title-controls .xp-title-control.btn-close {
-  background-image: url("./img/Exit.webp");
+    background-image: url('./img/Exit.webp');
 }
 
 .paint-dialog .title-bar-buttons.xp-title-controls .xp-title-control.btn-close {
-  width: 21px;
-  height: 21px;
-  background-size: 21px;
-  background-color: transparent;
+    width: 21px;
+    height: 21px;
+    background-size: 21px;
+    background-color: transparent;
 }
 
+/* ─────────────────────────────────────────
+   Desktop Icon Grid
+───────────────────────────────────────── */
+.app-wrapper {
+    position: absolute;
+    left: 24px;
+    top: 28px;
+    bottom: 42px;
+    width: auto;
+    height: auto;
+    max-height: calc(100vh - 30px);
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-content: flex-start;
+    align-items: center;
+    column-gap: 10px;
+    row-gap: 18px;
+}
+
+/* ─────────────────────────────────────────
+   Animations
+───────────────────────────────────────── */
 @keyframes fadeToBlack {
     from { opacity: 0; }
     to   { opacity: 1; }

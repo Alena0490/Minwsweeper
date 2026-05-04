@@ -1,54 +1,63 @@
+/* ─────────────────────────────────────────
+   Paint Window
+───────────────────────────────────────── */
 .app-window.paint--fullscreen {
-  width: 100vw;
+    width: 100vw;
 }
 
 /* .paint-window:not(.paint--fullscreen) {
-  min-width: 700px;
-  height: 450px;
+    min-width: 700px;
+    height: 450px;
 } */
+
 .paint-window .title-bar {
     gap: 8px;
     min-height: 26px;
 }
 
 .paint-icon {
-  width: 20px;
-  height: auto;
-  margin-right: 4px;
-  filter: contrast(1.2);
+    width: 20px;
+    height: auto;
+    margin-right: 4px;
+    filter: contrast(1.2);
 }
 
+/* ─────────────────────────────────────────
+   Status Bar
+───────────────────────────────────────── */
 .helper {
     display: flex;
     align-items: center;
-    justify-content: stretch;
     gap: 2px;
     padding: 2px 4px;
     background: var(--xp-surface);
     border-top: 1px solid var(--xp-line-mid);
     justify-content: flex-start;
     color: var(--text);
-    font-size: 11px;;
+    font-size: 11px;
 }
 
 .help {
-  border-top: 1px solid var(--xp-line-deep);
-  border-left: 1px solid var(--xp-line-deep);
-  border-bottom: 1px solid var(--xp-line-mid);
-  border-right: 1px solid var(--xp-line-mid);
-  min-height: 16px;
-  padding: 0 4px;
+    border-top: 1px solid var(--xp-line-deep);
+    border-left: 1px solid var(--xp-line-deep);
+    border-bottom: 1px solid var(--xp-line-mid);
+    border-right: 1px solid var(--xp-line-mid);
+    min-height: 16px;
+    padding: 0 4px;
 }
 
 .helper__tool { flex: 2; }
 .helper__coords { min-width: 80px; }
 .helper__info { flex: 1; }
 
+/* ─────────────────────────────────────────
+   Canvas Area
+───────────────────────────────────────── */
 .paint-canvas-area {
-  display: flex;
-  flex: 1;
-  background-color: var(--background);
-  min-height: 0;
-  overflow: hidden;
-  z-index: 0;
+    display: flex;
+    flex: 1;
+    background-color: var(--background);
+    min-height: 0;
+    overflow: hidden;
+    z-index: 0;
 }

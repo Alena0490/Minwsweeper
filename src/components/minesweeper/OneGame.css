@@ -5,16 +5,14 @@
     border-left: 3px solid var(--xp-line-light);
 }
 
+/* Outer status panel — sunken border effect */
 .status-panel-outer {
     background: var(--ms-panel);
+    margin-bottom: 6px;
     border-top: 1px solid var(--xp-line-dark);
     border-left: 1px solid var(--xp-line-dark);
     border-right: 1px solid var(--xp-line-light);
     border-bottom: 1px solid var(--xp-line-light);
-}
-
-.status-panel-outer {
-    margin-bottom: 6px;
 }
 
 .status-panel {
@@ -25,7 +23,6 @@
     width: 100%;
     padding: 7px 6px;
     background: var(--ms-panel);
-    border-top: 1px solid #808080;
     border-top: 1px solid var(--xp-line-dark);
     border-left: 1px solid var(--xp-line-dark);
     border-right: 1px solid var(--xp-line-light);
@@ -87,7 +84,7 @@
         inset -1px -1px 0 var(--border-light),
         inset 2px 2px 0 var(--border-dark),
         inset -2px -2px 0 var(--background);
-        transform: translate(1px, 1px);
+    transform: translate(1px, 1px);
 }
 
 .cell {
@@ -102,13 +99,12 @@
 }
 
 .cell--closed {
-  background: var(--ms-panel);
-
-  box-shadow:
-    inset 1px 1px 0 var(--border-light),
-    inset -1px -1px 0 var(--border-dark),
-    inset 2px 2px 0 var(--background),
-    inset -2px -2px 0 var(--border-dark);
+    background: var(--ms-panel);
+    box-shadow:
+        inset 1px 1px 0 var(--border-light),
+        inset -1px -1px 0 var(--border-dark),
+        inset 2px 2px 0 var(--background),
+        inset -2px -2px 0 var(--border-dark);
 }
 
 .cell--open {

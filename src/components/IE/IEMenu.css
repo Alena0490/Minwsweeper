@@ -1,4 +1,6 @@
-/* ROOT */
+/* ─────────────────────────────────────────
+   Menu Bar Root
+───────────────────────────────────────── */
 .ie-menubar {
     position: relative;
     display: flex;
@@ -6,7 +8,9 @@
     line-height: 1;
 }
 
-/* TOP LEVEL LIST */
+/* ─────────────────────────────────────────
+   Top Level List
+───────────────────────────────────────── */
 .ie-menu-list {
     display: flex;
     list-style: none;
@@ -14,7 +18,9 @@
     padding: 0;
 }
 
-/* TOP ITEM */
+/* ─────────────────────────────────────────
+   Top Level Item
+───────────────────────────────────────── */
 .ie-menu-item {
     position: relative;
     border: 1px solid transparent;
@@ -28,7 +34,9 @@
     border-bottom: 1px solid var(--xp-line-dark);
 }
 
-/* BUTTON (File, Edit...) */
+/* ─────────────────────────────────────────
+   Menu Trigger Button
+───────────────────────────────────────── */
 .ie-menu-trigger {
     padding: 2px 8px;
     background: transparent;
@@ -43,47 +51,31 @@
     border: none;
 }
 
-/* SUBMENU */
+/* ─────────────────────────────────────────
+   Submenu
+───────────────────────────────────────── */
 .ie-submenu {
     position: absolute;
     top: 100%;
     left: 0;
     z-index: 1000;
-
     display: flex;
     flex-direction: column;
     min-width: 8.5rem;
-
     margin: 0;
     padding: 2px 0;
     list-style: none;
-
     background: var(--xp-surface);
-
     border-top: 1px solid var(--xp-line-light);
     border-left: 1px solid var(--xp-line-light);
     border-right: 1px solid var(--xp-line-dark);
     border-bottom: 1px solid var(--xp-line-dark);
-
     box-shadow: 1px 1px 0 var(--xp-line-dark);
 }
 
-.ie-submenu > li:not(.separator) {
-    position: relative;
-    width: 100%;
-    min-height: 1.125rem;
-
-    display: flex;
-    justify-content: space-between;
-    padding: 1px 0.75rem 1px 1.25rem;
-    border: 1px solid transparent;
-
-    white-space: nowrap;
-    text-align: left;
-    cursor: default;
-}
-
-/* SUBMENU ITEM */
+/* ─────────────────────────────────────────
+   Submenu Item
+───────────────────────────────────────── */
 .ie-submenu-item:not(.separator) {
     position: relative;
     display: grid;
@@ -95,15 +87,6 @@
     white-space: nowrap;
     color: var(--text);
     line-height: 1;
-}
-
-.ie-submenu-check {
-    position: absolute;
-    left: 0.5rem;
-    top: 50%;
-    transform: translateY(-50%);
-    font-size: 0.75rem;
-    color: var(--text);
 }
 
 .ie-submenu-label {
@@ -121,10 +104,45 @@
     color: var(--text-soft);
 }
 
+.ie-submenu-check {
+    position: absolute;
+    left: 0.5rem;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 0.75rem;
+    color: var(--text);
+}
+
+.ie-submenu-item.checked::before {
+    content: "✓";
+    position: absolute;
+    left: 0.5rem;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 0.75rem;
+    color: var(--text);
+}
+
+/* ─────────────────────────────────────────
+   Submenu Hover State
+───────────────────────────────────────── */
+.ie-submenu-item:not(.separator):hover {
+    background: var(--xp-menu-hover);
+    color: var(--xp-menu-hover-text);
+}
+
 .ie-submenu-item:hover .ie-submenu-label,
 .ie-submenu-item:hover .ie-submenu-shortcut,
 .ie-submenu-item:hover .ie-submenu-arrow {
     color: var(--xp-menu-hover-text);
+}
+
+/* ─────────────────────────────────────────
+   Submenu Disabled State
+───────────────────────────────────────── */
+.ie-submenu-item.disabled {
+    color: var(--xp-disabled);
+    pointer-events: none;
 }
 
 .ie-submenu-item.disabled .ie-submenu-label,
@@ -134,12 +152,18 @@
     pointer-events: none;
 }
 
-.mnemonic {
-    text-decoration: underline;
-    text-underline-offset: 1px;
-    text-decoration-thickness: 1px;
+/* ─────────────────────────────────────────
+   Separator
+───────────────────────────────────────── */
+.separator {
+    height: 1px;
+    margin: 4px 2px;
+    background: var(--xp-line-mid);
 }
 
+/* ─────────────────────────────────────────
+   Menu Item Icon
+───────────────────────────────────────── */
 .menu-item-icon {
     position: absolute;
     left: 4px;
@@ -150,32 +174,18 @@
     margin-right: 3px;
 }
 
-/* HOVER */
-.ie-submenu-item:not(.separator):hover {
-    background: var(--xp-menu-hover);
-    color: var(--xp-menu-hover-text);
+/* ─────────────────────────────────────────
+   Mnemonic Underline
+───────────────────────────────────────── */
+.mnemonic {
+    text-decoration: underline;
+    text-underline-offset: 1px;
+    text-decoration-thickness: 1px;
 }
 
-/* DISABLED */
-.ie-submenu-item.disabled {
-    color: var(--xp-disabled);
-    pointer-events: none;
-}
-
-/* SEPARATOR */
-.separator {
-    height: 1px;
-    margin: 4px 2px;
-    background: var(--xp-line-mid);
-}
-
-/* SHORTCUT (Ctrl+O) */
-.ie-submenu-shortcut {
-    margin-left: 1.5rem;
-}
-
-/* ARROW ▶ */
-
+/* ─────────────────────────────────────────
+   Submenu Arrow
+───────────────────────────────────────── */
 .ie-submenu-arrow {
     display: inline-block;
     margin-left: auto;
@@ -185,24 +195,25 @@
     transform: scaleY(1.7);
 }
 
-/* SUBMENU INNER */
+/* ─────────────────────────────────────────
+   Nested Submenu
+───────────────────────────────────────── */
 .ie-submenu--nested {
     display: none;
     position: absolute;
-    gap: 3px;
     left: 100%;
     top: -2px;
     z-index: 1001;
+    flex-direction: column;
+    min-width: 150px;
+    padding: 2px 0;
+    list-style: none;
     background: var(--xp-surface);
     border-top: 1px solid var(--xp-line-light);
     border-left: 1px solid var(--xp-line-light);
     border-right: 1px solid var(--xp-line-dark);
     border-bottom: 1px solid var(--xp-line-dark);
     box-shadow: 1px 1px 0 var(--xp-line-dark);
-    padding: 2px 0;
-    min-width: 150px;
-    list-style: none;
-    flex-direction: column;
 }
 
 .ie-submenu--nested .separator {
@@ -215,18 +226,29 @@
     display: flex;
 }
 
-.ie-submenu--nested .ie-submenu-item.disabled {
-    pointer-events: none;
-}
-
 .ie-submenu-item:has(.ie-submenu--nested) {
     position: relative;
 }
 
+/* ─────────────────────────────────────────
+   Nested Submenu Labels
+───────────────────────────────────────── */
 .ie-submenu-item:hover .ie-submenu--nested .ie-submenu-label {
     color: var(--text);
     position: relative;
     left: 12px;
+}
+
+.ie-submenu-item:hover .ie-submenu--nested .ie-submenu-item:hover > .ie-submenu-label,
+.ie-submenu-item:hover .ie-submenu--nested .ie-submenu-item:active > .ie-submenu-label {
+    color: var(--xp-line-light);
+}
+
+/* ─────────────────────────────────────────
+   Nested Submenu Disabled State
+───────────────────────────────────────── */
+.ie-submenu--nested .ie-submenu-item.disabled {
+    pointer-events: none;
 }
 
 .ie-submenu--nested .ie-submenu-item.disabled .ie-submenu-label {
@@ -237,19 +259,4 @@
 .ie-submenu--nested .ie-submenu-item.disabled:hover {
     background: transparent;
     pointer-events: none;
-}
-
-.ie-submenu-item:hover .ie-submenu--nested .ie-submenu-item:hover > .ie-submenu-label,
-.ie-submenu-item:hover .ie-submenu--nested .ie-submenu-item:active > .ie-submenu-label {
-    color: var(--xp-line-light);
-}
-
-.ie-submenu-item.checked::before {
-    content: "✓";
-    position: absolute;
-    left: 0.5rem;
-    top: 50%;
-    transform: translateY(-50%);
-    font-size: 0.75rem;
-    color: var(--text);
 }

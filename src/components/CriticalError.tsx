@@ -1,29 +1,29 @@
-import useDraggable from '../hooks/useDraggable'
-import CriticalErrorIcon from '../img/Critical.webp'
-import WarningIcon from '../img/Important.webp'
+import useDraggable from '../hooks/useDraggable';
+import CriticalErrorIcon from '../img/Critical.webp';
+import WarningIcon from '../img/Important.webp';
 // import InfoIcon from '../img/Information.webp'
-import './CriticalError.css'
-import '../App.css'
+import './CriticalError.css';
+import '../App.css';
 
 interface ErrorButton {
-    label: string
-    isDefault?: boolean
-    onClick?: () => void
+    label: string;
+    isDefault?: boolean;
+    onClick?: () => void;
 }
 
 interface ErrorConfig {
-    titleBar: string
-    message: string[]
-    icon: string
-    buttons: ErrorButton[]
+    titleBar: string;
+    message: string[];
+    icon: string;
+    buttons: ErrorButton[];
 }
 
 export type ErrorType =
     | 'appNotFound'
     | 'accessDenied'
     | 'hardDriveFailure'
-    | 'renameExtension'
-    // další přidávej sem
+    | 'renameExtension';
+    // Add new error types here
 
 const errorConfig: Record<ErrorType, ErrorConfig> = {
     appNotFound: {
@@ -62,69 +62,74 @@ const errorConfig: Record<ErrorType, ErrorConfig> = {
         icon: WarningIcon,
         buttons: [{ label: 'Yes', isDefault: true }, { label: 'No' }],
     },
-}
+};
 
 interface ErrorProps {
-    type: ErrorType
-    onClose: () => void
-    onMouseDown?: () => void
+    type: ErrorType;
+    onClose: () => void;
+    onMouseDown?: () => void;
 }
 
 const CriticalError = ({ type, onClose, onMouseDown }: ErrorProps) => {
-    const { titleBar, message, icon, buttons } = errorConfig[type]
+    const { titleBar, message, icon, buttons } = errorConfig[type];
 
     const { position, handleMouseDown } = useDraggable(
         Math.round(window.innerWidth / 2 - 190),
         Math.round(window.innerHeight / 2 - 100)
-    )
+    );
 
     return (
         <div
-            className="app-window error-window"
+            className='app-window error-window'
             style={{ left: position.x, top: position.y }}
             onMouseDown={onMouseDown}
         >
-            <div className="title-bar" onMouseDown={handleMouseDown}>
-                <span className="title-bar-text">
-                    <img className="error-title-icon" src={icon} alt="" />
+            <div className='title-bar' onMouseDown={handleMouseDown}>
+                <span className='title-bar-text'>
+                    <img className='error-title-icon' src={icon} alt='' />
                     {titleBar}
                 </span>
-                <div className="title-bar-buttons xp-title-controls">
+                <div className='title-bar-buttons xp-title-controls'>
                     <button
-                        className="xp-title-control btn-close"
+                        type='button'
+                        className='xp-title-control btn-close'
                         onClick={onClose}
-                        type="button"
-                        aria-label="Close"
+                        aria-label='Close'
                     >
                         ✕
                     </button>
                 </div>
             </div>
 
-            <div className="error-body">
-                <img className="error-body-icon" src={icon} alt="" />
-                <div className="error-text">
+            <div className='error-body'>
+                <img className='error-body-icon' src={icon} alt='' />
+                <div className='error-text'>
                     {message.map((line, i) => (
-                        <span key={i} className="error-message">{line}</span>
+                        <span
+                            key={i}
+                            className='error-message'
+                        >
+                            {line}
+                        </span>
                     ))}
                 </div>
             </div>
 
-            <div className="error-footer">
+            <div className='error-footer'>
                 {buttons.map((btn) => (
                     <button
                         key={btn.label}
+                        type='button'
                         id={btn.isDefault ? 'xp-default-btn' : undefined}
-                        className="error-dialog-btn"
+                        className='error-dialog-btn'
                         onClick={btn.onClick ?? onClose}
-                        type="button"
                     >
                         {btn.label}
                     </button>
                 ))}
             </div>
         </div>
-    )
-}
+    );
+};
 
-export default CriticalError
+export default CriticalError;
