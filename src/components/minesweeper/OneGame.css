@@ -93,7 +93,8 @@
     padding: 0;
     border: none;
     background: var(--ms-panel);
-    font: bold 12px/1 Tahoma, sans-serif;
+    font-size: var(--font-size-lg);
+    font-weight: 700;
     display: grid;
     place-items: center;
 }

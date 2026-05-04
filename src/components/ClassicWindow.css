@@ -61,7 +61,8 @@
     align-items: center;
     min-width: 0;
     overflow: hidden;
-    font: 700 11px/1 Tahoma, sans-serif;
+    font-size: var(--font-size-md);
+    font-weight: 700;
     color: var(--xp-title-text);
     white-space: nowrap;
     text-overflow: ellipsis;
@@ -85,7 +86,8 @@
     border-radius: 0;
     background: var(--xp-surface);
     color: var(--text);
-    font: 700 11px/1 Tahoma, sans-serif;
+    font-size: var(--font-size-md);
+    font-weight: 700;
     box-shadow:
         inset 1px 1px 0 var(--xp-line-light),
         inset -1px -1px 0 var(--xp-line-deep);

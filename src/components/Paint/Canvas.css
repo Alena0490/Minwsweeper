@@ -143,7 +143,7 @@
     display: none;
     align-items: center;
     justify-content: center;
-    font-size: 10px;
+    font-size: var(--font-size-sm);
     color: var(--xp-line-deep);
     z-index: 100;
     pointer-events: none;
@@ -159,7 +159,7 @@
     display: none;
     align-items: center;
     justify-content: center;
-    font-size: 10px;
+    font-size: var(--font-size-sm);
     color: var(--xp-line-deep);
     z-index: 100;
     pointer-events: none;
@@ -195,7 +195,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 10px;
+    font-size: var(--font-size-sm);
     color: var(--xp-line-deep);
 }
 
@@ -209,7 +209,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 10px;
+    font-size: var(--font-size-sm);
     color: var(--xp-line-deep);
 }
 
@@ -262,7 +262,7 @@
         var(--xp-line-dark)
         var(--xp-line-light);
     box-shadow: 1px 1px 0 var(--xp-line-deep);
-    font: 11px Tahoma, sans-serif;
+    font-size: var(--font-size-md);
     color: var(--text);
     overflow: hidden;
     opacity: 0;

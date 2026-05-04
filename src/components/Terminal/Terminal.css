@@ -67,7 +67,7 @@
     background-color: var(--ms-display-bg);
     color: var(--terminal-text, var(--text-inverted));
     font-family: 'Lucida Console', monospace;
-    font-size: 13px;
+    font-size: var(--font-size-xl);
     line-height: 1.18;
 }
 
@@ -97,7 +97,7 @@
     outline: none;
     color: color-mix(in srgb, var(--terminal-text) 70%, black);
     font-family: 'Lucida Console', monospace;
-    font-size: 13px;
+    font-size: var(--font-size-xl);
     flex: 1;
     caret-color: currentColor;
 }
@@ -172,7 +172,7 @@
     display: none;
     align-items: center;
     justify-content: center;
-    font-size: 10px;
+    font-size: var(--font-size-sm);
     color: var(--xp-line-deep);
     z-index: 100;
     pointer-events: none;
@@ -188,7 +188,7 @@
     display: none;
     align-items: center;
     justify-content: center;
-    font-size: 10px;
+    font-size: var(--font-size-sm);
     color: var(--xp-line-deep);
     z-index: 100;
     pointer-events: none;

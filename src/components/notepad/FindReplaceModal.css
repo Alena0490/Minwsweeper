@@ -5,7 +5,7 @@
     min-width: 263px;
     position: absolute;
     min-height: auto;
-    font-size: 11px;
+    font-size: var(--font-size-md);
     z-index: 1;
 }
 
@@ -21,7 +21,7 @@
     display: inline-flex;
     align-items: center;
     min-width: 0;
-    font-size: 11px;
+    font-size: var(--font-size-md);
     font-weight: 700;
 }
 
@@ -55,7 +55,7 @@
 }
 
 .find-replace-row label {
-    font-size: 11px;
+    font-size: var(--font-size-md);
     white-space: nowrap;
 }
 
@@ -63,7 +63,7 @@
     width: 126px;
     height: 18px;
     padding: 1px 2px;
-    font-size: 11px;
+    font-size: var(--font-size-md);
     background: var(--xp-line-light);
     color: var(--text);
     outline: none;
@@ -92,7 +92,7 @@
     align-items: center;
     gap: 4px;
     margin: 0;
-    font-size: 11px;
+    font-size: var(--font-size-md);
     white-space: nowrap;
 }
 
@@ -129,7 +129,7 @@
     display: flex;
     align-items: center;
     gap: 3px;
-    font-size: 11px;
+    font-size: var(--font-size-md);
     white-space: nowrap;
 }
 
@@ -152,7 +152,7 @@
     min-width: 30px;
     height: 21px;
     padding: 0 3px;
-    font-size: 11px;
+    font-size: var(--font-size-md);
     color: var(--text);
     cursor: default;
     border: 1px solid var(--xp-line-mid);

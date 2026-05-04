@@ -18,7 +18,7 @@
 
 .game-container .title-bar {
     height: 26px;
-    font-size: 14px;
+    font-size: var(--font-size-2xl);
 }
 
 .game-icon {
@@ -39,5 +39,5 @@
     color: #000;
     border-top: 1px solid rgba(255, 255, 255, 0.35);
     border-bottom: 1px solid #ACA899;
-    font: 11px Tahoma, sans-serif;
+    font-size: var(--font-size-md);
 }

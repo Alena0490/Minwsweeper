@@ -81,7 +81,7 @@
     width: 280px;
     margin: 0;
     color: var(--xp-menu-right-top);
-    font-size: 22px;
+    font-size: var(--font-size-3xl);
     font-weight: 600;
     letter-spacing: 1.1px;
     text-align: right;
@@ -157,7 +157,7 @@
 
 .shutdown-logo .tm {
     position: absolute;
-    font-size: 10px;
+    font-size: var(--font-size-sm);
     top: 8px;
     left: 252px;
 }

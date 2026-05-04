@@ -68,7 +68,7 @@
 .login-title h2 {
     margin: 0;
     color: var(--xp-title-text);
-    font-size: 14px;
+    font-size: var(--font-size-2xl);
     font-weight: 700;
 }
 
@@ -104,7 +104,7 @@
 .copy {
     display: flex;
     flex-direction: column;
-    font-size: 10px;
+    font-size: var(--font-size-sm);
     line-height: 1.2;
     letter-spacing: 1.1px;
     margin-bottom: 4px;
@@ -159,7 +159,7 @@
    Logo Text
 ───────────────────────────────────────── */
 .top {
-    font-size: 11px;
+    font-size: var( --font-size-md);
     font-weight: 300;
     line-height: 1;
     letter-spacing: 1.2px;
@@ -187,7 +187,7 @@
 }
 
 .mid span {
-    font-size: 22px;
+    font-size: var(--font-size-3xl);
     display: inline-block;
     vertical-align: top;
     color: #FF6821;
@@ -207,7 +207,7 @@
 
 .tm {
     position: absolute;
-    font-size: 9px;
+    font-size: var(--font-size-xs);
     top: 53px;
     left: 60px;
     color: var(--xp-menu-right-top);
@@ -242,14 +242,14 @@
 .log-user label,
 .password label {
     width: 90px;
-    font-size: 12px;
+    font-size: var(--font-size-lg);
 }
 
 .log-user input,
 .password input {
     width: 300px;
     height: 24px;
-    font-size: 12px;
+    font-size: var(--font-size-lg);
     background: var(--xp-line-light);
     border: 1px solid var(--xp-title-start);
     padding: 0 3px;
@@ -270,7 +270,7 @@
     min-width: 82px;
     height: 23px;
     padding: 0 12px;
-    font-size: 11px;
+    font-size: var( --font-size-md);
     color: var(--text);
     cursor: default;
     border: 1px solid var(--xp-title-start);

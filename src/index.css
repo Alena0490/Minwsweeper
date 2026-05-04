@@ -25,6 +25,20 @@
 }
 
 :root {
+    /* ─────────────────────────────────────────
+       Typography
+    ───────────────────────────────────────── */
+    --font-size-xs: 9px;
+    --font-size-sm: 10px;
+    --font-size-md: 11px;
+    --font-size-lg: 12px;
+    --font-size-xl: 13px;
+    --font-size-2xl: 14px;
+    --font-size-3xl: 22px;
+
+    /* ─────────────────────────────────────────
+       Colors
+    ───────────────────────────────────────── */
     --title-bar: #0A246A;
     --title-bar-mid: #3A6EA5;
     --title-bar-light: #A6CAF0;
@@ -40,15 +54,25 @@
     --insensitive: #a1a192;
     --tooltip-bg: #FFFFE2;
 
+    /* ─────────────────────────────────────────
+       Accent
+    ───────────────────────────────────────── */
     --xp-accent-start: #FFE7A2;
     --xp-accent-mid: #FFB84A;
     --xp-accent-end: #E97800;
 
+    /* ─────────────────────────────────────────
+       Border Radius
+    ───────────────────────────────────────── */
     --window-radius: 3px;
     --window-radius-md: 6px;
     --window-radius-lg: 10px;
     --window-radius-top-x: var(--window-radius-lg);
     --window-radius-top-y: calc(var(--window-radius-lg) / 2);
+
+    /* ─────────────────────────────────────────
+       Taskbar & Start
+    ───────────────────────────────────────── */
     --taskbar-light: #3B6EC4;
     --taskbar-dark: #1F3A8F;
     --start-green: #3C8C3C;
@@ -58,12 +82,17 @@
     --start-background: linear-gradient(to bottom, var(--start-green), var(--start-green-dark));
     --start-radius: 0 8px 8px 0;
 
+    /* ─────────────────────────────────────────
+       Title Bar
+    ───────────────────────────────────────── */
     --xp-title-start: #0058EE;
     --xp-title-mid: #3A93FF;
     --xp-title-end: #0A246A;
     --xp-title-text: #FFFFFF;
 
-    /* Window body */
+    /* ─────────────────────────────────────────
+       Window Surface
+    ───────────────────────────────────────── */
     --xp-surface: #ECE9D8;
     --xp-surface-2: #D4D0C8;
     --xp-line-light: #FFFFFF;
@@ -71,13 +100,17 @@
     --xp-line-dark: #808080;
     --xp-line-deep: #404040;
 
-    /* Interaction */
+    /* ─────────────────────────────────────────
+       Interaction
+    ───────────────────────────────────────── */
     --xp-menu-hover: #316AC5;
     --xp-menu-hover-text: #FFFFFF;
     --xp-disabled: #6c6b66;
     --xp-tooltip: #FFFFE1;
 
-    /* Game area */
+    /* ─────────────────────────────────────────
+       Minesweeper
+    ───────────────────────────────────────── */
     --ms-panel: #C0C0C0;
     --ms-display-bg: #000000;
     --ms-display-text: #FF0000;
@@ -92,24 +125,31 @@
     --ms-7: #000000;
     --ms-8: #808080;
 
-    /* Taskbar */
+    /* ─────────────────────────────────────────
+       Taskbar Gradients
+    ───────────────────────────────────────── */
     --xp-taskbar-top: #3C81F3;
     --xp-taskbar-bottom: #245EDB;
     --xp-start-top: #4EB74E;
     --xp-start-bottom: #2D7D2D;
 
+    /* ─────────────────────────────────────────
+       Layout
+    ───────────────────────────────────────── */
     --cell-size: 18px;
     --app-icon-size: 48px;
     --app-gap: 10px;
     --app-icon-margin: 4px;
 
-    /* Start menu */
-
-    /* Right column */
+    /* ─────────────────────────────────────────
+       Start Menu
+    ───────────────────────────────────────── */
     --xp-menu-right-top: #D7E7FB;
     --xp-menu-right-bottom: #B9D3F3;
 
-    /* Highlight */
+    /* ─────────────────────────────────────────
+       Highlights & Shadows
+    ───────────────────────────────────────── */
     --xp-highlight-top: #FFFFFF;
     --xp-highlight-soft: rgba(255, 255, 255, 0.4);
     --xp-shadow-soft: rgba(0, 0, 0, 0.5);
@@ -122,11 +162,15 @@
     --xp-menu-vignette: rgba(71, 97, 138, 0.26);
     --xp-menu-vignette-deep: rgba(43, 63, 99, 0.42);
 
-    /* Power panel */
+    /* ─────────────────────────────────────────
+       Power Panel
+    ───────────────────────────────────────── */
     --xp-power-top: #2F71CD;
     --xp-power-bottom: #1A56A8;
 
-    /* Separator */
+    /* ─────────────────────────────────────────
+       Separator
+    ───────────────────────────────────────── */
     --xp-separator: #C8C2B8;
 }
 
@@ -195,7 +239,7 @@ body {
     flex-direction: column;
     align-items: center;
     width: 88px;
-    font-size: 11px;
+    font-size: var(--font-size-md);
     line-height: 1.2;
     color: var(--text-inverted);
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.9);

@@ -29,7 +29,7 @@
 
 .mini-modal header h3 {
     margin: 0;
-    font-size: 14px;
+    font-size: var(--font-size-2xl);
     font-weight: 600;
     color: var(--text-soft);
     letter-spacing: 0.1em;
@@ -109,7 +109,7 @@
     border: 1.5px solid var(--border-middle);
     border-radius: 10px;
     background: linear-gradient(to bottom, #fafafa, #f0f0f0);
-    font-size: 12px;
+    font-size: var(--font-size-lg);
     font-weight: 700;
     color: #333;
     box-shadow:
@@ -180,6 +180,6 @@
     border-bottom-color: var(--xp-line-light);
     background: #f3f3f3;
     text-align: center;
-    font-size: 13px;
+    font-size: var(--font-size-xl);
     font-weight: 700;
 }

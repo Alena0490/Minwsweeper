@@ -12,7 +12,7 @@
     border: 1px solid var(--border-dark);
     border-radius: var(--window-radius-md);
     color: var(--text);
-    font-size: 11px;
+    font-size: var(--font-size-md);
     line-height: 1.35;
     box-shadow: 2px 2px 4px var(--xp-shadow-light);
     z-index: 100;
@@ -78,7 +78,7 @@
     background: transparent;
     color: var(--text-muted);
     font-weight: 700;
-    font-size: 10px;
+    font-size: var(--font-size-sm);
     line-height: 0.8rem;
     cursor: default;
 }

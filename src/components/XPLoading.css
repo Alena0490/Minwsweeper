@@ -66,7 +66,7 @@
 
 .load-top::after {
     content: "\00AE"; /* ® */
-    font-size: 9px;
+    font-size: var(--font-size-xs);
     position: relative;
     top: -5px;
     margin-left: 2px;
@@ -97,13 +97,13 @@
 
 .load-tm {
     position: absolute;
-    font-size: 9px;
+    font-size: var(--font-size-xs);
     top: 7px;
     left: 186px;
 }
 
 .load-reg-mark {
-    font-size: 9px;
+    font-size: var(--font-size-xs);
     font-weight: 300;
     vertical-align: super;
     color: #fff;

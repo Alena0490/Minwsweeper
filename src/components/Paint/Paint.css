@@ -34,7 +34,7 @@
     border-top: 1px solid var(--xp-line-mid);
     justify-content: flex-start;
     color: var(--text);
-    font-size: 11px;
+    font-size: var(--font-size-md);
 }
 
 .help {

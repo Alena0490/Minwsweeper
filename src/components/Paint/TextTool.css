@@ -23,7 +23,7 @@
         var(--xp-line-dark)
         var(--xp-line-light);
     box-shadow: 1px 1px 0 var(--xp-line-deep);
-    font: 11px Tahoma, sans-serif;
+    font-size: var(--font-size-md);
     color: var(--text);
     overflow: hidden;
 }
