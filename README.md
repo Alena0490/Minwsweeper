@@ -1,6 +1,6 @@
 # 🖥️ Windows XP — Online Edition
 
-![Windows XP Preview](./screenshots/preview.png)
+![Windows XP Preview](./screenshots/preview.png?v=2)
 
 > A browser-based recreation of the Windows XP desktop experience, built with React and TypeScript.  
 > 🌐 **[Live Demo](https://alena0490.github.io/Windows-XP/)**
@@ -159,7 +159,16 @@ A lightweight text editor with more features than you might expect.
 - **Start Menu** — full two-panel layout with user avatar (Alena 🐱), pinned apps, All Programs submenu (Accessories, Games), right panel with system shortcuts, Log Off and Turn Off Computer buttons
 - **Desktop icons** — My Computer, Internet Explorer, Minesweeper, Paint, Calculator, Terminal, Notepad, Recycle Bin
 - **Error dialogs** — `appNotFound`, `accessDenied`, `hardDriveFailure`, `renameExtension` — each with the correct icon and button set
-- **XP Loading Screen** — animated progress bar, Windows XP logo, startup sound
+- **Login Screen** — Windows XP-style login displayed on startup, pre-filled credentials, also gates browser autoplay restrictions
+- **XP Loading Screen** — animated progress bar, Windows XP logo, startup sound, shown on startup and after Restart
+
+![Loading Screen](./screenshots/loading.png)
+
+- **Shutdown Screen** — Turn Off Computer and Log Off dialogs opened from the Start Menu, with Stand By / Restart / Switch User options and animated grayscale overlay
+
+![Turn Off Computer](./screenshots/turn-off-modal.png)
+
+![Shutdown Display](./screenshots/turn-off.png)
 
 ---
 
@@ -183,9 +192,7 @@ A lightweight text editor with more features than you might expect.
 
 ## 🚧 Coming Soon
 
-- 🔐 Login screen
-- 🔌 Turn Off Computer modal
-- 🚪 Log Out modal
+- 📁 File Manager
 
 ---
 
