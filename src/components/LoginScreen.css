@@ -17,7 +17,7 @@
     position: relative;
     width: 550px;
     border: none;
-    border-radius: 8px 8px 0 0;
+    border-radius: var(--start-radius);
     overflow: hidden;
     background-color: var(--xp-title-start);
     box-shadow:
@@ -48,7 +48,7 @@
     height: 32px;
     display: flex;
     align-items: center;
-    border-radius: 6px 6px 0 0;
+    border-radius: var(--window-radius-md) var(--window-radius-md) 0 0;
     padding: 0 var(--space-6);
     background: linear-gradient(to bottom, var(--xp-taskbar-bottom) 50%, var(--xp-taskbar-top) 80%);
 }
@@ -274,7 +274,7 @@
     color: var(--text);
     cursor: default;
     border: 1px solid var(--xp-title-start);
-    border-radius: 3px;
+    border-radius: var(--window-radius-sm);
     background:
         linear-gradient(
             to bottom,

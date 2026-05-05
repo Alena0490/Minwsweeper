@@ -128,7 +128,7 @@
     width: 11px;
     height: 100%;
     margin-right: var(--space-1);
-    border-radius: var(--space-1);
+    border-radius: 2px;
     background: linear-gradient(to bottom, #2838c7 0%, #5979ef 17%, #869ef3 32%, #869ef3 45%, #5979ef 59%, #2838c7 100%);
     display: inline-block;
     animation: loader 2s infinite linear;

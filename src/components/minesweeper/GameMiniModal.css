@@ -12,7 +12,7 @@
     flex-direction: column;
     background: #efefef;
     box-shadow: 5px 5px 0 var(--xp-shadow-light);
-    border-radius: 6px;
+    border-radius: var(--window-radius-md);
     overflow: hidden;
     z-index: 100;
 }
@@ -107,7 +107,7 @@
     height: 30px;
     padding: 0 var(--space-8);
     border: 1.5px solid var(--border-middle);
-    border-radius: 10px;
+    border-radius: var(--window-radius-lg);
     background: linear-gradient(to bottom, #fafafa, #f0f0f0);
     font-size: var(--font-size-lg);
     font-weight: 700;

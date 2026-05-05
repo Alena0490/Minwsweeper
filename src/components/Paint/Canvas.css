@@ -323,7 +323,7 @@
     height: 1.3125rem;
     padding: 0;
     border: 1px solid var(--background);
-    border-radius: 0.1875rem;
+    border-radius: var(--window-radius-sm);
     color: var(--xp-title-text);
     font-size: var(--font-size-md);
     font-weight: 700;

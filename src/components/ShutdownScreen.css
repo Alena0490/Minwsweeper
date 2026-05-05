@@ -156,7 +156,7 @@
         var(--xp-surface) 100%
     );
     border: 1px solid var(--xp-line-deep);
-    border-radius: 3px;
+    border-radius: var(--window-radius-sm);
     box-shadow:
         inset 1px 1px 0 var(--xp-line-light),
         0 var(--space-1) 0 color-mix(in srgb, var(--xp-menu-right-bottom) 55%, transparent);

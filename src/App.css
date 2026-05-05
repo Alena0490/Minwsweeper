@@ -104,7 +104,7 @@
     height: 21px;
     padding: 0;
     border: 1px solid var(--background);
-    border-radius: 3px;
+    border-radius: var(--window-radius-sm);
     color: white;
     font-size: var( --font-size-md);
     font-weight: 700;
@@ -148,7 +148,7 @@
     height: 21.5px;
     padding: 0;
     border: 0;
-    border-radius: 3px;
+    border-radius: var(--window-radius-sm);
     color: transparent;
     font-size: 0;
     line-height: 0;

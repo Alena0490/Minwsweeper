@@ -64,7 +64,7 @@
     /* ─────────────────────────────────────────
        Border Radius
     ───────────────────────────────────────── */
-    --window-radius: 3px;
+    --window-radius-sm: 3px;
     --window-radius-md: 6px;
     --window-radius-lg: 10px;
     --window-radius-top-x: var(--window-radius-lg);
@@ -80,7 +80,7 @@
     --taskbar-btn: #2F71CD;
     --taskbar-btn-dark: #1A56A8;
     --start-background: linear-gradient(to bottom, var(--start-green), var(--start-green-dark));
-    --start-radius: 0 8px 8px 0;
+    --start-radius: 8px 8px 0 0;
 
     /* ─────────────────────────────────────────
        Title Bar
