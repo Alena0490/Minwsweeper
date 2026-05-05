@@ -41,18 +41,18 @@ type WindowId =
     | 'error';
 
 const TERMINAL_APPS = [
-    { name: 'Minesweeper', size: '21,850' },
-    { name: 'Internet Explorer', size: '85,900' },
-    { name: 'Paint', size: '80,860' },
-    { name: 'Calculator', size: '16,510' },
+    { name: 'Minesweeper', size: '22,800' },
+    { name: 'Internet Explorer', size: '87,220' },
+    { name: 'Paint', size: '80,060' },
+    { name: 'Calculator', size: '15,690' },
     { name: 'Command Prompt', size: '5,290' },
-    { name: 'Loading Screen', size: '9,800' },
-    { name: 'Start Menu', size: '14,270' },
+    { name: 'Loading Screen', size: '9,850' },
+    { name: 'Start Menu', size: '12,700' },
     { name: 'Taskbar', size: '3,670' },
-    { name: 'Error Bubble', size: '590' },
-    { name: 'Critical Error', size: '10,540' },
-    { name: 'Notepad', size: '13,410' },
-    { name: 'Shutdown Screen', size: '11,680' },
+    { name: 'Error Bubble', size: '600' },
+    { name: 'Critical Error', size: '10,560' },
+    { name: 'Notepad', size: '12,960' },
+    { name: 'Shutdown Screen', size: '23,250' },
     { name: 'Shutdown Display', size: '1,160' },
 ];
 
