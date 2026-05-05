@@ -11,7 +11,6 @@ export const blockedDomains = [
     'discord.com',
     'spotify.com',
     'vk.com',
-    'msn.com',
     'bing.com',
     'csfd.cz',
     'alza.cz',
@@ -106,6 +105,7 @@ export const allowedDomains = [
     'https://web.archive.org/web/20031023150518if_/http://www.doupe.cz/',
     'https://web.archive.org/web/20031016005103if_/http://www.kinobox.cz/', // Movies - added
     'https://web.archive.org/web/20031030193256if_/http://www.microsoft.com/', // Microsoft - added
+    'https://web.archive.org/web/20021130084022/http://www.msn.com/', // MSN - added
     'https://web.archive.org/web/20031001073027if_/http://www.europress.cz/cz/profil_cas.php3?id_casopis=2',
     'https://web.archive.org/web/20051015052818/https://www.linkedin.com/', // LinkedIn - added
 ];

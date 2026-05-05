@@ -22,6 +22,7 @@ import Google from '../img/Favicons/faviconGoogle.ico';
 import Centrum from '../img/Favicons/faviconCentrum.ico';
 import IDnes from '../img/Favicons/faviconIDnes.ico';
 import Ocko from '../img/Favicons/faviconOcko.png';
+import MSN from '../img/Favicons/faviconMSN.ico';
 
 interface MenuItem {
     label?: ReactNode;
@@ -203,6 +204,12 @@ export const favourites = [
                 url: 'https://web.archive.org/web/20031020113114if_/http://mobilmania.cz/',
                 icon: IEFile,
                 title: 'MobilMania.cz - internetový časopis o mobilech',
+            },
+            {
+                label: 'MSN.com',
+                url: 'https://web.archive.org/web/20021130084022/http://www.msn.com/',
+                icon: MSN,
+                title: 'MSN.com',
             },
         ],
     },

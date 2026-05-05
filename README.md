@@ -79,11 +79,11 @@ All bookmarks point to period-accurate archived versions of real websites, sourc
 
 | Folder | Highlights |
 | --- | --- |
-| 🔍 Search & Mail | Google 2003, Seznam.cz, Seznam E-mail, ICQ, xChat, Centrum.cz |
-| 👥 Social | Lidé.cz, Spolužáci, Libimseti.cz, LinkedIn 2005, Zpovědnice |
+| 🔍 Search & Mail | Google, Seznam.cz, Seznam E-mail, ICQ, xChat, Centrum.cz |
+| 👥 Social | Lidé.cz, Spolužáci, Libimseti.cz, LinkedIn, Zpovědnice |
 | 🎮 Games | Superhry.cz, Českéhry.cz, Happy Tree Friends, Miniclip |
 | 🎬 Entertainment | Alena Pumprová, Nova.cz, Kinobox.cz, Lamer.cz iDnes.cz, Očko TV |
-| 💻 Tech | Microsoft.com 2003, Mobilmania.cz |
+| 💻 Tech | Microsoft.com , Mobilmania.cz, MSN |
 
 ---
 
