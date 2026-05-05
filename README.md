@@ -79,10 +79,10 @@ All bookmarks point to period-accurate archived versions of real websites, sourc
 
 | Folder | Highlights |
 | --- | --- |
-| 🔍 Search & Mail | Google 2003, Seznam.cz, Seznam E-mail, ICQ, xChat |
+| 🔍 Search & Mail | Google 2003, Seznam.cz, Seznam E-mail, ICQ, xChat, Centrum.cz |
 | 👥 Social | Lidé.cz, Spolužáci, Libimseti.cz, LinkedIn 2005, Zpovědnice |
 | 🎮 Games | Superhry.cz, Českéhry.cz, Happy Tree Friends, Miniclip |
-| 🎬 Entertainment | Alena Pumprová, Nova.cz, Kinobox.cz, Lamer.cz |
+| 🎬 Entertainment | Alena Pumprová, Nova.cz, Kinobox.cz, Lamer.cz iDnes.cz, Očko TV |
 | 💻 Tech | Microsoft.com 2003, Mobilmania.cz |
 
 ---
@@ -148,6 +148,7 @@ A lightweight text editor with more features than you might expect.
 - Word Wrap toggle
 - Insert Date/Time
 - Status bar: line, column, character count, encoding (UTF-8), line endings (CRLF)
+- Classic Windows XP encoding bug — typing "Bush hid the facts" or "what are you doing" and saving will garble the text on reopen
 
 ---
 
