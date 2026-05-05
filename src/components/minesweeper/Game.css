@@ -8,7 +8,7 @@
 
 .app-window.app-window--fullscreen.game-container {
     width: 100vw;
-    height: calc(100vh - 30px);
+    height: calc(100vh - var(--footer-height));
 }
 
 .game--fullscreen .game-field {

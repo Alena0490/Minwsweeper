@@ -90,7 +90,7 @@
 .load-logo .load-bottom {
     font-size: 30px;
     font-weight: 300;
-    line-height: 30px;
+    line-height: var(--footer-height);
     margin-left: 5px;
 }
 

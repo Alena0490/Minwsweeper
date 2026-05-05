@@ -299,7 +299,7 @@
     align-items: center;
     justify-content: flex-end;
     gap: var(--space-8);
-    min-height: 48px;
+    min-height: var(--app-icon-size);
     margin-top: auto;
     padding: var(--space-5) var(--space-6);
     border-top: 1px solid var(--xp-highlight-soft);

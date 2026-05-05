@@ -9,12 +9,12 @@
 
 .app-window.app-window--fullscreen.ie-window {
     width: 100vw;
-    height: calc(100vh - 30px);
+    height: calc(100vh - var(--footer-height));
 }
 
 .ie-window > .title-bar {
     gap: var(--space-5);
-    min-height: 30px;
+    min-height: var(--footer-height);
     user-select: none;
 }
 
@@ -58,7 +58,7 @@
     position: absolute;
     top: 0;
     right: 0;
-    width: 30px;
+    width: var(--footer-height);
     height: 22px;
     display: flex;
     align-items: center;

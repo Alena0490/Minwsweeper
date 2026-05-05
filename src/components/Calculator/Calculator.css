@@ -3,7 +3,7 @@
 ───────────────────────────────────────── */
 .app-window.app-window--fullscreen.calculator-window {
     width: 100vw;
-    height: calc(100vh - 30px);
+    height: calc(100vh - var(--footer-height));
 }
 
 .calculator-window section {
@@ -121,7 +121,7 @@
 }
 
 .calculator-menu .submenu li span {
-    min-width: 30px;
+    min-width: var(--footer-height);
     margin-left: auto;
     padding-left: 20px;
     text-align: right;

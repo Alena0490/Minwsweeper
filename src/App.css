@@ -111,7 +111,6 @@
     line-height: 1;
     background: linear-gradient(to bottom, #9CC2FF, #2B74E3);
     box-shadow:
-        /* inset 1px 1px 0 rgba(255,255,255,0.7), */
         inset -1px -1px 0 rgba(0, 0, 0, 0.25);
 }
 
@@ -194,7 +193,7 @@
     bottom: 42px;
     width: auto;
     height: auto;
-    max-height: calc(100vh - 30px);
+    max-height: calc(100vh - var(--footer-height));
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;

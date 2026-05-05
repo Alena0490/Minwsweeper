@@ -100,7 +100,7 @@
     justify-content: space-around;
     align-items: flex-end;
     gap: var(--space-10);
-    padding: 30px var(--space-10);
+    padding: var(--footer-height) var(--space-10);
     background: radial-gradient(ellipse at 50% 0%, #8ab8f8 20%, #6197f4 60%, #3a6fd8 100%);
     border-top: var(--space-2) solid transparent;
     border-image: linear-gradient(
@@ -128,8 +128,8 @@
 }
 
 .shutdown-btn img {
-    width: 48px;
-    height: 48px;
+    width: var(--app-icon-size);
+    height: var(--app-icon-size);
 }
 
 .shutdown-btn:hover img {

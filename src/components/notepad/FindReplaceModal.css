@@ -153,7 +153,7 @@
 }
 
 .find-replace-btn {
-    min-width: 30px;
+    min-width: var(--footer-height);
     height: 21px;
     padding: 0 var(--space-2);
     font-size: var(--font-size-md);
