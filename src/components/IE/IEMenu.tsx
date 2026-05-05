@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import IEModal from './AboutIE';
+import AboutDialog from '../AboutDialog';
 import menuData from '../../data/IEData';
 import useSound from '../../hooks/useSound';
 import './IEMenu.css';
@@ -192,7 +192,10 @@ const IEMenu = ({
                 ))}
             </ul>
             {openModal === 'about' && (
-                <IEModal onClose={() => setOpenModal(null)} />
+                <AboutDialog
+                    title='Internet Explorer'
+                    onClose={() => setOpenModal(null)}
+                />
             )}
         </div>
     );

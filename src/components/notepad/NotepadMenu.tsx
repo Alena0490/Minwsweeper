@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import useSound from '../../hooks/useSound';
-import AboutNotepad from './AboutNotepad';
+import AboutDialog from '../AboutDialog';
 import FindReplaceModal from './FindReplaceModal';
 
 interface NotepadMenuProps {
@@ -157,7 +157,11 @@ const NotepadMenu = ({
             </ul>
 
             {openModal === 'about' && createPortal(
-                <AboutNotepad onClose={() => setOpenModal(null)} style={modalStyle} />,
+                <AboutDialog
+                    title='Notepad'
+                    onClose={() => setOpenModal(null)}
+                    style={modalStyle}
+                />,
                 document.body
             )}
 

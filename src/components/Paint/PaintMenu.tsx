@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import useSound from '../../hooks/useSound';
-import About from './AboutPaint';
+import AboutDialog from '../AboutDialog';
 import FlipRotate from './FlipRotate';
 import StretchSkew from './StretchSkew';
 import Attributes from './Attributes';
@@ -206,7 +206,11 @@ const PaintMenu = ({
             </ul>
 
             {openModal === 'about' && createPortal(
-                <About onClose={() => setOpenModal(null)} style={modalStyle} />,
+                <AboutDialog
+                    title='Paint'
+                    onClose={() => setOpenModal(null)}
+                    style={modalStyle}
+                />,
                 document.body
             )}
 

@@ -3,7 +3,7 @@ import { createPortal } from 'react-dom';
 import useSound from '../../hooks/useSound';
 import type { BoardConfig } from '../../data/game';
 import { beginnerConfig, intermediateConfig, expertConfig } from '../../data/game';
-import About from './About';
+import AboutDialog from '../AboutDialog';
 import BestTimes from './BestTimes';
 import Custom from './Custom';
 import './GameMenu.css';
@@ -140,7 +140,11 @@ const GameMenu = ({
             </ul>
 
             {openModal === 'about' && createPortal(
-                <About onClose={() => setOpenModal(null)} style={modalStyle} />,
+                <AboutDialog
+                    title='Minesweeper'
+                    onClose={() => setOpenModal(null)}
+                    style={modalStyle}
+                />,
                 document.body
             )}
 

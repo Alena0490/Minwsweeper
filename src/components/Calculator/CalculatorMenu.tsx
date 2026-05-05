@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import useSound from '../../hooks/useSound';
-import AboutCalculator from './AboutCalculator';
+import AboutDialog from '../AboutDialog';
 import './Calculator.css';
 
 interface CalculatorMenuProps {
@@ -100,7 +100,8 @@ const CalculatorMenu = ({
             </ul>
 
             {openModal === 'about' && createPortal(
-                <AboutCalculator
+                <AboutDialog
+                    title='Calculator'
                     onClose={() => setOpenModal(null)}
                     style={{
                         position: 'fixed',
