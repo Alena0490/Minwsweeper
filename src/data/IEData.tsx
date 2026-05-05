@@ -19,6 +19,9 @@ import Lamar from '../img/Favicons/faviconLamar.ico';
 import Microsoft from '../img/Favicons/faviconMS06.ico';
 import Portfolio from '../img/Favicons/faviconPortfolio.ico';
 import Google from '../img/Favicons/faviconGoogle.ico';
+import Centrum from '../img/Favicons/faviconCentrum.ico';
+import IDnes from '../img/Favicons/faviconIDnes.ico';
+import Ocko from '../img/Favicons/faviconOcko.png';
 
 interface MenuItem {
     label?: ReactNode;
@@ -62,6 +65,12 @@ export const favourites = [
                 title: 'Seznam E-mail',
             },
             {
+                label: 'Centrum.cz',
+                url: 'https://web.archive.org/web/20020523043335/http://www.centrum.cz/',
+                icon: Centrum,
+                title: 'Centrum.cz',
+            },
+                        {
                 label: 'ICQ',
                 url: 'https://web.archive.org/web/20031020075942if_/http://icq.com/',
                 icon: ICQ,
@@ -155,6 +164,12 @@ export const favourites = [
                 title: 'n@va vás baví',
             },
             {
+                label: 'Očko TV',
+                url: 'https://web.archive.org/web/20031015084801if_/http://www.ocko.tv/',
+                icon: Ocko,
+                title: 'Očko TV',
+            },
+            {
                 label: 'Kinobox.cz',
                 url: 'https://web.archive.org/web/20031016005103if_/http://www.kinobox.cz/',
                 icon: Kinobox,
@@ -165,6 +180,12 @@ export const favourites = [
                 url: 'https://web.archive.org/web/20031012093609if_/http://www.lamer.cz/',
                 icon: Lamar,
                 title: 'lamer.cz',
+            },
+            {
+                label: 'iDnes.cz',
+                url: 'https://web.archive.org/web/20030218021305/http://www.idnes.cz/',
+                icon: IDnes,
+                title: 'iDnes.cz',
             },
         ],
     },
